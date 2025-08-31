@@ -54,7 +54,7 @@ public:
 
 	void DrawTriangle(const Transform2D& transform, const Vector2& vertex1, const Vector2& vertex2, const Vector2& vertex3, float deltaAngle, unsigned int color, FillMode fillMode) const;
 
-	void DrawEllipse(const Transform2D& transform, const Vector2& deltaPosition, const Vector2& radius, float deltaAngle, unsigned int color, FillMode fillMode) const;
+	void DrawEllipse(const Transform2D& transform, const Vector2& radius, const Vector2& deltaPosition, float deltaAngle, unsigned int color, FillMode fillMode) const;
 
 
 private:

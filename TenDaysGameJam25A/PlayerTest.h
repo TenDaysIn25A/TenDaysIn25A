@@ -10,10 +10,13 @@ public:
 	// ----------------------------------------------
 	// メンバ関数
 	// ----------------------------------------------
-
+	
 	PlayerTest(); // 宣言時に自動で初期化
 	~PlayerTest() = default;
-	
+
+	// 根幹
+	// ----------------------------------------------
+
 	/// <summary>
 	/// 初期化をここに
 	/// </summary>
@@ -28,6 +31,28 @@ public:
 	/// 描画処理をここに　※constによってこの中での値の変更は禁止されている。
 	/// </summary>
 	void Draw() const;
+	
+	// アクセッサ (Set～とか、Get～とか)
+	// ----------------------------------------------
+
+	/// <summary>
+	/// mainやGameSceneからカメラを取得してください。
+	/// </summary>
+	/// <param name="camera"></param>
+	void SetCamera(const Transform2D& camera);
+
+	// 機能
+	// ----------------------------------------------
+	
+	/// <summary>
+	/// 移動
+	/// </summary>
+	void Move();
+
+	/// <summary>
+	/// 画面内にクランプする。
+	/// </summary>
+	void ClampInWindow();
 
 	// ----------------------------------------------
 	// メンバ変数
@@ -35,8 +60,9 @@ public:
 
 	// システム
 	// ----------------------------------------------
-	Input input;
-	DrawEffects effect;
+	Renderer renderer;	// 描画ライブラリをこれで使えるようにしてください。
+	Input input;		// 入力ライブラリをこれで使えるようにしてください。
+	DrawEffects effect;	// エフェクト描画ライブラリをこれで使えるようにしてください。
 
 	// プレイヤープロパティ
 	// ----------------------------------------------
@@ -47,5 +73,7 @@ public:
 	Vector2 direction;
 	Vector2 velocity;
 
-	int isAlive;
+	float radius;
+
+	bool isAlive;
 };

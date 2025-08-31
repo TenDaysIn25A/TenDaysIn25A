@@ -5,7 +5,7 @@
 #include <Novice.h>
 #include <time.h>
 #include "DrawEffects.h"
-
+#include "PlayerTest.h"
 
 const char kWindowTitle[] = "LC1A_03_04_15_19_10DaysGameJam";
 
@@ -22,6 +22,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Transform2D camera;
 	effects.SetColor(0xFF0000FF);
 	effects.StartExplosion({0.0f, 0.0f}, 100.0f, 1.0f, camera, EASE_OUT_QUAD);
+
+	PlayerTest player;
 
 	float s = 1.0f;
 	int c = 0;
@@ -46,6 +48,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 		}
 		
+		player.Update();
+		player.Draw();
+
 		effects.SetScale(s);
 		s += 0.0016f;
 
