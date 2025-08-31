@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="KamataEngine">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="KamataEngine\Source">
+      <UniqueIdentifier>{d966e9f8-e880-44ae-8586-a08515e4cffc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="KamataEngine\Include">
+      <UniqueIdentifier>{4aae4e40-94f7-4d32-9a91-c0c37a2edf0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="KamataEngine\Adapter">
+      <UniqueIdentifier>{c6468eb4-788b-4a83-b207-a5f4804e56c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{aee6f5e9-c131-4952-a934-134746bcd108}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Math">
+      <UniqueIdentifier>{586a7a50-859d-4577-afbf-86a98be7742f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Math\Vector">
+      <UniqueIdentifier>{0d761d71-f121-49bc-944a-7e48a8970a5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Math\Matrix">
+      <UniqueIdentifier>{864d7ddc-ad39-4543-9531-3e1b850c3c65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Scenes">
+      <UniqueIdentifier>{4fb17055-e064-4e80-be35-ccb6e37a7af8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Renderer">
+      <UniqueIdentifier>{10e3eb18-5513-46df-ab81-d92e7029e6b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Math\Transform">
+      <UniqueIdentifier>{32c41a4d-70db-4e28-8578-dcf56cc79be1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\System">
+      <UniqueIdentifier>{85cc1cb3-5c93-4925-84c3-9c41576ab3b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\System\Input">
+      <UniqueIdentifier>{1314d12b-839c-4e29-80da-81d9210e6edc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Objects">
+      <UniqueIdentifier>{177bb649-b638-4473-8ad1-f61697aac41e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Renderer\FX">
+      <UniqueIdentifier>{e61efff9-1468-4222-8f8e-c511f36e1d44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Math\Collision">
+      <UniqueIdentifier>{ccb24e85-7dd1-4b66-b43a-b90d24c1a9a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\UI">
+      <UniqueIdentifier>{3eb4adea-acae-4bcf-a76c-ccb11eaf27b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\UI\Button">
+      <UniqueIdentifier>{a0d89da7-89b1-492d-ade8-e9e11354ac9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Math\Random">
+      <UniqueIdentifier>{9a4d1cbb-ad0d-41ae-a7a7-b9ac1ec030cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Objects\Player">
+      <UniqueIdentifier>{46a0c744-9526-4ab4-975f-f48f12610a71}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
+      <Filter>KamataEngine\Adapter</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix3x3.cpp">
+      <Filter>Sources\Math\Matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>Sources\Math\Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>Sources\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform2D.cpp">
+      <Filter>Sources\Math\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Sources\System\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawEffects.cpp">
+      <Filter>Sources\Renderer\FX</Filter>
+    </ClCompile>
+    <ClCompile Include="Tweening.cpp">
+      <Filter>Sources\Renderer\FX</Filter>
+    </ClCompile>
+    <ClCompile Include="Collision.cpp">
+      <Filter>Sources\Math\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Random.cpp">
+      <Filter>Sources\Math\Random</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerTest.cpp">
+      <Filter>Sources\Objects\Player</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\2d\DebugText.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\scene\GameScene.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\input\Input.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\Model.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\base\SafeDelete.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\2d\Sprite.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\base\TextureManager.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\base\WinApp.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\WorldTransform.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\Adapter\Novice.h">
+      <Filter>KamataEngine\Adapter</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\CircleShadow.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\DebugCamera.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\DirectionalLight.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\LightGroup.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\Material.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\Mesh.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\PointLight.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\SpotLight.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\base\StringUtility.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectXGame\3d\Camera.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Matrix4x4.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector2.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector3.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector4.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\2d\ImGuiManager.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix3x3.h">
+      <Filter>Sources\Math\Matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Sources\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>Sources\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform2D.h">
+      <Filter>Sources\Math\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Sources\System\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Sources\System</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawEffects.h">
+      <Filter>Sources\Renderer\FX</Filter>
+    </ClInclude>
+    <ClInclude Include="Tweening.h">
+      <Filter>Sources\Renderer\FX</Filter>
+    </ClInclude>
+    <ClInclude Include="Collision.h">
+      <Filter>Sources\Math\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Random.h">
+      <Filter>Sources\Math\Random</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerTest.h">
+      <Filter>Sources\Objects\Player</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
