@@ -10,3 +10,16 @@ int Collision::CircleToCircle(const Vector2& posA, const float& radiusA, const V
 	return distance <= radiusA + radiusB;
 
 }
+
+int Collision::BoxToPoint(const Vector2& pointPos, const Vector2& boxCenter, const float& width, const float& height) {
+
+	float boxLeft = boxCenter.x - width / 2.0f;
+	float boxRight = boxCenter.x + width / 2.0f;
+	float boxTop = boxCenter.y + height / 2.0f;
+	float boxBottom = boxCenter.y - height / 2.0f;
+
+	bool resultX = pointPos.x >= boxLeft && pointPos.x <= boxRight;
+	bool resultY = pointPos.y <= boxTop && pointPos.y >= boxBottom;
+
+	return (resultX && resultY);
+}
