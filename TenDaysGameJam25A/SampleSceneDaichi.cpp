@@ -19,6 +19,7 @@ void SampleSceneDaichi::Draw() const {
 	// ここで各描画を行う。
 	
 	samplePlayer.Draw();
+
 }
 
 void SampleSceneDaichi::SetCamera() {
