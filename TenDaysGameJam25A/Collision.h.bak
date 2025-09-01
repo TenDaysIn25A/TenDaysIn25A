@@ -4,6 +4,6 @@
 class Collision {
 public:
 	static int CircleToCircle(const Vector2& posA, const float& radiusA, const Vector2& posB, const float& radiusB);
-	static int BoxToPoint(const Vector2& pointPos, const Vector2& boxCenter, const float& width, const float& height);
+	int BoxToPoint(const Vector2& pointPos, const Vector2& boxCenter, const float& width, const float& height);
 	static int BoxToBox(const Vector2& boxA, const float& widthA, const float heightA, const Vector2& boxB, const float& widthB, const float heightB);
 };

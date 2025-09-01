@@ -9,8 +9,6 @@ int Collision::CircleToCircle(const Vector2& posA, const float& radiusA, const V
 	// 距離より二つの図形の半径が長かったら
 	return distance <= radiusA + radiusB;
 
-
-
 }
 
 int Collision::BoxToPoint(const Vector2& pointPos, const Vector2& boxCenter, const float& width, const float& height) {
@@ -22,23 +20,6 @@ int Collision::BoxToPoint(const Vector2& pointPos, const Vector2& boxCenter, con
 
 	bool resultX = pointPos.x >= boxLeft && pointPos.x <= boxRight;
 	bool resultY = pointPos.y <= boxTop && pointPos.y >= boxBottom;
-
-	return (resultX && resultY);
-}
-
-int Collision::BoxToBox(const Vector2& boxA, const float& widthA, const float heightA, const Vector2& boxB, const float& widthB, const float heightB) {
-	float boxALeft = boxA.x - widthA / 2.0f;
-	float boxARight = boxA.x + widthA / 2.0f;
-	float boxATop = boxA.y - heightA / 2.0f;
-	float boxABottom = boxA.y + heightA / 2.0f;
-
-	float boxBLeft = boxB.x - widthB / 2.0f;
-	float boxBRight = boxB.x + widthB / 2.0f;
-	float boxBTop = boxB.y - heightB / 2.0f;
-	float boxBBottom = boxB.y + heightB / 2.0f;
-
-	bool resultX = boxALeft <= boxBRight && boxARight >= boxBLeft;
-	bool resultY = boxATop <= boxBBottom && boxABottom >= boxBTop;
 
 	return (resultX && resultY);
 }
