@@ -65,6 +65,9 @@
     <Filter Include="Sources\Objects\Player\Parry">
       <UniqueIdentifier>{15ff1384-991b-4b92-8df0-09185bf53878}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Scenes\SampleScene">
+      <UniqueIdentifier>{4601a17a-b2be-42d3-913c-78a35294c238}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
@@ -105,6 +108,21 @@
     </ClCompile>
     <ClCompile Include="Parry.cpp">
       <Filter>Sources\Objects\Player\Parry</Filter>
+    </ClCompile>
+    <ClCompile Include="Zako.cpp">
+      <Filter>Sources\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Sources\Objects\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="SampleSceneDaichi.cpp">
+      <Filter>Sources\Scenes\SampleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SampleSceneYuto.cpp">
+      <Filter>Sources\Scenes\SampleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="SampleSceneMidzuki.cpp">
+      <Filter>Sources\Scenes\SampleScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -192,9 +210,6 @@
     <ClInclude Include="Matrix3x3.h">
       <Filter>Sources\Math\Matrix</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2.h">
-      <Filter>Sources\Math\Vector</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Sources\Renderer</Filter>
     </ClInclude>
@@ -224,6 +239,30 @@
     </ClInclude>
     <ClInclude Include="Parry.h">
       <Filter>Sources\Objects\Player\Parry</Filter>
+    </ClInclude>
+    <ClInclude Include="Zako.h">
+      <Filter>Sources\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Sources\Math\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Sources\Objects\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlib.h">
+      <Filter>Sources\System</Filter>
+    </ClInclude>
+    <ClInclude Include="SampleSceneDaichi.h">
+      <Filter>Sources\Scenes\SampleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SampleSceneYuto.h">
+      <Filter>Sources\Scenes\SampleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SampleSceneMidzuki.h">
+      <Filter>Sources\Scenes\SampleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Sources\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
