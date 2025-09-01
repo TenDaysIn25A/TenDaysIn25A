@@ -6,30 +6,19 @@ void SampleSceneYuto::Initialize() {
 	// ここで各初期化を行う。
 
 	samplePlayer.Initialize();
-	enemy.Initialize();
 }
 
 void SampleSceneYuto::Update() {
 	// ここで各更新処理を行う
 	SetCamera();
 
-	enemy.Update();
-
 	samplePlayer.Update();
-
-	if (Collision::BoxToBox(enemy.transform.position, enemy.radius, enemy.radius, samplePlayer.transform.position, samplePlayer.radius,samplePlayer.radius)) {
-		enemy.TakeDamage(1);
-	}
 }
 
 void SampleSceneYuto::Draw() const {
 	// ここで各描画を行う。
 
-	enemy.Draw();
-
 	samplePlayer.Draw();
-	Novice::ScreenPrintf(0, 16, "enemyPosX:%f,Y:%f", enemy.transform.position.x, enemy.transform.position.y);
-	Novice::ScreenPrintf(0, 32, "playerPosX:%f,Y:%f", samplePlayer.transform.position.x, samplePlayer.transform.position.y);
 }
 
 void SampleSceneYuto::SetCamera() {

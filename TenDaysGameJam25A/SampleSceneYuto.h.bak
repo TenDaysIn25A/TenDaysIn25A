@@ -1,13 +1,12 @@
 ﻿#pragma once
 #include "Dlib.h"
 #include "PlayerTest.h"
-#include"Parry.h"
 
-class SampleSceneMidzuki {
+class SampleSceneYuto {
 public:
-
-	SampleSceneMidzuki();
-
+	
+	SampleSceneYuto();
+	
 	/// <summary>
 	/// 初期化をここに
 	/// </summary>
@@ -39,20 +38,6 @@ public:
 	// メンバ変数
 	// ----------------------------------------------
 
-
-	//システム
-	//-------------------------------------
-	Input input;
 	Transform2D camera;
-
 	PlayerTest samplePlayer;
-	ParryState parryState;
-	Parry parry;
-
-	float noteX;
-	float noteWidth;
-	float noteHeight;
-	Vector2 player;
-	float playerWidth;
-	float playerHeight;
 };

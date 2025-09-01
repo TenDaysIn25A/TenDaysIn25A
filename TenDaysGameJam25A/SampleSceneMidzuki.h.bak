@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include "Dlib.h"
 #include "PlayerTest.h"
-#include"Parry.h"
 
 class SampleSceneMidzuki {
 public:
@@ -23,6 +22,11 @@ public:
 	/// </summary>
 	void Draw() const;
 
+	/// <summary>
+	/// 当たり判定
+	/// </summary>
+	void CheckHitAll();
+
 	// アクセッサ (Set～とか、Get～とか)
 	// ----------------------------------------------
 
@@ -39,20 +43,6 @@ public:
 	// メンバ変数
 	// ----------------------------------------------
 
-
-	//システム
-	//-------------------------------------
-	Input input;
 	Transform2D camera;
-
 	PlayerTest samplePlayer;
-	ParryState parryState;
-	Parry parry;
-
-	float noteX;
-	float noteWidth;
-	float noteHeight;
-	Vector2 player;
-	float playerWidth;
-	float playerHeight;
 };

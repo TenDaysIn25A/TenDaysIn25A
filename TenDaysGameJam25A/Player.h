@@ -71,6 +71,7 @@ public:
 
 	float width;
 	float height;
+	int grHandleCaracter;
 
 	bool isAlive;
 };

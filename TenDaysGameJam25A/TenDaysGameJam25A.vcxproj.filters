@@ -68,6 +68,12 @@
     <Filter Include="Sources\Scenes\SampleScene">
       <UniqueIdentifier>{4601a17a-b2be-42d3-913c-78a35294c238}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Objects\Enemy">
+      <UniqueIdentifier>{fc1fdd02-1dad-4b44-b05a-a92fc916381f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\System\Dimension">
+      <UniqueIdentifier>{17c382fd-f2c5-439c-ab2b-fe89a875e471}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
@@ -123,6 +129,15 @@
     </ClCompile>
     <ClCompile Include="SampleSceneMidzuki.cpp">
       <Filter>Sources\Scenes\SampleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Sources\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy2D.cpp">
+      <Filter>Sources\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy1D.cpp">
+      <Filter>Sources\Objects\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -210,9 +225,6 @@
     <ClInclude Include="Matrix3x3.h">
       <Filter>Sources\Math\Matrix</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2.h">
-      <Filter>Sources\Math\Vector</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Sources\Renderer</Filter>
     </ClInclude>
@@ -266,6 +278,15 @@
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>Sources\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Sources\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy2D.h">
+      <Filter>Sources\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy1D.h">
+      <Filter>Sources\Objects\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
