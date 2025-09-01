@@ -106,9 +106,6 @@
     <ClCompile Include="Parry.cpp">
       <Filter>Sources\Objects\Player\Parry</Filter>
     </ClCompile>
-    <ClCompile Include="Zako.cpp">
-      <Filter>Sources\Objects</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -227,9 +224,6 @@
     </ClInclude>
     <ClInclude Include="Parry.h">
       <Filter>Sources\Objects\Player\Parry</Filter>
-    </ClInclude>
-    <ClInclude Include="Zako.h">
-      <Filter>Sources\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

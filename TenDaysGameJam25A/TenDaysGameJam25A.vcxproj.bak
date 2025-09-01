@@ -114,14 +114,12 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix3x3.cpp" />
-    <ClCompile Include="Parry.cpp" />
     <ClCompile Include="PlayerTest.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Transform2D.cpp" />
     <ClCompile Include="Tweening.cpp" />
     <ClCompile Include="Vector2.cpp" />
-    <ClCompile Include="Zako.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\DirectXGame\3d\Camera.h" />
@@ -156,14 +154,12 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="DrawEffects.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Matrix3x3.h" />
-    <ClInclude Include="Parry.h" />
     <ClInclude Include="PlayerTest.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Transform2D.h" />
     <ClInclude Include="Tweening.h" />
     <ClInclude Include="Vector2.h" />
-    <ClInclude Include="Zako.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
