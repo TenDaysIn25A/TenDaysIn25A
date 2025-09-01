@@ -1,6 +1,5 @@
 ﻿#pragma once
-#include "Transform2D.h"
-
+#include "Dlib.h"
 
 class Player {
 public:
@@ -64,14 +63,14 @@ public:
 	// プレイヤープロパティ
 	// ----------------------------------------------
 
-	Transform2D transform; // positionとか宣言しなくてええんやで
+	Transform2D transform;
 
 	float speed;
 	Vector2 direction;
 	Vector2 velocity;
 
-	float radius;
+	float width;
+	float height;
 
 	bool isAlive;
-
 };

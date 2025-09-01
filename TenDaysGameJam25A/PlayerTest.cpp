@@ -6,6 +6,9 @@ void PlayerTest::Initialize() {
 	speed = 10.0f; 
 	radius = 40.0f;
 	isAlive = true;
+	transform.position = {0.0f, 0.0f};
+	transform.rotation = 0.0f;
+	transform.scale = {1.0f, 1.0f};
 }
 	
 void PlayerTest::Update() { 

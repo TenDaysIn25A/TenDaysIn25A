@@ -6,10 +6,12 @@
 #include <time.h>
 #include "DrawEffects.h"
 #include "PlayerTest.h"
+#include "SceneManager.h"
 
 const char kWindowTitle[] = "LC1A_03_04_15_19_10DaysGameJam";
 
-enum class Scene { TITLE, INGAME, GAMECREAR, GAMEOVER ,COUNT };
+enum class Scene { TITLE, INGAME, GAMECREAR, GAMEOVER , COUNT };
+enum class SampleScene { DAICHI, MIDZUKI, YUTO, COUNT };
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -18,15 +20,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Novice::Initialize(kWindowTitle, 1280, 720);
 
 	Input input;
-	DrawEffects effects;
 	Transform2D camera;
-	effects.SetColor(0xFF0000FF);
-	effects.StartExplosion({0.0f, 0.0f}, 100.0f, 1.0f, camera, EASE_OUT_QUAD);
 
-	PlayerTest player;
-
-	float s = 1.0f;
-	int c = 0;
+	// ここで自身のサンプルシーンに切り替える。
+	SampleScene currentSampleScene = SampleScene::DAICHI;
+	SampleSceneDaichi sampleSceneDaichi;
+	SampleSceneMidzuki sampleSceneMidzuki;
+	SampleSceneYuto sampleSceneYuto;
 
 	unsigned int currentTime = static_cast<unsigned int>(time(nullptr));
 	srand(currentTime);
@@ -39,24 +39,57 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// キー入力を受け取る
 		input.Update();
 		
-		if (!effects.GetIsActive()) {
-			c++;
-			if (c % 2 == 0) {
-				effects.StartExplosion({0.0f, 0.0f}, 100.0f * s, 1.0f, camera, EASE_OUT_QUAD);
-			} else {
-				effects.StartImplosion({0.0f, 0.0f}, 100.0f * s, 1.0f, camera, EASE_OUT_QUAD);
-			}
+		// ----------------------------------------------------------
+		// デバッグ用
+		// ----------------------------------------------------------
+
+		if (input.GetKeyTrigger(DIK_1)) {
+			currentSampleScene = SampleScene::DAICHI;
+			sampleSceneDaichi.Initialize();
 		}
 
+		if (input.GetKeyTrigger(DIK_2)) {
+			currentSampleScene = SampleScene::MIDZUKI;
+			sampleSceneMidzuki.Initialize();
+		}
 		
-		player.Update();
-		player.Draw();
+		if (input.GetKeyTrigger(DIK_3)) {
+			currentSampleScene = SampleScene::YUTO;
+			sampleSceneYuto.Initialize();
+		}
+		
+		// ----------------------------------------------------------
+		// シーン
+		// ----------------------------------------------------------
 
-		effects.SetScale(s);
-		s += 0.0016f;
+		// サンプルシーン、ここで各自が自由に作業できる。
+		switch (currentSampleScene) {
+		case SampleScene::DAICHI:
+			
+			sampleSceneDaichi.Update();
+			sampleSceneDaichi.Draw();
+			
+			Novice::ScreenPrintf(0, 700, "Scene : DAICHI");
+			break;
+		case SampleScene::MIDZUKI:
+			
+			sampleSceneMidzuki.Update();
+			sampleSceneMidzuki.Draw();
+			
+			Novice::ScreenPrintf(0, 700, "Scene : MIDZUKI");
+			break;
+		case SampleScene::YUTO:
 
-		effects.Update();
-		effects.Draw();
+			sampleSceneYuto.Update();
+			sampleSceneYuto.Draw();
+
+			Novice::ScreenPrintf(0, 700, "Scene : YUTO");
+			break;
+		case SampleScene::COUNT:
+			break;
+		default:
+			break;
+		}
 
 		// フレームの終了
 		Novice::EndFrame();
