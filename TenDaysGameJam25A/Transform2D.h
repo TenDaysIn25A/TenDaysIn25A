@@ -9,7 +9,7 @@ class Transform2D {
 public:
 	Vector2 position;
 	float rotation;
-	Vector2 scale_;
+	Vector2 scale;
 	
 public:
 	Transform2D();

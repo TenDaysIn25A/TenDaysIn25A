@@ -71,13 +71,13 @@ Matrix3x3 Matrix3x3::operator*(const Matrix3x3& other) const {
 	return result;
 }
 
-Matrix3x3 Matrix3x3::MakeScaleMatrix(const Vector2& scale_) { return {scale_.x, 0.0f, 0.0f, 0.0f, scale_.y, 0.0f, 0.0f, 0.0f, 1.0f}; }
+Matrix3x3 Matrix3x3::MakeScaleMatrix(const Vector2& scale) { return {scale.x, 0.0f, 0.0f, 0.0f, scale.y, 0.0f, 0.0f, 0.0f, 1.0f}; }
 
 Matrix3x3 Matrix3x3::MakeRotateMatrix(float theta) { return {cosf(theta), sinf(theta), 0.0f, -sinf(theta), cosf(theta), 0.0f, 0.0f, 0.0f, 1.0f}; }
 
 Matrix3x3 Matrix3x3::MakeTranslateMatrix(const Vector2& translate) { return {1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, translate.x, translate.y, 1.0f}; }
 
-Matrix3x3 Matrix3x3::MakeAffineMatrix(const Vector2& scale_, float rotate, const Vector2& translate) { return MakeScaleMatrix(scale_) * MakeRotateMatrix(rotate) * MakeTranslateMatrix(translate); }
+Matrix3x3 Matrix3x3::MakeAffineMatrix(const Vector2& scale, float rotate, const Vector2& translate) { return MakeScaleMatrix(scale) * MakeRotateMatrix(rotate) * MakeTranslateMatrix(translate); }
 
 Matrix3x3 Matrix3x3::MakeOrthographicMatrix(float left, float top, float right, float bottom) {
 	return {2.0f / (right - left), 0.0f, 0.0f, 0.0f, 2.0f / (top - bottom), 0.0f, (left + right) / (left - right), (top + bottom) / (bottom - top), 1.0f};

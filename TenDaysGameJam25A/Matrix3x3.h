@@ -16,10 +16,10 @@ public:
 	Matrix3x3 operator*(const Matrix3x3& other) const;
 
 	// 行列生成
-	static Matrix3x3 MakeScaleMatrix(const Vector2& scale_);
+	static Matrix3x3 MakeScaleMatrix(const Vector2& scale);
 	static Matrix3x3 MakeRotateMatrix(float theta);
 	static Matrix3x3 MakeTranslateMatrix(const Vector2& translate);
-	static Matrix3x3 MakeAffineMatrix(const Vector2& scale_, float rotate, const Vector2& translate);
+	static Matrix3x3 MakeAffineMatrix(const Vector2& scale, float rotate, const Vector2& translate);
 	static Matrix3x3 MakeOrthographicMatrix(float left, float top, float right, float bottom);
 	static Matrix3x3 MakeViewportMatrix(float left, float top, float width, float height);
 

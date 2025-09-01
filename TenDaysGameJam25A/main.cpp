@@ -47,6 +47,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 				effects.StartImplosion({0.0f, 0.0f}, 100.0f * s, 1.0f, camera, EASE_OUT_QUAD);
 			}
 		}
+
 		
 		player.Update();
 		player.Draw();

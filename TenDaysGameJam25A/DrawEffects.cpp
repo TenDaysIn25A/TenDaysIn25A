@@ -73,7 +73,7 @@ void DrawEffects::Draw() const {
 
 			unsigned int alpha = Lerp(0x00000000u, 0x000000FFu, easedT);
 			currentTransform.position = currentPos;
-			currentTransform.scale_ = {scale_, scale_};
+			currentTransform.scale = {scale_, scale_};
 
 			if (isActiveFade_) {
 				renderer_.DrawSprite(currentTransform, 6.0f, 6.0f, 0.0f, grHandle_, color_ - alpha);
@@ -96,7 +96,7 @@ void DrawEffects::Draw() const {
 
 			unsigned int alpha = Lerp(0x00000000u, 0x000000FFu, easedT);
 			currentTransform.position = currentPos;
-			currentTransform.scale_ = {scale_, scale_};
+			currentTransform.scale = {scale_, scale_};
 
 			if (isActiveFade_) {
 				renderer_.DrawSprite(currentTransform, 6.0f, 6.0f, 0.0f, grHandle_, color_ - alpha);

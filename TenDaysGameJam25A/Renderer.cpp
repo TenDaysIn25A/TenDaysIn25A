@@ -239,7 +239,7 @@ void Renderer::DrawTriangle(const Transform2D& transform, const Vector2& vertex1
 
 void Renderer::DrawEllipse(const Transform2D& transform, const Vector2& radius, const Vector2& deltaPosition, float deltaAngle, unsigned int color, FillMode fillMode) const {
 	Vector2 center = WorldToScreen(transform.position + deltaPosition );
-	Vector2 radiusScale = transform.scale_ * radius;
+	Vector2 radiusScale = transform.scale * radius;
 	float angle = transform.rotation + deltaAngle / 180.0f * static_cast<float>(M_PI);
 
 	Novice::DrawEllipse(
