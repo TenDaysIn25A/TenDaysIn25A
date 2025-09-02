@@ -74,6 +74,9 @@
     <Filter Include="Sources\System\Dimension">
       <UniqueIdentifier>{17c382fd-f2c5-439c-ab2b-fe89a875e471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\System\DeltaTime">
+      <UniqueIdentifier>{a14e675f-28c2-460c-8668-7cdc7d20198a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
@@ -138,6 +141,12 @@
     </ClCompile>
     <ClCompile Include="Enemy1D.cpp">
       <Filter>Sources\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Dimension.cpp">
+      <Filter>Sources\System\Dimension</Filter>
+    </ClCompile>
+    <ClCompile Include="DeltaTime.cpp">
+      <Filter>Sources\System\DeltaTime</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,6 +296,12 @@
     </ClInclude>
     <ClInclude Include="Enemy1D.h">
       <Filter>Sources\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Dimension.h">
+      <Filter>Sources\System\Dimension</Filter>
+    </ClInclude>
+    <ClInclude Include="DeltaTime.h">
+      <Filter>Sources\System\DeltaTime</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -10,69 +10,110 @@ void SampleSceneMidzuki::Initialize() {
 
 	parry.Initialize();
 
-	noteX = 200.0f;
-	noteWidth = 50.0f;
-	noteHeight = 50.0f;
+	noteX = 360.0f;
+	noteWidth = 80.0f;
+	noteHeight = 80.0f;
+	noteSpeed = 8.0f;
+	noteRespawnTimer = 60;
+	isNoteShoot = false;
 
-	player.x = 400.0f;
-	player.y = 200.0f;
-	playerWidth = 50.0f;
-	playerHeight = 50.0f;
+	player.transform.position.x= 800.0f;
+	player.transform.position.y = 360.0f;
+	player.width = 80.0f;
+	player.height = 80.0f;
+
+	parry.transform.position.x = player.transform.position.x - player.width;
+	parry.transform.position.y = player.transform.position.y;
+	parry.width = player.width;
+	parry.height = player.height;
+	parryState = ParryState::NONE;
+
+	
 }
 
 void SampleSceneMidzuki::Update() {
 	// ここで各更新処理を行う
 	SetCamera();
 
-	parry.Update(noteX, noteWidth, noteHeight, player, playerWidth, playerHeight);
+	input.Update();
 
-	noteX += 4.0f;
+	parry.Update(noteX, noteWidth, noteHeight,noteSpeed, parry.transform.position, parry.width, parry.height);
+
+
+
+	if (parry.parryState == ParryState::NORMAL) {
+		isNoteShoot = false;
+		
+	} else if (parry.parryState == ParryState::JUST) {
+		isNoteShoot = false;
+		
+	}
+
+	if (isNoteShoot) {
+		noteX += noteSpeed;
+	} else {
+		noteX = 0.0f;
+		noteRespawnTimer--;
+
+		if (noteRespawnTimer == 0) {
+			isNoteShoot = true;
+			noteRespawnTimer = 60;
+		}
+
+	}
 
 	if (noteX > 1280.0f) {
 		noteX = 0.0f;
-	}
-
-	if (input.GetKey(DIK_W)) {
-		player.y -= 4.0f;
-	}
-
-	if (input.GetKey(DIK_A)) {
-		player.x -= 4.0f;
-	}
-
-	if (input.GetKey(DIK_S)) {
-		player.y += 4.0f;
-	}
-
-	if (input.GetKey(DIK_D)) {
-		player.x += 4.0f;
 	}
 }
 
 void SampleSceneMidzuki::Draw() const {
 	// ここで各描画を行う。
 
-	samplePlayer.Draw();
-
-	// ノーツの描画
+	// 一次元の背景_黒
 	Novice::DrawBox(
-		static_cast<int>(noteX - noteWidth / 2.0f),
-		static_cast<int>(player.y - noteHeight / 2.0f),
-		static_cast<int>(noteWidth),
-		static_cast<int>(noteHeight),
-		0.0f, 0xFFFFFFFF,
+		0, static_cast<int>(player.transform.position.y - player.width / 2.0f),
+		1280, static_cast<int>(player.width),
+		0.0f,
+		0x000000FF,
 		kFillModeSolid
 	);
+
+	// ノーツの描画
+
+	if (isNoteShoot) {
+		Novice::DrawBox(
+			static_cast<int>(noteX - noteWidth / 2.0f),
+			static_cast<int>(player.transform.position.y - noteHeight / 2.0f),
+			static_cast<int>(noteWidth),
+			static_cast<int>(noteHeight),
+			0.0f, 0xFFFFFFFF,
+			kFillModeSolid
+		);
+	}
 
 	// プレイヤーの描画
 	Novice::DrawBox(
-		static_cast<int>(player.x - playerWidth / 2.0f),
-		static_cast<int>(player.y - playerHeight / 2.0f),
-		static_cast<int>(playerWidth),
-		static_cast<int>(playerHeight),
-		0.0f, 0xFFFFFFFF,
+		static_cast<int>(player.transform.position.x - player.width / 2.0f),
+		static_cast<int>(player.transform.position.y - player.height / 2.0f),
+		static_cast<int>(player.width),
+		static_cast<int>(player.height),
+		0.0f, 0x2222FFFF,
 		kFillModeSolid
 	);
+
+	// パリィ可能範囲
+	parry.Draw();
+	
+	//Novice::DrawBox(
+	//	static_cast<int>(parry.transform.position.x - parry.width / 2.0f),
+	//	static_cast<int>(parry.transform.position.y - parry.height / 2.0f),
+	//	static_cast<int>(parry.width),
+	//	static_cast<int>(parry.height),
+	//	0.0f,
+	//	0xFFFF00FF,
+	//	kFillModeWireFrame
+	//);
 
 	if (parry.parryState == ParryState::NONE) {
 		Novice::ScreenPrintf(0, 0, "NONE");
@@ -83,7 +124,9 @@ void SampleSceneMidzuki::Draw() const {
 	}
 
 	Novice::ScreenPrintf(0, 16, "isParryAbl : %d", parry.isParryAble);
-	Novice::ScreenPrintf(0, 32, "canParryTimer : %d", parry.canParryTimer);
+	Novice::ScreenPrintf(0, 32, "canParryTimer : %d", parry.canJustTimer);
+	Novice::ScreenPrintf(0, 48, "noteRespawnTimer : %d", noteRespawnTimer);
+	Novice::ScreenPrintf(0, 64, "isNoteShoot : %d", isNoteShoot);
 }
 
 void SampleSceneMidzuki::SetCamera() {

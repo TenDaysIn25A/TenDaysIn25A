@@ -5,51 +5,42 @@ Parry::Parry() { Initialize(); }
 
 void Parry::Initialize() {
 	parryState = ParryState::NONE;
-	isJustParry = false;
-	isNomalParry = false;
-	isParryFailed = false;
 }
 
-int Parry::isPlayerParry(Vector2 notePos, float noteWidth, float noteHeight, Vector2 playerPos, float playerWidth, float playerHeight) {
-	Initialize();
+void Parry::Update(float noteX, float noteWidth, float noteHeight, Vector2 playerPos, float playerWidth, float playerHeight) {
 
-	int canParryTimer = 0;
+	input.Update();
 
-
-	if (Collision::BoxToBox(playerPos, playerWidth, playerHeight, notePos, noteWidth, noteHeight)) {
+	// プレイヤーがノーツに触れたときパリィ可能
+	if (Collision::BoxToBox(playerPos, playerWidth, playerHeight, { noteX,playerPos.y }, noteWidth, noteHeight)) {
 		isParryAble = true;
 	} else {
 		isParryAble = false;
 	}
 
 	if (!isParryAble) {
+		parryState = ParryState::NONE;
+
 		canParryTimer = 0;
 
-		return false;
+		return;
 	}
 
 	canParryTimer++;
 
-	if (canParryTimer < kJustParryAbleGrace) {
-
-		if (input.GetKeyTrigger(DIK_SPACE)) {
-			isJustParry = true;
-
-			return isJustParry;
+	if (input.GetKeyTrigger(DIK_SPACE)) {
+		
+		// パリィ判定
+		if (canParryTimer < kJustParryAbleGrace) {
+			parryState = ParryState::JUST;
+		} else if (canParryTimer < kNomalParryAbleGrace) {
+			parryState = ParryState::NORMAL;
 		}
-
-	} else if (canParryTimer < kNomalParryAbleGrace) {
-
-		if (input.GetKeyTrigger(DIK_SPACE)) {
-			isNomalParry = true;
-
-			return isNomalParry;
-		}
-	} else {
-		isParryFailed = true;
-
-		return false;
 	}
 
-	return false;
+	if (canParryTimer >= kNomalParryAbleGrace) {
+		parryState = ParryState::NONE;
+	}
+
+	
 }

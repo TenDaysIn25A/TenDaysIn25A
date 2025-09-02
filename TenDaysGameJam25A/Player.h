@@ -48,7 +48,12 @@ public:
 	/// <summary>
 	/// 画面内にクランプする。
 	/// </summary>
-	void ClampInWindow();
+	void ClampInWindow2D();
+
+	/// <summary>
+	/// 中央に揃える。
+	/// </summary>
+	void ClampInWindow1D();
 
 	// ----------------------------------------------
 	// メンバ変数

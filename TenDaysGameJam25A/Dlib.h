@@ -7,6 +7,8 @@
 #include "Color.h"
 #include "DrawEffects.h"
 #include "Tweening.h"
+#include "Dimension.h"
+#include "DeltaTime.h"
 #include <Novice.h>
 #define _USE_MATH_DEFINES
 #include <math.h>

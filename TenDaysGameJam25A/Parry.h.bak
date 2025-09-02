@@ -5,18 +5,19 @@
 #include "Collision.h"
 #include "Input.h"
 
-enum class ParryState { NONE, GOOD, JUST };
+enum class ParryState { NONE, NORMAL, JUST };
 
 class Parry {
 
 public:
 	Parry();
-	void Initialize();
 
 	//=====================================
 	// メンバ関数
 	//=====================================
-	int isPlayerParry(Vector2 notePos, float noteWidth, float noteWeight, Vector2 playerPos, float playerWidth, float playerHeight);
+	void Initialize();
+	void Update(float noteX, float noteWidth, float noteHeight, Vector2 playerPos, float playerWidth, float playerHeight);
+
 
 	//=====================================
 	// メンバ変数
@@ -28,16 +29,21 @@ public:
 	Input input;
 	DrawEffects effect;
 
+	// プロパティ
+	//------------------------------
+	Transform2D transform;
+	float width;
+	float height;
+
 	// フラグ
 	//------------------------------
 	bool isParryAble;
-	bool isJustParry;
-	bool isNomalParry;
-	bool isParryFailed;
 	ParryState parryState;
 
 	// 定数
 	//------------------------------
-	const int kNomalParryAbleGrace = 8;
-	const int kJustParryAbleGrace = 3;
+	static constexpr int kNomalParryAbleGrace = 8;
+	static constexpr int kJustParryAbleGrace = 3;
+
+	int canParryTimer;
 };

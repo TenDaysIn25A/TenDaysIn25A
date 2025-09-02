@@ -1,73 +1,73 @@
-#pragma once
-#include "Renderer.h" // •`‰æ‚ðˆµ‚¤ƒ‰ƒCƒuƒ‰ƒŠi•K‚¸SetCamera‚ðŒÄ‚Ño‚·‚±‚Æj
-#include "Transform2D.h" // ƒXƒP[ƒ‹ ‰ñ“] •½sˆÚ“®‚ðˆµ‚¤ƒ‰ƒCƒuƒ‰ƒŠ
-#include "Input.h" // input‚ðŽg‚¦‚é‚æ‚¤‚É‚·‚éƒ‰ƒCƒuƒ‰ƒŠ
-#include "DrawEffects.h" // ƒGƒtƒFƒNƒg‚ð•`‰æ‚Å‚«‚é‚æ‚¤‚É‚·‚éƒ‰ƒCƒuƒ‰ƒŠ
+ï»¿#pragma once
+#include "Renderer.h" // æç”»ã‚’æ‰±ã†ãƒ©ã‚¤ãƒ–ãƒ©ãƒªï¼ˆå¿…ãšSetCameraã‚’å‘¼ã³å‡ºã™ã“ã¨ï¼‰
+#include "Transform2D.h" // ã‚¹ã‚±ãƒ¼ãƒ« å›žè»¢ å¹³è¡Œç§»å‹•ã‚’æ‰±ã†ãƒ©ã‚¤ãƒ–ãƒ©ãƒª
+#include "Input.h" // inputã‚’ä½¿ãˆã‚‹ã‚ˆã†ã«ã™ã‚‹ãƒ©ã‚¤ãƒ–ãƒ©ãƒª
+#include "DrawEffects.h" // ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’æç”»ã§ãã‚‹ã‚ˆã†ã«ã™ã‚‹ãƒ©ã‚¤ãƒ–ãƒ©ãƒª
 
 class AnnkoTest{
 public:
 
     // ----------------------------------------------
-    // ƒƒ“ƒoŠÖ”
+    // ãƒ¡ãƒ³ãƒé–¢æ•°
     // ----------------------------------------------
 
-    AnnkoTest(); // éŒ¾Žž‚ÉŽ©“®‚Å‰Šú‰»
+    AnnkoTest(); // å®£è¨€æ™‚ã«è‡ªå‹•ã§åˆæœŸåŒ–
     ~AnnkoTest() = default;
 
-    // ªŠ²
+    // æ ¹å¹¹
     // ----------------------------------------------
 
     /// <summary>
-    /// ‰Šú‰»‚ð‚±‚±‚É
+    /// åˆæœŸåŒ–ã‚’ã“ã“ã«
     /// </summary>
     void Initialize();
 
     /// <summary>
-    /// XVˆ—‚ð‚±‚±‚É
+    /// æ›´æ–°å‡¦ç†ã‚’ã“ã“ã«
     /// </summary>
     void Update();
 
     /// <summary>
-    /// •`‰æˆ—‚ð‚±‚±‚É@¦const‚É‚æ‚Á‚Ä‚±‚Ì’†‚Å‚Ì’l‚Ì•ÏX‚Í‹ÖŽ~‚³‚ê‚Ä‚¢‚éB
+    /// æç”»å‡¦ç†ã‚’ã“ã“ã«ã€€â€»constã«ã‚ˆã£ã¦ã“ã®ä¸­ã§ã®å€¤ã®å¤‰æ›´ã¯ç¦æ­¢ã•ã‚Œã¦ã„ã‚‹ã€‚
     /// </summary>
     void Draw() const;
 
-    // ƒAƒNƒZƒbƒT (Set`‚Æ‚©AGet`‚Æ‚©)
+    // ã‚¢ã‚¯ã‚»ãƒƒã‚µ (Setï½žã¨ã‹ã€Getï½žã¨ã‹)
     // ----------------------------------------------
 
     /// <summary>
-    /// main‚âGameScene‚©‚çƒJƒƒ‰‚ðŽæ“¾‚µ‚Ä‚­‚¾‚³‚¢B
+    /// mainã‚„GameSceneã‹ã‚‰ã‚«ãƒ¡ãƒ©ã‚’å–å¾—ã—ã¦ãã ã•ã„ã€‚
     /// </summary>
     /// <param name="camera"></param>
     void SetCamera(const Transform2D& camera);
 
-    // ‹@”\
+    // æ©Ÿèƒ½
     // ----------------------------------------------
 
     /// <summary>
-    /// ˆÚ“®
+    /// ç§»å‹•
     /// </summary>
     void Move();
 
     /// <summary>
-    /// ‰æ–Ê“à‚ÉƒNƒ‰ƒ“ƒv‚·‚éB
+    /// ç”»é¢å†…ã«ã‚¯ãƒ©ãƒ³ãƒ—ã™ã‚‹ã€‚
     /// </summary>
-    void ClampInWindow();
+    void ClampInWindow2D();
 
     // ----------------------------------------------
-    // ƒƒ“ƒo•Ï”
+    // ãƒ¡ãƒ³ãƒå¤‰æ•°
     // ----------------------------------------------
 
-    // ƒVƒXƒeƒ€
+    // ã‚·ã‚¹ãƒ†ãƒ 
     // ----------------------------------------------
-    Renderer renderer;    // •`‰æƒ‰ƒCƒuƒ‰ƒŠ‚ð‚±‚ê‚ÅŽg‚¦‚é‚æ‚¤‚É‚µ‚Ä‚­‚¾‚³‚¢B
-    Input input;        // “ü—Íƒ‰ƒCƒuƒ‰ƒŠ‚ð‚±‚ê‚ÅŽg‚¦‚é‚æ‚¤‚É‚µ‚Ä‚­‚¾‚³‚¢B
-    DrawEffects effect;    // ƒGƒtƒFƒNƒg•`‰æƒ‰ƒCƒuƒ‰ƒŠ‚ð‚±‚ê‚ÅŽg‚¦‚é‚æ‚¤‚É‚µ‚Ä‚­‚¾‚³‚¢B
+    Renderer renderer;    // æç”»ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ã“ã‚Œã§ä½¿ãˆã‚‹ã‚ˆã†ã«ã—ã¦ãã ã•ã„ã€‚
+    Input input;        // å…¥åŠ›ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ã“ã‚Œã§ä½¿ãˆã‚‹ã‚ˆã†ã«ã—ã¦ãã ã•ã„ã€‚
+    DrawEffects effect;    // ã‚¨ãƒ•ã‚§ã‚¯ãƒˆæç”»ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‚’ã“ã‚Œã§ä½¿ãˆã‚‹ã‚ˆã†ã«ã—ã¦ãã ã•ã„ã€‚
 
-    // ƒvƒŒƒCƒ„[ƒvƒƒpƒeƒB
+    // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£
     // ----------------------------------------------
 
-    Transform2D transform; // position‚Æ‚©éŒ¾‚µ‚È‚­‚Ä‚¦‚¦‚ñ‚â‚Å
+    Transform2D transform; // positionã¨ã‹å®£è¨€ã—ãªãã¦ãˆãˆã‚“ã‚„ã§
 
     float speed;
     Vector2 direction;

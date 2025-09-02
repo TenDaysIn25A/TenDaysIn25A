@@ -20,7 +20,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Novice::Initialize(kWindowTitle, 1280, 720);
 
 	Input input;
-	Transform2D camera;
+	int grHandleBackGround = Novice::LoadTexture("./Resources/images/backGround.png");
 
 	// ここで自身のサンプルシーンに切り替える。
 	SampleScene currentSampleScene = SampleScene::DAICHI;
@@ -42,6 +42,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// ----------------------------------------------------------
 		// デバッグ用
 		// ----------------------------------------------------------
+
+		// 黒背景
+		Novice::DrawSprite(0, 0, grHandleBackGround, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
 
 		if (input.GetKeyTrigger(DIK_1)) {
 			currentSampleScene = SampleScene::DAICHI;

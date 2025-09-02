@@ -26,7 +26,7 @@ void PlayerTest::Update() {
 	}
 	
 	Move();
-	ClampInWindow();
+	ClampInWindow2D();
 }
 
 void PlayerTest::Draw() const {
@@ -67,7 +67,7 @@ void PlayerTest::Move() {
 	
 }
 
-void PlayerTest::ClampInWindow() {
+void PlayerTest::ClampInWindow2D() {
 	if (transform.position.x <= -640.0f + radius) {
 		transform.position.x = -640.0f + radius;
 	}

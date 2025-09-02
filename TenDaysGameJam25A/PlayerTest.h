@@ -52,7 +52,7 @@ public:
 	/// <summary>
 	/// 画面内にクランプする。
 	/// </summary>
-	void ClampInWindow();
+	void ClampInWindow2D();
 
 	// ----------------------------------------------
 	// メンバ変数

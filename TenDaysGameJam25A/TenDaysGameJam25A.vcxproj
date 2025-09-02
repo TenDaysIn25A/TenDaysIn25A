@@ -110,6 +110,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Dimension.cpp" />
     <ClCompile Include="DrawEffects.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Enemy1D.cpp" />
@@ -125,6 +126,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="SampleSceneDaichi.cpp" />
     <ClCompile Include="SampleSceneMidzuki.cpp" />
     <ClCompile Include="SampleSceneYuto.cpp" />
+    <ClCompile Include="DeltaTime.cpp" />
     <ClCompile Include="Transform2D.cpp" />
     <ClCompile Include="Tweening.cpp" />
     <ClCompile Include="Vector2.cpp" />
@@ -160,6 +162,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Dimension.h" />
     <ClInclude Include="Dlib.h" />
     <ClInclude Include="DrawEffects.h" />
     <ClInclude Include="Enemy.h" />
@@ -176,6 +179,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="SampleSceneMidzuki.h" />
     <ClInclude Include="SampleSceneYuto.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="DeltaTime.h" />
     <ClInclude Include="Transform2D.h" />
     <ClInclude Include="Tweening.h" />
     <ClInclude Include="Vector2.h" />

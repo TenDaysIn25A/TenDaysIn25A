@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Dlib.h"
 #include "PlayerTest.h"
+#include"Player.h"
 #include"Parry.h"
 
 class SampleSceneMidzuki {
@@ -46,13 +47,14 @@ public:
 	Transform2D camera;
 
 	PlayerTest samplePlayer;
+	Player player;
 	ParryState parryState;
 	Parry parry;
 
 	float noteX;
 	float noteWidth;
 	float noteHeight;
-	Vector2 player;
-	float playerWidth;
-	float playerHeight;
+	float noteSpeed;
+	int noteRespawnTimer;
+	bool isNoteShoot;
 };
