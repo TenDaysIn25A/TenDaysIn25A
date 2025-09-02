@@ -16,7 +16,7 @@ public:
 	// メンバ関数
 	//=====================================
 	void Initialize();
-	void Update(float noteX, float noteWidth, float noteHeight,float noteSpeed, Vector2 playerPos, float playerWidth, float playerHeight);
+	void Update();
 	void Draw() const;
 
 	//=====================================
@@ -38,6 +38,7 @@ public:
 	// フラグ
 	//------------------------------
 	bool isParryAble;
+	bool isCanJust;
 	ParryState parryState;
 
 	// 定数

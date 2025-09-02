@@ -18,6 +18,8 @@ public:
 	/// 更新処理をここに
 	/// </summary>
 	void Update();
+	void CheckHitAll();
+	
 
 	/// <summary>
 	/// 描画処理をここに　※constによってこの中での値の変更は禁止されている。
@@ -45,11 +47,11 @@ public:
 	//-------------------------------------
 	Input input;
 	Transform2D camera;
+	DimensionState dimensionState;
 
 	PlayerTest samplePlayer;
 	Player player;
 	ParryState parryState;
-	Parry parry;
 
 	float noteX;
 	float noteWidth;

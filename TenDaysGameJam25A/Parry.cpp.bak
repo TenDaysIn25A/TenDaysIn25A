@@ -4,43 +4,79 @@
 Parry::Parry() { Initialize(); }
 
 void Parry::Initialize() {
+	color = 0xFFFF00FF;
 	parryState = ParryState::NONE;
 }
 
-void Parry::Update(float noteX, float noteWidth, float noteHeight, Vector2 playerPos, float playerWidth, float playerHeight) {
+void Parry::Update(float noteX, float noteWidth, float noteHeight, float noteSpeed, Vector2 parryPos, float parryWidth, float parryHeight) {
 
 	input.Update();
 
 	// プレイヤーがノーツに触れたときパリィ可能
-	if (Collision::BoxToBox(playerPos, playerWidth, playerHeight, { noteX,playerPos.y }, noteWidth, noteHeight)) {
+	if (Collision::BoxToBox(parryPos, parryWidth, parryHeight, { noteX,parryPos.y }, noteWidth, noteHeight)) {
 		isParryAble = true;
 	} else {
 		isParryAble = false;
 	}
 
+
+
+
 	if (!isParryAble) {
 		parryState = ParryState::NONE;
 
-		canParryTimer = 0;
+		color = 0xFFFF00FF;
+		kFillMode = kFillModeWireFrame;
+
+		canJustTimer = 0;
 
 		return;
 	}
 
-	canParryTimer++;
+	if (noteX >= parryPos.x - kJustParryAbleGrace * noteSpeed) {
 
-	if (input.GetKeyTrigger(DIK_SPACE)) {
-		
-		// パリィ判定
-		if (canParryTimer < kJustParryAbleGrace) {
-			parryState = ParryState::JUST;
-		} else if (canParryTimer < kNomalParryAbleGrace) {
+		canJustTimer++;
+
+		if (input.GetKeyTrigger(DIK_SPACE)) {
+
+			// ジャストパリィ判定
+			if (canJustTimer < kJustParryAbleGrace) {
+				parryState = ParryState::JUST;
+				color = 0xFF0000FF;
+			}
+		}
+
+	} else {
+
+		// ノーマルパリィ判定
+		if (input.GetKeyTrigger(DIK_SPACE)) {
 			parryState = ParryState::NORMAL;
 		}
 	}
 
-	if (canParryTimer >= kNomalParryAbleGrace) {
+	if (canJustTimer >= kJustParryAbleGrace) {
 		parryState = ParryState::NONE;
 	}
 
-	
+	if (parryState == ParryState::NONE) {
+		color = 0xFFFF00FF;
+		kFillMode = kFillModeWireFrame;
+	} else {
+		kFillMode = kFillModeSolid;
+	}
+
+
+}
+
+void Parry::Draw() const {
+	// パリィ可能範囲
+	Novice::DrawBox(
+		static_cast<int>(transform.position.x - width / 2.0f),
+		static_cast<int>(transform.position.y - height / 2.0f),
+		static_cast<int>(width),
+		static_cast<int>(height),
+		0.0f,
+		color,
+		kFillMode
+	);
 }

@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "Dlib.h"
-#include "Parry.h"
 
 class Player {
 public:
@@ -80,6 +79,4 @@ public:
 	int grHandleCaracter;
 
 	bool isAlive;
-
-	Parry parry;
 };

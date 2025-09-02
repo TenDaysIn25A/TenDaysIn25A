@@ -16,8 +16,8 @@ public:
 	// メンバ関数
 	//=====================================
 	void Initialize();
-	void Update(float noteX, float noteWidth, float noteHeight, Vector2 playerPos, float playerWidth, float playerHeight);
-
+	void Update(float noteX, float noteWidth, float noteHeight,float noteSpeed, Vector2 playerPos, float playerWidth, float playerHeight);
+	void Draw() const;
 
 	//=====================================
 	// メンバ変数
@@ -43,7 +43,9 @@ public:
 	// 定数
 	//------------------------------
 	static constexpr int kNomalParryAbleGrace = 8;
-	static constexpr int kJustParryAbleGrace = 3;
+	static constexpr int kJustParryAbleGrace = 4;
 
-	int canParryTimer;
+	int canJustTimer;
+	unsigned int color;
+	FillMode kFillMode;
 };

@@ -8,19 +8,9 @@ void Parry::Initialize() {
 	parryState = ParryState::NONE;
 }
 
-void Parry::Update(float noteX, float noteWidth, float noteHeight, float noteSpeed, Vector2 parryPos, float parryWidth, float parryHeight) {
+void Parry::Update() {
 
 	input.Update();
-
-	// プレイヤーがノーツに触れたときパリィ可能
-	if (Collision::BoxToBox(parryPos, parryWidth, parryHeight, { noteX,parryPos.y }, noteWidth, noteHeight)) {
-		isParryAble = true;
-	} else {
-		isParryAble = false;
-	}
-
-
-
 
 	if (!isParryAble) {
 		parryState = ParryState::NONE;
@@ -33,7 +23,9 @@ void Parry::Update(float noteX, float noteWidth, float noteHeight, float noteSpe
 		return;
 	}
 
-	if (noteX >= parryPos.x - kJustParryAbleGrace * noteSpeed) {
+
+
+	if (isCanJust) {
 
 		canJustTimer++;
 
@@ -46,16 +38,18 @@ void Parry::Update(float noteX, float noteWidth, float noteHeight, float noteSpe
 			}
 		}
 
+		if (canJustTimer >= kJustParryAbleGrace) {
+			isCanJust = false;
+			parryState = ParryState::NONE;
+		}
+
 	} else {
 
 		// ノーマルパリィ判定
 		if (input.GetKeyTrigger(DIK_SPACE)) {
 			parryState = ParryState::NORMAL;
 		}
-	}
-
-	if (canJustTimer >= kJustParryAbleGrace) {
-		parryState = ParryState::NONE;
+		
 	}
 
 	if (parryState == ParryState::NONE) {
@@ -64,8 +58,6 @@ void Parry::Update(float noteX, float noteWidth, float noteHeight, float noteSpe
 	} else {
 		kFillMode = kFillModeSolid;
 	}
-
-
 }
 
 void Parry::Draw() const {
