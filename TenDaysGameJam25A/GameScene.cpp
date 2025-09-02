@@ -54,15 +54,8 @@ void GameScene::Update() {
 }
 
 void GameScene::Draw() const {
-	if (currentDimension == DimensionState::ONE){
-		Novice::DrawBox(
-			0, 320,
-			1280, 80,
-			0.0f,
-			0x000000FF,
-			kFillModeSolid
-		);
-	} else {
+
+
 		Novice::DrawBox(
 			0, 120,
 			1281, 480,
@@ -71,14 +64,8 @@ void GameScene::Draw() const {
 			kFillModeSolid
 		);
 
-		Novice::DrawBox(
-			0, 120,
-			1281, 480,
-			0.0f,
-			0xFFFFFFFF,
-			kFillModeWireFrame
-		);
-	}
+
+	
 
 
 	enemy.Draw();

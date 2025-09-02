@@ -53,4 +53,6 @@ public:
 	Player player;
 	ParryState parryState;
 	Enemy enemy;
+
+	 
 };

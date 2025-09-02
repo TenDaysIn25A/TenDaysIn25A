@@ -7,11 +7,12 @@
 #include "DrawEffects.h"
 #include "PlayerTest.h"
 #include "SceneManager.h"
+#include "GameScene.h"
 
 const char kWindowTitle[] = "LC1A_03_04_15_19_10DaysGameJam";
 
 enum class Scene { TITLE, INGAME, GAMECREAR, GAMEOVER , COUNT };
-enum class SampleScene { DAICHI, MIDZUKI, YUTO, COUNT };
+enum class SampleScene { DAICHI, MIDZUKI, YUTO, GAME_SCENE, COUNT };
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -27,6 +28,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	SampleSceneDaichi sampleSceneDaichi;
 	SampleSceneMidzuki sampleSceneMidzuki;
 	SampleSceneYuto sampleSceneYuto;
+	GameScene gameScene;
 
 	unsigned int currentTime = static_cast<unsigned int>(time(nullptr));
 	srand(currentTime);
@@ -61,6 +63,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			sampleSceneYuto.Initialize();
 		}
 		
+		if (input.GetKeyTrigger(DIK_4)) {
+			currentSampleScene = SampleScene::GAME_SCENE;
+			gameScene.Initialize();
+		}
+		
 		// ----------------------------------------------------------
 		// シーン
 		// ----------------------------------------------------------
@@ -87,6 +94,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			sampleSceneYuto.Draw();
 
 			Novice::ScreenPrintf(0, 700, "Scene : YUTO");
+			break;
+		case SampleScene::GAME_SCENE:
+
+			gameScene.Update();
+			gameScene.Draw();
+
+			Novice::ScreenPrintf(0, 700, "Scene : GAME_SCENE");
 			break;
 		case SampleScene::COUNT:
 			break;

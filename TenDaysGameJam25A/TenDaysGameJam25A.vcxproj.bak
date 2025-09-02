@@ -108,21 +108,35 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Dimension.cpp" />
     <ClCompile Include="DrawEffects.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Enemy1D.cpp" />
+    <ClCompile Include="Enemy2D.cpp" />
+    <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix3x3.cpp" />
+    <ClCompile Include="Parry.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerTest.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="SampleSceneDaichi.cpp" />
+    <ClCompile Include="SampleSceneMidzuki.cpp" />
+    <ClCompile Include="SampleSceneYuto.cpp" />
+    <ClCompile Include="DeltaTime.cpp" />
     <ClCompile Include="Transform2D.cpp" />
     <ClCompile Include="Tweening.cpp" />
     <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="Zako.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\DirectXGame\3d\Camera.h" />
+    <ClInclude Include="Bullet.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\base\StringUtility.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\math\Matrix4x4.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\math\Vector2.h" />
@@ -151,15 +165,29 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Dimension.h" />
+    <ClInclude Include="Dlib.h" />
     <ClInclude Include="DrawEffects.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Enemy1D.h" />
+    <ClInclude Include="Enemy2D.h" />
+    <ClInclude Include="GameScene.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Matrix3x3.h" />
+    <ClInclude Include="Parry.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerTest.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="SampleSceneDaichi.h" />
+    <ClInclude Include="SampleSceneMidzuki.h" />
+    <ClInclude Include="SampleSceneYuto.h" />
+    <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="DeltaTime.h" />
     <ClInclude Include="Transform2D.h" />
     <ClInclude Include="Tweening.h" />
     <ClInclude Include="Vector2.h" />
+    <ClInclude Include="Zako.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
