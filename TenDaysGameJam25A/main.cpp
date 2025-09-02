@@ -101,10 +101,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		case SampleScene::GAME_SCENE:
 
-			gameScene.Update();
+			gameScene.SetIsChanging(backGround.isChanging);
+			gameScene.Update();		
 			gameScene.Draw();
 
-			Novice::ScreenPrintf(0, 700, "Scene : GAME_SCENE");
+			//Novice::ScreenPrintf(0, 700, "Scene : GAME_SCENE");
 			break;
 		case SampleScene::COUNT:
 			break;

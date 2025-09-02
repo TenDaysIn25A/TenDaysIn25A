@@ -31,6 +31,8 @@ public:
 	/// <param name="camera"></param>
 	void SetCamera();
 
+	void SetIsChanging(bool flag) { isChanging = flag; };
+
 	// 機能
 	// ----------------------------------------------
 
@@ -54,5 +56,5 @@ public:
 	ParryState parryState;
 	Enemy enemy;
 
-	 
+	bool isChanging;
 };

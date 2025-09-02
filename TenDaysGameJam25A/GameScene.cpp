@@ -13,6 +13,9 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 	// ここで各更新処理を行う
+	if (isChanging) {
+		return;
+	}
 
 	input.Update();
 
@@ -43,14 +46,9 @@ void GameScene::Update() {
 		}
 	}
 
-
-
 	CheckHitAll();
 
 	SetCamera();
-
-
-
 }
 
 void GameScene::Draw() const {
@@ -103,8 +101,6 @@ void GameScene::CheckHitAll() {
 					enemy.bullets[bi].transform.position.x = -1000.0f;
 					enemy.bullets[bi].transform.position.y = -1000.0f;
 					break;
-
-				} else {
 
 				}
 			}
