@@ -1,7 +1,8 @@
 ﻿#pragma once
 #include "Dlib.h"
 #include "Parry.h"
-#include"Bullet.h"
+#include "Bullet.h"
+#include "Reaction.h"
 
 class Player {
 public:
@@ -68,6 +69,9 @@ public:
 	Renderer renderer;  // 描画ライブラリをこれで使えるようにしてください。
 	Input input;        // 入力ライブラリをこれで使えるようにしてください。
 	DrawEffects effect; // エフェクト描画ライブラリをこれで使えるようにしてください。
+	Reaction miss;
+	Reaction nice;
+	Reaction just;
 
 	// プレイヤープロパティ
 	// ----------------------------------------------

@@ -35,10 +35,18 @@ void Player::Initialize() {
 	}
 
 	shotTimer = kShotCoolTime;
+
+	miss.Initialize(Novice::LoadTexture("./Resources/images/miss.png"), 256.0f, 128.0f);
+	nice.Initialize(Novice::LoadTexture("./Resources/images/nice.png"), 512.0f, 128.0f);
+	just.Initialize(Novice::LoadTexture("./Resources/images/just.png"), 512.0f, 128.0f);
 }
 
 void Player::Update() {
 	input.Update();
+
+	miss.Update();
+	nice.Update();
+	just.Update();
 
 	transform.position.x = 300.0f + (3 - life) * 160.0f;
 
@@ -80,6 +88,7 @@ void Player::Update() {
 
 		parry.transform.position.x = transform.position.x - width;
 
+		
 	} else {
 
 		Move();

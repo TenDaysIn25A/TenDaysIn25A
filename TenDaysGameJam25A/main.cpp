@@ -116,6 +116,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		backGround.Update();
 		backGround.Draw();
 
+		gameScene.player.miss.Draw();
+		gameScene.player.just.Draw();
+		gameScene.player.nice.Draw();
+
+
 		// フレームの終了
 		Novice::EndFrame();
 
