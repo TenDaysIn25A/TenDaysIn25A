@@ -40,6 +40,7 @@ public:
 	//------------------------------
 	bool isParryAble;
 	bool isCanJust;
+	bool isParry;
 	ParryState parryState;
 
 	// 定数

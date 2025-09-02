@@ -58,6 +58,7 @@ void SampleSceneDaichi::Draw() const {
 void SampleSceneDaichi::SetCamera() {
 	// ここで各SetCameraを行う。
 
-	samplePlayer.SetCamera(camera);
+ 	samplePlayer.SetCamera(camera);
+
 }
 

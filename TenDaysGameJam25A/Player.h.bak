@@ -84,7 +84,11 @@ public:
 
 	int shotTimer;
 	int isShot[kBulletMax];
-	const int kShotCoolTime = 30;
+	const int kShotCoolTime = 10;
+
+	const int kUpedDamage = 5;
+	const int kDefaultDamage = 2;
+	int damageUpTime;
 
 	// ステータス
 	// ----------------------------------------------
@@ -93,6 +97,7 @@ public:
 
 	bool isHit;
 	bool isAlive;
+	bool isUpDamage;
 
 	// 包含オブジェクト
 	// ----------------------------------------------

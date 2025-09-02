@@ -86,7 +86,7 @@ public:
 	int isShot[kBulletMax];
 	const int kShotCoolTime = 10;
 
-	const int kUpedDamage = 5;
+	const int kUpedDamage = 10;
 	const int kDefaultDamage = 2;
 	int damageUpTime;
 
