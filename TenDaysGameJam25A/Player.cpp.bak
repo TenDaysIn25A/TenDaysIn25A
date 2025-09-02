@@ -7,7 +7,7 @@ void Player::Initialize() {
 	isAlive = true;
 	life = 3;
 	isHit = false;
-	isUpDamage = false;
+	isUpDamage = true;
 	invincibleTimer = 60;
 	speed = 5.0f;
 	parry.Initialize();
@@ -96,7 +96,7 @@ void Player::Update() {
 						bullets[bi].ShotDir(transform.position, bullets[bi].direction, 0.0f);
 
 						if (isUpDamage) {
-							bullets[bi].color = 0xFFFF00FF;
+							bullets[bi].color = 0xFF0000FF;
 						} else {
 							bullets[bi].color = 0xFFFFFFFF;
 						}

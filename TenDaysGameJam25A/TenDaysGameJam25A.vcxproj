@@ -112,6 +112,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="Dimension.cpp" />
     <ClCompile Include="DrawEffects.cpp" />
     <ClCompile Include="Enemy.cpp" />

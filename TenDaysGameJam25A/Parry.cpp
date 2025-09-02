@@ -75,6 +75,10 @@ void Parry::Update() {
 }
 
 void Parry::Draw() const {
+	if (currentDimension != DimensionState::ONE) {
+		return;
+	}
+
 	// パリィ可能範囲
 	renderer.DrawBox(transform, width, height, 0.0f, color, fillMode);
 }

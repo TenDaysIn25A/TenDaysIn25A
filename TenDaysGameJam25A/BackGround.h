@@ -28,11 +28,11 @@ public:
 	//プロパティ
 	//---------------------------------
 
-	const Vector2 underTwoDirBGPos = { 0.0f,600.0f };
-	const Vector2 topTwoDirBGPos = { 1280.0f,120.0f };
+	const Vector2 twoDimBGPosBottom = { 0.0f,600.0f };
+	const Vector2 twoDimBGPosTop = { 1280.0f,120.0f };
 
-	const Vector2 underOneDirBGPos = { 0.0f,400.0f };
-	const Vector2 topOneDirBGPos = { 1280.0f,320.0f };
+	const Vector2 oneDimBGPosBottom = { 0.0f,400.0f };
+	const Vector2 oneDimBGPosTop = { 1280.0f,320.0f };
 
 	Vector2 underBGPos;
 	Vector2 topBGPos;
@@ -40,8 +40,5 @@ public:
 	int grHandleHalfBg; 
 	bool isChanging;
 	float speed;
-
-
-
 };
 

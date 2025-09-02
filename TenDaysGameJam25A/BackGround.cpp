@@ -4,8 +4,8 @@ BackGround::BackGround() { Initialize(); }
 
 void BackGround::Initialize() {
 
-	underBGPos = underTwoDirBGPos;
-	topBGPos = topTwoDirBGPos;
+	underBGPos = twoDimBGPosBottom;
+	topBGPos = twoDimBGPosTop;
 	grHandleHalfBg = Novice::LoadTexture("./Resources/images/halfBackGround.png");
 	speed = 20.0f;
 }
@@ -46,9 +46,9 @@ void BackGround::Update() {
 
 			}
 
-			if (underBGPos.y > underTwoDirBGPos.y) {
-				underBGPos.y = underTwoDirBGPos.y;
-				topBGPos.y = topTwoDirBGPos.y;
+			if (underBGPos.y > twoDimBGPosBottom.y) {
+				underBGPos.y = twoDimBGPosBottom.y;
+				topBGPos.y = twoDimBGPosTop.y;
 				currentDimension = DimensionState::TWO;
 				isChanging = false;
 			}
@@ -66,9 +66,9 @@ void BackGround::Update() {
 
 			}
 
-			if (underBGPos.y > underOneDirBGPos.y) {
-				underBGPos.y = underOneDirBGPos.y;
-				topBGPos.y = topOneDirBGPos.y;
+			if (underBGPos.y > oneDimBGPosBottom.y) {
+				underBGPos.y = oneDimBGPosBottom.y;
+				topBGPos.y = oneDimBGPosTop.y;
 				currentDimension = DimensionState::ONE;
 				isChanging = false;
 			}
@@ -91,7 +91,6 @@ void BackGround::Draw() {
 		static_cast<int>(topBGPos.x),
 		static_cast<int>(topBGPos.y),
 		grHandleHalfBg, 1.0f, 1.0f, static_cast<float>(M_PI), 0xFFFFFFFF);
-
 }
 
 

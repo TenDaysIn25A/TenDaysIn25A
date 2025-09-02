@@ -55,7 +55,6 @@ void GameScene::Update() {
 
 void GameScene::Draw() const {
 
-
 		Novice::DrawBox(
 			0, 120,
 			1281, 480,
@@ -63,10 +62,6 @@ void GameScene::Draw() const {
 			0x000000FF,
 			kFillModeSolid
 		);
-
-
-	
-
 
 	enemy.Draw();
 
@@ -86,7 +81,7 @@ void GameScene::CheckHitAll() {
 			if (!enemy.bullets[bi].isActive) {
 				continue;
 			}
-
+			// 
 			if (player.parry.isParry) {
 				if (Collision::BoxToBox(player.parry.transform.position, player.parry.width, player.parry.height, { enemy.bullets[bi].transform.position.x,0.0f }, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
 
@@ -95,10 +90,14 @@ void GameScene::CheckHitAll() {
 					if (enemy.bullets[bi].transform.position.x >= justArea) {
 						player.parry.parryState = ParryState::JUST;
 						player.parry.color = 0xFF0000FF;
+						player.isUpDamage = true;
+						player.damageUpTime = 150;
 					} else {
 						player.parry.parryState = ParryState::NORMAL;
 						player.parry.color = 0xFFFF00FF;
 					}
+
+					enemy.bullets[bi].effect.SetColor(player.parry.color);
 
 					enemy.bullets[bi].Deactive();
 					enemy.bullets[bi].transform.position.x = -1000.0f;
@@ -110,7 +109,7 @@ void GameScene::CheckHitAll() {
 				}
 			}
 		}
-
+		// プレイヤーとエネミーの弾の当たり判定（１次元）
 		for (int bi = 0;bi < enemy.kBulletMax;bi++) {
 			if (enemy.bullets[bi].isActive) {
 				if (Collision::BoxToBox(player.transform.position, player.width, player.height, { enemy.bullets[bi].transform.position.x,0.0f }, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
@@ -132,6 +131,7 @@ void GameScene::CheckHitAll() {
 			}
 		}
 	} else {
+		// プレイヤーとエネミーの弾の当たり判定（２次元）
 		for (int bi = 0;bi < enemy.kBulletMax;bi++) {
 			if (enemy.bullets[bi].isActive) {
 				if (Collision::BoxToBox(player.transform.position, player.width, player.height, enemy.bullets[bi].transform.position, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
@@ -173,7 +173,7 @@ void GameScene::CheckHitAll() {
 	for (int i = 0; i < player.kBulletMax; i++) {
 		if (player.bullets[i].isActive) {
 			if (Collision::BoxToBox(enemy.transform.position, enemy.radius, enemy.radius, player.bullets[i].transform.position, player.bullets[i].width, player.bullets[i].height)) {
-				enemy.TakeDamage(1);
+				enemy.TakeDamage(player.bullets[i].damage);
 				player.bullets[i].Deactive();
 			}
 		}

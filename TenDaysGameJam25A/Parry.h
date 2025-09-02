@@ -4,6 +4,7 @@
 #include "Vector2.h"
 #include "Collision.h"
 #include "Input.h"
+#include "Dlib.h"
 
 enum class ParryState { NONE, NORMAL, JUST };
 

@@ -7,7 +7,7 @@ void Player::Initialize() {
 	isAlive = true;
 	life = 3;
 	isHit = false;
-	isUpDamage = true;
+	isUpDamage = false;
 	invincibleTimer = 60;
 	speed = 5.0f;
 	parry.Initialize();
