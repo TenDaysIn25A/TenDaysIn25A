@@ -26,7 +26,7 @@ public:
 	/// <param name="fillMode"></param>
 	void DrawBox(const Transform2D& transform, float width, float height, float deltaAngle, unsigned int color, FillMode fillMode) const;
 
-	void DrawSprite(const Transform2D& transform, float width, float height, float deltaAngle, int textureHandle, unsigned int color) const;
+	void DrawSprite(const Transform2D& transform, float width, float height, float deltaAngle, int textureHandle = -1, unsigned int color = 0xFFFFFFFF) const;
 
 	void DrawQuad(
 	    const Transform2D& transform, const Vector2& leftTop, const Vector2& rightTop, const Vector2& leftBottom, const Vector2& rightBottom, float deltaAngle, unsigned int color,

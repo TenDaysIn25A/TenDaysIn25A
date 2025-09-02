@@ -9,6 +9,10 @@ void PlayerTest::Initialize() {
 	transform.position = {0.0f, 0.0f};
 	transform.rotation = 0.0f;
 	transform.scale = {1.0f, 1.0f};
+
+	for (int i = 0; i < kBulletsMaxCount; i++) {
+		bullets[i].Initialize();
+	}
 }
 	
 void PlayerTest::Update() { 
@@ -16,8 +20,16 @@ void PlayerTest::Update() {
 	effect.Update();
 
 	if (input.GetKeyTrigger(DIK_SPACE)) {
-		isAlive = !isAlive;
+		int mouseX;
+		int mouseY;
+		Novice::GetMousePosition(&mouseX, &mouseY);
 
+		for (int i = 0; i < kBulletsMaxCount; i++) {
+			if (!bullets[i].isActive) {
+				bullets[i].ShotPos(transform.position, {0.0f, 0.0f}, 0.0f);
+				break;
+			}
+		}
 	}
 	
 	// 死んでたら、ここで返る
@@ -25,6 +37,9 @@ void PlayerTest::Update() {
 		return;
 	}
 	
+	for (int i = 0; i < kBulletsMaxCount; i++) {
+		bullets[i].Update();
+	}
 	Move();
 	ClampInWindow2D();
 }
@@ -35,6 +50,10 @@ void PlayerTest::Draw() const {
 	// 死んでたら、ここで返る
 	if (!isAlive) {
 		return;
+	}
+
+	for (int i = 0; i < kBulletsMaxCount; i++) {
+		bullets[i].Draw();
 	}
 	
 	renderer.DrawEllipse(transform, {radius, radius}, {0.0f, 0.0f}, 0.0f, 0xFFFFFFFF, kFillModeSolid);

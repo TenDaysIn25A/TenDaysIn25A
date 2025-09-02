@@ -17,6 +17,7 @@ void SampleSceneDaichi::Update() {
 	deltaTime.Update();
 
 	samplePlayer.Update();
+	
 }
 
 void SampleSceneDaichi::Draw() const {

@@ -4,9 +4,12 @@ Bullet::Bullet() { Initialize(); }
 
 void Bullet::Initialize() {
 	speed = 10.0f;
+	width = 200.0f;
+	height = 100.0f;
 	direction = {0.0f, 0.0f};
 	isActive = false;
 	transform.position = {-1000.0f, -1000.0f};
+	grHandle = Novice::LoadTexture("./Resources/images/box.png");
 }
 
 void Bullet::Update() {
@@ -21,8 +24,8 @@ void Bullet::Draw() const {
 	if (!isActive) {
 		return;
 	}
-	
-}
+	renderer.DrawSprite(transform, width, height, 0.0f, grHandle, 0xFFFFFFFF);
+} 
 
 void Bullet::ShotPos(const Vector2& startPos, const Vector2& endPos, float spreadRotationDegree) {
 	isActive = true;

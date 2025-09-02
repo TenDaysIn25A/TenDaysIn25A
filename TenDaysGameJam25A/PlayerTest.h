@@ -3,6 +3,7 @@
 #include "Transform2D.h" // スケール 回転 平行移動を扱うライブラリ
 #include "Input.h" // inputを使えるようにするライブラリ
 #include "DrawEffects.h" // エフェクトを描画できるようにするライブラリ
+#include "Bullet.h"
 
 class PlayerTest {
 public:
@@ -72,6 +73,9 @@ public:
 	float speed;
 	Vector2 direction;
 	Vector2 velocity;
+
+	static constexpr int kBulletsMaxCount = 10;
+	Bullet bullets[kBulletsMaxCount];
 
 	float radius;
 

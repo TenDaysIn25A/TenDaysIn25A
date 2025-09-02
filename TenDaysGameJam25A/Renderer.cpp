@@ -5,6 +5,7 @@
 Renderer::Renderer() {
 	orthoMatrix_ = Matrix3x3::MakeOrthographicMatrix(-640.0f, 360.0f, 640.0f, -360.0f);
 	viewportMatrix_ = Matrix3x3::MakeViewportMatrix(0.0f, 0.0f, 1280.0f, 720.0f);
+	grHandleInit = Novice::LoadTexture("./Resources/images/box.png");
 	UpdateMatrices();
 }
 
@@ -73,7 +74,7 @@ void Renderer::DrawBox(const Transform2D& transform, float width, float height, 
 	}
 }
 
-void Renderer::DrawSprite(const Transform2D& transform, float width, float height, float deltaAngle, int textureHandle, unsigned int color = 0xFFFFFFFF) const {
+void Renderer::DrawSprite(const Transform2D& transform, float width, float height, float deltaAngle, int textureHandle, unsigned int color) const {
 
 	Transform2D t = transform;
 	t.rotation = transform.rotation + deltaAngle / 180.0f * static_cast<float>(M_PI);
@@ -99,22 +100,41 @@ void Renderer::DrawSprite(const Transform2D& transform, float width, float heigh
 	lb = WorldToScreen(lb);
 	rb = WorldToScreen(rb);
 
-	Novice::DrawQuad(
-		static_cast<int>(lb.x),
-		static_cast<int>(lb.y),
-		static_cast<int>(rb.x),
-		static_cast<int>(rb.y),
-	    static_cast<int>(lt.x), 
-		static_cast<int>(lt.y),
-		static_cast<int>(rt.x), 
-		static_cast<int>(rt.y),
-	    static_cast<int>(0), 
-		static_cast<int>(0), 
-		static_cast<int>(width),
-		static_cast<int>(height), 
-		textureHandle, 
-		color
-	);
+	if (textureHandle == -1) {
+		Novice::DrawQuad(
+			static_cast<int>(lb.x),
+			static_cast<int>(lb.y),
+			static_cast<int>(rb.x),
+			static_cast<int>(rb.y),
+		    static_cast<int>(lt.x), 
+			static_cast<int>(lt.y),
+			static_cast<int>(rt.x), 
+			static_cast<int>(rt.y),
+		    static_cast<int>(0), 
+			static_cast<int>(0), 
+			static_cast<int>(width),
+			static_cast<int>(height), 
+			textureHandle, 
+			color
+		);
+	} else {
+		Novice::DrawQuad(
+			static_cast<int>(lb.x),
+			static_cast<int>(lb.y),
+			static_cast<int>(rb.x),
+			static_cast<int>(rb.y),
+		    static_cast<int>(lt.x), 
+			static_cast<int>(lt.y),
+			static_cast<int>(rt.x), 
+			static_cast<int>(rt.y),
+		    static_cast<int>(0), 
+			static_cast<int>(0), 
+			static_cast<int>(width),
+			static_cast<int>(height), 
+			textureHandle, 
+			color
+		);
+	}
 }
 
 void Renderer::DrawQuad(
