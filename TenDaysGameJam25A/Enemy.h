@@ -109,10 +109,8 @@ public:
 	Vector2 velocity;
 
 	static constexpr int kBulletMax = 64;
-	static constexpr int kMachingunMax = 64;
 
 	Bullet bullets[kBulletMax];
-	Bullet machingun[kMachingunMax];
 	EnemyAttack attack;
 
 	int hp;

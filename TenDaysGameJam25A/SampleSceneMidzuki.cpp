@@ -47,36 +47,28 @@ void SampleSceneMidzuki::CheckHitAll() {
 			continue;
 		}
 
-		if (Collision::BoxToBox(player.parry.transform.position, player.parry.width, player.parry.height, { enemy.bullets[bi].transform.position.x,0.0f }, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
+		if (player.parry.isParry) {
+			if (Collision::BoxToBox(player.parry.transform.position, player.parry.width, player.parry.height, { enemy.bullets[bi].transform.position.x,0.0f }, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
 
-			player.parry.isParryAble = true;
+				float justArea = player.parry.transform.position.x - player.parry.kJustParryAbleGrace * enemy.bullets[bi].speed;
 
-			float justArea = player.parry.transform.position.x - player.parry.kJustParryAbleGrace * enemy.bullets[bi].speed;
+				if (enemy.bullets[bi].transform.position.x >= justArea) {
+					player.parry.parryState = ParryState::JUST;
+					player.parry.color = 0xFF0000FF;
+				} else {
+					player.parry.parryState = ParryState::NORMAL;
+					player.parry.color = 0xFFFF00FF;
+				}
 
-			if (enemy.bullets[bi].transform.position.x >= justArea) {
-				player.parry.isCanJust = true;
-			}
-
-			if (player.parry.parryState == ParryState::NORMAL) {
 				enemy.bullets[bi].Deactive();
 				enemy.bullets[bi].transform.position.x = -1000.0f;
 				enemy.bullets[bi].transform.position.y = -1000.0f;
 				break;
-			} else if (player.parry.parryState == ParryState::JUST) {
-				enemy.bullets[bi].Deactive();
-				enemy.bullets[bi].transform.position.x = -1000.0f;
-				enemy.bullets[bi].transform.position.y = -1000.0f;
-				break;
+
 			} else {
-				
+
 			}
-
-
-
-		} else {
-			player.parry.isParryAble = false;
 		}
-		
 	}
 
 
@@ -131,12 +123,16 @@ void SampleSceneMidzuki::Draw() const {
 
 	if (player.parry.parryState == ParryState::NONE) {
 		Novice::ScreenPrintf(0, 16, "NONE");
-	}else if (player.parry.parryState == ParryState::NORMAL) {
+	} else if (player.parry.parryState == ParryState::NORMAL) {
 		Novice::ScreenPrintf(0, 16, "NOMAL");
 	} else if (player.parry.parryState == ParryState::JUST) {
 		Novice::ScreenPrintf(0, 16, "JUST");
 	} else {
 		Novice::ScreenPrintf(0, 16, "else");
+	}
+
+	for (int i = 0;i < enemy.kBulletMax;i++) {
+		Novice::ScreenPrintf(0, 32 + i * 16, "%d", enemy.bullets[i].isActive);
 	}
 }
 

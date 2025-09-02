@@ -6,8 +6,8 @@ void Enemy::Initialize() {
 	speed = 10.0f;
 	radius = 64.0f;
 	isAlive = true;
-	hp = 150;
-	maxHp = 150;
+	hp = 45;
+	maxHp = 45;
 	shotTimer = 0;
 	shotCounter = 0;
 	transform.position = { -500.0f, 0.0f };
@@ -21,11 +21,6 @@ void Enemy::Initialize() {
 		bullets[i].height = 160.0f;
 	}
 
-	for (int i = 0; i < kMachingunMax; i++) {
-		machingun[i].Initialize();
-		machingun[i].width = 80.0f;
-		machingun[i].height = 120.0f;
-	}
 
 }
 
@@ -43,10 +38,6 @@ void Enemy::Update() {
 		bullets[i].Update();
 	}
 
-	for (int i = 0; i < kMachingunMax; i++) {
-		machingun[i].Update();
-	}
-
 
 }
 
@@ -60,13 +51,7 @@ void Enemy::Draw() const {
 		bullets[i].Draw();
 	}
 
-	for (int i = 0; i < kMachingunMax; i++) {
-		machingun[i].Draw();
-	}
-
 	renderer.DrawEllipse(transform, { radius,radius }, { 0.0f, 0.0f }, 0.0f, 0xFFAAAAFF, kFillModeSolid);
-
-	Novice::ScreenPrintf(0, 0, "%d/%d", hp, maxHp);
 }
 
 void Enemy::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
@@ -85,10 +70,6 @@ void Enemy::Shot() {
 			if (shotCounter >= 8) {
 				shotCounter = 0;
 				int randomAttack = Random::RandomInt(1, 3);
-
-				for (int i = 0; i < kMachingunMax; i++) {
-					machingun[i].Deactive();
-				}
 
 				if (randomAttack == 1) {
 					attack = EnemyAttack::MACHINGUN;
@@ -109,9 +90,6 @@ void Enemy::Shot() {
 
 			if (shotCounter >= 16) {
 				shotCounter = 0;
-				for (int i = 0; i < kBulletMax; i++) {
-					bullets[i].Deactive();
-				}
 
 				attack = EnemyAttack::WALL;
 
@@ -127,9 +105,6 @@ void Enemy::Shot() {
 
 			if (shotCounter >= 60) {
 				shotCounter = 0;
-				for (int i = 0; i < kBulletMax; i++) {
-					bullets[i].Deactive();
-				}
 
 				attack = EnemyAttack::WALL;
 			} else {
@@ -212,10 +187,10 @@ void Enemy::AttackWall() {
 void Enemy::AttackMachingun() {
 	int randomPosition = Random::RandomInt(0, 3);
 
-	for (int i = 0; i < kMachingunMax; i++) {
-		if (!machingun[i].isActive) {
-			machingun[i].height = 120.0f;
-			machingun[i].ShotDir({ transform.position.x, -180.0f + (120.0f * static_cast<float>(randomPosition)) }, { 1.0f, 0.0f }, 0.0f);
+	for (int i = 0; i < kBulletMax; i++) {
+		if (!bullets[i].isActive) {
+			bullets[i].height = 120.0f;
+			bullets[i].ShotDir({ transform.position.x, -180.0f + (120.0f * static_cast<float>(randomPosition)) }, { 1.0f, 0.0f }, 0.0f);
 			break;
 		}
 	}
@@ -224,36 +199,36 @@ void Enemy::AttackMachingun() {
 
 void Enemy::AttackTunnel() {
 	if (shotCounter % 2 == 0) {
-		for (int i = 0; i < kMachingunMax; i++) {
-			if (!machingun[i].isActive) {
-				machingun[i].height = 120.0f;
-				machingun[i].ShotDir({ transform.position.x, 180.0f }, { 1.0f, 0.0f }, 0.0f);
+		for (int i = 0; i < kBulletMax; i++) {
+			if (!bullets[i].isActive) {
+				bullets[i].height = 120.0f;
+				bullets[i].ShotDir({ transform.position.x, 180.0f }, { 1.0f, 0.0f }, 0.0f);
 				break;
 			}
 		}
 	} else {
-		for (int i = 0; i < kMachingunMax; i++) {
-			if (!machingun[i].isActive) {
-				machingun[i].height = 120.0f;
-				machingun[i].ShotDir({ transform.position.x, -180.0f }, { 1.0f, 0.0f }, 0.0f);
+		for (int i = 0; i < kBulletMax; i++) {
+			if (!bullets[i].isActive) {
+				bullets[i].height = 120.0f;
+				bullets[i].ShotDir({ transform.position.x, -180.0f }, { 1.0f, 0.0f }, 0.0f);
 				break;
 			}
 		}
 	}
 
 	if (shotCounter % 16 == 15) {
-		for (int i = 0; i < kMachingunMax; i++) {
-			if (!machingun[i].isActive) {
-				machingun[i].height = 120.0f;
-				machingun[i].ShotDir({ transform.position.x, 60.0f }, { 1.0f, 0.0f }, 0.0f);
+		for (int i = 0; i < kBulletMax; i++) {
+			if (!bullets[i].isActive) {
+				bullets[i].height = 120.0f;
+				bullets[i].ShotDir({ transform.position.x, 60.0f }, { 1.0f, 0.0f }, 0.0f);
 				break;
 			}
 		}
 	} else if (shotCounter % 16 == 7) {
-		for (int i = 0; i < kMachingunMax; i++) {
-			if (!machingun[i].isActive) {
-				machingun[i].height = 120.0f;
-				machingun[i].ShotDir({ transform.position.x, -60.0f }, { 1.0f, 0.0f }, 0.0f);
+		for (int i = 0; i < kBulletMax; i++) {
+			if (!bullets[i].isActive) {
+				bullets[i].height = 120.0f;
+				bullets[i].ShotDir({ transform.position.x, -60.0f }, { 1.0f, 0.0f }, 0.0f);
 				break;
 			}
 		}

@@ -4,7 +4,7 @@
 
 
 enum class EnemyAttack{
-	WALL, MACHINGUN,
+	WALL, MACHINGUN,TUNNEL,ALL_WALL,
 };
 
 class Enemy {
@@ -77,6 +77,16 @@ public:
 	/// アタックマシンガンの攻撃パターン
 	/// </summary>
 	void AttackMachingun();
+
+	/// <summary>
+	/// アタック連打の攻撃パターン
+	/// </summary>
+	void AttackTunnel();
+
+	/// <summary>
+	/// アタックオールウォールの攻撃パターン
+	/// </summary>
+	void AttackAllWall();
 
 
 	// ----------------------------------------------

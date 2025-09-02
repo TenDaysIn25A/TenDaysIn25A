@@ -15,50 +15,63 @@ void Parry::Update() {
 
 	parryState = ParryState::NONE;
 
-	if (!isParryAble) {
-		parryState = ParryState::NONE;
-
-		color = 0xFFFF00FF;
-		fillMode = kFillModeWireFrame;
-
-		canJustTimer = 0;
-
-		return;
+	if (input.GetKeyTrigger(DIK_SPACE)) {
+		isParry = true;
+	} else {
+		isParry = false;
 	}
 
-	if (isCanJust) {
-
-		canJustTimer++;
-
-		if (input.GetKeyTrigger(DIK_SPACE)) {
-
-			// ジャストパリィ判定
-			if (canJustTimer < kJustParryAbleGrace) {
-				parryState = ParryState::JUST;
-				color = 0xFF0000FF;
-			}
-		}
-
-		if (canJustTimer >= kJustParryAbleGrace) {
-			isCanJust = false;
-			parryState = ParryState::NONE;
-		}
-
-	} else {
-
-		// ノーマルパリィ判定
-		if (input.GetKeyTrigger(DIK_SPACE)) {
-			parryState = ParryState::NORMAL;
-		}
-		
-	}
-
-	if (parryState == ParryState::NONE) {
-		color = 0xFFFF00FF;
-		fillMode = kFillModeWireFrame;
-	} else {
+	if (isParry) {
 		fillMode = kFillModeSolid;
+	} else {
+		fillMode = kFillModeWireFrame;
+		color = 0xFFFF00FF;
 	}
+
+	//if (!isParryAble) {
+	//	parryState = ParryState::NONE;
+
+	//	color = 0xFFFF00FF;
+	//	fillMode = kFillModeWireFrame;
+
+	//	canJustTimer = 0;
+
+	//	return;
+	//}
+
+	//if (isCanJust) {
+
+	//	canJustTimer++;
+
+	//	if (input.GetKeyTrigger(DIK_SPACE)) {
+
+	//		// ジャストパリィ判定
+	//		if (canJustTimer < kJustParryAbleGrace) {
+	//			parryState = ParryState::JUST;
+	//			color = 0xFF0000FF;
+	//		}
+	//	}
+
+	//	if (canJustTimer >= kJustParryAbleGrace) {
+	//		isCanJust = false;
+	//		parryState = ParryState::NONE;
+	//	}
+
+	//} else {
+
+	//	// ノーマルパリィ判定
+	//	if (input.GetKeyTrigger(DIK_SPACE)) {
+	//		parryState = ParryState::NORMAL;
+	//	}
+	//	
+	//}
+
+	//if (parryState == ParryState::NONE) {
+	//	color = 0xFFFF00FF;
+	//	fillMode = kFillModeWireFrame;
+	//} else {
+	//	fillMode = kFillModeSolid;
+	//}
 }
 
 void Parry::Draw() const {
