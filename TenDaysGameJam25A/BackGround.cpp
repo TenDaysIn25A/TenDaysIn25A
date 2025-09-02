@@ -11,7 +11,7 @@ void BackGround::Initialize() {
 	isChanging = false;
 	tweenStep = 0;
 	t = 0.0f;
-	duration = 0.25f;
+	duration = 0.15f;
 }
 
 void BackGround::Update() {
@@ -45,8 +45,8 @@ void BackGround::Update() {
 		if (t > 1.0f) t = 1.0f;
 
 		if (tweenStep == 0) {
-			underBGPos.y = startUnder.y + (midUnder.y - startUnder.y) * Tweening::Easing(t, EASE_INOUT_QUAD);
-			topBGPos.y   = startTop.y + (midTop.y - startTop.y) * Tweening::Easing(t, EASE_INOUT_QUAD);
+			underBGPos.y = startUnder.y + (midUnder.y - startUnder.y) * Tweening::Easing(t, EASE_OUT_QUAD);
+			topBGPos.y   = startTop.y + (midTop.y - startTop.y) * Tweening::Easing(t, EASE_OUT_QUAD);
 
 			if (t >= 1.0f) {
 				tweenStep = 1;
@@ -56,8 +56,8 @@ void BackGround::Update() {
 			}
 
 		} else if (tweenStep == 1) {
-			underBGPos.y = startUnder.y + (endUnder.y - startUnder.y) * Tweening::Easing(t, EASE_INOUT_QUAD);
-			topBGPos.y   = startTop.y + (endTop.y - startTop.y) * Tweening::Easing(t, EASE_INOUT_QUAD);
+			underBGPos.y = startUnder.y + (endUnder.y - startUnder.y) * Tweening::Easing(t, EASE_OUT_QUAD);
+			topBGPos.y   = startTop.y + (endTop.y - startTop.y) * Tweening::Easing(t, EASE_OUT_QUAD);
 
 			if (t >= 1.0f) {
 				underBGPos = endUnder;
