@@ -10,9 +10,12 @@ void Bullet::Initialize() {
 	isActive = false;
 	transform.position = {-1000.0f, -1000.0f};
 	grHandle = Novice::LoadTexture("./Resources/images/box.png");
+	effect.SetScale(2.0f);
 }
 
 void Bullet::Update() {
+	effect.Update();
+
 	if (!isActive) {
 		return;
 	}
@@ -20,9 +23,12 @@ void Bullet::Update() {
 	oneDimTransform.position = {transform.position.x, 0.0f};
 
 	Move();
+	DeactiveOutOfWindow();
 }
 
 void Bullet::Draw() const {
+	effect.Draw();
+
 	if (!isActive) {
 		return;
 	}
@@ -33,6 +39,7 @@ void Bullet::Draw() const {
 	if (currentDimension == DimensionState::ONE) {
 		renderer.DrawSprite(oneDimTransform, width, 80.0f, 0.0f, grHandle, 0xFFFFFFFF);
 	} 
+
 } 
 
 void Bullet::ShotPos(const Vector2& startPos, const Vector2& endPos, float spreadRotationDegree) {
@@ -84,9 +91,27 @@ void Bullet::ShotDir(const Vector2& startPos, const Vector2& dir, float spreadRo
 
 void Bullet::Deactive() {
 	isActive = false;
-	effect.StartExplosion(transform.position, 200.0f, 0.3f, renderer.GetCamera(), EASE_OUT_QUAD);
+	effect.StartExplosion(transform.position, 500.0f, 0.7f, renderer.GetCamera(), EASE_OUT_QUAD);
 }
 
 void Bullet::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
+
+void Bullet::DeactiveOutOfWindow() {
+	if (transform.position.x >= 640.0f + width) {
+		Deactive();
+	}
+	
+	if (transform.position.x <= -(640.0f + width)) {
+		Deactive();
+	}
+	
+	if (transform.position.y >= 360.0f + height) {
+		Deactive();
+	}
+	
+	if (transform.position.y <= -(360.0f + height)) {
+		Deactive();
+	}
+}
 
 void Bullet::Move() { transform.Translate(velocity); }

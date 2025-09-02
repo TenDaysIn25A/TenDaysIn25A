@@ -13,6 +13,8 @@ void Parry::Update() {
 
 	input.Update();
 
+	parryState = ParryState::NONE;
+
 	if (!isParryAble) {
 		parryState = ParryState::NONE;
 

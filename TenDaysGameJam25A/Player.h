@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "Dlib.h"
 #include "Parry.h"
+#include"Bullet.h"
 
 class Player {
 public:
@@ -78,7 +79,13 @@ public:
 
 	float width;
 	float height;
-	
+
+	static constexpr int kBulletMax = 64;
+
+	int shotTimer;
+	int isShot[kBulletMax];
+	const int kShotCoolTime = 30;
+
 	// ステータス
 	// ----------------------------------------------
 	int life;
@@ -86,12 +93,14 @@ public:
 
 	bool isHit;
 	bool isAlive;
-	
+
 	// 包含オブジェクト
 	// ----------------------------------------------
 	Parry parry;
-	
+	Bullet bullets[kBulletMax];
+
 	// 描画
 	// ----------------------------------------------
 	int grHandleCaracter;
+
 };

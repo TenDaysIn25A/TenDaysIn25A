@@ -16,6 +16,8 @@ public:
 
 	void SetCamera(const Transform2D& camera);
 
+	void DeactiveOutOfWindow();
+
 private:
 	void Move();
 

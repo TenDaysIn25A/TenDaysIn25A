@@ -56,6 +56,8 @@ public:
 	/// </summary>
 	void ClampInWindow1D();
 
+	void Destroy();
+
 	// ----------------------------------------------
 	// メンバ変数
 	// ----------------------------------------------
@@ -68,7 +70,6 @@ public:
 
 	// プレイヤープロパティ
 	// ----------------------------------------------
-
 	Transform2D transform;
 
 	float speed;
@@ -77,9 +78,20 @@ public:
 
 	float width;
 	float height;
-	int grHandleCaracter;
+	
+	// ステータス
+	// ----------------------------------------------
+	int life;
+	int invincibleTimer;
 
+	bool isHit;
 	bool isAlive;
-
+	
+	// 包含オブジェクト
+	// ----------------------------------------------
 	Parry parry;
+	
+	// 描画
+	// ----------------------------------------------
+	int grHandleCaracter;
 };

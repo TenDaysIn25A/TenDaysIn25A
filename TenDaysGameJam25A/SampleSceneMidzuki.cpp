@@ -39,11 +39,50 @@ void SampleSceneMidzuki::Update() {
 	CheckHitAll();
 }
 
-void SampleSceneMidzuki::CheckHitAll(){
+void SampleSceneMidzuki::CheckHitAll() {
 
 	for (int bi = 0;bi < enemy.kBulletMax;bi++) {
 
- 		if (enemy.bullets[bi].isActive) {
+		if (!enemy.bullets[bi].isActive) {
+			continue;
+		}
+
+		if (Collision::BoxToBox(player.parry.transform.position, player.parry.width, player.parry.height, { enemy.bullets[bi].transform.position.x,0.0f }, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
+
+			player.parry.isParryAble = true;
+
+			float justArea = player.parry.transform.position.x - player.parry.kJustParryAbleGrace * enemy.bullets[bi].speed;
+
+			if (enemy.bullets[bi].transform.position.x >= justArea) {
+				player.parry.isCanJust = true;
+			}
+
+			if (player.parry.parryState == ParryState::NORMAL) {
+				enemy.bullets[bi].Deactive();
+				enemy.bullets[bi].transform.position.x = -1000.0f;
+				enemy.bullets[bi].transform.position.y = -1000.0f;
+				break;
+			} else if (player.parry.parryState == ParryState::JUST) {
+				enemy.bullets[bi].Deactive();
+				enemy.bullets[bi].transform.position.x = -1000.0f;
+				enemy.bullets[bi].transform.position.y = -1000.0f;
+				break;
+			} else {
+				
+			}
+
+
+
+		} else {
+			player.parry.isParryAble = false;
+		}
+		
+	}
+
+
+	for (int bi = 0;bi < enemy.kBulletMax;bi++) {
+
+		if (enemy.bullets[bi].isActive) {
 
 			if (Collision::BoxToBox(player.transform.position, player.width, player.height, { enemy.bullets[bi].transform.position.x,0.0f }, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
 
@@ -62,34 +101,9 @@ void SampleSceneMidzuki::CheckHitAll(){
 			} else {
 				player.isHit = false;
 			}
-
-			if (Collision::BoxToBox(player.parry.transform.position, player.parry.width, player.parry.height, {enemy.bullets[bi].transform.position.x,0.0f}, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
-				
-				player.parry.isParryAble = true;
-
-				float justArea = player.parry.transform.position.x - player.parry.kJustParryAbleGrace * enemy.bullets[bi].speed;
-
-				if (enemy.bullets[bi].transform.position.x >= justArea) {
-					player.parry.isCanJust = true;
-				}
-
-				if (player.parry.parryState == ParryState::NORMAL) {
-					enemy.bullets[bi].isActive = false;
-					break;
-				} else if (player.parry.parryState == ParryState::JUST) {
-					enemy.bullets[bi].isActive = false;
-					break;
-				}
-
-				break;
-
-			} else {
-				player.parry.isParryAble = false;
-			}
 		}
- 	}
+	}
 }
-
 
 void SampleSceneMidzuki::Draw() const {
 	// ここで各描画を行う。
@@ -97,7 +111,7 @@ void SampleSceneMidzuki::Draw() const {
 	// 一次元の背景_黒
 	Novice::DrawBox(
 		0, 320,
-		1280,80,
+		1280, 80,
 		0.0f,
 		0x000000FF,
 		kFillModeSolid
@@ -112,6 +126,18 @@ void SampleSceneMidzuki::Draw() const {
 	// プレイヤーの描画
 	player.Draw();
 
+
+	Novice::ScreenPrintf(0, 0, "parryable%d", player.parry.isParryAble);
+
+	if (player.parry.parryState == ParryState::NONE) {
+		Novice::ScreenPrintf(0, 16, "NONE");
+	}else if (player.parry.parryState == ParryState::NORMAL) {
+		Novice::ScreenPrintf(0, 16, "NOMAL");
+	} else if (player.parry.parryState == ParryState::JUST) {
+		Novice::ScreenPrintf(0, 16, "JUST");
+	} else {
+		Novice::ScreenPrintf(0, 16, "else");
+	}
 }
 
 void SampleSceneMidzuki::SetCamera() {

@@ -6,6 +6,7 @@ Parry::Parry() { Initialize(); }
 void Parry::Initialize() {
 	color = 0xFFFF00FF;
 	parryState = ParryState::NONE;
+	
 }
 
 void Parry::Update() {

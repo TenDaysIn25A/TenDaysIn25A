@@ -45,7 +45,7 @@ public:
 	// 定数
 	//------------------------------
 	static constexpr int kNomalParryAbleGrace = 8;
-	static constexpr int kJustParryAbleGrace = 4;
+	static constexpr int kJustParryAbleGrace = 3;
 
 	int canJustTimer;
 	unsigned int color;
