@@ -73,7 +73,7 @@ void Renderer::DrawBox(const Transform2D& transform, float width, float height, 
 	}
 }
 
-void Renderer::DrawSprite(const Transform2D& transform, float width, float height, float deltaAngle, int textureHandle, unsigned int color) const {
+void Renderer::DrawSprite(const Transform2D& transform, float width, float height, float deltaAngle, int textureHandle, unsigned int color = 0xFFFFFFFF) const {
 
 	Transform2D t = transform;
 	t.rotation = transform.rotation + deltaAngle / 180.0f * static_cast<float>(M_PI);

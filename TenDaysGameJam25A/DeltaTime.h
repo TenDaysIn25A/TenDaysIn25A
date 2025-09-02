@@ -2,8 +2,8 @@
 #include <windows.h>
 
 // 参考資料:
-// https://learn.microsoft.com/en-us/windows/win32/sysinfo/acquiring-high-resolution-time-stamps?utm_source=chatgpt.com
-// https://learn.microsoft.com/en-us/windows/win32/dxtecharts/game-timing-and-multicore-processors?utm_source=chatgpt.com
+// https://learn.microsoft.com/en-us/windows/win32/sysinfo/acquiring-high-resolution-time-stamps
+// https://learn.microsoft.com/en-us/windows/win32/dxtecharts/game-timing-and-multicore-processors
 
 
 class DeltaTime {

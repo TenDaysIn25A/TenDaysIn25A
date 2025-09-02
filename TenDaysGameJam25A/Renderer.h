@@ -56,12 +56,13 @@ public:
 
 	void DrawEllipse(const Transform2D& transform, const Vector2& radius, const Vector2& deltaPosition, float deltaAngle, unsigned int color, FillMode fillMode) const;
 
-
 private:
 	Transform2D camera_;
 	Matrix3x3 viewMatrix_;
 	Matrix3x3 orthoMatrix_;
 	Matrix3x3 viewportMatrix_;
+
+	int grHandleInit;
 
 	Vector2 WorldToScreen(const Vector2& worldPos) const;
 };

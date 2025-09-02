@@ -77,6 +77,9 @@
     <Filter Include="Sources\System\DeltaTime">
       <UniqueIdentifier>{a14e675f-28c2-460c-8668-7cdc7d20198a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Objects\Bullet">
+      <UniqueIdentifier>{cbfa73d7-c1bf-44c5-b1bb-4c30a8538931}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
@@ -147,6 +150,9 @@
     </ClCompile>
     <ClCompile Include="DeltaTime.cpp">
       <Filter>Sources\System\DeltaTime</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Sources\Objects\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -302,6 +308,9 @@
     </ClInclude>
     <ClInclude Include="DeltaTime.h">
       <Filter>Sources\System\DeltaTime</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Sources\Objects\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
