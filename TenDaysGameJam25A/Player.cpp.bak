@@ -14,11 +14,13 @@ void Player::Initialize() {
 	width = 80.0f;
 	height = 80.0f;
 
-	parry.transform.position.x = transform.position.x -width;
+	parry.transform.position.x = transform.position.x - width;
 	parry.transform.position.y = transform.position.y;
 	parry.width = width;
 	parry.height = height;
 	parry.parryState = ParryState::NONE;
+	parry.isParryAble = false;
+	parry.isCanJust = false;
 	grHandleCaracter = Novice::LoadTexture("./Resources/images/box.png");
 
 }
@@ -59,7 +61,7 @@ void Player::Update() {
 
 void Player::Draw() const {
 	parry.Draw();
-	renderer.DrawSprite(transform, width, height, 0.0f,grHandleCaracter,0xFFFFFFFF); 
+	renderer.DrawSprite(transform, width, height, 0.0f,grHandleCaracter,0x2222FFFF); 
 }
 
 void Player::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }

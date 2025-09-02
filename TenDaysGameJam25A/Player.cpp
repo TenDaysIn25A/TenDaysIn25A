@@ -55,6 +55,8 @@ void Player::Update() {
 
 	} else {
 		Move();
+
+		ClampInWindow2D();
 	}
 	
 }
@@ -68,6 +70,7 @@ void Player::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); 
 
 void Player::Move() {
 	velocity = {0.0f, 0.0f};
+	direction = {0.0f, 0.0f};
 	
 	if (input.GetKey(DIK_W)) {
 		direction.y = 1.0f;
@@ -76,12 +79,19 @@ void Player::Move() {
 	if (input.GetKey(DIK_S)) {
 		direction.y = -1.0f;
 	}
+
 	velocity = Vector2::Normalize(direction) * speed;
 	transform.Translate(velocity);
 }
 
 void Player::ClampInWindow2D() {
-	
+	if (transform.position.y >= 200.0f ) {
+		transform.position.y = 200.0f ;
+	}
+
+	if (transform.position.y <= -200.0f) {
+		transform.position.y = -200.0f;
+	}
 }
 
 void Player::ClampInWindow1D() { 

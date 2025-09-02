@@ -13,11 +13,13 @@ void Enemy::Initialize() {
 	transform.rotation = 0.0f;
 	transform.scale = { 1.0f, 1.0f };
 	attack = EnemyAttack::WALL;
+
 	for (int i = 0; i < kBulletMax; i++) {
 		bullets[i].Initialize();
-		bullets[i].width = 80;
-		bullets[i].height = 160;
+		bullets[i].width = 80.0f;
+		bullets[i].height = 160.0f;
 	}
+
 }
 
 void Enemy::Update() {
@@ -80,13 +82,11 @@ void Enemy::TakeDamage(int damage) {
 		return;
 	}
 
-
 	hp -= damage;
 
-	if (hp <= 0) {
+	if (hp <= 0) { 
 		Destory();
 	}
-
 }
 
 void Enemy::Destory() {
@@ -98,11 +98,20 @@ void Enemy::AttackWall() {
 
 	for (int i = 0; i < kBulletMax; i++) {
 		if (!bullets[i].isActive) {
-			bullets[i].height = 160;
+			bullets[i].height = 160.0f;
 			bullets[i].ShotDir({transform.position.x, 0 + (160.0f * static_cast<float>(randomPosition))}, {1.0f, 0.0f}, 0.0f);
 			break;
 		}
 	}
 }
 
-void Enemy::AttackMachingun() {}
+void Enemy::AttackMachingun() {
+	for (int i = 0; i < kMachingunMax; i++) {
+		if (!bullets[i].isActive) {
+			bullets[i].height = 80.0f;
+			bullets[i].ShotDir({transform.position.x, 320.0f}, {1.0f, 0.0f}, 0.0f);
+			bullets[i].ShotDir({transform.position.x, -320.0f}, {1.0f, 0.0f}, 0.0f);
+			break;
+		}
+	}
+}
