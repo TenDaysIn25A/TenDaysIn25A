@@ -8,32 +8,22 @@ void Parry::Initialize() {
 	parryState = ParryState::NONE;
 }
 
-void Parry::Update(float noteX, float noteWidth, float noteHeight, float noteSpeed, Vector2 parryPos, float parryWidth, float parryHeight) {
+void Parry::Update() {
 
 	input.Update();
-
-	// プレイヤーがノーツに触れたときパリィ可能
-	if (Collision::BoxToBox(parryPos, parryWidth, parryHeight, { noteX,parryPos.y }, noteWidth, noteHeight)) {
-		isParryAble = true;
-	} else {
-		isParryAble = false;
-	}
-
-
-
 
 	if (!isParryAble) {
 		parryState = ParryState::NONE;
 
 		color = 0xFFFF00FF;
-		kFillMode = kFillModeWireFrame;
+		fillMode = kFillModeWireFrame;
 
 		canJustTimer = 0;
 
 		return;
 	}
 
-	if (noteX >= parryPos.x - kJustParryAbleGrace * noteSpeed) {
+	if (isCanJust) {
 
 		canJustTimer++;
 
@@ -46,37 +36,31 @@ void Parry::Update(float noteX, float noteWidth, float noteHeight, float noteSpe
 			}
 		}
 
+		if (canJustTimer >= kJustParryAbleGrace) {
+			isCanJust = false;
+			parryState = ParryState::NONE;
+		}
+
 	} else {
 
 		// ノーマルパリィ判定
 		if (input.GetKeyTrigger(DIK_SPACE)) {
 			parryState = ParryState::NORMAL;
 		}
-	}
-
-	if (canJustTimer >= kJustParryAbleGrace) {
-		parryState = ParryState::NONE;
+		
 	}
 
 	if (parryState == ParryState::NONE) {
 		color = 0xFFFF00FF;
-		kFillMode = kFillModeWireFrame;
+		fillMode = kFillModeWireFrame;
 	} else {
-		kFillMode = kFillModeSolid;
+		fillMode = kFillModeSolid;
 	}
-
-
 }
 
 void Parry::Draw() const {
 	// パリィ可能範囲
-	Novice::DrawBox(
-		static_cast<int>(transform.position.x - width / 2.0f),
-		static_cast<int>(transform.position.y - height / 2.0f),
-		static_cast<int>(width),
-		static_cast<int>(height),
-		0.0f,
-		color,
-		kFillMode
-	);
+	renderer.DrawBox(transform, width, height, 0.0f, color, fillMode);
 }
+
+void Parry::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }

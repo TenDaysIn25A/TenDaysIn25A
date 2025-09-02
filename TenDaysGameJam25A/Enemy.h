@@ -2,6 +2,11 @@
 #include "Dlib.h"
 #include "Bullet.h"
 
+
+enum class EnemyAttack{
+	WALL, MACHINGUN,
+};
+
 class Enemy {
 public:	
 	// ----------------------------------------------
@@ -51,11 +56,6 @@ public:
 	void Shot();
 
 	/// <summary>
-	/// 特殊なパターンのノーツを発射する
-	/// </summary>
-	void SpecialAttack();
-
-	/// <summary>
 	/// 敵にダメージを与える
 	/// </summary>
 	void TakeDamage(int damage);
@@ -67,7 +67,15 @@ public:
 
 	// 機能
 	// ----------------------------------------------
+
+	/// <summary>
+	/// アタックウォールの攻撃パターン
+	/// </summary>
 	void AttackWall();
+
+	/// <summary>
+	/// アタックマシンガンの攻撃パターン
+	/// </summary>
 	void AttackMachingun();
 
 
@@ -93,11 +101,7 @@ public:
 	static constexpr int kBulletMax = 64;
 
 	Bullet bullets[kBulletMax];
-
-	enum EnemyAttack {
-		ATTACK_WALL,
-		ATTACK_MACHINGUN,
-	};
+	EnemyAttack attack;
 
 	int hp;
 	int maxHp;

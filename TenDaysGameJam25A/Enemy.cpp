@@ -12,7 +12,7 @@ void Enemy::Initialize() {
 	transform.position = { -500.0f, 0.0f };
 	transform.rotation = 0.0f;
 	transform.scale = { 1.0f, 1.0f };
-
+	attack = EnemyAttack::WALL;
 	for (int i = 0; i < kBulletMax; i++) {
 		bullets[i].Initialize();
 		bullets[i].width = 80;
@@ -29,7 +29,7 @@ void Enemy::Update() {
 	}
 
 	if (shotTimer >= 60) {
-		Shot();
+		AttackWall();
 		shotTimer = 0;
 	}
 
@@ -62,19 +62,18 @@ void Enemy::Move() {
 }
 
 void Enemy::Shot() {
-	int randomPosition = Random::RandomInt(-1,1);
-
-	for (int i = 0; i < kBulletMax; i++) {
-		if (!bullets[i].isActive) {
-			bullets[i].height = 160;
-			bullets[i].ShotDir({transform.position.x, 0 + (160.0f * static_cast<float>(randomPosition)) }, { 1.0f,0.0f }, 0.0f);
-			break;
-		}
+	switch (attack) {
+	case EnemyAttack::WALL:
+		AttackWall();
+		break;
+	case EnemyAttack::MACHINGUN:
+		AttackMachingun();
+		break;
+	default:
+		break;
 	}
 }
 
-void Enemy::SpecialAttack(){
-}
 
 void Enemy::TakeDamage(int damage) {
 	if (!isAlive) {
@@ -91,5 +90,19 @@ void Enemy::TakeDamage(int damage) {
 }
 
 void Enemy::Destory() {
-	isAlive = false;
+	isAlive = false; 
 }
+
+void Enemy::AttackWall() {
+	int randomPosition = Random::RandomInt(-1, 1);
+
+	for (int i = 0; i < kBulletMax; i++) {
+		if (!bullets[i].isActive) {
+			bullets[i].height = 160;
+			bullets[i].ShotDir({transform.position.x, 0 + (160.0f * static_cast<float>(randomPosition))}, {1.0f, 0.0f}, 0.0f);
+			break;
+		}
+	}
+}
+
+void Enemy::AttackMachingun() {}
