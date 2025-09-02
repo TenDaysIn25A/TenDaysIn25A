@@ -2,12 +2,12 @@
 #include "Dlib.h"
 
 class Enemy {
-
+public:	
 	// ----------------------------------------------
 	// メンバ関数
 	// ----------------------------------------------
 
-	Enemy(); 
+	Enemy();
 
 	// 根幹
 	// ----------------------------------------------
@@ -40,9 +40,24 @@ class Enemy {
 	// ----------------------------------------------
 
 	/// <summary>
+	/// 移動
+	/// </summary>
+	void Move();
+
+	/// <summary>
 	/// 壁/ノーツを発射する
 	/// </summary>
 	void Shot();
+
+	/// <summary>
+	/// 敵にダメージを与える
+	/// </summary>
+	void TakeDamage(int damage);
+
+	/// <summary>
+	/// 敵を倒す
+	/// </summary>
+	void Destory();
 
 	// ----------------------------------------------
 	// メンバ変数
@@ -53,6 +68,7 @@ class Enemy {
 	Renderer renderer;  // 描画ライブラリをこれで使えるようにしてください。
 	Input input;        // 入力ライブラリをこれで使えるようにしてください。
 	DrawEffects effect; // エフェクト描画ライブラリをこれで使えるようにしてください。
+	Collision collision; // 当たり判定ライブラリをこれで使えるようにしてください。
 
 	// プレイヤープロパティ
 	// ----------------------------------------------
@@ -62,6 +78,9 @@ class Enemy {
 	float speed;
 	Vector2 direction;
 	Vector2 velocity;
+
+	int hp;
+	int maxHp;
 
 	float radius;
 

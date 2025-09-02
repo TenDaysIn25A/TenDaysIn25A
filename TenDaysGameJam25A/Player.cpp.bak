@@ -6,6 +6,18 @@ void Player::Initialize() {
 	transform.position = {300.0f,0.0f};
 	isAlive = true;
 	speed = 5.0f;
+	parry.Initialize();
+
+	transform.position.x = 800.0f;
+	transform.position.y = 360.0f;
+	width = 80.0f;
+	height = 80.0f;
+
+	parry.transform.position.x = transform.position.x -width;
+	parry.transform.position.y = transform.position.y;
+	parry.width = width;
+	parry.height = height;
+	parry.parryState = ParryState::NONE;
 }
 
 void Player::Update() { 
@@ -13,7 +25,9 @@ void Player::Update() {
 
 
 	if (currentDimension == DimensionState::ONE) {
-		
+
+		parry.Update();
+
 	} else {
 		Move();
 	}

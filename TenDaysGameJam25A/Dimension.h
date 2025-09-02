@@ -2,4 +2,4 @@
 
 enum class DimensionState { ONE, TWO };
 
-static DimensionState currentDimension;
+inline DimensionState currentDimension;

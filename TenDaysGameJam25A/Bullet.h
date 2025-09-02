@@ -32,6 +32,8 @@ public:
 	float width;
 	float height;
 
+	Transform2D oneDimTransform;
+
 	// 描画プロパティ
 	Renderer renderer;
 	DrawEffects effect;

@@ -39,6 +39,7 @@ public:
 	// メンバ変数
 	// ----------------------------------------------
 
+	Input input;
 	DeltaTime deltaTime;
 	Transform2D camera;
 	PlayerTest samplePlayer;

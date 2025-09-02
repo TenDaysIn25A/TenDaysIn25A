@@ -77,8 +77,11 @@ public:
 
 	float width;
 	float height;
+	int life;
+	int invincibleTimer;
 	int grHandleCaracter;
 
+	bool isHit;
 	bool isAlive;
 
 	Parry parry;

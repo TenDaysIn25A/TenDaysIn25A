@@ -4,7 +4,7 @@ Bullet::Bullet() { Initialize(); }
 
 void Bullet::Initialize() {
 	speed = 10.0f;
-	width = 200.0f;
+	width = 80.0f;
 	height = 100.0f;
 	direction = {0.0f, 0.0f};
 	isActive = false;
@@ -16,6 +16,8 @@ void Bullet::Update() {
 	if (!isActive) {
 		return;
 	}
+		
+	oneDimTransform.position = {transform.position.x, 0.0f};
 
 	Move();
 }
@@ -24,7 +26,13 @@ void Bullet::Draw() const {
 	if (!isActive) {
 		return;
 	}
-	renderer.DrawSprite(transform, width, height, 0.0f, grHandle, 0xFFFFFFFF);
+
+	if (currentDimension == DimensionState::TWO) {
+		renderer.DrawSprite(transform, width, height, 0.0f, grHandle, 0xFFFFFFFF);
+	}
+	if (currentDimension == DimensionState::ONE) {
+		renderer.DrawSprite(oneDimTransform, width, 80.0f, 0.0f, grHandle, 0xFFFFFFFF);
+	} 
 } 
 
 void Bullet::ShotPos(const Vector2& startPos, const Vector2& endPos, float spreadRotationDegree) {

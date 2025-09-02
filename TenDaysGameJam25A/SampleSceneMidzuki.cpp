@@ -28,10 +28,7 @@ void SampleSceneMidzuki::Update() {
 
 	input.Update();
 
-	
-
 	player.Update();
-	//parry.Update();
 
 	if (player.parry.parryState == ParryState::NORMAL) {
 		isNoteShoot = false;
@@ -72,6 +69,24 @@ void SampleSceneMidzuki::CheckHitAll(){
 
 	} else {
 		player.parry.isParryAble = false;
+	}
+
+	if (Collision::BoxToBox(player.transform.position, player.width, player.height, { noteX,player.transform.position.y }, noteWidth, noteHeight)) {
+		
+		isNoteShoot = false;
+
+		if (!player.isHit) {
+			player.life--;
+			noteX = 0.0f;
+			
+		}
+
+		if (player.invincibleTimer == 0) {
+			player.isHit = true;
+		}
+
+	} else {
+		player.isHit = false;
 	}
 
 }
@@ -145,6 +160,8 @@ void SampleSceneMidzuki::Draw() const {
 	Novice::ScreenPrintf(0, 32, "canJustTimer : %d", player.parry.canJustTimer);
 	Novice::ScreenPrintf(0, 48, "noteRespawnTimer : %d", noteRespawnTimer);
 	Novice::ScreenPrintf(0, 64, "isNoteShoot : %d", isNoteShoot);
+	Novice::ScreenPrintf(0, 80, "life : %d", player.life);
+	Novice::ScreenPrintf(0, 96, "playerPosx : %f", player.transform.position.x);
 }
 
 void SampleSceneMidzuki::SetCamera() {

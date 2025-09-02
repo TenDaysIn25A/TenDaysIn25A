@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Dlib.h"
+#include "Bullet.h"
 
 class Enemy {
 public:	
@@ -50,6 +51,11 @@ public:
 	void Shot();
 
 	/// <summary>
+	/// 特殊なパターンのノーツを発射する
+	/// </summary>
+	void SpecialAttack();
+
+	/// <summary>
 	/// 敵にダメージを与える
 	/// </summary>
 	void TakeDamage(int damage);
@@ -68,9 +74,8 @@ public:
 	Renderer renderer;  // 描画ライブラリをこれで使えるようにしてください。
 	Input input;        // 入力ライブラリをこれで使えるようにしてください。
 	DrawEffects effect; // エフェクト描画ライブラリをこれで使えるようにしてください。
-	Collision collision; // 当たり判定ライブラリをこれで使えるようにしてください。
 
-	// プレイヤープロパティ
+	// エネミープロパティ
 	// ----------------------------------------------
 
 	Transform2D transform; // positionとか宣言しなくてええんやで
@@ -79,11 +84,21 @@ public:
 	Vector2 direction;
 	Vector2 velocity;
 
+	static constexpr int kBulletMax = 64;
+
+	Bullet bullets[kBulletMax];
+
+	enum EnemyAttack {
+		ATTACK_WALL,
+	};
+
 	int hp;
 	int maxHp;
-
 	float radius;
-
 	bool isAlive;
+
+
+	int shotTimer;
+	int shotCounter;
 
 };
