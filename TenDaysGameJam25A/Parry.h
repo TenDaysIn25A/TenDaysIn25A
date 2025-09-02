@@ -18,6 +18,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw() const;
+	void SetCamera(const Transform2D& camera);
 
 	//=====================================
 	// メンバ変数
@@ -48,5 +49,5 @@ public:
 
 	int canJustTimer;
 	unsigned int color;
-	FillMode kFillMode;
+	FillMode fillMode;
 };

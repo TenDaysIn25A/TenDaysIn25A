@@ -11,8 +11,6 @@ void Player::Initialize() {
 	speed = 5.0f;
 	parry.Initialize();
 
-	transform.position.x = 800.0f;
-	transform.position.y = 360.0f;
 	width = 80.0f;
 	height = 80.0f;
 
@@ -21,15 +19,16 @@ void Player::Initialize() {
 	parry.width = width;
 	parry.height = height;
 	parry.parryState = ParryState::NONE;
+	grHandleCaracter = Novice::LoadTexture("./Resources/images/box.png");
 
 }
 
 void Player::Update() { 
 	input.Update();
-	transform.position.x = 800.0f + (3 - life) * 160.0f;
+	transform.position.x = 300.0f + (3 - life) * 160.0f;
 
 	if (life == 0) {
-		isAlive = false;
+		Destroy();
 	}
 
 	if (isHit) {
@@ -58,7 +57,10 @@ void Player::Update() {
 	
 }
 
-void Player::Draw() const {}
+void Player::Draw() const {
+	parry.Draw();
+	renderer.DrawSprite(transform, width, height, 0.0f,grHandleCaracter,0xFFFFFFFF); 
+}
 
 void Player::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
 
@@ -83,3 +85,5 @@ void Player::ClampInWindow2D() {
 void Player::ClampInWindow1D() { 
 	transform.position.y = 0.0f; 
 }
+
+void Player::Destroy() { isAlive = false; }

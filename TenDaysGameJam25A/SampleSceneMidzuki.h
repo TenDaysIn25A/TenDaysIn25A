@@ -2,6 +2,7 @@
 #include "Dlib.h"
 #include "PlayerTest.h"
 #include"Player.h"
+#include"Enemy.h"
 #include"Parry.h"
 
 class SampleSceneMidzuki {
@@ -48,15 +49,12 @@ public:
 	Input input;
 	Transform2D camera;
 	DimensionState dimensionState;
+	Renderer renderer;
 
 	PlayerTest samplePlayer;
 	Player player;
 	ParryState parryState;
+	Enemy enemy;
 
-	float noteX;
-	float noteWidth;
-	float noteHeight;
-	float noteSpeed;
-	int noteRespawnTimer;
-	bool isNoteShoot;
+
 };

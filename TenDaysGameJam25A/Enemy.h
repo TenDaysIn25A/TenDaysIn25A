@@ -65,6 +65,12 @@ public:
 	/// </summary>
 	void Destory();
 
+	// 機能
+	// ----------------------------------------------
+	void AttackWall();
+	void AttackMachingun();
+
+
 	// ----------------------------------------------
 	// メンバ変数
 	// ----------------------------------------------
@@ -90,6 +96,7 @@ public:
 
 	enum EnemyAttack {
 		ATTACK_WALL,
+		ATTACK_MACHINGUN,
 	};
 
 	int hp;

@@ -16,14 +16,12 @@ void Parry::Update() {
 		parryState = ParryState::NONE;
 
 		color = 0xFFFF00FF;
-		kFillMode = kFillModeWireFrame;
+		fillMode = kFillModeWireFrame;
 
 		canJustTimer = 0;
 
 		return;
 	}
-
-
 
 	if (isCanJust) {
 
@@ -54,21 +52,15 @@ void Parry::Update() {
 
 	if (parryState == ParryState::NONE) {
 		color = 0xFFFF00FF;
-		kFillMode = kFillModeWireFrame;
+		fillMode = kFillModeWireFrame;
 	} else {
-		kFillMode = kFillModeSolid;
+		fillMode = kFillModeSolid;
 	}
 }
 
 void Parry::Draw() const {
 	// パリィ可能範囲
-	Novice::DrawBox(
-		static_cast<int>(transform.position.x - width / 2.0f),
-		static_cast<int>(transform.position.y - height / 2.0f),
-		static_cast<int>(width),
-		static_cast<int>(height),
-		0.0f,
-		color,
-		kFillMode
-	);
+	renderer.DrawBox(transform, width, height, 0.0f, color, fillMode);
 }
+
+void Parry::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }

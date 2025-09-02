@@ -28,8 +28,6 @@ void Enemy::Update() {
 		return;
 	}
 
-
-
 	if (shotTimer >= 60) {
 		Shot();
 		shotTimer = 0;

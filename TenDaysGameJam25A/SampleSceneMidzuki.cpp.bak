@@ -28,10 +28,7 @@ void SampleSceneMidzuki::Update() {
 
 	input.Update();
 
-	
-
 	player.Update();
-	//parry.Update();
 
 	if (player.parry.parryState == ParryState::NORMAL) {
 		isNoteShoot = false;
@@ -74,6 +71,24 @@ void SampleSceneMidzuki::CheckHitAll(){
 		player.parry.isParryAble = false;
 	}
 
+	if (Collision::BoxToBox(player.transform.position, player.width, player.height, { noteX,player.transform.position.y }, noteWidth, noteHeight)) {
+		
+		isNoteShoot = false;
+
+		if (!player.isHit) {
+			player.life--;
+			noteX = 0.0f;
+			
+		}
+
+		if (player.invincibleTimer == 0) {
+			player.isHit = true;
+		}
+
+	} else {
+		player.isHit = false;
+	}
+
 }
 
 
@@ -113,7 +128,7 @@ void SampleSceneMidzuki::Draw() const {
 	);
 
 	// パリィ可能範囲
-	player.parry.Draw();
+	player.Draw();
 
 	Novice::DrawLine(
 		static_cast<int>(player.transform.position.x - player.width / 2.0f - player.parry.kJustParryAbleGrace * noteSpeed),
@@ -123,15 +138,15 @@ void SampleSceneMidzuki::Draw() const {
 		0xFFFF00FF
 	);
 	
-	//Novice::DrawBox(
-	//	static_cast<int>(parry.transform.position.x - parry.width / 2.0f),
-	//	static_cast<int>(parry.transform.position.y - parry.height / 2.0f),
-	//	static_cast<int>(parry.width),
-	//	static_cast<int>(parry.height),
-	//	0.0f,
-	//	0xFFFF00FF,
-	//	kFillModeWireFrame
-	//);
+	Novice::DrawBox(
+		static_cast<int>(parry.transform.position.x - parry.width / 2.0f),
+		static_cast<int>(parry.transform.position.y - parry.height / 2.0f),
+		static_cast<int>(parry.width),
+		static_cast<int>(parry.height),
+		0.0f,
+		0xFFFF00FF,
+		kFillModeWireFrame
+	);
 
 	if (player.parry.parryState == ParryState::NONE) {
 		Novice::ScreenPrintf(0, 0, "NONE");
@@ -145,6 +160,8 @@ void SampleSceneMidzuki::Draw() const {
 	Novice::ScreenPrintf(0, 32, "canJustTimer : %d", player.parry.canJustTimer);
 	Novice::ScreenPrintf(0, 48, "noteRespawnTimer : %d", noteRespawnTimer);
 	Novice::ScreenPrintf(0, 64, "isNoteShoot : %d", isNoteShoot);
+	Novice::ScreenPrintf(0, 80, "life : %d", player.life);
+	Novice::ScreenPrintf(0, 96, "playerPosx : %f", player.transform.position.x);
 }
 
 void SampleSceneMidzuki::SetCamera() {
