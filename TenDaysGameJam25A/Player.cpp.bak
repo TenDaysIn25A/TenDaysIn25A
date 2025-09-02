@@ -46,7 +46,6 @@ void Player::Update() {
 
 	}
 
-
 	if (currentDimension == DimensionState::ONE) {
 
 		parry.Update();

@@ -12,7 +12,7 @@ void SampleSceneMidzuki::Initialize() {
 
 	enemy.Initialize();
 
-	currentDimension = DimensionState::ONE;
+	currentDimension = DimensionState::TWO;
 }
 
 void SampleSceneMidzuki::Update() {
@@ -55,6 +55,7 @@ void SampleSceneMidzuki::CheckHitAll() {
 				if (enemy.bullets[bi].transform.position.x >= justArea) {
 					player.parry.parryState = ParryState::JUST;
 					player.parry.color = 0xFF0000FF;
+					player.isUpDamage = true;
 				} else {
 					player.parry.parryState = ParryState::NORMAL;
 					player.parry.color = 0xFFFF00FF;
@@ -131,9 +132,13 @@ void SampleSceneMidzuki::Draw() const {
 		Novice::ScreenPrintf(0, 16, "else");
 	}
 
-	for (int i = 0;i < enemy.kBulletMax;i++) {
-		Novice::ScreenPrintf(0, 32 + i * 16, "%d", enemy.bullets[i].isActive);
-	}
+
+	Novice::ScreenPrintf(0, 32, "%d", player.isUpDamage);
+
+	Novice::ScreenPrintf(0, 48, "%d", player.damageUpTime);
+	
+
+
 }
 
 void SampleSceneMidzuki::SetCamera() {

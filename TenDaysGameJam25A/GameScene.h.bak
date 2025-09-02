@@ -1,12 +1,11 @@
 ﻿#pragma once
 #include "Dlib.h"
 #include "Player.h"
-#include "PlayerTest.h"
+#include "Enemy.h"
 
-class SampleSceneDaichi {
+class GameScene {
 public:
-
-	SampleSceneDaichi();
+	GameScene();
 
 	/// <summary>
 	/// 初期化をここに
@@ -35,14 +34,23 @@ public:
 	// 機能
 	// ----------------------------------------------
 
+	/// <summary>
+	/// 全オブジェクトの当たり判定の取得
+	/// </summary>
+	void CheckHitAll();
+
 	// ----------------------------------------------
 	// メンバ変数
 	// ----------------------------------------------
 
+	// システム
+	//-------------------------------------
 	Input input;
-	DeltaTime deltaTime;
 	Transform2D camera;
-	PlayerTest samplePlayer;
+	DimensionState dimensionState;
+	Renderer renderer;
 
-	float dimensionExchangeT;
+	Player player;
+	ParryState parryState;
+	Enemy enemy;
 };

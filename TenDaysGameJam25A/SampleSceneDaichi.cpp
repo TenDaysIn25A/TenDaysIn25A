@@ -9,6 +9,7 @@ void SampleSceneDaichi::Initialize() {
 	deltaTime.Initialize();
 	
 	currentDimension = DimensionState::ONE;
+	
 }
 
 void SampleSceneDaichi::Update() {
@@ -19,7 +20,7 @@ void SampleSceneDaichi::Update() {
 
 	samplePlayer.Update();
 
-	if (input.GetKeyTrigger(DIK_0)) {
+	if (input.GetKeyTrigger(DIK_F)) {
 		if (currentDimension == DimensionState::ONE) {
 			currentDimension = DimensionState::TWO;
 		} else {
@@ -30,6 +31,24 @@ void SampleSceneDaichi::Update() {
 
 void SampleSceneDaichi::Draw() const {
 	// ここで各描画を行う。
+
+	// 背景描画
+	// ----------------------------------------------------
+	Novice::DrawBox(
+		0, 120,
+		1281, 480,
+		0.0f,
+		0x000000FF,
+		kFillModeSolid
+	);
+
+	Novice::DrawBox(
+		0, 120,
+		1281, 480,
+		0.0f,
+		0xFFFFFFFF,
+		kFillModeWireFrame
+	);
 
 	samplePlayer.Draw();
 	Novice::ScreenPrintf(0, 0, "FPS : %d", static_cast<int>(1.0f / deltaTime.deltaTime));
