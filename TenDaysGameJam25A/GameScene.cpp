@@ -10,7 +10,6 @@ void GameScene::Initialize() {
 
 	currentDimension = DimensionState::TWO;
 }
-
 void GameScene::Update() {
 	// ここで各更新処理を行う
 	if (isChanging) {

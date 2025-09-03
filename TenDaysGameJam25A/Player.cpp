@@ -31,7 +31,7 @@ void Player::Initialize() {
 		bullets[bi].width = 40.0f;
 		bullets[bi].direction = { -1.0f,0.0f };
 		bullets[bi].damage = kDefaultDamage;
-		bullets[bi].speed = 25.0f;
+		bullets[bi].speed = 40.0f;
 	}
 
 	shotTimer = kShotCoolTime;
