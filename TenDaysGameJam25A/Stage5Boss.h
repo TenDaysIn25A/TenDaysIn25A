@@ -24,6 +24,7 @@ public:
 		float height = kBulletNormalHeight;
 		int damage = kBulletNormalDamage;
 		unsigned int color = 0xFFFFFFAA;
+		int grHandle = Novice::LoadTexture("./Resources/images/box.png");
 	};
 
 

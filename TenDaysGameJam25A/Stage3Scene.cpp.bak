@@ -15,12 +15,12 @@ void Stage3Scene::Initialize() {
 void Stage3Scene::Update() {
 	// ここで各更新処理を行う
 	input.Update();
-
-	backGround.Update();
 	
 	if (backGround.isChanging) {
 		return;
 	}
+
+	backGround.Update();
 
 	if (input.GetKeyTrigger(DIK_I)) {
 		Initialize();

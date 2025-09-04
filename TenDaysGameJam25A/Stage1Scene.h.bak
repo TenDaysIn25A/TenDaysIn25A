@@ -1,12 +1,12 @@
 ﻿#pragma once
 #include "Dlib.h"
 #include "Player.h"
-#include "Stage3Boss.h"
+#include "Enemy.h"
 #include"BackGround.h"
 
-class Stage3Scene{
+class Stage1Scene {
 public:
-	Stage3Scene();
+	Stage1Scene();
 
 	/// <summary>
 	/// 初期化をここに
@@ -51,9 +51,8 @@ public:
 	DimensionState dimensionState;
 	Renderer renderer;
 	BackGround backGround;
-
+	
 	Player player;
 	ParryState parryState;
-	Stage3Boss enemy;
+	Enemy enemy;
 };
-

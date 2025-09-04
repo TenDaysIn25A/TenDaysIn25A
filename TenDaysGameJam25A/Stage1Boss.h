@@ -1,16 +1,11 @@
 ﻿#pragma once
 #include "Dlib.h"
 #include "Bullet.h"
-
+#include "Enemy.h"
 
 enum class Stage1BossAttack {
 	WALL, MACHINGUN, TUNNEL, ALL_WALL,FOURWALL
 };
-
-enum class AttackPhase {
-	FIRST, SECOND, THIRD,
-};
-
 
 class Stage1Boss {
 public:
@@ -24,11 +19,12 @@ public:
 	/// <param name="height"></param>
 	/// <param name="color"></param>
 	struct BulletConfig {
-		float speed = kBulletNormalSpeed;
 		float width = kBulletNormalWidth;
 		float height = kBulletNormalHeight;
+		float speed = kBulletNormalSpeed;
 		int damage = kBulletNormalDamage;
 		unsigned int color = 0xFFFFFFAA;
+		int grHandle = Novice::LoadTexture("./Resources/images/box.png");
 	};
 
 
@@ -169,6 +165,11 @@ public:
 	float width;
 	float height;
 	bool isAlive;
+	
+	const unsigned int kDamageColor = 0xAA5555FF;
+	const unsigned int kColor = 0xFFAAAAFF;
+
+	int color;
 
 	int attackPositionX;
 

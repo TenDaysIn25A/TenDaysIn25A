@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "Dlib.h"
 #include "Player.h"
-#include "Enemy.h"
+#include "Stage2Boss.h"
 #include"BackGround.h"
 
 class Stage2Scene{
@@ -54,6 +54,6 @@ public:
 
 	Player player;
 	ParryState parryState;
-	Enemy enemy;
+	Stage2Boss enemy;
 };
 

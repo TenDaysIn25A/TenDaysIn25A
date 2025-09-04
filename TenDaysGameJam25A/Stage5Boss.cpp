@@ -38,7 +38,7 @@ void Stage5Boss::InitializeBullets(int index, const BulletConfig& bulletConfig) 
 	bullets[index].damage = bulletConfig.damage;
 	bullets[index].speed = bulletConfig.speed;
 	bullets[index].color = bulletConfig.color;
-	bullets[index].grHandle = this->grHandleBullet;
+	bullets[index].grHandle = bulletConfig.grHandle;
 }
 
 void Stage5Boss::Update() {

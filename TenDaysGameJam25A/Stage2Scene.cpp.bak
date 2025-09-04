@@ -1,8 +1,8 @@
-﻿#include "Stage3Scene.h"
+﻿#include "Stage2Scene.h"
 
-Stage3Scene::Stage3Scene() { Initialize(); }
+Stage2Scene::Stage2Scene() { Initialize(); }
 
-void Stage3Scene::Initialize() {
+void Stage2Scene::Initialize() {
 
 	player.Initialize();
 
@@ -12,7 +12,7 @@ void Stage3Scene::Initialize() {
 
 	currentDimension = DimensionState::TWO;
 }
-void Stage3Scene::Update() {
+void Stage2Scene::Update() {
 	// ここで各更新処理を行う
 	input.Update();
 
@@ -22,16 +22,16 @@ void Stage3Scene::Update() {
 		return;
 	}
 
-	if (input.GetKeyTrigger(DIK_I)) {
-		Initialize();
-	}
-
 	if (input.GetKeyTrigger(DIK_0)) {
 		if (currentDimension == DimensionState::ONE) {
 			currentDimension = DimensionState::TWO;
 		} else {
 			currentDimension = DimensionState::ONE;
 		}
+	}
+
+	if (input.GetKeyTrigger(DIK_I)) {
+		Initialize();
 	}
 
 	enemy.Update();
@@ -70,7 +70,7 @@ void Stage3Scene::Update() {
 	SetCamera();
 }
 
-void Stage3Scene::Draw() const {
+void Stage2Scene::Draw() const {
 
 	Novice::DrawBox(0, 120, 1281, 480, 0.0f, 0x000000FF, kFillModeSolid);
 
@@ -83,14 +83,15 @@ void Stage3Scene::Draw() const {
 	player.miss.Draw();
 	player.just.Draw();
 	player.nice.Draw();
+
 }
 
-void Stage3Scene::SetCamera() {
+void Stage2Scene::SetCamera() {
 	player.SetCamera(camera);
 	enemy.SetCamera(camera);
 }
 
-void Stage3Scene::CheckHitAll() {
+void Stage2Scene::CheckHitAll() {
 
 	if (currentDimension == DimensionState::ONE) {
 		for (int bi = 0; bi < enemy.kBulletMax; bi++) {

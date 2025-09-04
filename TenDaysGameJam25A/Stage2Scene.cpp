@@ -22,6 +22,7 @@ void Stage2Scene::Update() {
 		return;
 	}
 
+
 	if (input.GetKeyTrigger(DIK_0)) {
 		if (currentDimension == DimensionState::ONE) {
 			currentDimension = DimensionState::TWO;
