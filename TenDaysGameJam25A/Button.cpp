@@ -25,13 +25,13 @@ void Button::Update() {
 
 	switch (state) {
 	case ButtonState::NONE:
-		
+		color = 0xAAAAAAFF;
 		break;
 	case ButtonState::HOVER:
-		
+		color = 0xFFFFFFFF;
 		break;
 	case ButtonState::CLICKED:
-		
+		color = 0x333333FF;
 		break;
 	default:
 		break;
@@ -41,8 +41,9 @@ void Button::Update() {
 void Button::Draw() const {
 	Novice::ScreenPrintf(0, 0, "%f", mousePos.x);
 	Novice::ScreenPrintf(0, 20, "%f", mousePos.y);
+	
 
-	renderer.DrawSprite(transform, width, height, 0.0f, grHandle, 0xFFFFFFFF);
+	renderer.DrawSprite(transform, width, height, 0.0f, grHandle, color);
 }
 
 

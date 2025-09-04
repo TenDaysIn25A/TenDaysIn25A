@@ -6,7 +6,7 @@ void SampleSceneDaichi::Initialize() {
 	// ここで各初期化を行う。
 	samplePlayer.Initialize();
 	deltaTime.Initialize();
-	button.Initialize();
+	button.Initialize(Novice::LoadTexture("./Resources/images/box.png"),128.0f,32.0f);
 	currentDimension = DimensionState::ONE;
 }
 
