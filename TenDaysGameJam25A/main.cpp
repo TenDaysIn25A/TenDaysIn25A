@@ -1,4 +1,5 @@
-﻿#include "Color.h"
+﻿#include "BackGround.h"
+#include "Color.h"
 #include "Input.h"
 #include "Renderer.h"
 #include "Transform2D.h"
@@ -13,7 +14,7 @@
 
 const char kWindowTitle[] = "LC1A_03_04_15_19_10DaysGameJam";
 
-enum class Scene { TITLE, INGAME, GAMECREAR, GAMEOVER , COUNT };
+enum class Scene { TITLE, STAGE_SELECT, CONFIG, CREDIT, INGAME, GAMECREAR, GAMEOVER, COUNT };
 enum class SampleScene { DAICHI, MIDZUKI, YUTO, GAME_SCENE, COUNT };
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -26,11 +27,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//int grHandleBackGround = Novice::LoadTexture("./Resources/images/backGround.png");
 
 	// ここで自身のサンプルシーンに切り替える。
-	SampleScene currentSampleScene = SampleScene::DAICHI;
+	SampleScene currentSampleScene = SampleScene::GAME_SCENE;
 	SampleSceneDaichi sampleSceneDaichi;
 	SampleSceneMidzuki sampleSceneMidzuki;
 	SampleSceneYuto sampleSceneYuto;
+
+	Scene currentScene = Scene::TITLE;
+	TitleScene titleScene;
+	StageSelectScene stageSelectScene;
 	GameScene gameScene;
+	ConfigScene configScene;
+	CreditScene creditScene;
+	GameClearScene gameClearScene;
+	GameOverScene gameOverScene;
+
+
 	BackGround backGround;
 	backGround.Initialize();
 
@@ -50,11 +61,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// デバッグ用
 		// ----------------------------------------------------------
 
-
-
 		if (input.GetKeyTrigger(DIK_1)) {
-			currentSampleScene = SampleScene::DAICHI;
-			sampleSceneDaichi.Initialize();
+			currentSampleScene = SampleScene::GAME_SCENE;
+			gameScene.Initialize();
 		}
 
 		if (input.GetKeyTrigger(DIK_2)) {
@@ -68,13 +77,59 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		
 		if (input.GetKeyTrigger(DIK_4)) {
-			currentSampleScene = SampleScene::GAME_SCENE;
+			currentSampleScene = SampleScene::DAICHI;
+			sampleSceneDaichi.Initialize();
+		}
+
+		if (input.GetKeyTrigger(DIK_F1)) {
+			currentScene = Scene::TITLE;
+			titleScene.Initialize();
+		}
+
+		if (input.GetKeyTrigger(DIK_F2)) {
+			currentScene = Scene::STAGE_SELECT;
+			stageSelectScene.Initialize();
+		}
+
+		if (input.GetKeyTrigger(DIK_F3)) {
+			currentScene = Scene::CONFIG;
+			configScene.Initialize();
+		}
+
+		if (input.GetKeyTrigger(DIK_F4)) {
+			currentScene = Scene::CREDIT;
+			creditScene.Initialize();
+		}
+
+		if (input.GetKeyTrigger(DIK_F5)) {
+			currentScene = Scene::INGAME;
 			gameScene.Initialize();
 		}
+
+		if (input.GetKeyTrigger(DIK_F6)) {
+			currentScene = Scene::GAMECREAR;
+			gameClearScene.Initialize();
+		}
+		
+		if (input.GetKeyTrigger(DIK_F7)) {
+			currentScene = Scene::GAMEOVER;
+			gameOverScene.Initialize();
+		}
+
+		if (input.GetKeyTrigger(DIK_F8)) {
+			currentScene = Scene::COUNT;
+			sampleSceneDaichi.Initialize();
+			sampleSceneMidzuki.Initialize();
+			sampleSceneYuto.Initialize();
+			gameScene.Initialize();
+		}
+
 		
 		// ----------------------------------------------------------
 		// シーン
 		// ----------------------------------------------------------
+
+		
 
 		// サンプルシーン、ここで各自が自由に作業できる。
 		switch (currentSampleScene) {
@@ -99,11 +154,87 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			Novice::ScreenPrintf(0, 700, "Scene : YUTO");
 			break;
+
 		case SampleScene::GAME_SCENE:
 
-			gameScene.SetIsChanging(backGround.isChanging);
-			gameScene.Update();		
-			gameScene.Draw();
+			switch (currentScene) {
+
+			case Scene::TITLE:
+
+				titleScene.Update();
+				titleScene.Draw();
+
+				Novice::ScreenPrintf(100, 0, "TITLE");
+
+				break;
+
+			case Scene::STAGE_SELECT:
+
+				stageSelectScene.Update();
+				stageSelectScene.Draw();
+
+				Novice::ScreenPrintf(100, 0, "STAGE_SELECT");
+
+				break;
+
+			case Scene::CONFIG:
+
+				configScene.Update();
+				configScene.Draw();
+
+				Novice::ScreenPrintf(100, 0, "CONFIG");
+
+				break;
+
+			case Scene::CREDIT:
+
+				creditScene.Update();
+				creditScene.Draw();
+
+				Novice::ScreenPrintf(100, 0, "CREDIT");
+
+				break;
+
+			case Scene::INGAME:
+
+				
+				gameScene.SetIsChanging(backGround.isChanging);
+				gameScene.Update();
+				gameScene.Draw();
+				backGround.Update();
+				backGround.Draw();
+
+				gameScene.player.miss.Draw();
+				gameScene.player.just.Draw();
+				gameScene.player.nice.Draw();
+
+				Novice::ScreenPrintf(100, 0, "INGAME");
+
+				break;
+
+			case Scene::GAMECREAR:
+
+				gameClearScene.Update();
+				gameClearScene.Draw();
+
+				Novice::ScreenPrintf(100, 0, "GAMECLEAR");
+
+				break;
+
+			case Scene::GAMEOVER:
+
+				gameOverScene.Update();
+				gameOverScene.Draw();
+
+				Novice::ScreenPrintf(100, 0, "GAMEOVER");
+
+				break;
+
+			default:
+
+				break;
+			}
+
 
 			//Novice::ScreenPrintf(0, 700, "Scene : GAME_SCENE");
 			break;
@@ -112,14 +243,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		default:
 			break;
 		}
-
-		backGround.Update();
-		backGround.Draw();
-
-		gameScene.player.miss.Draw();
-		gameScene.player.just.Draw();
-		gameScene.player.nice.Draw();
-
 
 		// フレームの終了
 		Novice::EndFrame();

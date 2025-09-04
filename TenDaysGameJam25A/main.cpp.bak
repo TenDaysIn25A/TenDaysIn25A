@@ -1,17 +1,19 @@
-﻿#include "Color.h"
+﻿#include "BackGround.h"
+#include "Color.h"
+#include "Dlib.h"
+#include "DrawEffects.h"
+#include "GameScene.h"
 #include "Input.h"
+#include "PlayerTest.h"
 #include "Renderer.h"
+#include "SceneManager.h"
 #include "Transform2D.h"
 #include <Novice.h>
 #include <time.h>
-#include "DrawEffects.h"
-#include "PlayerTest.h"
-#include "SceneManager.h"
-#include "GameScene.h"
 
 const char kWindowTitle[] = "LC1A_03_04_15_19_10DaysGameJam";
 
-enum class Scene { TITLE, INGAME, GAMECREAR, GAMEOVER , COUNT };
+enum class Scene { TITLE, STAGE_SELECT, CONFIG, CREDIT, INGAME, GAMECREAR, GAMEOVER, COUNT };
 enum class SampleScene { DAICHI, MIDZUKI, YUTO, GAME_SCENE, COUNT };
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -21,14 +23,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Novice::Initialize(kWindowTitle, 1280, 720);
 
 	Input input;
-	int grHandleBackGround = Novice::LoadTexture("./Resources/images/backGround.png");
+	// int grHandleBackGround = Novice::LoadTexture("./Resources/images/backGround.png");
 
 	// ここで自身のサンプルシーンに切り替える。
 	SampleScene currentSampleScene = SampleScene::DAICHI;
 	SampleSceneDaichi sampleSceneDaichi;
 	SampleSceneMidzuki sampleSceneMidzuki;
 	SampleSceneYuto sampleSceneYuto;
+
 	GameScene gameScene;
+	BackGround backGround;
+	backGround.Initialize();
 
 	unsigned int currentTime = static_cast<unsigned int>(time(nullptr));
 	srand(currentTime);
@@ -40,13 +45,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// キー入力を受け取る
 		input.Update();
-		
+
 		// ----------------------------------------------------------
 		// デバッグ用
 		// ----------------------------------------------------------
-
-		// 黒背景
-		Novice::DrawSprite(0, 0, grHandleBackGround, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
 
 		if (input.GetKeyTrigger(DIK_1)) {
 			currentSampleScene = SampleScene::DAICHI;
@@ -57,17 +59,42 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			currentSampleScene = SampleScene::MIDZUKI;
 			sampleSceneMidzuki.Initialize();
 		}
-		
+
 		if (input.GetKeyTrigger(DIK_3)) {
 			currentSampleScene = SampleScene::YUTO;
 			sampleSceneYuto.Initialize();
 		}
-		
+
 		if (input.GetKeyTrigger(DIK_4)) {
 			currentSampleScene = SampleScene::GAME_SCENE;
 			gameScene.Initialize();
 		}
-		
+
+		if (input.GetKeyTrigger(DIK_5)) {
+			currentSampleScene = SampleScene::GAME_SCENE;
+			gameScene.Initialize();
+		}
+
+		if (input.GetKeyTrigger(DIK_6)) {
+			currentSampleScene = SampleScene::GAME_SCENE;
+			gameScene.Initialize();
+		}
+
+		if (input.GetKeyTrigger(DIK_7)) {
+			currentSampleScene = SampleScene::GAME_SCENE;
+			gameScene.Initialize();
+		}
+
+		if (input.GetKeyTrigger(DIK_8)) {
+			currentSampleScene = SampleScene::GAME_SCENE;
+			gameScene.Initialize();
+		}
+
+		if (input.GetKeyTrigger(DIK_9)) {
+			currentSampleScene = SampleScene::GAME_SCENE;
+			gameScene.Initialize();
+		}
+
 		// ----------------------------------------------------------
 		// シーン
 		// ----------------------------------------------------------
@@ -75,17 +102,17 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// サンプルシーン、ここで各自が自由に作業できる。
 		switch (currentSampleScene) {
 		case SampleScene::DAICHI:
-			
+
 			sampleSceneDaichi.Update();
 			sampleSceneDaichi.Draw();
-			
+
 			Novice::ScreenPrintf(0, 700, "Scene : DAICHI");
 			break;
 		case SampleScene::MIDZUKI:
-			
+
 			sampleSceneMidzuki.Update();
 			sampleSceneMidzuki.Draw();
-			
+
 			Novice::ScreenPrintf(0, 700, "Scene : MIDZUKI");
 			break;
 		case SampleScene::YUTO:
@@ -97,16 +124,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		case SampleScene::GAME_SCENE:
 
+			gameScene.SetIsChanging(backGround.isChanging);
 			gameScene.Update();
 			gameScene.Draw();
 
-			Novice::ScreenPrintf(0, 700, "Scene : GAME_SCENE");
+			// Novice::ScreenPrintf(0, 700, "Scene : GAME_SCENE");
 			break;
 		case SampleScene::COUNT:
 			break;
 		default:
 			break;
 		}
+
+		backGround.Update();
+		backGround.Draw();
+
+		gameScene.player.miss.Draw();
+		gameScene.player.just.Draw();
+		gameScene.player.nice.Draw();
 
 		// フレームの終了
 		Novice::EndFrame();

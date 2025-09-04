@@ -37,27 +37,33 @@ Matrix3x3 Matrix3x3::operator+(float f) const {
 Matrix3x3 Matrix3x3::operator-(float f) const {
 	Matrix3x3 result(*this);
 
-	for (int i = 0; i < 3; i++)
-		for (int j = 0; j < 3; j++)
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
 			result.m[i][j] -= f;
+		}
+	}
 	return result;
 }
 
 Matrix3x3 Matrix3x3::operator*(float f) const {
 	Matrix3x3 result(*this);
 
-	for (int i = 0; i < 3; i++)
-		for (int j = 0; j < 3; j++)
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
 			result.m[i][j] *= f;
+		}
+	}
 	
 	return result;
 }
 
 Matrix3x3 Matrix3x3::operator/(float f) const {
 	Matrix3x3 result(*this);
-	for (int i = 0; i < 3; i++)
-		for (int j = 0; j < 3; j++)
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
 			result.m[i][j] /= f;
+		}
+	}
 	return result;
 }
 

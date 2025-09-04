@@ -68,6 +68,45 @@
     <Filter Include="Sources\Scenes\SampleScene">
       <UniqueIdentifier>{4601a17a-b2be-42d3-913c-78a35294c238}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Objects\Enemy">
+      <UniqueIdentifier>{fc1fdd02-1dad-4b44-b05a-a92fc916381f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\System\Dimension">
+      <UniqueIdentifier>{17c382fd-f2c5-439c-ab2b-fe89a875e471}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\System\DeltaTime">
+      <UniqueIdentifier>{a14e675f-28c2-460c-8668-7cdc7d20198a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Objects\Bullet">
+      <UniqueIdentifier>{cbfa73d7-c1bf-44c5-b1bb-4c30a8538931}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Scenes\GameScene">
+      <UniqueIdentifier>{603b8f71-89e6-442d-90c7-8a3d36ea459a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Objects\Bullet\Enemy">
+      <UniqueIdentifier>{fc1fdd02-1dad-4b44-b05a-a92fc916381f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Scenes\TitleScene">
+      <UniqueIdentifier>{9ffb2318-b23f-4362-9925-3ecfc8d45142}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Scenes\StegeSelectScene">
+      <UniqueIdentifier>{18c104fc-199c-4ac9-b484-dfb1b8a91dab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Scenes\ConfigScene">
+      <UniqueIdentifier>{11308513-017f-4671-9f78-b6165f67077e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Scenes\CreditScene">
+      <UniqueIdentifier>{5c4459fa-b99c-44a5-81de-81cc59725ef9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Scenes\GameClearScene">
+      <UniqueIdentifier>{55e033ca-24f7-4ffa-b6cb-0f1ba9229994}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Scenes\GameOverScene">
+      <UniqueIdentifier>{4fecb24f-0e6d-4333-b693-2db82ab2297f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Scenes\InGameScene">
+      <UniqueIdentifier>{6b899014-f316-4ded-86f6-c111c91e0f84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
@@ -123,6 +162,57 @@
     </ClCompile>
     <ClCompile Include="SampleSceneMidzuki.cpp">
       <Filter>Sources\Scenes\SampleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Sources\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy2D.cpp">
+      <Filter>Sources\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy1D.cpp">
+      <Filter>Sources\Objects\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Dimension.cpp">
+      <Filter>Sources\System\Dimension</Filter>
+    </ClCompile>
+    <ClCompile Include="DeltaTime.cpp">
+      <Filter>Sources\System\DeltaTime</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Sources\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Sources\Scenes\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Reaction.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>Sources\Scenes\TitleScene</Filter>
+    </ClCompile>
+    <ClCompile Include="StageSelectScene.cpp">
+      <Filter>Sources\Scenes\StegeSelectScene</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigScene.cpp">
+      <Filter>Sources\Scenes\ConfigScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditScene.cpp">
+      <Filter>Sources\Scenes\CreditScene</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameScene.cpp">
+      <Filter>Sources\Scenes\InGameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClearScene.cpp">
+      <Filter>Sources\Scenes\GameClearScene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverScene.cpp">
+      <Filter>Sources\Scenes\GameOverScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -263,6 +353,52 @@
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>Sources\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Sources\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy2D.h">
+      <Filter>Sources\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy1D.h">
+      <Filter>Sources\Objects\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Dimension.h">
+      <Filter>Sources\System\Dimension</Filter>
+    </ClInclude>
+    <ClInclude Include="DeltaTime.h">
+      <Filter>Sources\System\DeltaTime</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Sources\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Sources\Scenes\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGround.h" />
+    <ClInclude Include="Reaction.h" />
+    <ClInclude Include="TitleScene.h">
+      <Filter>Sources\Scenes\TitleScene</Filter>
+    </ClInclude>
+    <ClInclude Include="StageSelectScene.h">
+      <Filter>Sources\Scenes\StegeSelectScene</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigScene.h">
+      <Filter>Sources\Scenes\ConfigScene</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGround.h">
+      <Filter>Sources\Objects\BackGround</Filter>
+    <ClInclude Include="CreditScene.h">
+      <Filter>Sources\Scenes\CreditScene</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameScene.h">
+      <Filter>Sources\Scenes\InGameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClearScene.h">
+      <Filter>Sources\Scenes\GameClearScene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>Sources\Scenes\GameOverScene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

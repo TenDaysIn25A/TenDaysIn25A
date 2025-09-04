@@ -39,6 +39,8 @@ public:
 	Vector2 underBGPos;
 	Vector2 topBGPos;
 
+	Ease ease = EASE_OUT_QUAD;
+
 	int grHandleHalfBg; 
 	bool isChanging;
 	float speed;

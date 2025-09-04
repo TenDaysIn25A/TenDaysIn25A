@@ -7,6 +7,10 @@ enum class EnemyAttack{
 	WALL, MACHINGUN,TUNNEL,ALL_WALL,
 };
 
+enum class AttackPhase{
+	FIRST,SECOND,THIRD,
+};
+
 class Enemy {
 public:	
 	// ----------------------------------------------
@@ -81,13 +85,22 @@ public:
 	/// <summary>
 	/// アタック連打の攻撃パターン
 	/// </summary>
-	void AttackTunnel();
+	void AttackFishBone();
 
 	/// <summary>
 	/// アタックオールウォールの攻撃パターン
 	/// </summary>
 	void AttackAllWall();
 
+	/// <summary>
+	/// 特殊攻撃をフェーズごとに選択
+	/// </summary>
+	void SpecialAttackSelect();
+
+	/// <summary>
+	/// 通常攻撃をフェーズごとに選択
+	/// </summary>
+	void CommonAttackSelect();
 
 	// ----------------------------------------------
 	// メンバ変数
@@ -112,12 +125,14 @@ public:
 
 	Bullet bullets[kBulletMax];
 	EnemyAttack attack;
+	AttackPhase attackPhase;
 
 	int hp;
 	int maxHp;
 	float radius;
 	bool isAlive;
 
+	int attackPositionX;
 
 	int shotTimer;
 	int shotCounter;
