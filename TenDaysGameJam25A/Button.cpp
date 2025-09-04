@@ -30,15 +30,25 @@ void Button::GetMousePos() {
 	int mouseX;
 	int mouseY;
 	Novice::GetMousePosition(&mouseX, &mouseY);
-	mousePos = {static_cast<float>(mouseX), static_cast<float>(-mouseY)};
+	mousePos = {static_cast<float>(mouseX) - 640.0f, static_cast<float>(-mouseY) + 360.0f};
 }
 
 void Button::CheckHitCursor() {
 
+	if (Collision::BoxToPoint(transform.position, mousePos, width, height)) {
+		if (Novice::IsTriggerMouse(0)) {
+			state = ButtonState::CLICKED;
+		} else {
+			state = ButtonState::HOVER;
+		}
+	} else {
+		state = ButtonState::NONE;
+	}
+	
 }
 
-bool Button::IsNone() { return false; }
+bool Button::IsNone() { return (state == ButtonState::NONE); }
 
-bool Button::IsHover() { return false; }
+bool Button::IsHover() { return (state == ButtonState::HOVER); }
 
-bool Button::IsClicked() { return false; }
+bool Button::IsClicked() { return (state == ButtonState::CLICKED); }

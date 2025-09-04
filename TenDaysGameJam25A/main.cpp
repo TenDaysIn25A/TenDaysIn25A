@@ -14,7 +14,7 @@
 
 const char kWindowTitle[] = "LC1A_03_04_15_19_10DaysGameJam";
 
-enum class Scene { TITLE, STAGE_SELECT, CONFIG, CREDIT, INGAME, GAMECREAR, GAMEOVER, COUNT };
+
 enum class SampleScene { DAICHI, MIDZUKI, YUTO, GAME_SCENE, COUNT };
 
 // Windowsアプリでのエントリーポイント(main関数)
@@ -32,19 +32,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	SampleSceneMidzuki sampleSceneMidzuki;
 	SampleSceneYuto sampleSceneYuto;
 
-	Scene currentScene = Scene::TITLE;
-	TitleScene titleScene;
-	StageSelectScene stageSelectScene;
-	GameScene gameScene;
-	ConfigScene configScene;
-	CreditScene creditScene;
-	GameClearScene gameClearScene;
-	GameOverScene gameOverScene;
-
+	SceneManager sceneManager;
 
 	BackGround backGround;
 	backGround.Initialize();
-
 
 	unsigned int currentTime = static_cast<unsigned int>(time(nullptr));
 	srand(currentTime);
@@ -63,65 +54,49 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		if (input.GetKeyTrigger(DIK_1)) {
 			currentSampleScene = SampleScene::GAME_SCENE;
-			gameScene.Initialize();
 		}
 
 		if (input.GetKeyTrigger(DIK_2)) {
-			currentSampleScene = SampleScene::MIDZUKI;
 			sampleSceneMidzuki.Initialize();
+			currentSampleScene = SampleScene::MIDZUKI;
 		}
 		
 		if (input.GetKeyTrigger(DIK_3)) {
-			currentSampleScene = SampleScene::YUTO;
 			sampleSceneYuto.Initialize();
+			currentSampleScene = SampleScene::YUTO;
 		}
 		
 		if (input.GetKeyTrigger(DIK_4)) {
-			currentSampleScene = SampleScene::DAICHI;
 			sampleSceneDaichi.Initialize();
+			currentSampleScene = SampleScene::DAICHI;
 		}
 
 		if (input.GetKeyTrigger(DIK_F1)) {
-			currentScene = Scene::TITLE;
-			titleScene.Initialize();
+			sceneManager.ExchangeScene(Scene::TITLE);
 		}
 
 		if (input.GetKeyTrigger(DIK_F2)) {
-			currentScene = Scene::STAGE_SELECT;
-			stageSelectScene.Initialize();
+			sceneManager.ExchangeScene(Scene::STAGE_SELECT);
 		}
 
 		if (input.GetKeyTrigger(DIK_F3)) {
-			currentScene = Scene::CONFIG;
-			configScene.Initialize();
+			sceneManager.ExchangeScene(Scene::CONFIG);
 		}
 
 		if (input.GetKeyTrigger(DIK_F4)) {
-			currentScene = Scene::CREDIT;
-			creditScene.Initialize();
+			sceneManager.ExchangeScene(Scene::CREDIT);
 		}
 
 		if (input.GetKeyTrigger(DIK_F5)) {
-			currentScene = Scene::INGAME;
-			gameScene.Initialize();
+			sceneManager.ExchangeScene(Scene::INGAME);
 		}
 
 		if (input.GetKeyTrigger(DIK_F6)) {
-			currentScene = Scene::GAMECREAR;
-			gameClearScene.Initialize();
+			sceneManager.ExchangeScene(Scene::GAMECLEAR);
 		}
 		
 		if (input.GetKeyTrigger(DIK_F7)) {
-			currentScene = Scene::GAMEOVER;
-			gameOverScene.Initialize();
-		}
-
-		if (input.GetKeyTrigger(DIK_F8)) {
-			currentScene = Scene::COUNT;
-			sampleSceneDaichi.Initialize();
-			sampleSceneMidzuki.Initialize();
-			sampleSceneYuto.Initialize();
-			gameScene.Initialize();
+			sceneManager.ExchangeScene(Scene::STAGE_SELECT);
 		}
 
 		
@@ -157,84 +132,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		case SampleScene::GAME_SCENE:
 
-			switch (currentScene) {
-
-			case Scene::TITLE:
-
-				titleScene.Update();
-				titleScene.Draw();
-
-				Novice::ScreenPrintf(100, 0, "TITLE");
-
-				break;
-
-			case Scene::STAGE_SELECT:
-
-				stageSelectScene.Update();
-				stageSelectScene.Draw();
-
-				Novice::ScreenPrintf(100, 0, "STAGE_SELECT");
-
-				break;
-
-			case Scene::CONFIG:
-
-				configScene.Update();
-				configScene.Draw();
-
-				Novice::ScreenPrintf(100, 0, "CONFIG");
-
-				break;
-
-			case Scene::CREDIT:
-
-				creditScene.Update();
-				creditScene.Draw();
-
-				Novice::ScreenPrintf(100, 0, "CREDIT");
-
-				break;
-
-			case Scene::INGAME:
-
-				
-				gameScene.SetIsChanging(backGround.isChanging);
-				gameScene.Update();
-				gameScene.Draw();
-				backGround.Update();
-				backGround.Draw();
-
-				gameScene.player.miss.Draw();
-				gameScene.player.just.Draw();
-				gameScene.player.nice.Draw();
-
-				Novice::ScreenPrintf(100, 0, "INGAME");
-
-				break;
-
-			case Scene::GAMECREAR:
-
-				gameClearScene.Update();
-				gameClearScene.Draw();
-
-				Novice::ScreenPrintf(100, 0, "GAMECLEAR");
-
-				break;
-
-			case Scene::GAMEOVER:
-
-				gameOverScene.Update();
-				gameOverScene.Draw();
-
-				Novice::ScreenPrintf(100, 0, "GAMEOVER");
-
-				break;
-
-			default:
-
-				break;
-			}
-
+			sceneManager.Update();
 
 			//Novice::ScreenPrintf(0, 700, "Scene : GAME_SCENE");
 			break;

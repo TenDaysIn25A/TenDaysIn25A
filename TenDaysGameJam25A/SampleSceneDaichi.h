@@ -44,5 +44,7 @@ public:
 	Transform2D camera;
 	PlayerTest samplePlayer;
 
+	Button button;
+
 	float dimensionExchangeT;
 };

@@ -2,6 +2,7 @@
 #include "Dlib.h"
 #include "Player.h"
 #include "Enemy.h"
+#include"BackGround.h"
 
 class GameScene {
 public:
@@ -51,7 +52,8 @@ public:
 	Transform2D camera;
 	DimensionState dimensionState;
 	Renderer renderer;
-
+	BackGround backGround;
+	
 	Player player;
 	ParryState parryState;
 	Enemy enemy;

@@ -68,9 +68,6 @@
     <Filter Include="Sources\Scenes\SampleScene">
       <UniqueIdentifier>{4601a17a-b2be-42d3-913c-78a35294c238}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Objects\Enemy">
-      <UniqueIdentifier>{fc1fdd02-1dad-4b44-b05a-a92fc916381f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources\System\Dimension">
       <UniqueIdentifier>{17c382fd-f2c5-439c-ab2b-fe89a875e471}</UniqueIdentifier>
     </Filter>
@@ -82,9 +79,6 @@
     </Filter>
     <Filter Include="Sources\Scenes\GameScene">
       <UniqueIdentifier>{603b8f71-89e6-442d-90c7-8a3d36ea459a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources\Objects\Bullet\Enemy">
-      <UniqueIdentifier>{fc1fdd02-1dad-4b44-b05a-a92fc916381f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sources\Scenes\TitleScene">
       <UniqueIdentifier>{9ffb2318-b23f-4362-9925-3ecfc8d45142}</UniqueIdentifier>
@@ -104,8 +98,11 @@
     <Filter Include="Sources\Scenes\GameOverScene">
       <UniqueIdentifier>{4fecb24f-0e6d-4333-b693-2db82ab2297f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Scenes\InGameScene">
-      <UniqueIdentifier>{6b899014-f316-4ded-86f6-c111c91e0f84}</UniqueIdentifier>
+    <Filter Include="Sources\Objects\Enemy">
+      <UniqueIdentifier>{fc1fdd02-1dad-4b44-b05a-a92fc916381f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Objects\BackGround">
+      <UniqueIdentifier>{6c81387f-407f-407a-97eb-979997192512}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -184,9 +181,6 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>Sources\Scenes\GameScene</Filter>
     </ClCompile>
-    <ClCompile Include="BackGround.cpp">
-      <Filter>KamataEngine</Filter>
-    </ClCompile>
     <ClCompile Include="Color.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
@@ -205,14 +199,17 @@
     <ClCompile Include="CreditScene.cpp">
       <Filter>Sources\Scenes\CreditScene</Filter>
     </ClCompile>
-    <ClCompile Include="InGameScene.cpp">
-      <Filter>Sources\Scenes\InGameScene</Filter>
-    </ClCompile>
     <ClCompile Include="GameClearScene.cpp">
       <Filter>Sources\Scenes\GameClearScene</Filter>
     </ClCompile>
     <ClCompile Include="GameOverScene.cpp">
       <Filter>Sources\Scenes\GameOverScene</Filter>
+    </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>Sources\Objects\BackGround</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Sources\UI\Button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -375,7 +372,6 @@
     <ClInclude Include="GameScene.h">
       <Filter>Sources\Scenes\GameScene</Filter>
     </ClInclude>
-    <ClInclude Include="BackGround.h" />
     <ClInclude Include="Reaction.h" />
     <ClInclude Include="TitleScene.h">
       <Filter>Sources\Scenes\TitleScene</Filter>
@@ -386,19 +382,20 @@
     <ClInclude Include="ConfigScene.h">
       <Filter>Sources\Scenes\ConfigScene</Filter>
     </ClInclude>
-    <ClInclude Include="BackGround.h">
-      <Filter>Sources\Objects\BackGround</Filter>
     <ClInclude Include="CreditScene.h">
       <Filter>Sources\Scenes\CreditScene</Filter>
-    </ClInclude>
-    <ClInclude Include="InGameScene.h">
-      <Filter>Sources\Scenes\InGameScene</Filter>
     </ClInclude>
     <ClInclude Include="GameClearScene.h">
       <Filter>Sources\Scenes\GameClearScene</Filter>
     </ClInclude>
     <ClInclude Include="GameOverScene.h">
       <Filter>Sources\Scenes\GameOverScene</Filter>
+    </ClInclude>
+    <ClInclude Include="BackGround.h">
+      <Filter>Sources\Objects\BackGround</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Sources\UI\Button</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

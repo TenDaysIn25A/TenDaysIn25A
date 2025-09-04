@@ -8,6 +8,8 @@ void GameScene::Initialize() {
 
 	enemy.Initialize();
 
+	backGround.Initialize();
+
 	currentDimension = DimensionState::TWO;
 }
 void GameScene::Update() {
@@ -29,6 +31,8 @@ void GameScene::Update() {
 	enemy.Update();
 
 	player.Update();
+
+	backGround.Update();
 
 	if (currentDimension == DimensionState::ONE) {
 		player.transform.position.y = 0.0f;
@@ -69,6 +73,9 @@ void GameScene::Draw() const {
 	enemy.Draw();
 
 	player.Draw();
+
+	backGround.Draw();
+
 }
 
 void GameScene::SetCamera() {

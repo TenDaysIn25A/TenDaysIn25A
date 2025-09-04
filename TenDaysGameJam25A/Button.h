@@ -32,7 +32,7 @@ public:
 
 	// プロパティ
 	Transform2D transform;
-
+	
 	// 描画
 	Renderer renderer;
 	
