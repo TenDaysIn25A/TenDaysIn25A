@@ -5,6 +5,9 @@ Button::Button() { Initialize(); }
 void Button::Initialize() {
 	tweenStepHovered = 0;
 	t = 0;
+	grHandle = Novice::LoadTexture("./Resources/images/box.png");
+	camera.position = {0.0f, 0.0f};
+	renderer.SetCamera(camera);
 }
 
 void Button::Initialize(int textureHandle, float w, float h) {
@@ -15,16 +18,33 @@ void Button::Initialize(int textureHandle, float w, float h) {
 }
 
 void Button::Update() {
+	state = ButtonState::NONE;
+	
 	GetMousePos();
 	CheckHitCursor();
+
+	switch (state) {
+	case ButtonState::NONE:
+		
+		break;
+	case ButtonState::HOVER:
+		
+		break;
+	case ButtonState::CLICKED:
+		
+		break;
+	default:
+		break;
+	}
 }
 
 void Button::Draw() const {
 	Novice::ScreenPrintf(0, 0, "%f", mousePos.x);
 	Novice::ScreenPrintf(0, 20, "%f", mousePos.y);
+
+	renderer.DrawSprite(transform, width, height, 0.0f, grHandle, 0xFFFFFFFF);
 }
 
-void Button::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
 
 void Button::GetMousePos() {
 	int mouseX;

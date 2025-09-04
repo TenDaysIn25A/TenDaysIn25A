@@ -12,7 +12,6 @@ void BackGround::Initialize() {
 	tweenStep = 0;
 	t = 0.0f;
 	duration = 0.15f;
-	dimansionState = DimensionState::TWO;
 }
 
 void BackGround::Update() {
@@ -81,7 +80,7 @@ void BackGround::Update() {
 	}
 }
 
-void BackGround::Draw() const{
+void BackGround::Draw() {
 
 	Novice::DrawSprite(static_cast<int>(underBGPos.x), static_cast<int>(underBGPos.y), grHandleHalfBg, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
 

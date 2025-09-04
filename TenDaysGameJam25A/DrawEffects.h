@@ -11,9 +11,10 @@ enum EffectType { EFFECT_NONE, EFFECT_IMPLSION, EFFECT_EXPLOSION };
 
 class DrawEffects {
 public:
-	DrawEffects() : t_(0.0f), isActive_(false), isActiveFade_(true), easeType_(EASE_OUT_QUAD), type_(EFFECT_NONE), color_(0xFFFFFFFF) {}
+	DrawEffects();
 	~DrawEffects() = default;
 
+	void Initialize();
 	void Update(float deltaTime = 1.0f / 60.0f);
 	void Draw() const;
 

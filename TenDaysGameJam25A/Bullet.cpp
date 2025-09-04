@@ -11,6 +11,7 @@ void Bullet::Initialize() {
 	transform.position = {-1000.0f, -1000.0f};
 	grHandle = Novice::LoadTexture("./Resources/images/box.png");
 	effect.SetScale(2.0f);
+	effect.Initialize();
 }
 
 void Bullet::Update() {

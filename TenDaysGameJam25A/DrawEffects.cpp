@@ -107,13 +107,24 @@ void DrawEffects::Draw() const {
 	}
 }
 
+DrawEffects::DrawEffects() { Initialize(); }
+
+void DrawEffects::Initialize() { 
+	alpha_ = 0x00000000; 
+	t_ = 0.0f;
+	isActive_ = false;
+	isActiveFade_ = true;
+	easeType_ = EASE_OUT_QUAD;
+	type_ = EFFECT_NONE;
+	color_ = 0xFFFFFFFF;
+}
+
 void DrawEffects::Initialize(const Vector2& pos, float range, float duration, const Transform2D& camera, Ease ease, EffectType type) {
-	alpha_ = 0x00000000;
+	Initialize();
+	isActive_ = true;
 	endPosition_ = pos;
 	range_ = range;
 	duration_ = duration;
-	t_ = 0.0f;
-	isActive_ = true;
 	easeType_ = ease;
 	type_ = type;
 	renderer_.SetCamera(camera);

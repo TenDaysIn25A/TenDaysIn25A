@@ -117,6 +117,7 @@ void GameScene::CheckHitAll() {
 				}
 			}
 		}
+
 		// プレイヤーとエネミーの弾の当たり判定（１次元）
 		for (int bi = 0; bi < enemy.kBulletMax; bi++) {
 			if (enemy.bullets[bi].isActive) {
@@ -124,40 +125,31 @@ void GameScene::CheckHitAll() {
 
 					enemy.bullets[bi].Deactive();
 
-					if (!player.isHit) {
-						player.life--;
+					if (!player.isInvinciblity) {
+						player.TakeDamage(1);
 						enemy.bullets[bi].transform.position.x = 0.0f;
+						player.isInvinciblity = true;
 					}
 
-					if (player.invincibleTimer == 0) {
-						player.isHit = true;
-					}
-
-				} else {
-					player.isHit = false;
-				}
+				} 
 			}
 		}
 	} else {
 		// プレイヤーとエネミーの弾の当たり判定（２次元）
 		for (int bi = 0; bi < enemy.kBulletMax; bi++) {
 			if (enemy.bullets[bi].isActive) {
-				if (Collision::BoxToBox(player.transform.position, player.width, player.height, enemy.bullets[bi].transform.position, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
+				// 縦幅を少し小さくして、ちょうど当たってるときは当たらないようにする
+				if (Collision::BoxToBox(player.transform.position, player.width, player.height - 6.0f, enemy.bullets[bi].transform.position, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
 
 					enemy.bullets[bi].Deactive();
 
-					if (!player.isHit) {
-						player.life--;
+					if (!player.isInvinciblity) {
+						player.TakeDamage(1);
 						enemy.bullets[bi].transform.position.x = 0.0f;
+						player.isInvinciblity = true;
 					}
 
-					if (player.invincibleTimer == 0) {
-						player.isHit = true;
-					}
-
-				} else {
-					player.isHit = false;
-				}
+				} 
 			}
 		}
 	}
@@ -180,7 +172,7 @@ void GameScene::CheckHitAll() {
 	// プレイヤーの弾とエネミー
 	for (int i = 0; i < player.kBulletMax; i++) {
 		if (player.bullets[i].isActive) {
-			if (Collision::BoxToBox(enemy.transform.position, enemy.radius, enemy.radius, player.bullets[i].transform.position, player.bullets[i].width, player.bullets[i].height)) {
+			if (Collision::BoxToBox(enemy.transform.position, enemy.width, enemy.height, player.bullets[i].transform.position, player.bullets[i].width, player.bullets[i].height)) {
 				enemy.TakeDamage(player.bullets[i].damage);
 				player.bullets[i].Deactive();
 			}

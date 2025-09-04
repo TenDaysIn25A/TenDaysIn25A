@@ -3,16 +3,35 @@
 #include "Bullet.h"
 
 
-enum class EnemyAttack{
-	WALL, MACHINGUN,TUNNEL,ALL_WALL,
+enum class EnemyAttack {
+	WALL, MACHINGUN, TUNNEL, ALL_WALL,FOURWALL
 };
 
-enum class AttackPhase{
-	FIRST,SECOND,THIRD,
+enum class AttackPhase {
+	FIRST, SECOND, THIRD,
 };
+
 
 class Enemy {
-public:	
+public:
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="speed"></param>
+	/// <param name="damage"></param>
+	/// <param name="width"></param>
+	/// <param name="height"></param>
+	/// <param name="color"></param>
+	struct BulletConfig {
+		float speed = kBulletNormalSpeed;
+		float width = kBulletNormalWidth;
+		float height = kBulletNormalHeight;
+		int damage = kBulletNormalDamage;
+		unsigned int color = 0xFFFFFFAA;
+	};
+
+
 	// ----------------------------------------------
 	// メンバ関数
 	// ----------------------------------------------
@@ -26,6 +45,11 @@ public:
 	/// 初期化をここに
 	/// </summary>
 	void Initialize();
+
+	/// <summary>
+	/// 弾の初期化
+	/// </summary>
+	void InitializeBullets(int index ,const BulletConfig& bulletConfig);
 
 	/// <summary>
 	/// 更新処理をここに
@@ -93,6 +117,11 @@ public:
 	void AttackAllWall();
 
 	/// <summary>
+	/// アタックオールウォールの攻撃パターン
+	/// </summary>
+	void AttackFourWall();
+
+	/// <summary>
 	/// 特殊攻撃をフェーズごとに選択
 	/// </summary>
 	void SpecialAttackSelect();
@@ -121,15 +150,24 @@ public:
 	Vector2 direction;
 	Vector2 velocity;
 
+	// 弾
+	// ----------------------------------------------
 	static constexpr int kBulletMax = 64;
-
 	Bullet bullets[kBulletMax];
+	static constexpr float kBulletNormalSpeed = 10.0f;
+	static constexpr float kBulletHighSpeed = 15.0f;
+	static constexpr float kBulletNormalWidth = 80.0f;
+	static constexpr float kBulletNormalHeight = 160.0f;
+	static constexpr int kBulletNormalDamage = 1;
+	int grHandleBullet;
+
 	EnemyAttack attack;
 	AttackPhase attackPhase;
 
 	int hp;
 	int maxHp;
-	float radius;
+	float width;
+	float height;
 	bool isAlive;
 
 	int attackPositionX;
@@ -137,4 +175,12 @@ public:
 	int shotTimer;
 	int shotCounter;
 
+	int exchengePhaseSecondHp;
+	int exchengePhaseThirdHp;
+
+	int randomPositionY;
+
+	// 描画
+	// 
+	int grHandleCaracter;
 };

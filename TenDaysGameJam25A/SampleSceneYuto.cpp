@@ -41,7 +41,7 @@ void SampleSceneYuto::Update() {
 
 	for (int i = 0; i < player.kBulletMax; i++) {
 		if (player.bullets[i].isActive) {
-			if (Collision::BoxToBox(enemy.transform.position, enemy.radius, enemy.radius, player.bullets[i].transform.position, player.bullets[i].width, player.bullets[i].height)) {
+			if (Collision::BoxToBox(enemy.transform.position, enemy.width, enemy.height, player.bullets[i].transform.position, player.bullets[i].width, player.bullets[i].height)) {
 				enemy.TakeDamage(1);
 				player.bullets[i].Deactive();
 			}

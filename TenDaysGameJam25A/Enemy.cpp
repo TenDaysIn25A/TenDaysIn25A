@@ -4,25 +4,39 @@ Enemy::Enemy() { Initialize(); }
 
 void Enemy::Initialize() {
 	speed = 10.0f;
-	radius = 64.0f;
+	width = 128.0f;
+	height = 480.0f;
 	isAlive = true;
-	hp = 150;
-	maxHp = 150;
+	hp = 300;
+	maxHp = 300;
+
+	exchengePhaseSecondHp = 200;
+	exchengePhaseThirdHp = 100;
+
 	shotTimer = 0;
 	shotCounter = 0;
-	transform.position = { -500.0f, 0.0f };
+	transform.position = { -576.0f, 0.0f };
 	transform.rotation = 0.0f;
 	transform.scale = { 1.0f, 1.0f };
 	attack = EnemyAttack::WALL;
 	attackPhase = AttackPhase::FIRST;
 
+	grHandleCaracter = Novice::LoadTexture("./Resources/images/box.png");
+	grHandleBullet = Novice::LoadTexture("./Resources/images/box.png");
+
 	for (int i = 0; i < kBulletMax; i++) {
-		bullets[i].Initialize();
-		bullets[i].width = 80.0f;
-		bullets[i].height = 160.0f;
+		InitializeBullets(i, {});
 	}
+}
 
-
+void Enemy::InitializeBullets(int index, const BulletConfig& bulletConfig) {
+	bullets[index].Initialize();
+	bullets[index].width = bulletConfig.width;
+	bullets[index].height = bulletConfig.height;
+	bullets[index].damage = bulletConfig.damage;
+	bullets[index].speed = bulletConfig.speed;
+	bullets[index].color = bulletConfig.color;
+	bullets[index].grHandle = this->grHandleBullet;
 }
 
 void Enemy::Update() {
@@ -40,11 +54,11 @@ void Enemy::Update() {
 	}
 
 	if (attackPhase == AttackPhase::FIRST) {
-		if (hp <= (maxHp / 3) * 2) {
+		if (hp <= exchengePhaseSecondHp) {
 			attackPhase = AttackPhase::SECOND;
 		}
 	} else if (attackPhase == AttackPhase::SECOND) {
-		if (hp <= (maxHp / 3)) {
+		if (hp <= exchengePhaseThirdHp) {
 			attackPhase = AttackPhase::THIRD;
 		}
 	}
@@ -63,7 +77,7 @@ void Enemy::Draw() const {
 		bullets[i].Draw();
 	}
 
-	renderer.DrawEllipse(transform, { radius,radius }, { 0.0f, 0.0f }, 0.0f, 0xFFAAAAFF, kFillModeSolid);
+	renderer.DrawSprite(transform, width, height, 0.0f, grHandleCaracter, 0xFFAAAAFF);
 }
 
 void Enemy::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
@@ -86,6 +100,10 @@ void Enemy::TakeDamage(int damage) {
 
 void Enemy::Destory() {
 	isAlive = false;
+
+	for (int i = 0; i < kBulletMax; i++) {
+		bullets[i].Deactive();
+	}
 }
 
 void Enemy::Shot() {
@@ -102,6 +120,9 @@ void Enemy::Shot() {
 	case EnemyAttack::ALL_WALL:
 		AttackAllWall();
 		break;
+	case EnemyAttack::FOURWALL:
+		AttackFourWall();
+		break;
 	}
 
 	shotTimer++;
@@ -116,6 +137,7 @@ void Enemy::CommonAttackSelect() {
 		attack = EnemyAttack::MACHINGUN;
 		break;
 	case AttackPhase::THIRD:
+		attack = EnemyAttack::FOURWALL;
 		break;
 	}
 }
@@ -124,7 +146,7 @@ void Enemy::SpecialAttackSelect() {
 	int randomAttack;
 	switch (attackPhase) {
 	case AttackPhase::FIRST:
-		randomAttack = 1;//Random::RandomInt(1, 2);
+		randomAttack = Random::RandomInt(1, 2);
 
 		if (randomAttack == 1) {
 			attack = EnemyAttack::ALL_WALL;
@@ -144,6 +166,14 @@ void Enemy::SpecialAttackSelect() {
 		}
 		break;
 	case AttackPhase::THIRD:
+		randomAttack = Random::RandomInt(1, 2);
+		
+		if (randomAttack == 1) {
+			attack = EnemyAttack::ALL_WALL;
+		} else if (randomAttack == 2) {
+			attack = EnemyAttack::TUNNEL;
+		} else {
+		}
 		break;
 	}
 }
@@ -159,6 +189,7 @@ void Enemy::AttackWall() {
 
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
+					InitializeBullets(i, {});
 					bullets[i].height = 160.0f;
 					if (randomPosition == 0) {
 						bullets[i].ShotDir({ transform.position.x, 160.0f }, { 1.0f, 0.0f }, 0.0f);
@@ -173,7 +204,7 @@ void Enemy::AttackWall() {
 
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
-					bullets[i].height = 160.0f;
+					InitializeBullets(i, {});
 					bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPosition)) }, { 1.0f, 0.0f }, 0.0f);
 					break;
 				}
@@ -188,10 +219,47 @@ void Enemy::AttackWall() {
 			shotCounter++;
 		}
 	}
+}
 
+void Enemy::AttackFourWall() {
+	randomPositionY;
 
+	if (shotTimer >= 160) {
+		shotTimer = -1;
 
+		if (shotCounter >= 3) {
+			shotCounter = 0;
 
+			SpecialAttackSelect();
+		} else {
+			shotCounter++;
+		}
+	} else if (shotTimer >= 80) {
+
+	} else if (shotTimer >= 1) {
+		if (shotTimer % 20 == 0) {
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, {});
+					bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPositionY)) }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
+			}
+		}
+
+	} else {
+
+		randomPositionY = Random::RandomInt(-1, 1);
+
+		for (int i = 0; i < kBulletMax; i++) {
+			if (!bullets[i].isActive) {
+				InitializeBullets(i, {});
+				bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPositionY)) }, { 1.0f, 0.0f }, 0.0f);
+				break;
+			}
+		}
+
+	}
 }
 
 void Enemy::AttackMachingun() {
@@ -202,7 +270,7 @@ void Enemy::AttackMachingun() {
 
 		for (int i = 0; i < kBulletMax; i++) {
 			if (!bullets[i].isActive) {
-				bullets[i].height = 120.0f;
+				InitializeBullets(i,{.height = 120.0f});
 				bullets[i].ShotDir({ transform.position.x, -180.0f + (120.0f * static_cast<float>(randomPosition)) }, { 1.0f, 0.0f }, 0.0f);
 				break;
 			}
@@ -232,14 +300,14 @@ void Enemy::AttackFishBone() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (shotCounter % 10 == 4) {
 					if (!bullets[i].isActive) {
-						bullets[i].height = 240.0f;
-						bullets[i].ShotDir({ transform.position.x, 120.0f }, { 1.0f, 0.0f }, 0.0f);
+						InitializeBullets(i,{.height = 200.0f});
+						bullets[i].ShotDir({ transform.position.x, 140.0f }, { 1.0f, 0.0f }, 0.0f);
 						break;
 
 					}
 				} else {
 					if (!bullets[i].isActive) {
-						bullets[i].height = 120.0f;
+						InitializeBullets(i,{.height = 120.0f});
 						bullets[i].ShotDir({ transform.position.x, 180.0f }, { 1.0f, 0.0f }, 0.0f);
 						break;
 					}
@@ -251,14 +319,14 @@ void Enemy::AttackFishBone() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (shotCounter % 10 == 9) {
 					if (!bullets[i].isActive) {
-						bullets[i].height = 240.0f;
-						bullets[i].ShotDir({ transform.position.x, -120.0f }, { 1.0f, 0.0f }, 0.0f);
+						InitializeBullets(i,{.height = 200.0f});
+						bullets[i].ShotDir({ transform.position.x, -140.0f }, { 1.0f, 0.0f }, 0.0f);
 						break;
 					}
 
 				} else {
 					if (!bullets[i].isActive) {
-						bullets[i].height = 120.0f;
+						InitializeBullets(i,{.height = 120.0f});
 						bullets[i].ShotDir({ transform.position.x, -180.0f }, { 1.0f, 0.0f }, 0.0f);
 						break;
 					}
@@ -279,27 +347,38 @@ void Enemy::AttackFishBone() {
 }
 
 void Enemy::AttackAllWall() {
-	if (shotTimer >= 639) {
-		for (int i = 0; i < kBulletMax; i++) {
-			if (!bullets[i].isActive) {
-				bullets[i].height = 480.0f;
-				bullets[i].ShotDir({ transform.position.x, 0 }, { 1.0f, 0.0f }, 0.0f);
-				break;
+	if (shotTimer >= 80) {
+		shotTimer = 0;
+
+		int randomPosition;
+
+		if (shotCounter == 7 || shotCounter == 0) {
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					bullets[i].height = 480.0f;
+					InitializeBullets(i, {.height = 480.0f});
+					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
+			}
+		} else {
+			randomPosition = Random::RandomInt(-1, 1);
+
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, {});
+					bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPosition)) }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
 			}
 		}
 
-		shotTimer = 0;
-		shotCounter = 0;
+		if (shotCounter >= 7) {
+			shotCounter = 0;
 
-		CommonAttackSelect();
-
-	} else if (shotTimer % 60 == 0) {
-		for (int i = 0; i < kBulletMax; i++) {
-			if (!bullets[i].isActive) {
-				bullets[i].height = 480.0f;
-				bullets[i].ShotDir({ transform.position.x, 0 }, { 1.0f, 0.0f }, 0.0f);
-				break;
-			}
+			CommonAttackSelect();
+		} else {
+			shotCounter++;
 		}
 	}
 }

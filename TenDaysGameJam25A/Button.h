@@ -18,7 +18,6 @@ public:
 	void Initialize(int textureHandle, float w , float h);
 	void Update();
 	void Draw() const;
-	void SetCamera(const Transform2D& camera);
 
 	void GetMousePos();
 	void CheckHitCursor();
@@ -35,6 +34,7 @@ public:
 	
 	// 描画
 	Renderer renderer;
+	Transform2D camera;
 	
 	// イージング
 	float duration;
@@ -57,5 +57,5 @@ public:
 	int grHandle;
 	float width;
 	float height;
-
+	unsigned int color;
 };

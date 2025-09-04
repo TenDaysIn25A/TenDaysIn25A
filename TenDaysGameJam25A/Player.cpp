@@ -6,9 +6,9 @@ void Player::Initialize() {
 	transform.position = { 300.0f,0.0f };
 	isAlive = true;
 	life = 3;
-	isHit = false;
+	isInvinciblity = false;
 	isUpDamage = false;
-	invincibleTimer = 60;
+	invincibleTimer = 0;
 	speed = 5.0f;
 	parry.Initialize();
 	damageUpTime = 150;
@@ -50,17 +50,12 @@ void Player::Update() {
 
 	transform.position.x = 300.0f + (3 - life) * 160.0f;
 
-	if (life == 0) {
-		Destroy();
-	}
-
-	if (isHit) {
+	if (isInvinciblity) {
 
 		if (invincibleTimer > 0) {
 			invincibleTimer--;
 		} else {
-			isHit = false;
-			invincibleTimer = 60;
+			isInvinciblity = false;
 		}
 	}
 
@@ -129,9 +124,27 @@ void Player::Update() {
 	}
 }
 
+void Player::TakeDamage(int damage) {
+
+	if (isInvinciblity) {
+		return;
+	}
+
+	life -= damage;
+	invincibleTimer = kInvincibleTimer;
+
+	if (life <= 0) {
+		Destroy();
+	}
+
+}
+
 void Player::Draw() const {
 	parry.Draw();
-	renderer.DrawSprite(transform, width, height, 0.0f, grHandleCaracter, 0x2222FFFF);
+
+	if (invincibleTimer % 4 <= 1) {
+		renderer.DrawSprite(transform, width, height, 0.0f, grHandleCaracter, 0x2222FFFF);
+	}
 
 	for (int bi = 0;bi < kBulletMax;bi++) {
 		bullets[bi].Draw();

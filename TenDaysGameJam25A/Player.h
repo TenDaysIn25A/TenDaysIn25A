@@ -58,6 +58,11 @@ public:
 	/// </summary>
 	void ClampInWindow1D();
 
+	/// <summary>
+	/// ダメージを取らせる。
+	/// </summary>
+	void TakeDamage(int damage);
+
 	void Destroy();
 
 	// ----------------------------------------------
@@ -98,8 +103,9 @@ public:
 	// ----------------------------------------------
 	int life;
 	int invincibleTimer;
+	const int kInvincibleTimer = 60;
 
-	bool isHit;
+	bool isInvinciblity;
 	bool isAlive;
 	bool isUpDamage;
 
