@@ -93,9 +93,11 @@ public:
 
 	int shotTimer;
 	int isShot[kBulletMax];
-	const int kShotCoolTime = 10;
+	int shotCoolTime;
+	const int kUpedShotCoolTime = 5;
+	const int kDefaultShotCoolTime = 10;
 
-	const int kUpedDamage = 10;
+	const int kUpedDamage = 4;
 	const int kDefaultDamage = 2;
 	int damageUpTime;
 

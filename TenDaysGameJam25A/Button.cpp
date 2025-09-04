@@ -8,6 +8,8 @@ void Button::Initialize() {
 	grHandle = Novice::LoadTexture("./Resources/images/box.png");
 	camera.position = {0.0f, 0.0f};
 	renderer.SetCamera(camera);
+	width = 128.0f;
+	height = 32.0f;
 }
 
 void Button::Initialize(int textureHandle, float w, float h) {

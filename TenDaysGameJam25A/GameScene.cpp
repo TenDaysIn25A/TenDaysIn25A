@@ -1,181 +1,100 @@
 ﻿#include "GameScene.h"
 
-GameScene::GameScene() { Initialize(); }
+GameScene::GameScene() { Initialize(); };
 
 void GameScene::Initialize() {
 
-	player.Initialize();
+	stage1Scene.Initialize();
+	stage2Scene.Initialize();
+	stage3Scene.Initialize();
+	stage4Scene.Initialize();
+	stage5Scene.Initialize();
 
-	enemy.Initialize();
-
-	backGround.Initialize();
-
-	currentDimension = DimensionState::TWO;
 }
+
 void GameScene::Update() {
-	// ここで各更新処理を行う
-	if (isChanging) {
-		return;
+
+	switch (currentStage) {
+
+	case Stage::STAGE1:
+
+		stage1Scene.Update();
+		stage1Scene.Draw();
+
+		Novice::ScreenPrintf(100, 16, "Stage1");
+
+		break;
+
+	case Stage::STAGE2:
+		stage2Scene.Update();
+		stage2Scene.Draw();
+
+		Novice::ScreenPrintf(100, 16, "Stage2");
+
+		break;
+
+	case Stage::STAGE3:
+		stage3Scene.Update();
+		stage3Scene.Draw();
+
+		Novice::ScreenPrintf(100, 16, "Stage3");
+
+		break;
+
+	case Stage::STAGE4:
+		stage4Scene.Update();
+		stage4Scene.Draw();
+
+		Novice::ScreenPrintf(100, 16, "Stage4");
+
+		break;
+
+	case Stage::STAGE5:
+		stage5Scene.Update();
+		stage5Scene.Draw();
+
+		Novice::ScreenPrintf(100, 16, "Stage5");
+
+		break;
 	}
-
-	input.Update();
-
-	if (input.GetKeyTrigger(DIK_0)) {
-		if (currentDimension == DimensionState::ONE) {
-			currentDimension = DimensionState::TWO;
-		} else {
-			currentDimension = DimensionState::ONE;
-		}
-	}
-
-	enemy.Update();
-
-	player.Update();
-
-	backGround.Update();
-
-	if (currentDimension == DimensionState::ONE) {
-		player.transform.position.y = 0.0f;
-	}
-
-	for (int bi = 0; bi < enemy.kBulletMax; bi++) {
-
-		if (player.parry.parryState == ParryState::NORMAL) {
-			enemy.bullets[bi].isActive = false;
-			break;
-		} else if (player.parry.parryState == ParryState::JUST) {
-			enemy.bullets[bi].isActive = false;
-			break;
-		}
-	}
-
-	CheckHitAll();
-
-	if (input.GetKeyTrigger(DIK_SPACE)) {
-		if (currentDimension == DimensionState::ONE) {
-			if (player.parry.parryState == ParryState::NONE) {
-				player.miss.Activate({player.transform.position.x, player.transform.position.y + 100.0f}, 0.0f);
-			} else if (player.parry.parryState == ParryState::NORMAL) {
-				player.nice.Activate({player.transform.position.x, player.transform.position.y + 100.0f}, 0.0f);
-			} else {
-				player.just.Activate({player.transform.position.x, player.transform.position.y + 100.0f}, 0.0f);
-			}
-		}
-	}
-
-	SetCamera();
 }
 
-void GameScene::Draw() const {
-
-	Novice::DrawBox(0, 120, 1281, 480, 0.0f, 0x000000FF, kFillModeSolid);
-
-	enemy.Draw();
-
-	player.Draw();
-
-	backGround.Draw();
+void GameScene::Draw()const {
 
 }
 
-void GameScene::SetCamera() {
-	player.SetCamera(camera);
-	enemy.SetCamera(camera);
-}
+void GameScene::ExchangeStage(Stage changeStage) {
 
-void GameScene::CheckHitAll() {
+	switch (changeStage) {
 
-	if (currentDimension == DimensionState::ONE) {
-		for (int bi = 0; bi < enemy.kBulletMax; bi++) {
+	case Stage::STAGE1:
+		stage1Scene.Initialize();
+		currentStage = Stage::STAGE1;
 
-			if (!enemy.bullets[bi].isActive) {
-				continue;
-			}
-			//
-			if (player.parry.isParry) {
-				if (Collision::BoxToBox(
-				        player.parry.transform.position, player.parry.width, player.parry.height, {enemy.bullets[bi].transform.position.x, 0.0f}, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
+		break;
 
-					float justArea = player.parry.transform.position.x - player.parry.kJustParryAbleGrace * enemy.bullets[bi].speed;
+	case Stage::STAGE2:
+		stage2Scene.Initialize();
+		currentStage = Stage::STAGE2;
 
-					if (enemy.bullets[bi].transform.position.x >= justArea) {
-						player.parry.parryState = ParryState::JUST;
-						player.parry.color = 0xFF0000FF;
-						player.isUpDamage = true;
-						player.damageUpTime = 150;
-					} else {
-						player.parry.parryState = ParryState::NORMAL;
-						player.parry.color = 0xFFFF00FF;
-					}
+		break;
 
-					enemy.bullets[bi].effect.SetColor(player.parry.color);
+	case Stage::STAGE3:
+		stage3Scene.Initialize();
+		currentStage = Stage::STAGE3;
 
-					enemy.bullets[bi].Deactive();
-					enemy.bullets[bi].transform.position.x = -1000.0f;
-					enemy.bullets[bi].transform.position.y = -1000.0f;
-					break;
-				}
-			}
-		}
+		break;
 
-		// プレイヤーとエネミーの弾の当たり判定（１次元）
-		for (int bi = 0; bi < enemy.kBulletMax; bi++) {
-			if (enemy.bullets[bi].isActive) {
-				if (Collision::BoxToBox(player.transform.position, player.width, player.height, {enemy.bullets[bi].transform.position.x, 0.0f}, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
+	case Stage::STAGE4:
+		stage4Scene.Initialize();
+		currentStage = Stage::STAGE4;
 
-					enemy.bullets[bi].Deactive();
+		break;
 
-					if (!player.isInvinciblity) {
-						player.TakeDamage(1);
-						enemy.bullets[bi].transform.position.x = 0.0f;
-						player.isInvinciblity = true;
-					}
+	case Stage::STAGE5:
+		stage5Scene.Initialize();
+		currentStage = Stage::STAGE5;
 
-				} 
-			}
-		}
-	} else {
-		// プレイヤーとエネミーの弾の当たり判定（２次元）
-		for (int bi = 0; bi < enemy.kBulletMax; bi++) {
-			if (enemy.bullets[bi].isActive) {
-				// 縦幅を少し小さくして、ちょうど当たってるときは当たらないようにする
-				if (Collision::BoxToBox(player.transform.position, player.width, player.height - 6.0f, enemy.bullets[bi].transform.position, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
-
-					enemy.bullets[bi].Deactive();
-
-					if (!player.isInvinciblity) {
-						player.TakeDamage(1);
-						enemy.bullets[bi].transform.position.x = 0.0f;
-						player.isInvinciblity = true;
-					}
-
-				} 
-			}
-		}
-	}
-
-	// プレイヤーの弾とエネミーの弾
-	for (int i = 0; i < player.kBulletMax; i++) {
-		for (int j = 0; j < enemy.kBulletMax; j++) {
-			if (player.bullets[i].isActive) {
-				if (enemy.bullets[j].isActive) {
-					if (Collision::BoxToBox(
-					        enemy.bullets[j].transform.position, enemy.bullets[j].width, enemy.bullets[j].height, player.bullets[i].transform.position, player.bullets[i].width,
-					        player.bullets[i].height)) {
-						player.bullets[i].Deactive();
-					}
-				}
-			}
-		}
-	}
-
-	// プレイヤーの弾とエネミー
-	for (int i = 0; i < player.kBulletMax; i++) {
-		if (player.bullets[i].isActive) {
-			if (Collision::BoxToBox(enemy.transform.position, enemy.width, enemy.height, player.bullets[i].transform.position, player.bullets[i].width, player.bullets[i].height)) {
-				enemy.TakeDamage(player.bullets[i].damage);
-				player.bullets[i].Deactive();
-			}
-		}
+		break;
 	}
 }

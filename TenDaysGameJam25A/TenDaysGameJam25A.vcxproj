@@ -124,6 +124,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="GameClearScene.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="Stage1Scene.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix3x3.cpp" />
@@ -138,6 +139,15 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="SampleSceneYuto.cpp" />
     <ClCompile Include="DeltaTime.cpp" />
     <ClCompile Include="ScaneManager.cpp" />
+    <ClCompile Include="Stage2Scene.cpp" />
+    <ClCompile Include="Stage3Scene.cpp" />
+    <ClCompile Include="Stage4Scene.cpp" />
+    <ClCompile Include="Stage5Scene.cpp" />
+    <ClCompile Include="Stage1Boss.cpp" />
+    <ClCompile Include="Stage2Boss.cpp" />
+    <ClCompile Include="Stage3Boss.cpp" />
+    <ClCompile Include="Stage4Boss.cpp" />
+    <ClCompile Include="Stage5Boss.cpp" />
     <ClCompile Include="StageSelectScene.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Transform2D.cpp" />
@@ -189,6 +199,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="GameClearScene.h" />
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="Stage1Scene.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Matrix3x3.h" />
     <ClInclude Include="Parry.h" />
@@ -202,6 +213,15 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="SampleSceneYuto.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="DeltaTime.h" />
+    <ClInclude Include="Stage2Scene.h" />
+    <ClInclude Include="Stage3Scene.h" />
+    <ClInclude Include="Stage4Scene.h" />
+    <ClInclude Include="Stage5Scene.h" />
+    <ClInclude Include="Stage1Boss.h" />
+    <ClInclude Include="Stage2Boss.h" />
+    <ClInclude Include="Stage3Boss.h" />
+    <ClInclude Include="Stage4Boss.h" />
+    <ClInclude Include="Stage5Boss.h" />
     <ClInclude Include="StageSelectScene.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Transform2D.h" />

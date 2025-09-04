@@ -8,7 +8,7 @@
 #include "ConfigScene.h"
 #include "GameClearScene.h"
 #include "GameOverScene.h"
-#include"GameScene.h"
+#include "GameScene.h"
 #include "BackGround.h"
 
 enum class Scene { TITLE, STAGE_SELECT, CONFIG, CREDIT, INGAME, GAMECLEAR, GAMEOVER, COUNT };
@@ -40,8 +40,6 @@ public:
 	GameScene gameScene;
 	GameClearScene gameClearScene;
 	GameOverScene gameOverScene;
-	BackGround backGround;
-
-
+	Input input;
 
 };

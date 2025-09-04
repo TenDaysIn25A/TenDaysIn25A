@@ -101,9 +101,6 @@
     <Filter Include="Sources\Objects\Enemy">
       <UniqueIdentifier>{fc1fdd02-1dad-4b44-b05a-a92fc916381f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Objects\BackGround">
-      <UniqueIdentifier>{6c81387f-407f-407a-97eb-979997192512}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
@@ -181,6 +178,9 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>Sources\Scenes\GameScene</Filter>
     </ClCompile>
+    <ClCompile Include="BackGround.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
     <ClCompile Include="Color.cpp">
       <Filter>KamataEngine</Filter>
     </ClCompile>
@@ -204,12 +204,6 @@
     </ClCompile>
     <ClCompile Include="GameOverScene.cpp">
       <Filter>Sources\Scenes\GameOverScene</Filter>
-    </ClCompile>
-    <ClCompile Include="BackGround.cpp">
-      <Filter>Sources\Objects\BackGround</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Sources\UI\Button</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -372,6 +366,7 @@
     <ClInclude Include="GameScene.h">
       <Filter>Sources\Scenes\GameScene</Filter>
     </ClInclude>
+    <ClInclude Include="BackGround.h" />
     <ClInclude Include="Reaction.h" />
     <ClInclude Include="TitleScene.h">
       <Filter>Sources\Scenes\TitleScene</Filter>
@@ -390,12 +385,6 @@
     </ClInclude>
     <ClInclude Include="GameOverScene.h">
       <Filter>Sources\Scenes\GameOverScene</Filter>
-    </ClInclude>
-    <ClInclude Include="BackGround.h">
-      <Filter>Sources\Objects\BackGround</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Sources\UI\Button</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

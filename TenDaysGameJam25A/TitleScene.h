@@ -34,6 +34,10 @@ public:
 
 	int grHandle;
 
+	// ボタン
+	Button buttonToStageSelect;
+	Button buttonToConfig;
+	Button buttonToCredit;
 
 };
 

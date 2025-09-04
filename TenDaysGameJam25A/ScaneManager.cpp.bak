@@ -3,7 +3,7 @@
 SceneManager::SceneManager() { Initialize(); };
 
 void SceneManager::Initialize() {
-	gameScene.Initialize();
+
 }
 
 void SceneManager::Update() {
@@ -33,12 +33,12 @@ void SceneManager::Update() {
 
 	case Scene::STAGE_SELECT:
 
+		gameScene.ExchangeStage(stageSelectScene.currentStage);
+
 		stageSelectScene.Update();
 		stageSelectScene.Draw();
 
 		Novice::ScreenPrintf(100, 0, "STAGE_SELECT");
-
-		gameScene.ExchangeStage(stageSelectScene.currentStage);
 
 		break;
 

@@ -16,6 +16,8 @@ void Player::Initialize() {
 	width = 80.0f;
 	height = 80.0f;
 
+	shotCoolTime = kDefaultShotCoolTime;
+
 	parry.transform.position.x = transform.position.x - width;
 	parry.transform.position.y = transform.position.y;
 	parry.width = width;
@@ -34,7 +36,7 @@ void Player::Initialize() {
 		bullets[bi].speed = 40.0f;
 	}
 
-	shotTimer = kShotCoolTime;
+	shotTimer = shotCoolTime;
 
 	miss.Initialize(Novice::LoadTexture("./Resources/images/miss.png"), 256.0f, 128.0f);
 	nice.Initialize(Novice::LoadTexture("./Resources/images/nice.png"), 512.0f, 128.0f);
@@ -67,6 +69,8 @@ void Player::Update() {
 			bullets[bi].damage = kUpedDamage;
 		}
 
+		shotCoolTime = kUpedShotCoolTime;
+
 		if (damageUpTime == 0) {
 			damageUpTime = 150;
 			isUpDamage = false;
@@ -75,6 +79,8 @@ void Player::Update() {
 		for (int bi = 0;bi < kBulletMax;bi++) {
 			bullets[bi].damage = kDefaultDamage;
 		}
+
+		shotCoolTime = kDefaultShotCoolTime;
 	}
 
 	if (currentDimension == DimensionState::ONE) {
@@ -83,14 +89,14 @@ void Player::Update() {
 
 		parry.transform.position.x = transform.position.x - width;
 
-		
+
 	} else {
 
 		Move();
 
 		if (input.GetKey(DIK_SPACE)) {
 
-			if (shotTimer >= kShotCoolTime) {
+			if (shotTimer >= shotCoolTime) {
 
 				shotTimer = 0;
 
@@ -107,7 +113,7 @@ void Player::Update() {
 
 						break;
 					}
-					
+
 				}
 			}
 		}
@@ -119,7 +125,7 @@ void Player::Update() {
 		bullets[bi].Update();
 	}
 
-	if (shotTimer < kShotCoolTime) {
+	if (shotTimer < shotCoolTime) {
 		shotTimer++;
 	}
 }

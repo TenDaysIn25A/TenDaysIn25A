@@ -3,16 +3,10 @@
 #include "Player.h"
 #include "Enemy.h"
 #include"BackGround.h"
-#include"Stage1Scene.h"
-#include"Stage2Scene.h"
-#include"Stage3Scene.h"
-#include"Stage4Scene.h"
-#include"Stage5Scene.h"
 
-class GameScene{
-
+class Stage5Scene{
 public:
-	GameScene();
+	Stage5Scene();
 
 	/// <summary>
 	/// 初期化をここに
@@ -29,8 +23,6 @@ public:
 	/// </summary>
 	void Draw() const;
 
-	void ExchangeStage(Stage changeStage);
-
 	// アクセッサ (Set～とか、Get～とか)
 	// ----------------------------------------------
 
@@ -39,8 +31,6 @@ public:
 	/// </summary>
 	/// <param name="camera"></param>
 	void SetCamera();
-
-	void SetIsChanging(bool flag) { isChanging = flag; };
 
 	// 機能
 	// ----------------------------------------------
@@ -61,17 +51,9 @@ public:
 	DimensionState dimensionState;
 	Renderer renderer;
 	BackGround backGround;
-	Stage currentStage;
 
 	Player player;
 	ParryState parryState;
 	Enemy enemy;
-	Stage1Scene stage1Scene;
-	Stage2Scene stage2Scene;
-	Stage3Scene stage3Scene;
-	Stage4Scene stage4Scene;
-	Stage5Scene stage5Scene;
-
-	bool isChanging;
-
 };
+
