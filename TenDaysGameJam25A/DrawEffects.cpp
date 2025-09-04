@@ -71,7 +71,7 @@ void DrawEffects::Draw() const {
 				currentPos = Lerp(endPosition_, spawnPos_[i], easedT);
 			}
 
-			unsigned int alpha = Lerp(0x00000000u, 0x000000FFu, easedT);
+			unsigned int alpha = Lerp(0x00000000u, 0x000000AAu, easedT);
 			currentTransform.position = currentPos;
 			currentTransform.scale = {scale_, scale_};
 
@@ -94,7 +94,7 @@ void DrawEffects::Draw() const {
 				currentPos = Lerp(endPosition_, spawnPos_[i], easedT);
 			}
 
-			unsigned int alpha = Lerp(0x00000000u, 0x000000FFu, easedT);
+			unsigned int alpha = Lerp(0x00000000u, 0x000000EEu, easedT);
 			currentTransform.position = currentPos;
 			currentTransform.scale = {scale_, scale_};
 

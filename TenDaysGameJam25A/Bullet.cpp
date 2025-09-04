@@ -12,6 +12,7 @@ void Bullet::Initialize() {
 	grHandle = Novice::LoadTexture("./Resources/images/box.png");
 	effect.SetScale(2.0f);
 	effect.Initialize();
+	color = 0xFFFFFFFF;
 }
 
 void Bullet::Update() {

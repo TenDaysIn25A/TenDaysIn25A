@@ -115,7 +115,7 @@ void Stage1Scene::CheckHitAll() {
 						player.parry.color = 0xFFFF00FF;
 					}
 
-					enemy.bullets[bi].effect.SetColor(player.parry.color);
+					//enemy.bullets[bi].effect.SetColor(player.parry.color);
 
 					enemy.bullets[bi].Deactive();
 					enemy.bullets[bi].transform.position.x = -1000.0f;
