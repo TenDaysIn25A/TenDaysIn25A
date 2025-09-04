@@ -36,9 +36,14 @@ void SceneManager::Update() {
 		stageSelectScene.Update();
 		stageSelectScene.Draw();
 
+		if (stageSelectScene.buttonToStage.IsClicked()) {
+			gameScene.ExchangeStage(stageSelectScene.currentStage);
+			currentScene = Scene::INGAME;
+		}
+
 		Novice::ScreenPrintf(100, 0, "STAGE_SELECT");
 
-		gameScene.ExchangeStage(stageSelectScene.currentStage);
+		Novice::ScreenPrintf(100, 32, "SelectNow : %d",stageSelectScene.currentStage );
 
 		break;
 
@@ -65,11 +70,19 @@ void SceneManager::Update() {
 		gameScene.Update();
 		gameScene.Draw();
 
-		if (!gameScene.enemy.isAlive) {
+		if (!gameScene.stage1Scene.enemy.isAlive||
+			!gameScene.stage2Scene.enemy.isAlive||
+			!gameScene.stage3Scene.enemy.isAlive||
+			!gameScene.stage4Scene.enemy.isAlive||
+			!gameScene.stage5Scene.enemy.isAlive) {
 			ExchangeScene(Scene::GAMECLEAR);
 		}
 
-		if (!gameScene.player.isAlive) {
+		if (!gameScene.stage1Scene.player.isAlive ||
+			!gameScene.stage2Scene.player.isAlive || 
+			!gameScene.stage3Scene.player.isAlive || 
+			!gameScene.stage4Scene.player.isAlive || 
+			!gameScene.stage5Scene.player.isAlive) {
 			ExchangeScene(Scene::GAMEOVER);
 		}
 

@@ -27,6 +27,9 @@ public:
 	DrawEffects drawEffects;
 	Transform2D transform;
 	Stage currentStage;
+	Button buttonToRightSide;
+	Button buttonToLeftSide;
+	Button buttonToStage;
 
 	//プロパティ
 	//------------------------------

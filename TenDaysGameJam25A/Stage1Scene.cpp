@@ -16,6 +16,8 @@ void Stage1Scene::Update() {
 	// ここで各更新処理を行う
 	input.Update();
 	
+	backGround.Update();
+
 	if (backGround.isChanging) {
 		return;
 	}
@@ -35,8 +37,6 @@ void Stage1Scene::Update() {
 	enemy.Update();
 
 	player.Update();
-
-	backGround.Update();
 
 	if (currentDimension == DimensionState::ONE) {
 		player.transform.position.y = 0.0f;

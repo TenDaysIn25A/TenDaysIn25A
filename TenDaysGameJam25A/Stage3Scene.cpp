@@ -20,6 +20,8 @@ void Stage3Scene::Update() {
 		return;
 	}
 
+	backGround.Update();
+
 	if (input.GetKeyTrigger(DIK_I)) {
 		Initialize();
 	}
@@ -35,8 +37,6 @@ void Stage3Scene::Update() {
 	enemy.Update();
 
 	player.Update();
-
-	backGround.Update();
 
 	if (currentDimension == DimensionState::ONE) {
 		player.transform.position.y = 0.0f;

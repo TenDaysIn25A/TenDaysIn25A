@@ -15,11 +15,12 @@ void Stage2Scene::Initialize() {
 void Stage2Scene::Update() {
 	// ここで各更新処理を行う
 	input.Update();
+
+	backGround.Update();
 	
 	if (backGround.isChanging) {
 		return;
 	}
-
 
 	if (input.GetKeyTrigger(DIK_0)) {
 		if (currentDimension == DimensionState::ONE) {
@@ -36,8 +37,6 @@ void Stage2Scene::Update() {
 	enemy.Update();
 
 	player.Update();
-
-	backGround.Update();
 
 	if (currentDimension == DimensionState::ONE) {
 		player.transform.position.y = 0.0f;
