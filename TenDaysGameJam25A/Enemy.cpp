@@ -7,11 +7,11 @@ void Enemy::Initialize() {
 	width = 128.0f;
 	height = 480.0f;
 	isAlive = true;
-	hp = 300;
-	maxHp = 300;
+	hp = 450;
+	maxHp = 450;
 
-	exchengePhaseSecondHp = 200;
-	exchengePhaseThirdHp = 100;
+	exchengePhaseSecondHp = 300;
+	exchengePhaseThirdHp = 150;
 
 	shotTimer = 0;
 	shotCounter = 0;

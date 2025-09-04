@@ -1,16 +1,11 @@
 ﻿#pragma once
 #include "Dlib.h"
 #include "Bullet.h"
-
+#include "Enemy.h"
 
 enum class Stage2BossAttack {
 	WALL, MACHINGUN, TUNNEL, ALL_WALL,FOURWALL
 };
-
-enum class AttackPhase {
-	FIRST, SECOND, THIRD,
-};
-
 
 class Stage2Boss {
 public:
@@ -169,6 +164,10 @@ public:
 	float width;
 	float height;
 	bool isAlive;
+
+	const unsigned int kDamageColor = 0xAA5555FF;
+	const unsigned int kColor = 0xFFFFAAFF;
+	int color;
 
 	int attackPositionX;
 

@@ -15,6 +15,7 @@ public:
 	~DrawEffects() = default;
 
 	void Initialize();
+	void Initialize(int textureHandle, float width, float height);
 	void Update(float deltaTime = 1.0f / 60.0f);
 	void Draw() const;
 
@@ -52,6 +53,8 @@ private:
 
 	Renderer renderer_;
 	int grHandle_ = Novice::LoadTexture("./Resources/images/fx2.png");
+	float width_;
+	float height_;
 
 	void Initialize(const Vector2& pos, float range, float duration, const Transform2D& camera, Ease ease, EffectType type);
 

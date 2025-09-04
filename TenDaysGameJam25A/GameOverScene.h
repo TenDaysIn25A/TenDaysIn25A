@@ -24,6 +24,8 @@ public:
 	Renderer renderer;
 	DrawEffects drawEffects;
 	Transform2D transform;
+	Button buttonToRetry;
+	Button buttonToStageSelect;
 
 
 	//プロパティ

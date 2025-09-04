@@ -76,9 +76,9 @@ void DrawEffects::Draw() const {
 			currentTransform.scale = {scale_, scale_};
 
 			if (isActiveFade_) {
-				renderer_.DrawSprite(currentTransform, 6.0f, 6.0f, 0.0f, grHandle_, color_ - alpha);
+				renderer_.DrawSprite(currentTransform, width_, height_, 0.0f, grHandle_, color_ - alpha);
 			} else {
-				renderer_.DrawSprite(currentTransform, 6.0f, 6.0f, 0.0f, grHandle_, color_);
+				renderer_.DrawSprite(currentTransform, width_, height_, 0.0f, grHandle_, color_);
 			}
 		}
 
@@ -117,6 +117,13 @@ void DrawEffects::Initialize() {
 	easeType_ = EASE_OUT_QUAD;
 	type_ = EFFECT_NONE;
 	color_ = 0xFFFFFFFF;
+}
+
+void DrawEffects::Initialize(int textureHandle, float width, float height) { 
+	Initialize();
+	width_ = width; 
+	height_ = height;
+	grHandle_ = textureHandle;
 }
 
 void DrawEffects::Initialize(const Vector2& pos, float range, float duration, const Transform2D& camera, Ease ease, EffectType type) {

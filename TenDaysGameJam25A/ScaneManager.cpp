@@ -38,7 +38,7 @@ void SceneManager::Update() {
 
 		if (stageSelectScene.buttonToStage.IsClicked()) {
 			gameScene.ExchangeStage(stageSelectScene.currentStage);
-			currentScene = Scene::INGAME;
+			ExchangeScene(Scene::INGAME);
 		}
 
 		Novice::ScreenPrintf(100, 0, "STAGE_SELECT");
@@ -95,6 +95,14 @@ void SceneManager::Update() {
 		gameClearScene.Update();
 		gameClearScene.Draw();
 
+		if (gameClearScene.buttonToRetry.IsClicked()) {
+			ExchangeScene(Scene::INGAME);
+		}
+
+		if (gameClearScene.buttonToStageSelect.IsClicked()) {
+			ExchangeScene(Scene::STAGE_SELECT);
+		}
+
 		Novice::ScreenPrintf(100, 0, "GAMECLEAR");
 
 		break;
@@ -103,6 +111,15 @@ void SceneManager::Update() {
 
 		gameOverScene.Update();
 		gameOverScene.Draw();
+
+
+		if (gameOverScene.buttonToRetry.IsClicked()) {
+			ExchangeScene(Scene::INGAME);
+		}
+
+		if (gameOverScene.buttonToStageSelect.IsClicked()) {
+			ExchangeScene(Scene::STAGE_SELECT);
+		}
 
 		Novice::ScreenPrintf(100, 0, "GAMEOVER");
 

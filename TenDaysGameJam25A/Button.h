@@ -41,17 +41,18 @@ public:
 	float t;
 	int tweenStepHovered;
 	Ease ease;
+	bool isAnimationClicked;
+	
+	// 各状態のスケール
+	float scaleNone;
+	float scaleHover;
+	float scaleCliked;
 
 	// マウス
 	Vector2 mousePos;
 
 	// 状態
 	ButtonState state;
-	
-	// 各状態のスケール
-	float scaleNone;
-	float scaleHover;
-	float scaleCliked;
 
 	// グラフハンドル
 	int grHandle;

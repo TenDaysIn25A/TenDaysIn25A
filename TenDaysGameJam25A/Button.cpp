@@ -10,6 +10,7 @@ void Button::Initialize() {
 	renderer.SetCamera(camera);
 	width = 128.0f;
 	height = 32.0f;
+	ease = EASE_INOUT_QUAD;
 }
 
 void Button::Initialize(int textureHandle, float w, float h) {

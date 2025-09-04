@@ -2,7 +2,6 @@
 #include "Dlib.h"
 #include "Bullet.h"
 
-
 enum class EnemyAttack {
 	WALL, MACHINGUN, TUNNEL, ALL_WALL,FOURWALL
 };

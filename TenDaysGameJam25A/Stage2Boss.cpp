@@ -10,6 +10,8 @@ void Stage2Boss::Initialize() {
 	hp = 300;
 	maxHp = 300;
 
+	color = kColor;
+
 	exchengePhaseSecondHp = 200;
 	exchengePhaseThirdHp = 100;
 
@@ -63,6 +65,7 @@ void Stage2Boss::Update() {
 		}
 	}
 
+	color = kColor;
 }
 
 void Stage2Boss::Draw() const {
@@ -77,7 +80,7 @@ void Stage2Boss::Draw() const {
 		bullets[i].Draw();
 	}
 
-	renderer.DrawSprite(transform, width, height, 0.0f, grHandleCaracter, 0xFFAAAAFF);
+	renderer.DrawSprite(transform, width, height, 0.0f, grHandleCaracter, color);
 }
 
 void Stage2Boss::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
@@ -92,6 +95,8 @@ void Stage2Boss::TakeDamage(int damage) {
 	}
 
 	hp -= damage;
+
+	color = kDamageColor;
 
 	if (hp <= 0) {
 		Destory();
