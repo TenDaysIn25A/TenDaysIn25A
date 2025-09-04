@@ -4,22 +4,19 @@ ConfigScene::ConfigScene() { Initialize(); };
 
 void ConfigScene::Initialize() {
 
-	buttonToTitle.transform.position = { -590.0f,310.0f };
 
-	buttonToTitle.width = 40.0f;
-	buttonToTitle.height = 40.0f;
 
 }
 
 void ConfigScene::Update() {
 
-	buttonToTitle.Update();
+
 
 }
 
 void ConfigScene::Draw() const {
 
-	buttonToTitle.Draw();
+
 
 }
 

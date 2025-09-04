@@ -44,9 +44,9 @@ public:
 	bool isAnimationClicked;
 	
 	// 各状態のスケール
-	float scaleNone;
-	float scaleHover;
-	float scaleCliked;
+	Vector2 scaleNone;
+	Vector2 scaleHover;
+	Vector2 scaleCliked;
 
 	// マウス
 	Vector2 mousePos;
@@ -59,4 +59,6 @@ public:
 	float width;
 	float height;
 	unsigned int color;
+
+	ButtonState nextState;
 };

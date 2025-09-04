@@ -296,8 +296,8 @@ void Stage3Boss::AttackMachingun() {
 }
 
 void Stage3Boss::AttackFishBone() {
-	if (shotTimer % 10 == 0) {
-		if (shotTimer >= 20) {
+	if (shotTimer % 8 == 0) {
+		if (shotTimer >= 16) {
 			shotTimer = 0;
 		}
 
@@ -305,14 +305,14 @@ void Stage3Boss::AttackFishBone() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (shotCounter % 10 == 4) {
 					if (!bullets[i].isActive) {
-						InitializeBullets(i,{.height = 200.0f});
+						InitializeBullets(i, { .height = 200.0f });
 						bullets[i].ShotDir({ transform.position.x, 140.0f }, { 1.0f, 0.0f }, 0.0f);
 						break;
 
 					}
 				} else {
 					if (!bullets[i].isActive) {
-						InitializeBullets(i,{.height = 120.0f});
+						InitializeBullets(i, { .height = 120.0f });
 						bullets[i].ShotDir({ transform.position.x, 180.0f }, { 1.0f, 0.0f }, 0.0f);
 						break;
 					}
@@ -324,14 +324,14 @@ void Stage3Boss::AttackFishBone() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (shotCounter % 10 == 9) {
 					if (!bullets[i].isActive) {
-						InitializeBullets(i,{.height = 200.0f});
+						InitializeBullets(i, { .height = 200.0f });
 						bullets[i].ShotDir({ transform.position.x, -140.0f }, { 1.0f, 0.0f }, 0.0f);
 						break;
 					}
 
 				} else {
 					if (!bullets[i].isActive) {
-						InitializeBullets(i,{.height = 120.0f});
+						InitializeBullets(i, { .height = 120.0f });
 						bullets[i].ShotDir({ transform.position.x, -180.0f }, { 1.0f, 0.0f }, 0.0f);
 						break;
 					}
@@ -339,7 +339,7 @@ void Stage3Boss::AttackFishBone() {
 			}
 		}
 
-		if (shotCounter >= 59) {
+		if (shotCounter >= 29) {
 			shotCounter = 0;
 
 			CommonAttackSelect();
@@ -347,8 +347,6 @@ void Stage3Boss::AttackFishBone() {
 			shotCounter++;
 		}
 	}
-
-
 }
 
 void Stage3Boss::AttackAllWall() {

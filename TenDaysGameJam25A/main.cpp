@@ -145,10 +145,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// フレームの終了
 		Novice::EndFrame();
 
-		// ESCキーが押されたらループを抜ける
-		if (input.GetKeyTrigger(DIK_ESCAPE)) {
-			break;
-		}
 	}
 
 	// ライブラリの終了

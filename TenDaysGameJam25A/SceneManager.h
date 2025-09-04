@@ -27,7 +27,6 @@ public:
 	void Update();
 	void ExchangeScene(Scene changeScene);
 
-
 	//==============================
 	// メンバ変数
 	//==============================
@@ -41,5 +40,7 @@ public:
 	GameClearScene gameClearScene;
 	GameOverScene gameOverScene;
 	Input input;
+
+	bool isPause;
 
 };

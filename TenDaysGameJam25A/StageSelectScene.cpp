@@ -7,10 +7,12 @@ void StageSelectScene::Initialize() {
 	buttonToStage.Initialize();
 	buttonToRightSide.Initialize();
 	buttonToLeftSide.Initialize();
+	buttonToTitle.Initialize();
 
 	buttonToLeftSide.transform.position = { -550.0f,0.0f };
 	buttonToRightSide.transform.position = { 550.0f,0.0f };
 	buttonToStage.transform.position = { 0.0f,-250.0f };
+	buttonToTitle.transform.position = { -590.0f,310.0f };
 
 	buttonToLeftSide.width = 128.0f;
 	buttonToLeftSide.height = 128.0f;
@@ -18,6 +20,8 @@ void StageSelectScene::Initialize() {
 	buttonToRightSide.height = 128.0f;
 	buttonToStage.width = 200.0f;
 	buttonToStage.height = 100.0f;
+	buttonToTitle.width = 40.0f;
+	buttonToTitle.height = 40.0f;
 
 	currentStage = Stage::STAGE1;
 }
@@ -28,6 +32,7 @@ void StageSelectScene::Update() {
 	buttonToStage.Update();
 	buttonToRightSide.Update();
 	buttonToLeftSide.Update();
+	buttonToTitle.Update();
 
 	if (buttonToRightSide.IsClicked()) {
 
@@ -47,34 +52,13 @@ void StageSelectScene::Update() {
 		}
 	}
 
-	//if (input.GetKeyTrigger(DIK_Z)) {
-	//	currentStage = Stage::STAGE1;
-	//}
-
-	//if (input.GetKeyTrigger(DIK_X)) {
-	//	currentStage = Stage::STAGE2;
-	//}
-
-	//if (input.GetKeyTrigger(DIK_C)) {
-	//	currentStage = Stage::STAGE3;
-	//}
-
-	//if (input.GetKeyTrigger(DIK_V)) {
-	//	currentStage = Stage::STAGE4;
-	//}
-
-	//if (input.GetKeyTrigger(DIK_B)) {
-	//	currentStage = Stage::STAGE5;
-	//}
-
 }
 
 void StageSelectScene::Draw() const {
-
 	buttonToStage.Draw();
 	buttonToRightSide.Draw();
 	buttonToLeftSide.Draw();
-
+	buttonToTitle.Draw();
 }
 
 void StageSelectScene::SetCamera() {

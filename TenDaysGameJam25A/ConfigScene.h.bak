@@ -25,7 +25,7 @@ public:
 	Renderer renderer;
 	DrawEffects drawEffects;
 	Transform2D transform;
-	Button buttonToTitle;
+
 
 	//プロパティ
 	//------------------------------

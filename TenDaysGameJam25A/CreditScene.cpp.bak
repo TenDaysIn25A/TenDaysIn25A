@@ -3,23 +3,19 @@ CreditScene::CreditScene() { Initialize(); };
 
 void CreditScene::Initialize() {
 
-	buttonToTitle.transform.position = { -590.0f,310.0f };
 
-	buttonToTitle.width = 40.0f;
-	buttonToTitle.height = 40.0f;
 
 }
 
 void CreditScene::Update() {
 
-	buttonToTitle.Update();
+
 
 }
 
 void CreditScene::Draw() const {
 
 
-	buttonToTitle.Draw();
 
 }
 

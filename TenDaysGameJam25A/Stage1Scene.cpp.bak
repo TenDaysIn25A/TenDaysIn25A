@@ -169,8 +169,6 @@ void Stage1Scene::CheckHitAll() {
 					if (Collision::BoxToBox(
 					        enemy.bullets[j].transform.position, enemy.bullets[j].width, enemy.bullets[j].height, player.bullets[i].transform.position, player.bullets[i].width,
 					        player.bullets[i].height)) {
-
-						player.bullets[i].effect.SetColor(player.bullets[i].color);
 						player.bullets[i].Deactive();
 					}
 				}
@@ -183,7 +181,6 @@ void Stage1Scene::CheckHitAll() {
 		if (player.bullets[i].isActive) {
 			if (Collision::BoxToBox(enemy.transform.position, enemy.width, enemy.height, player.bullets[i].transform.position, player.bullets[i].width, player.bullets[i].height)) {
 				enemy.TakeDamage(player.bullets[i].damage);
-				player.bullets[i].effect.SetColor(player.bullets[i].color);
 				player.bullets[i].Deactive();
 			}
 		}

@@ -291,8 +291,8 @@ void Enemy::AttackMachingun() {
 }
 
 void Enemy::AttackFishBone() {
-	if (shotTimer % 10 == 0) {
-		if (shotTimer >= 20) {
+	if (shotTimer % 8 == 0) {
+		if (shotTimer >= 16) {
 			shotTimer = 0;
 		}
 
@@ -334,7 +334,7 @@ void Enemy::AttackFishBone() {
 			}
 		}
 
-		if (shotCounter >= 59) {
+		if (shotCounter >= 29) {
 			shotCounter = 0;
 
 			CommonAttackSelect();
@@ -342,8 +342,6 @@ void Enemy::AttackFishBone() {
 			shotCounter++;
 		}
 	}
-
-
 }
 
 void Enemy::AttackAllWall() {

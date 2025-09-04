@@ -1,8 +1,8 @@
-﻿#include "Stage1Boss.h"
+﻿#include "Stage2Boss.h"
 
-Stage1Boss::Stage1Boss() { Initialize(); }
+Stage2Boss::Stage2Boss() { Initialize(); }
 
-void Stage1Boss::Initialize() {
+void Stage2Boss::Initialize() {
 	speed = 10.0f;
 	width = 128.0f;
 	height = 480.0f;
@@ -20,7 +20,7 @@ void Stage1Boss::Initialize() {
 	transform.position = { -576.0f, 0.0f };
 	transform.rotation = 0.0f;
 	transform.scale = { 1.0f, 1.0f };
-	attack = Stage1BossAttack::WALL;
+	attack = Stage2BossAttack::WALL;
 	attackPhase = AttackPhase::FIRST;
 
 	grHandleCaracter = Novice::LoadTexture("./Resources/images/box.png");
@@ -31,7 +31,7 @@ void Stage1Boss::Initialize() {
 	}
 }
 
-void Stage1Boss::InitializeBullets(int index, const BulletConfig& bulletConfig) {
+void Stage2Boss::InitializeBullets(int index, const BulletConfig& bulletConfig) {
 	bullets[index].Initialize();
 	bullets[index].width = bulletConfig.width;
 	bullets[index].height = bulletConfig.height;
@@ -41,7 +41,7 @@ void Stage1Boss::InitializeBullets(int index, const BulletConfig& bulletConfig) 
 	bullets[index].grHandle = bulletConfig.grHandle;
 }
 
-void Stage1Boss::Update() {
+void Stage2Boss::Update() {
 	input.Update();
 
 	//死んだら、ここで返る
@@ -68,7 +68,7 @@ void Stage1Boss::Update() {
 	color = kColor;
 }
 
-void Stage1Boss::Draw() const {
+void Stage2Boss::Draw() const {
 	//死んだら、ここで返る
 	if (!isAlive) {
 		return;
@@ -83,13 +83,13 @@ void Stage1Boss::Draw() const {
 	renderer.DrawSprite(transform, width, height, 0.0f, grHandleCaracter, color);
 }
 
-void Stage1Boss::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
+void Stage2Boss::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
 
-void Stage1Boss::Move() {
+void Stage2Boss::Move() {
 
 }
 
-void Stage1Boss::TakeDamage(int damage) {
+void Stage2Boss::TakeDamage(int damage) {
 	if (!isAlive) {
 		return;
 	}
@@ -103,7 +103,7 @@ void Stage1Boss::TakeDamage(int damage) {
 	}
 }
 
-void Stage1Boss::Destory() {
+void Stage2Boss::Destory() {
 	isAlive = false;
 
 	for (int i = 0; i < kBulletMax; i++) {
@@ -111,21 +111,21 @@ void Stage1Boss::Destory() {
 	}
 }
 
-void Stage1Boss::Shot() {
+void Stage2Boss::Shot() {
 	switch (attack) {
-	case Stage1BossAttack::WALL:
+	case Stage2BossAttack::WALL:
 		AttackWall();
 		break;
-	case Stage1BossAttack::MACHINGUN:
+	case Stage2BossAttack::MACHINGUN:
 		AttackMachingun();
 		break;
-	case Stage1BossAttack::TUNNEL:
+	case Stage2BossAttack::TUNNEL:
 		AttackFishBone();
 		break;
-	case Stage1BossAttack::ALL_WALL:
+	case Stage2BossAttack::ALL_WALL:
 		AttackAllWall();
 		break;
-	case Stage1BossAttack::FOURWALL:
+	case Stage2BossAttack::FOURWALL:
 		AttackFourWall();
 		break;
 	}
@@ -133,30 +133,30 @@ void Stage1Boss::Shot() {
 	shotTimer++;
 }
 
-void Stage1Boss::CommonAttackSelect() {
+void Stage2Boss::CommonAttackSelect() {
 	switch (attackPhase) {
 	case AttackPhase::FIRST:
-		attack = Stage1BossAttack::WALL;
+		attack = Stage2BossAttack::WALL;
 		break;
 	case AttackPhase::SECOND:
-		attack = Stage1BossAttack::MACHINGUN;
+		attack = Stage2BossAttack::MACHINGUN;
 		break;
 	case AttackPhase::THIRD:
-		attack = Stage1BossAttack::FOURWALL;
+		attack = Stage2BossAttack::FOURWALL;
 		break;
 	}
 }
 
-void Stage1Boss::SpecialAttackSelect() {
+void Stage2Boss::SpecialAttackSelect() {
 	int randomAttack;
 	switch (attackPhase) {
 	case AttackPhase::FIRST:
 		randomAttack = Random::RandomInt(1, 2);
 
 		if (randomAttack == 1) {
-			attack = Stage1BossAttack::ALL_WALL;
+			attack = Stage2BossAttack::ALL_WALL;
 		} else if (randomAttack == 2) {
-			attack = Stage1BossAttack::TUNNEL;
+			attack = Stage2BossAttack::TUNNEL;
 		} else {
 		}
 		break;
@@ -164,9 +164,9 @@ void Stage1Boss::SpecialAttackSelect() {
 		randomAttack = Random::RandomInt(1, 2);
 
 		if (randomAttack == 1) {
-			attack = Stage1BossAttack::ALL_WALL;
+			attack = Stage2BossAttack::ALL_WALL;
 		} else if (randomAttack == 2) {
-			attack = Stage1BossAttack::TUNNEL;
+			attack = Stage2BossAttack::TUNNEL;
 		} else {
 		}
 		break;
@@ -174,16 +174,16 @@ void Stage1Boss::SpecialAttackSelect() {
 		randomAttack = Random::RandomInt(1, 2);
 		
 		if (randomAttack == 1) {
-			attack = Stage1BossAttack::ALL_WALL;
+			attack = Stage2BossAttack::ALL_WALL;
 		} else if (randomAttack == 2) {
-			attack = Stage1BossAttack::TUNNEL;
+			attack = Stage2BossAttack::TUNNEL;
 		} else {
 		}
 		break;
 	}
 }
 
-void Stage1Boss::AttackWall() {
+void Stage2Boss::AttackWall() {
 	if (shotTimer >= 80) {
 		shotTimer = 0;
 
@@ -226,7 +226,7 @@ void Stage1Boss::AttackWall() {
 	}
 }
 
-void Stage1Boss::AttackFourWall() {
+void Stage2Boss::AttackFourWall() {
 	randomPositionY;
 
 	if (shotTimer >= 160) {
@@ -267,7 +267,7 @@ void Stage1Boss::AttackFourWall() {
 	}
 }
 
-void Stage1Boss::AttackMachingun() {
+void Stage2Boss::AttackMachingun() {
 	if (shotTimer >= 40) {
 		shotTimer = 0;
 
@@ -295,7 +295,7 @@ void Stage1Boss::AttackMachingun() {
 
 }
 
-void Stage1Boss::AttackFishBone() {
+void Stage2Boss::AttackFishBone() {
 	if (shotTimer % 10 == 0) {
 		if (shotTimer >= 20) {
 			shotTimer = 0;
@@ -351,7 +351,7 @@ void Stage1Boss::AttackFishBone() {
 
 }
 
-void Stage1Boss::AttackAllWall() {
+void Stage2Boss::AttackAllWall() {
 	if (shotTimer >= 80) {
 		shotTimer = 0;
 
@@ -360,6 +360,7 @@ void Stage1Boss::AttackAllWall() {
 		if (shotCounter == 7 || shotCounter == 0) {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
+					bullets[i].height = 480.0f;
 					InitializeBullets(i, {.height = 480.0f});
 					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
 					break;
