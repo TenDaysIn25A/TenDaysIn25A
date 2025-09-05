@@ -249,7 +249,7 @@ void GameScene::Draw()const {
 	backGround.Draw();
 
 	if (player.currentStamina >= 0.0f) {
-		renderer.DrawSprite(player.stamina, player.currentStamina * 2, player.kStaminaHeight, 0.0f, player.grhandleStamina, 0x00FF00FF);
+		renderer.DrawSprite(player.stamina, player.currentStamina * 1.3f, player.kStaminaHeight, 0.0f, player.grhandleStamina, 0x00FF00FF);
 	}
 
 	player.miss.Draw();

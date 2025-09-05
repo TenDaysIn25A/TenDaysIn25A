@@ -8,7 +8,7 @@ void Player::Initialize() {
 	currentLife = 3;
 	for(int i = 0;i < currentLife;i++){
 	
-		life[i].position.x = 580.0f - i * 60.0f;
+		life[i].position.x = -580.0f + i * 60.0f;
 		life[i].position.y = -300.0f;
 
 	}
@@ -49,7 +49,7 @@ void Player::Initialize() {
 
 	currentStamina = kMaxStamina;
 	grhandleStamina = Novice::LoadTexture("./Resources/images/box.png");
-	stamina.position = { 0.0f,300.0f };
+	stamina.position = { 100.0f,-300.0f };
 	staminaRecoverCoolTime = kStaminaRecoverCoolTime;
 
 	miss.Initialize(Novice::LoadTexture("./Resources/images/miss.png"), 256.0f, 128.0f);
@@ -220,8 +220,8 @@ void Player::ClampInWindow2D() {
 		transform.position.y = -200.0f;
 	}
 
-	if (transform.position.x >= 472.0f) {
-		transform.position.x = 472.0f;
+	if (transform.position.x >= 380.0f) {
+		transform.position.x = 380.0f;
 	}
 
 	if (transform.position.x <= -600.0f) {
