@@ -79,6 +79,7 @@ public:
 	Reaction nice;
 	Reaction just;
 	BackGround backGround;
+	Click click;
 
 	// プレイヤープロパティ
 	// ----------------------------------------------
@@ -99,19 +100,32 @@ public:
 	const int kUpedShotCoolTime = 5;
 	const int kDefaultShotCoolTime = 10;
 
+	const int kParryTimer = 2;
 	const int kUpedDamage = 4;
 	const int kDefaultDamage = 2;
 	int damageUpTime;
 
+	Transform2D stamina;
+	const float kStaminaHeight = 60.0f;
+	int grhandleStamina;
+
 	// ステータス
 	// ----------------------------------------------
 	int life;
+	float currentStamina;
 	int invincibleTimer;
+	int staminaRecoverCoolTime;
 	const int kInvincibleTimer = 60;
+	const int kStaminaRecoverCoolTime = 150;
+	const float kMaxStamina = 600.0f;
+	const float kConsumedStamina = 2.0f;
+	const float kFirstConsumedStamina = 60.0f;
+	const float kRecoverStaminaAmount = 5.0f;
 
 	bool isInvinciblity;
 	bool isAlive;
 	bool isUpDamage;
+	bool isStaminaRecovery;
 
 	// 包含オブジェクト
 	// ----------------------------------------------

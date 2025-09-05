@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <Novice.h>
 
-class Click{
+class Click {
 public:
 	Click() = default;
 	~Click() = default;
@@ -41,7 +41,7 @@ public:
 
 private:
 	// staticな変数は値が共有される。
-	int clicks_[8];
-	int preClicks_[8];
+	int clicks_[8] = { 0 };
+	int preClicks_[8] = { 0 };
 };
 

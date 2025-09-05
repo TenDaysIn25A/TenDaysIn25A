@@ -62,6 +62,7 @@ public:
 	Renderer renderer;
 	BackGround backGround;
 	Stage currentStage;
+	Click click;
 
 	Player player;
 	ParryState parryState;

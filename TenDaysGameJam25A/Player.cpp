@@ -18,6 +18,7 @@ void Player::Initialize() {
 
 	shotCoolTime = kDefaultShotCoolTime;
 
+	//パリィ
 	parry.transform.position.x = transform.position.x - width;
 	parry.transform.position.y = transform.position.y;
 	parry.width = width;
@@ -25,6 +26,7 @@ void Player::Initialize() {
 	parry.parryState = ParryState::NONE;
 	parry.isParryAble = false;
 	parry.isCanJust = false;
+
 	grHandleCaracter = Novice::LoadTexture("./Resources/images/box.png");
 
 	for (int bi = 0;bi < kBulletMax;bi++) {
@@ -38,6 +40,11 @@ void Player::Initialize() {
 
 	shotTimer = shotCoolTime;
 
+	currentStamina = kMaxStamina;
+	grhandleStamina = Novice::LoadTexture("./Resources/images/box.png");
+	stamina.position = { 0.0f,300.0f };
+	staminaRecoverCoolTime = kStaminaRecoverCoolTime;
+
 	miss.Initialize(Novice::LoadTexture("./Resources/images/miss.png"), 256.0f, 128.0f);
 	nice.Initialize(Novice::LoadTexture("./Resources/images/nice.png"), 512.0f, 128.0f);
 	just.Initialize(Novice::LoadTexture("./Resources/images/just.png"), 512.0f, 128.0f);
@@ -45,12 +52,11 @@ void Player::Initialize() {
 
 void Player::Update() {
 	input.Update();
+	click.Update();
 
 	miss.Update();
 	nice.Update();
 	just.Update();
-
-	transform.position.x = 300.0f + (3 - life) * 160.0f;
 
 	if (isInvinciblity) {
 
@@ -90,11 +96,15 @@ void Player::Update() {
 		parry.transform.position.x = transform.position.x - width;
 
 
+		currentStamina -= kConsumedStamina;
+
+
+		staminaRecoverCoolTime = kStaminaRecoverCoolTime;
 	} else {
 
 		Move();
 
-		if (input.GetKey(DIK_SPACE)) {
+		if (click.GetClick(0)) {
 
 			if (shotTimer >= shotCoolTime) {
 
@@ -110,12 +120,23 @@ void Player::Update() {
 						} else {
 							bullets[bi].color = 0xFFFFFFFF;
 						}
-
 						break;
 					}
-
 				}
 			}
+		}
+
+		if (currentStamina < kMaxStamina) {
+
+			if (staminaRecoverCoolTime > 0) {
+				staminaRecoverCoolTime--;
+			} else {
+				currentStamina += kRecoverStaminaAmount;
+			}
+
+		} else {
+			currentStamina = kMaxStamina;
+			staminaRecoverCoolTime = kStaminaRecoverCoolTime;
 		}
 
 		ClampInWindow2D();
@@ -142,7 +163,6 @@ void Player::TakeDamage(int damage) {
 	if (life <= 0) {
 		Destroy();
 	}
-
 }
 
 void Player::Draw() const {
@@ -168,8 +188,16 @@ void Player::Move() {
 		direction.y = 1.0f;
 	}
 
+	if (input.GetKey(DIK_A)) {
+		direction.x = -1.0f;
+	}
+
 	if (input.GetKey(DIK_S)) {
 		direction.y = -1.0f;
+	}
+
+	if (input.GetKey(DIK_D)) {
+		direction.x = 1.0f;
 	}
 
 	velocity = Vector2::Normalize(direction) * speed;

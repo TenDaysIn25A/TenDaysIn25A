@@ -15,8 +15,33 @@ void GameScene::Initialize() {
 void GameScene::Update() {
 
 	input.Update();
+	click.Update();
 
 	backGround.Update();
+
+	if (player.currentStamina > player.kFirstConsumedStamina) {
+
+		if (backGround.click.GetClickTrigger(1)) {
+
+			if (!backGround.isChanging) {
+				backGround.Activate();
+				player.currentStamina -= player.kFirstConsumedStamina;
+			}
+		}
+
+		if (backGround.click.GetClickRelease(1)) {
+
+			if (!backGround.isChanging) {
+				backGround.Activate();
+				player.staminaRecoverCoolTime = player.kStaminaRecoverCoolTime;
+			}
+		}
+	} 
+
+	if (player.currentStamina < 0) {
+		player.currentStamina = 0;
+		backGround.Activate();
+	}
 
 	if (backGround.isChanging) {
 		return;
@@ -25,8 +50,6 @@ void GameScene::Update() {
 	if (input.GetKeyTrigger(DIK_I)) {
 		Initialize();
 	}
-
-
 
 	if (currentDimension == DimensionState::ONE) {
 		player.transform.position.y = 0.0f;
@@ -60,17 +83,20 @@ void GameScene::Update() {
 
 	CheckHitAll();
 
-	if (input.GetKeyTrigger(DIK_SPACE)) {
+	if (player.click.GetClickTrigger(0)) {
 		if (currentDimension == DimensionState::ONE) {
 			if (player.parry.parryState == ParryState::NONE) {
-				player.miss.Activate({ player.transform.position.x, player.transform.position.y + 100.0f }, 0.0f);
+							player.miss.Activate({ player.transform.position.x, player.transform.position.y + 100.0f }, 0.0f);
 			} else if (player.parry.parryState == ParryState::NORMAL) {
 				player.nice.Activate({ player.transform.position.x, player.transform.position.y + 100.0f }, 0.0f);
 			} else {
 				player.just.Activate({ player.transform.position.x, player.transform.position.y + 100.0f }, 0.0f);
 			}
 		}
+
+		
 	}
+
 
 }
 
@@ -83,23 +109,25 @@ void GameScene::CheckHitAll() {
 				continue;
 			}
 			
+			//パリィの当たり判定
 			if (player.parry.isParry) {
 				if (Collision::BoxToBox(
 					player.parry.transform.position, player.parry.width, player.parry.height, { stage1Scene.enemy.bullets[bi].transform.position.x, 0.0f }, stage1Scene.enemy.bullets[bi].width, stage1Scene.enemy.bullets[bi].height)) {
 
 					float justArea = player.parry.transform.position.x - player.parry.kJustParryAbleGrace * stage1Scene.enemy.bullets[bi].speed;
 
+					player.parry.parryState = ParryState::NORMAL;
+					player.parry.color = 0xFFFF00FF;
+
+					
 					if (stage1Scene.enemy.bullets[bi].transform.position.x >= justArea) {
 						player.parry.parryState = ParryState::JUST;
 						player.parry.color = 0xFF0000FF;
 						player.isUpDamage = true;
 						player.damageUpTime = 150;
-					} else {
-						player.parry.parryState = ParryState::NORMAL;
-						player.parry.color = 0xFFFF00FF;
-					}
+					} 
 
-					//enemy.bullets[bi].effect.SetColor(player.parry.color);
+					stage1Scene.enemy.bullets[bi].effect.SetColor(player.parry.color);
 
 					stage1Scene.enemy.bullets[bi].Deactive();
 					stage1Scene.enemy.bullets[bi].transform.position.x = -1000.0f;
@@ -117,7 +145,7 @@ void GameScene::CheckHitAll() {
 					stage1Scene.enemy.bullets[bi].Deactive();
 
 					if (!player.isInvinciblity) {
-						player.TakeDamage(1);
+						stage1Scene.player.TakeDamage(1);
 						stage1Scene.enemy.bullets[bi].transform.position.x = 0.0f;
 						player.isInvinciblity = true;
 					}
@@ -223,9 +251,15 @@ void GameScene::Draw()const {
 
 	backGround.Draw();
 
+	if (player.currentStamina >= 0.0f) {
+		renderer.DrawSprite(player.stamina, player.currentStamina * 2, player.kStaminaHeight, 0.0f, player.grhandleStamina, 0x00FF00FF);
+	}
+
 	player.miss.Draw();
 	player.nice.Draw();
 	player.just.Draw();
+
+	Novice::ScreenPrintf(640, 360, "%f", player.currentStamina);
 }
 
 void GameScene::ExchangeStage(Stage changeStage) {

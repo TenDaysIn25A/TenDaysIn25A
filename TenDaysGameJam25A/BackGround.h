@@ -14,6 +14,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw() const;
+	void Activate();
 
 	//=================================
 	// メンバ変数
@@ -24,6 +25,7 @@ public:
 
 	DimensionState dimansionState;
 	Input input;
+	Click click;
 
 	//プロパティ
 	//---------------------------------

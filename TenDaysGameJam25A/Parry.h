@@ -30,6 +30,7 @@ public:
 	Renderer renderer;
 	Input input;
 	DrawEffects effect;
+	Click click;
 
 	// プロパティ
 	//------------------------------

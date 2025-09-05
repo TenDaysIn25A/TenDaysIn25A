@@ -18,27 +18,16 @@ void BackGround::Initialize() {
 void BackGround::Update() {
 
 	input.Update();
+	click.Update();
 
-	if (input.GetKeyTrigger(DIK_F)) {
 
-		if (!isChanging) {
-			isChanging = true;
-			tweenStep = 0;
-			t = 0.0f;
 
-			startUnder = underBGPos;
-			startTop = topBGPos;
+	if (click.GetClickNotAnswer(1)) {
 
-			midUnder = midDimBGPosBottom;
+		if (currentDimension == DimensionState::ONE) {
 
-			midTop = midDimBGPosTop;
-
-			if (currentDimension == DimensionState::TWO) {
-				endUnder = oneDimBGPosBottom;
-				endTop = oneDimBGPosTop;
-			} else {
-				endUnder = twoDimBGPosBottom;
-				endTop = twoDimBGPosTop;
+			if (!isChanging) {
+				Activate();
 			}
 		}
 	}
@@ -81,7 +70,28 @@ void BackGround::Update() {
 	}
 }
 
-void BackGround::Draw() const{
+void BackGround::Activate() {
+	isChanging = true;
+	tweenStep = 0;
+	t = 0.0f;
+
+	startUnder = underBGPos;
+	startTop = topBGPos;
+
+	midUnder = midDimBGPosBottom;
+
+	midTop = midDimBGPosTop;
+
+	if (currentDimension == DimensionState::TWO) {
+		endUnder = oneDimBGPosBottom;
+		endTop = oneDimBGPosTop;
+	} else {
+		endUnder = twoDimBGPosBottom;
+		endTop = twoDimBGPosTop;
+	}
+}
+
+void BackGround::Draw() const {
 
 	Novice::DrawSprite(static_cast<int>(underBGPos.x), static_cast<int>(underBGPos.y), grHandleHalfBg, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
 

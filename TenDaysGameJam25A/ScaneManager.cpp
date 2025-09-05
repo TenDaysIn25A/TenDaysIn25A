@@ -136,11 +136,7 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::GAMECLEAR);
 		}
 
-		if (!gameScene.stage1Scene.player.isAlive ||
-			!gameScene.stage2Scene.player.isAlive ||
-			!gameScene.stage3Scene.player.isAlive ||
-			!gameScene.stage4Scene.player.isAlive ||
-			!gameScene.stage5Scene.player.isAlive) {
+		if (!gameScene.player.isAlive ) {
 			ExchangeScene(Scene::GAMEOVER);
 		}
 
