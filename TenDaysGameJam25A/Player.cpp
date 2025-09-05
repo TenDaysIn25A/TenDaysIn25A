@@ -3,14 +3,13 @@
 Player::Player() { Initialize(); }
 
 void Player::Initialize() {
-	transform.position = { -300.0f,0.0f };
+	transform.position = {-300.0f, 0.0f};
 	isAlive = true;
 	currentLife = 3;
-	for(int i = 0;i < currentLife;i++){
-	
+	for (int i = 0; i < currentLife; i++) {
+
 		life[i].position.x = -580.0f + i * 60.0f;
 		life[i].position.y = -300.0f;
-
 	}
 	grhandleLife = Novice::LoadTexture("./Resources/images/box.png");
 	isInvinciblity = false;
@@ -25,7 +24,7 @@ void Player::Initialize() {
 
 	shotCoolTime = kDefaultShotCoolTime;
 
-	//パリィ
+	// パリィ
 	parry.transform.position.x = transform.position.x + width;
 	parry.transform.position.y = transform.position.y;
 	parry.width = width;
@@ -36,11 +35,11 @@ void Player::Initialize() {
 
 	grHandleCaracter = Novice::LoadTexture("./Resources/images/box.png");
 
-	for (int bi = 0;bi < kBulletMax;bi++) {
+	for (int bi = 0; bi < kBulletMax; bi++) {
 		bullets[bi].Initialize();
 		bullets[bi].height = 40.0f;
 		bullets[bi].width = 40.0f;
-		bullets[bi].direction = { 1.0f,0.0f };
+		bullets[bi].direction = {1.0f, 0.0f};
 		bullets[bi].damage = kDefaultDamage;
 		bullets[bi].speed = 40.0f;
 	}
@@ -49,7 +48,7 @@ void Player::Initialize() {
 
 	currentStamina = kMaxStamina;
 	grhandleStamina = Novice::LoadTexture("./Resources/images/box.png");
-	stamina.position = { 100.0f,-300.0f };
+	stamina.position = {100.0f, -300.0f};
 	staminaRecoverCoolTime = kStaminaRecoverCoolTime;
 
 	miss.Initialize(Novice::LoadTexture("./Resources/images/miss.png"), 256.0f, 128.0f);
@@ -78,7 +77,7 @@ void Player::Update() {
 
 		damageUpTime--;
 
-		for (int bi = 0;bi < kBulletMax;bi++) {
+		for (int bi = 0; bi < kBulletMax; bi++) {
 			bullets[bi].damage = kUpedDamage;
 		}
 
@@ -89,7 +88,7 @@ void Player::Update() {
 			isUpDamage = false;
 		}
 	} else {
-		for (int bi = 0;bi < kBulletMax;bi++) {
+		for (int bi = 0; bi < kBulletMax; bi++) {
 			bullets[bi].damage = kDefaultDamage;
 		}
 
@@ -102,9 +101,7 @@ void Player::Update() {
 
 		parry.transform.position.x = transform.position.x + width + 1;
 
-
 		currentStamina -= kConsumedStamina;
-
 
 		staminaRecoverCoolTime = kStaminaRecoverCoolTime;
 	} else {
@@ -117,17 +114,19 @@ void Player::Update() {
 
 				shotTimer = 0;
 
-				for (int bi = 0;bi < kBulletMax;bi++) {
+				for (int bi = 0; bi < kBulletMax; bi++) {
 
 					if (!bullets[bi].isActive) {
-						bullets[bi].ShotDir(transform.position, bullets[bi].direction, 0.0f);
+						if (!bullets[bi].effect.GetIsActive()) {
+							bullets[bi].ShotDir(transform.position, bullets[bi].direction, 0.0f);
 
-						if (isUpDamage) {
-							bullets[bi].color = 0xFF0000FF;
-						} else {
-							bullets[bi].color = 0xFFFFFFFF;
+							if (isUpDamage) {
+								bullets[bi].color = 0xFF0000FF;
+							} else {
+								bullets[bi].color = 0xFFFFFFFF;
+							}
+							break;
 						}
-						break;
 					}
 				}
 			}
@@ -149,7 +148,7 @@ void Player::Update() {
 		ClampInWindow2D();
 	}
 
-	for (int bi = 0;bi < kBulletMax;bi++) {
+	for (int bi = 0; bi < kBulletMax; bi++) {
 		bullets[bi].Update();
 	}
 
@@ -180,7 +179,7 @@ void Player::Draw() const {
 		renderer.DrawSprite(transform, width, height, 0.0f, grHandleCaracter, 0x2222FFFF);
 	}
 
-	for (int bi = 0;bi < kBulletMax;bi++) {
+	for (int bi = 0; bi < kBulletMax; bi++) {
 		bullets[bi].Draw();
 	}
 }
@@ -188,8 +187,8 @@ void Player::Draw() const {
 void Player::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
 
 void Player::Move() {
-	velocity = { 0.0f, 0.0f };
-	direction = { 0.0f, 0.0f };
+	velocity = {0.0f, 0.0f};
+	direction = {0.0f, 0.0f};
 
 	if (input.GetKey(DIK_W)) {
 		direction.y = 1.0f;
@@ -229,8 +228,6 @@ void Player::ClampInWindow2D() {
 	}
 }
 
-void Player::ClampInWindow1D() {
-	transform.position.y = 0.0f;
-}
+void Player::ClampInWindow1D() { transform.position.y = 0.0f; }
 
 void Player::Destroy() { isAlive = false; }
