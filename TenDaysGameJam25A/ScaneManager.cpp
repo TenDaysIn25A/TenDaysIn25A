@@ -5,6 +5,17 @@ SceneManager::SceneManager() { Initialize(); };
 void SceneManager::Initialize() {
 	gameScene.Initialize();
 	isPause = false;
+	buttonToSelectFromPause.Initialize();
+	buttonToTitleFromPause.Initialize();
+	buttonToContinueFromPause.Initialize();
+	
+	buttonToSelectFromPause.transform.position = { 0.0f,-150.0f };
+	buttonToTitleFromPause.transform.position = { 0.0f,-200.0f };
+	buttonToContinueFromPause.transform.position = { -590.0f,310.0f };
+
+	buttonToContinueFromPause.width = 40.0f;
+	buttonToContinueFromPause.height = 40.0f;
+
 }
 
 void SceneManager::Update() {
@@ -88,7 +99,27 @@ void SceneManager::Update() {
 		gameScene.Draw();
 
 		if (isPause) {
+			buttonToSelectFromPause.Update();
+			buttonToTitleFromPause.Update();
+			buttonToContinueFromPause.Update();
+
+			if (buttonToSelectFromPause.IsClicked()) {
+				ExchangeScene(Scene::STAGE_SELECT);
+			}
+
+			if (buttonToTitleFromPause.IsClicked()) {
+				ExchangeScene(Scene::TITLE);
+			}
+
+			if (buttonToContinueFromPause.IsClicked()) {
+				isPause = false;
+			}
+
 			Novice::DrawBox(0, 0, 1280, 720, 0.0f, 0x000000BB, kFillModeSolid);
+
+			buttonToSelectFromPause.Draw();
+			buttonToTitleFromPause.Draw();
+			buttonToContinueFromPause.Draw();
 
 			Novice::ScreenPrintf(100, 100, "Pause");
 		}
@@ -164,13 +195,16 @@ void SceneManager::ExchangeScene(Scene changeScene) {
 	case Scene::TITLE:
 		currentScene = Scene::TITLE;
 		titleScene.Initialize();
+		Initialize();
 
 		break;
 
 	case Scene::STAGE_SELECT:
 		currentScene = Scene::STAGE_SELECT;
+		stageSelectScene.memCurrentStage = stageSelectScene.currentStage;
 		stageSelectScene.Initialize();
-
+		Initialize();
+		stageSelectScene.currentStage = stageSelectScene.memCurrentStage;
 		break;
 
 	case Scene::CONFIG:
@@ -203,9 +237,4 @@ void SceneManager::ExchangeScene(Scene changeScene) {
 
 		break;
 	}
-
-
-
-
-
 }

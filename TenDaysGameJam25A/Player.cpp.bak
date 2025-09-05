@@ -6,15 +6,17 @@ void Player::Initialize() {
 	transform.position = { 300.0f,0.0f };
 	isAlive = true;
 	life = 3;
-	isHit = false;
-	isUpDamage = true;
-	invincibleTimer = 60;
+	isInvinciblity = false;
+	isUpDamage = false;
+	invincibleTimer = 0;
 	speed = 5.0f;
 	parry.Initialize();
 	damageUpTime = 150;
 
 	width = 80.0f;
 	height = 80.0f;
+
+	shotCoolTime = kDefaultShotCoolTime;
 
 	parry.transform.position.x = transform.position.x - width;
 	parry.transform.position.y = transform.position.y;
@@ -31,28 +33,31 @@ void Player::Initialize() {
 		bullets[bi].width = 40.0f;
 		bullets[bi].direction = { -1.0f,0.0f };
 		bullets[bi].damage = kDefaultDamage;
-		bullets[bi].speed = 25.0f;
+		bullets[bi].speed = 40.0f;
 	}
 
-	shotTimer = kShotCoolTime;
+	shotTimer = shotCoolTime;
+
+	miss.Initialize(Novice::LoadTexture("./Resources/images/miss.png"), 256.0f, 128.0f);
+	nice.Initialize(Novice::LoadTexture("./Resources/images/nice.png"), 512.0f, 128.0f);
+	just.Initialize(Novice::LoadTexture("./Resources/images/just.png"), 512.0f, 128.0f);
 }
 
 void Player::Update() {
 	input.Update();
 
+	miss.Update();
+	nice.Update();
+	just.Update();
+
 	transform.position.x = 300.0f + (3 - life) * 160.0f;
 
-	if (life == 0) {
-		Destroy();
-	}
-
-	if (isHit) {
+	if (isInvinciblity) {
 
 		if (invincibleTimer > 0) {
 			invincibleTimer--;
 		} else {
-			isHit = false;
-			invincibleTimer = 60;
+			isInvinciblity = false;
 		}
 	}
 
@@ -64,6 +69,8 @@ void Player::Update() {
 			bullets[bi].damage = kUpedDamage;
 		}
 
+		shotCoolTime = kUpedShotCoolTime;
+
 		if (damageUpTime == 0) {
 			damageUpTime = 150;
 			isUpDamage = false;
@@ -72,6 +79,8 @@ void Player::Update() {
 		for (int bi = 0;bi < kBulletMax;bi++) {
 			bullets[bi].damage = kDefaultDamage;
 		}
+
+		shotCoolTime = kDefaultShotCoolTime;
 	}
 
 	if (currentDimension == DimensionState::ONE) {
@@ -80,13 +89,14 @@ void Player::Update() {
 
 		parry.transform.position.x = transform.position.x - width;
 
+
 	} else {
 
 		Move();
 
 		if (input.GetKey(DIK_SPACE)) {
 
-			if (shotTimer >= kShotCoolTime) {
+			if (shotTimer >= shotCoolTime) {
 
 				shotTimer = 0;
 
@@ -103,7 +113,7 @@ void Player::Update() {
 
 						break;
 					}
-					
+
 				}
 			}
 		}
@@ -115,14 +125,32 @@ void Player::Update() {
 		bullets[bi].Update();
 	}
 
-	if (shotTimer < kShotCoolTime) {
+	if (shotTimer < shotCoolTime) {
 		shotTimer++;
 	}
 }
 
+void Player::TakeDamage(int damage) {
+
+	if (isInvinciblity) {
+		return;
+	}
+
+	life -= damage;
+	invincibleTimer = kInvincibleTimer;
+
+	if (life <= 0) {
+		Destroy();
+	}
+
+}
+
 void Player::Draw() const {
 	parry.Draw();
-	renderer.DrawSprite(transform, width, height, 0.0f, grHandleCaracter, 0x2222FFFF);
+
+	if (invincibleTimer % 4 <= 1) {
+		renderer.DrawSprite(transform, width, height, 0.0f, grHandleCaracter, 0x2222FFFF);
+	}
 
 	for (int bi = 0;bi < kBulletMax;bi++) {
 		bullets[bi].Draw();

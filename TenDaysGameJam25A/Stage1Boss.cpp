@@ -306,8 +306,8 @@ void Stage1Boss::AttackFishBone() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (shotCounter % 10 == 4) {
 					if (!bullets[i].isActive) {
-						InitializeBullets(i, { .height = 200.0f });
-						bullets[i].ShotDir({ transform.position.x, 140.0f }, { 1.0f, 0.0f }, 0.0f);
+						InitializeBullets(i, { .height = 210.0f });
+						bullets[i].ShotDir({ transform.position.x, 135.0f }, { 1.0f, 0.0f }, 0.0f);
 						break;
 
 					}
@@ -325,8 +325,8 @@ void Stage1Boss::AttackFishBone() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (shotCounter % 10 == 9) {
 					if (!bullets[i].isActive) {
-						InitializeBullets(i, { .height = 200.0f });
-						bullets[i].ShotDir({ transform.position.x, -140.0f }, { 1.0f, 0.0f }, 0.0f);
+						InitializeBullets(i, { .height = 210.0f });
+						bullets[i].ShotDir({ transform.position.x, -135.0f }, { 1.0f, 0.0f }, 0.0f);
 						break;
 					}
 

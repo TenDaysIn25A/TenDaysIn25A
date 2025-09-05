@@ -11,7 +11,7 @@
 #include "GameScene.h"
 #include "BackGround.h"
 
-enum class Scene { TITLE, STAGE_SELECT, CONFIG, CREDIT, INGAME, GAMECLEAR, GAMEOVER, COUNT };
+enum class Scene { TITLE, STAGE_SELECT, CONFIG, CREDIT, INGAME, GAMECLEAR, GAMEOVER,END, COUNT };
 
 class SceneManager {
 
@@ -42,5 +42,8 @@ public:
 	Input input;
 
 	bool isPause;
+	Button buttonToTitleFromPause;
+	Button buttonToSelectFromPause;
+	Button buttonToContinueFromPause;
 
 };

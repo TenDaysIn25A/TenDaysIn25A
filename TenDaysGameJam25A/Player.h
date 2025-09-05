@@ -3,6 +3,7 @@
 #include "Parry.h"
 #include "Bullet.h"
 #include "Reaction.h"
+#include"backGround.h"
 
 class Player {
 public:
@@ -77,6 +78,7 @@ public:
 	Reaction miss;
 	Reaction nice;
 	Reaction just;
+	BackGround backGround;
 
 	// プレイヤープロパティ
 	// ----------------------------------------------

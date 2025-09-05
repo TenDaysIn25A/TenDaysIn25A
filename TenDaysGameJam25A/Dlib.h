@@ -14,5 +14,6 @@
 #include <math.h>
 #include <time.h>
 #include "Button.h"
+#include "Click.h"
 
 enum class Stage { STAGE1, STAGE2, STAGE3, STAGE4, STAGE5 };

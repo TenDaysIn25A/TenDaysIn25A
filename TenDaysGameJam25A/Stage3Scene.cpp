@@ -4,8 +4,6 @@ Stage3Scene::Stage3Scene() { Initialize(); }
 
 void Stage3Scene::Initialize() {
 
-	player.Initialize();
-
 	enemy.Initialize();
 
 	backGround.Initialize();
@@ -35,8 +33,6 @@ void Stage3Scene::Update() {
 	}
 
 	enemy.Update();
-
-	player.Update();
 
 	if (currentDimension == DimensionState::ONE) {
 		player.transform.position.y = 0.0f;
@@ -76,13 +72,8 @@ void Stage3Scene::Draw() const {
 
 	enemy.Draw();
 
-	player.Draw();
-
 	backGround.Draw();
 
-	player.miss.Draw();
-	player.just.Draw();
-	player.nice.Draw();
 }
 
 void Stage3Scene::SetCamera() {

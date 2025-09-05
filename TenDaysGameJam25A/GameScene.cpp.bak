@@ -14,11 +14,49 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
+	input.Update();
+
 	switch (currentStage) {
 
 	case Stage::STAGE1:
 
 		stage1Scene.Update();
+
+
+		break;
+
+	case Stage::STAGE2:
+		stage2Scene.Update();
+
+
+		break;
+
+	case Stage::STAGE3:
+		stage3Scene.Update();
+
+
+		break;
+
+	case Stage::STAGE4:
+		stage4Scene.Update();
+
+
+		break;
+
+	case Stage::STAGE5:
+		stage5Scene.Update();
+
+
+		break;
+	}
+}
+
+void GameScene::Draw()const {
+
+	switch (currentStage) {
+
+	case Stage::STAGE1:
+
 		stage1Scene.Draw();
 
 		Novice::ScreenPrintf(100, 16, "Stage1");
@@ -26,7 +64,6 @@ void GameScene::Update() {
 		break;
 
 	case Stage::STAGE2:
-		stage2Scene.Update();
 		stage2Scene.Draw();
 
 		Novice::ScreenPrintf(100, 16, "Stage2");
@@ -34,7 +71,6 @@ void GameScene::Update() {
 		break;
 
 	case Stage::STAGE3:
-		stage3Scene.Update();
 		stage3Scene.Draw();
 
 		Novice::ScreenPrintf(100, 16, "Stage3");
@@ -42,7 +78,6 @@ void GameScene::Update() {
 		break;
 
 	case Stage::STAGE4:
-		stage4Scene.Update();
 		stage4Scene.Draw();
 
 		Novice::ScreenPrintf(100, 16, "Stage4");
@@ -50,16 +85,12 @@ void GameScene::Update() {
 		break;
 
 	case Stage::STAGE5:
-		stage5Scene.Update();
 		stage5Scene.Draw();
 
 		Novice::ScreenPrintf(100, 16, "Stage5");
 
 		break;
 	}
-}
-
-void GameScene::Draw()const {
 
 }
 

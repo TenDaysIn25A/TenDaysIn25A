@@ -27,6 +27,7 @@ public:
 	DrawEffects drawEffects;
 	Transform2D transform;
 	Stage currentStage;
+	Stage memCurrentStage;
 	Button buttonToRightSide;
 	Button buttonToLeftSide;
 	Button buttonToStage;

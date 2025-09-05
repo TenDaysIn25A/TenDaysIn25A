@@ -134,6 +134,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			sceneManager.Update();
 
+			if (sceneManager.titleScene.buttonToEnd.IsClicked()) {
+				sceneManager.currentScene = Scene::END;
+			}
+
 			//Novice::ScreenPrintf(0, 700, "Scene : GAME_SCENE");
 			break;
 		case SampleScene::COUNT:
@@ -145,7 +149,13 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// フレームの終了
 		Novice::EndFrame();
 
+		if (sceneManager.currentScene == Scene::END) {
+			break;
+		}
+
+
 	}
+
 
 	// ライブラリの終了
 	Novice::Finalize();

@@ -1,8 +1,10 @@
-﻿#include "Stage1Scene.h"
+﻿#include "Stage4Scene.h"
 
-Stage1Scene::Stage1Scene() { Initialize(); }
+Stage4Scene::Stage4Scene() { Initialize(); }
 
-void Stage1Scene::Initialize() {
+void Stage4Scene::Initialize() {
+
+	player.Initialize();
 
 	enemy.Initialize();
 
@@ -10,78 +12,87 @@ void Stage1Scene::Initialize() {
 
 	currentDimension = DimensionState::TWO;
 }
-void Stage1Scene::Update() {
+void Stage4Scene::Update() {
 	// ここで各更新処理を行う
-	//input.Update();
+	input.Update();
+
+	backGround.Update();
 	
-	//backGround.Update();
+	if (backGround.isChanging) {
+		return;
+	}
 
-	//if (backGround.isChanging) {
-	//	return;
-	//}
+	if (input.GetKeyTrigger(DIK_I)) {
+		Initialize();
+	}
 
-	//if (input.GetKeyTrigger(DIK_I)) {
-	//	Initialize();
-	//}
-
-	//if (input.GetKeyTrigger(DIK_0)) {
-	//	if (currentDimension == DimensionState::ONE) {
-	//		currentDimension = DimensionState::TWO;
-	//	} else {
-	//		currentDimension = DimensionState::ONE;
-	//	}
-	//}
+	if (input.GetKeyTrigger(DIK_0)) {
+		if (currentDimension == DimensionState::ONE) {
+			currentDimension = DimensionState::TWO;
+		} else {
+			currentDimension = DimensionState::ONE;
+		}
+	}
 
 	enemy.Update();
 
-	//if (currentDimension == DimensionState::ONE) {
-	//	player.transform.position.y = 0.0f;
-	//}
+	player.Update();
 
-	//for (int bi = 0; bi < enemy.kBulletMax; bi++) {
+	if (currentDimension == DimensionState::ONE) {
+		player.transform.position.y = 0.0f;
+	}
 
-	//	if (player.parry.parryState == ParryState::NORMAL) {
-	//		enemy.bullets[bi].isActive = false;
-	//		break;
-	//	} else if (player.parry.parryState == ParryState::JUST) {
-	//		enemy.bullets[bi].isActive = false;
-	//		break;
-	//	}
-	//}
+	//【迷走時期に書かれた使用されないコード、パリィと次元変更を同時に行うと敵の弾が消えるバグの原因となるため削除】
+	/*for (int bi = 0; bi < enemy.kBulletMax; bi++) {
 
-	//CheckHitAll();
+		if (player.parry.parryState == ParryState::NORMAL) {
+			enemy.bullets[bi].isActive = false;
+			break;
+		} else if (player.parry.parryState == ParryState::JUST) {
+			enemy.bullets[bi].isActive = false;
+			break;
+		}
 
-	//if (input.GetKeyTrigger(DIK_SPACE)) {
-	//	if (currentDimension == DimensionState::ONE) {
-	//		if (player.parry.parryState == ParryState::NONE) {
-	//			player.miss.Activate({player.transform.position.x, player.transform.position.y + 100.0f}, 0.0f);
-	//		} else if (player.parry.parryState == ParryState::NORMAL) {
-	//			player.nice.Activate({player.transform.position.x, player.transform.position.y + 100.0f}, 0.0f);
-	//		} else {
-	//			player.just.Activate({player.transform.position.x, player.transform.position.y + 100.0f}, 0.0f);
-	//		}
-	//	}
-	//}
+	}*/
+
+	CheckHitAll();
+
+	if (input.GetKeyTrigger(DIK_SPACE)) {
+		if (currentDimension == DimensionState::ONE) {
+			if (player.parry.parryState == ParryState::NONE) {
+				player.miss.Activate({ player.transform.position.x, player.transform.position.y + 100.0f }, 0.0f);
+			} else if (player.parry.parryState == ParryState::NORMAL) {
+				player.nice.Activate({ player.transform.position.x, player.transform.position.y + 100.0f }, 0.0f);
+			} else {
+				player.just.Activate({ player.transform.position.x, player.transform.position.y + 100.0f }, 0.0f);
+			}
+		}
+	}
 
 	SetCamera();
 }
 
-void Stage1Scene::Draw() const {
+void Stage4Scene::Draw() const {
 
-	//Novice::DrawBox(0, 120, 1281, 480, 0.0f, 0x000000FF, kFillModeSolid);
+	Novice::DrawBox(0, 120, 1281, 480, 0.0f, 0x000000FF, kFillModeSolid);
 
 	enemy.Draw();
 
-	//backGround.Draw();
+	player.Draw();
 
+	backGround.Draw();
+
+	player.miss.Draw();
+	player.just.Draw();
+	player.nice.Draw();
 }
 
-void Stage1Scene::SetCamera() {
+void Stage4Scene::SetCamera() {
 	player.SetCamera(camera);
 	enemy.SetCamera(camera);
 }
 
-void Stage1Scene::CheckHitAll() {
+void Stage4Scene::CheckHitAll() {
 
 	if (currentDimension == DimensionState::ONE) {
 		for (int bi = 0; bi < enemy.kBulletMax; bi++) {
@@ -106,7 +117,7 @@ void Stage1Scene::CheckHitAll() {
 						player.parry.color = 0xFFFF00FF;
 					}
 
-					//enemy.bullets[bi].effect.SetColor(player.parry.color);
+					enemy.bullets[bi].effect.SetColor(player.parry.color);
 
 					enemy.bullets[bi].Deactive();
 					enemy.bullets[bi].transform.position.x = -1000.0f;
@@ -160,8 +171,6 @@ void Stage1Scene::CheckHitAll() {
 					if (Collision::BoxToBox(
 						enemy.bullets[j].transform.position, enemy.bullets[j].width, enemy.bullets[j].height, player.bullets[i].transform.position, player.bullets[i].width,
 						player.bullets[i].height)) {
-
-						player.bullets[i].effect.SetColor(player.bullets[i].color);
 						player.bullets[i].Deactive();
 					}
 				}
@@ -174,9 +183,9 @@ void Stage1Scene::CheckHitAll() {
 		if (player.bullets[i].isActive) {
 			if (Collision::BoxToBox(enemy.transform.position, enemy.width, enemy.height, player.bullets[i].transform.position, player.bullets[i].width, player.bullets[i].height)) {
 				enemy.TakeDamage(player.bullets[i].damage);
-				player.bullets[i].effect.SetColor(player.bullets[i].color);
 				player.bullets[i].Deactive();
 			}
 		}
 	}
 }
+

@@ -4,6 +4,7 @@ SceneManager::SceneManager() { Initialize(); };
 
 void SceneManager::Initialize() {
 	gameScene.Initialize();
+	isPause = false;
 }
 
 void SceneManager::Update() {
@@ -41,9 +42,13 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::INGAME);
 		}
 
+		if (stageSelectScene.buttonToTitle.IsClicked()) {
+			ExchangeScene(Scene::TITLE);
+		}
+
 		Novice::ScreenPrintf(100, 0, "STAGE_SELECT");
 
-		Novice::ScreenPrintf(100, 32, "SelectNow : %d",stageSelectScene.currentStage );
+		Novice::ScreenPrintf(100, 32, "SelectNow : %d", stageSelectScene.currentStage);
 
 		break;
 
@@ -51,6 +56,10 @@ void SceneManager::Update() {
 
 		configScene.Update();
 		configScene.Draw();
+
+		if (configScene.buttonToTitle.IsClicked()) {
+			ExchangeScene(Scene::TITLE);
+		}
 
 		Novice::ScreenPrintf(100, 0, "CONFIG");
 
@@ -61,27 +70,45 @@ void SceneManager::Update() {
 		creditScene.Update();
 		creditScene.Draw();
 
+		if (creditScene.buttonToTitle.IsClicked()) {
+			ExchangeScene(Scene::TITLE);
+		}
+
 		Novice::ScreenPrintf(100, 0, "CREDIT");
 
 		break;
 
 	case Scene::INGAME:
 
-		gameScene.Update();
+		input.Update();
+		if (!isPause) {
+			gameScene.Update();
+		}
+
 		gameScene.Draw();
 
-		if (!gameScene.stage1Scene.enemy.isAlive||
-			!gameScene.stage2Scene.enemy.isAlive||
-			!gameScene.stage3Scene.enemy.isAlive||
-			!gameScene.stage4Scene.enemy.isAlive||
+		if (isPause) {
+			Novice::DrawBox(0, 0, 1280, 720, 0.0f, 0x000000BB, kFillModeSolid);
+
+			Novice::ScreenPrintf(100, 100, "Pause");
+		}
+
+		if (input.GetKeyTrigger(DIK_ESCAPE)) {
+			isPause = !isPause;
+		}
+
+		if (!gameScene.stage1Scene.enemy.isAlive ||
+			!gameScene.stage2Scene.enemy.isAlive ||
+			!gameScene.stage3Scene.enemy.isAlive ||
+			!gameScene.stage4Scene.enemy.isAlive ||
 			!gameScene.stage5Scene.enemy.isAlive) {
 			ExchangeScene(Scene::GAMECLEAR);
 		}
 
 		if (!gameScene.stage1Scene.player.isAlive ||
-			!gameScene.stage2Scene.player.isAlive || 
-			!gameScene.stage3Scene.player.isAlive || 
-			!gameScene.stage4Scene.player.isAlive || 
+			!gameScene.stage2Scene.player.isAlive ||
+			!gameScene.stage3Scene.player.isAlive ||
+			!gameScene.stage4Scene.player.isAlive ||
 			!gameScene.stage5Scene.player.isAlive) {
 			ExchangeScene(Scene::GAMEOVER);
 		}
@@ -129,7 +156,6 @@ void SceneManager::Update() {
 
 		break;
 	}
-
 }
 
 void SceneManager::ExchangeScene(Scene changeScene) {
@@ -140,7 +166,7 @@ void SceneManager::ExchangeScene(Scene changeScene) {
 		titleScene.Initialize();
 
 		break;
-		
+
 	case Scene::STAGE_SELECT:
 		currentScene = Scene::STAGE_SELECT;
 		stageSelectScene.Initialize();

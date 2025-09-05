@@ -146,6 +146,7 @@ void Player::TakeDamage(int damage) {
 }
 
 void Player::Draw() const {
+
 	parry.Draw();
 
 	if (invincibleTimer % 4 <= 1) {
@@ -155,7 +156,6 @@ void Player::Draw() const {
 	for (int bi = 0;bi < kBulletMax;bi++) {
 		bullets[bi].Draw();
 	}
-
 }
 
 void Player::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }

@@ -38,6 +38,7 @@ public:
 	Button buttonToStageSelect;
 	Button buttonToConfig;
 	Button buttonToCredit;
+	Button buttonToEnd;
 
 };
 

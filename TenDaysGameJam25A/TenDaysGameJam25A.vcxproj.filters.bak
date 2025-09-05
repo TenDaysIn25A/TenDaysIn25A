@@ -77,9 +77,6 @@
     <Filter Include="Sources\Objects\Bullet">
       <UniqueIdentifier>{cbfa73d7-c1bf-44c5-b1bb-4c30a8538931}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Scenes\GameScene">
-      <UniqueIdentifier>{603b8f71-89e6-442d-90c7-8a3d36ea459a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources\Scenes\TitleScene">
       <UniqueIdentifier>{9ffb2318-b23f-4362-9925-3ecfc8d45142}</UniqueIdentifier>
     </Filter>
@@ -100,6 +97,15 @@
     </Filter>
     <Filter Include="Sources\Objects\Enemy">
       <UniqueIdentifier>{fc1fdd02-1dad-4b44-b05a-a92fc916381f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Scenes\SceneManager">
+      <UniqueIdentifier>{eaddad8d-2497-46e9-880b-4757b5d5f27a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Scenes\GameScene">
+      <UniqueIdentifier>{30829054-fe2c-4e28-8d1e-217284d94530}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Scenes\GameScene\StageScene">
+      <UniqueIdentifier>{603b8f71-89e6-442d-90c7-8a3d36ea459a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -175,8 +181,8 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Sources\Objects\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="GameScene.cpp">
-      <Filter>Sources\Scenes\GameScene</Filter>
+    <ClCompile Include="Stage1Scene.cpp">
+      <Filter>Sources\Scenes\GameScene\StageScene</Filter>
     </ClCompile>
     <ClCompile Include="BackGround.cpp">
       <Filter>KamataEngine</Filter>
@@ -204,6 +210,27 @@
     </ClCompile>
     <ClCompile Include="GameOverScene.cpp">
       <Filter>Sources\Scenes\GameOverScene</Filter>
+    </ClCompile>
+    <ClCompile Include="ScaneManager.cpp">
+      <Filter>Sources\Scenes\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2Scene.cpp">
+      <Filter>Sources\Scenes\GameScene\StageScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage3Scene.cpp">
+      <Filter>Sources\Scenes\GameScene\StageScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage4Scene.cpp">
+      <Filter>Sources\Scenes\GameScene\StageScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage5Scene.cpp">
+      <Filter>Sources\Scenes\GameScene\StageScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Sources\UI\Button</Filter>
+    </ClCompile>
+    <ClCompile Include="GameScene.cpp">
+      <Filter>Sources\Scenes\GameScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -342,9 +369,6 @@
     <ClInclude Include="SampleSceneMidzuki.h">
       <Filter>Sources\Scenes\SampleScene</Filter>
     </ClInclude>
-    <ClInclude Include="SceneManager.h">
-      <Filter>Sources\Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Sources\Objects\Enemy</Filter>
     </ClInclude>
@@ -363,8 +387,8 @@
     <ClInclude Include="Bullet.h">
       <Filter>Sources\Objects\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="GameScene.h">
-      <Filter>Sources\Scenes\GameScene</Filter>
+    <ClInclude Include="Stage1Scene.h">
+      <Filter>Sources\Scenes\GameScene\StageScene</Filter>
     </ClInclude>
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="Reaction.h" />
@@ -385,6 +409,27 @@
     </ClInclude>
     <ClInclude Include="GameOverScene.h">
       <Filter>Sources\Scenes\GameOverScene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Sources\Scenes\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2Scene.h">
+      <Filter>Sources\Scenes\GameScene\StageScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage3Scene.h">
+      <Filter>Sources\Scenes\GameScene\StageScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage4Scene.h">
+      <Filter>Sources\Scenes\GameScene\StageScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Sources\UI\Button</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.h">
+      <Filter>Sources\Scenes\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage5Scene.h">
+      <Filter>Sources\Scenes\GameScene\StageScene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

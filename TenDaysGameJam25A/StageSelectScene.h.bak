@@ -30,6 +30,7 @@ public:
 	Button buttonToRightSide;
 	Button buttonToLeftSide;
 	Button buttonToStage;
+	Button buttonToTitle;
 
 	//プロパティ
 	//------------------------------

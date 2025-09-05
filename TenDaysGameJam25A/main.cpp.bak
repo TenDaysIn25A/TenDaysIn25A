@@ -96,7 +96,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 		
 		if (input.GetKeyTrigger(DIK_F7)) {
-			sceneManager.ExchangeScene(Scene::STAGE_SELECT);
+			sceneManager.ExchangeScene(Scene::GAMEOVER);
 		}
 
 		
@@ -145,10 +145,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// フレームの終了
 		Novice::EndFrame();
 
-		// ESCキーが押されたらループを抜ける
-		if (input.GetKeyTrigger(DIK_ESCAPE)) {
-			break;
-		}
 	}
 
 	// ライブラリの終了

@@ -15,6 +15,21 @@ void SampleSceneYuto::Update() {
 
 	input.Update();
 
+	click.Update();
+
+	if (click.GetClickTrigger(0)) {
+		Novice::ScreenPrintf(0,100,"Left:Trigger");
+	}
+
+	if (click.GetClick(0)) {
+		Novice::ScreenPrintf(0,116,"Left:Press");
+	}
+
+	if (click.GetClickRelease(0)) {
+		Novice::ScreenPrintf(0,132,"Left:Release");
+	}
+
+
 	if (input.GetKeyTrigger(DIK_0)) {
 		if (currentDimension == DimensionState::ONE) {
 			currentDimension = DimensionState::TWO;
@@ -51,6 +66,9 @@ void SampleSceneYuto::Update() {
 
 void SampleSceneYuto::Draw() const {
 	// ここで各描画を行う。
+
+	
+
 
 	Novice::DrawBox(
 		0, 120,

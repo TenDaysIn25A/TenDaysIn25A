@@ -143,6 +143,11 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Stage3Scene.cpp" />
     <ClCompile Include="Stage4Scene.cpp" />
     <ClCompile Include="Stage5Scene.cpp" />
+    <ClCompile Include="Stage1Boss.cpp" />
+    <ClCompile Include="Stage2Boss.cpp" />
+    <ClCompile Include="Stage3Boss.cpp" />
+    <ClCompile Include="Stage4Boss.cpp" />
+    <ClCompile Include="Stage5Boss.cpp" />
     <ClCompile Include="StageSelectScene.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Transform2D.cpp" />
@@ -212,6 +217,11 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Stage3Scene.h" />
     <ClInclude Include="Stage4Scene.h" />
     <ClInclude Include="Stage5Scene.h" />
+    <ClInclude Include="Stage1Boss.h" />
+    <ClInclude Include="Stage2Boss.h" />
+    <ClInclude Include="Stage3Boss.h" />
+    <ClInclude Include="Stage4Boss.h" />
+    <ClInclude Include="Stage5Boss.h" />
     <ClInclude Include="StageSelectScene.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Transform2D.h" />

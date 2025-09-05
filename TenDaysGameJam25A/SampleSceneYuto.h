@@ -2,6 +2,7 @@
 #include "Dlib.h"
 #include "Player.h"
 #include "Enemy.h"
+#include "Click.h"
 
 class SampleSceneYuto {
 public:
@@ -43,6 +44,7 @@ public:
 	Player player;
 	Enemy enemy;
 	Input input;
+	Click click;
 	DeltaTime deltaTime;
 	Renderer renderer;
 

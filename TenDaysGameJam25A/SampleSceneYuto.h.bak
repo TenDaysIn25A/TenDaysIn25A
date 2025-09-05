@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "Dlib.h"
-#include "PlayerTest.h"
+#include "Player.h"
 #include "Enemy.h"
 
 class SampleSceneYuto {
@@ -40,6 +40,11 @@ public:
 	// ----------------------------------------------
 
 	Transform2D camera;
-	PlayerTest samplePlayer;
+	Player player;
 	Enemy enemy;
+	Input input;
+	DeltaTime deltaTime;
+	Renderer renderer;
+
+
 };

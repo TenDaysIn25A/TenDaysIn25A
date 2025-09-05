@@ -107,6 +107,9 @@
     <Filter Include="Sources\Scenes\GameScene\StageScene">
       <UniqueIdentifier>{603b8f71-89e6-442d-90c7-8a3d36ea459a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\System\Click">
+      <UniqueIdentifier>{f6d69c70-f1da-453a-9f08-8200d4a5731b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
@@ -231,6 +234,24 @@
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>Sources\Scenes\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1Boss.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2Boss.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage3Boss.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage4Boss.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage5Boss.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Click.cpp">
+      <Filter>Sources\System\Click</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -430,6 +451,14 @@
     </ClInclude>
     <ClInclude Include="Stage5Scene.h">
       <Filter>Sources\Scenes\GameScene\StageScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1Boss.h" />
+    <ClInclude Include="Stage2Boss.h" />
+    <ClInclude Include="Stage3Boss.h" />
+    <ClInclude Include="Stage4Boss.h" />
+    <ClInclude Include="Stage5Boss.h" />
+    <ClInclude Include="Click.h">
+      <Filter>Sources\System\Click</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
