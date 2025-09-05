@@ -24,7 +24,7 @@ void Stage1Boss::Initialize() {
 	attackPhase = AttackPhase::FIRST;
 
 	grHandleCaracter = Novice::LoadTexture("./Resources/images/box.png");
-	grHandleBullet = Novice::LoadTexture("./Resources/images/box.png");
+	grHandleBullet = Novice::LoadTexture("./Resources/images/backGround.png");
 
 	for (int i = 0; i < kBulletMax; i++) {
 		InitializeBullets(i, {});
@@ -120,13 +120,16 @@ void Stage1Boss::Shot() {
 	case Stage1BossAttack::MACHINGUN:
 		AttackMachingun();
 		break;
-	case Stage1BossAttack::TUNNEL:
+	case Stage1BossAttack::FISHBONE:
 		AttackFishBone();
 		break;
 	case Stage1BossAttack::ALL_WALL:
 		AttackAllWall();
 		break;
 	case Stage1BossAttack::FOURWALL:
+		AttackFourWall();
+		break;
+	case Stage1BossAttack::PAPYRUS:
 		AttackFourWall();
 		break;
 	}
@@ -152,32 +155,32 @@ void Stage1Boss::SpecialAttackSelect() {
 	int randomAttack;
 	switch (attackPhase) {
 	case AttackPhase::FIRST:
-		randomAttack = Random::RandomInt(1, 2);
+		randomAttack = 2;//Random::RandomInt(1, 2);
 
 		if (randomAttack == 1) {
 			attack = Stage1BossAttack::ALL_WALL;
 		} else if (randomAttack == 2) {
-			attack = Stage1BossAttack::TUNNEL;
+			attack = Stage1BossAttack::FISHBONE;
 		} else {
 		}
 		break;
 	case AttackPhase::SECOND:
-		randomAttack = Random::RandomInt(1, 2);
+		randomAttack = 2;//Random::RandomInt(1, 2);
 
 		if (randomAttack == 1) {
 			attack = Stage1BossAttack::ALL_WALL;
 		} else if (randomAttack == 2) {
-			attack = Stage1BossAttack::TUNNEL;
+			attack = Stage1BossAttack::FISHBONE;
 		} else {
 		}
 		break;
 	case AttackPhase::THIRD:
-		randomAttack = Random::RandomInt(1, 2);
-		
+		randomAttack = 2;//Random::RandomInt(1, 2);
+
 		if (randomAttack == 1) {
 			attack = Stage1BossAttack::ALL_WALL;
 		} else if (randomAttack == 2) {
-			attack = Stage1BossAttack::TUNNEL;
+			attack = Stage1BossAttack::FISHBONE;
 		} else {
 		}
 		break;
@@ -195,8 +198,7 @@ void Stage1Boss::AttackWall() {
 
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
-					InitializeBullets(i, {});
-					bullets[i].height = 160.0f;
+					InitializeBullets(i, { .height = 160.0f });
 					if (randomPosition == 0) {
 						bullets[i].ShotDir({ transform.position.x, 160.0f }, { 1.0f, 0.0f }, 0.0f);
 					} else {
@@ -228,43 +230,98 @@ void Stage1Boss::AttackWall() {
 }
 
 void Stage1Boss::AttackFourWall() {
-	randomPositionY;
 
-	if (shotTimer >= 160) {
-		shotTimer = -1;
+	if (shotTimer >= 120) {
+		shotTimer = 0;
 
-		if (shotCounter >= 3) {
+		if (shotCounter >= 5) {
 			shotCounter = 0;
 
 			SpecialAttackSelect();
 		} else {
 			shotCounter++;
 		}
-	} else if (shotTimer >= 80) {
-
-	} else if (shotTimer >= 1) {
-		if (shotTimer % 20 == 0) {
+	} else if (shotTimer >= 41) {
+	} else if (shotTimer >= 40) {
+		if (randomPositionY == 0) {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
-					InitializeBullets(i, {});
-					bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPositionY)) }, { 1.0f, 0.0f }, 0.0f);
+					InitializeBullets(i, { .speed = kBulletHighSpeed });
+					bullets[i].ShotDir({ transform.position.x, 160.0f }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
+			}
+		} else if (randomPositionY == 1) {
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .speed = kBulletHighSpeed });
+					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
+			}
+		} else {
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .speed = kBulletHighSpeed });
+					bullets[i].ShotDir({ transform.position.x, -160.0f }, { 1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
 		}
-
+	} else if (shotTimer > 1) {
 	} else {
 
-		randomPositionY = Random::RandomInt(-1, 1);
+		randomPositionY = Random::RandomInt(0, 2);
 
-		for (int i = 0; i < kBulletMax; i++) {
-			if (!bullets[i].isActive) {
-				InitializeBullets(i, {});
-				bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPositionY)) }, { 1.0f, 0.0f }, 0.0f);
-				break;
+		if (randomPositionY == 0) {
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .speed = 8.0f });
+					bullets[i].ShotDir({ transform.position.x, -160.0f }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
+			}
+
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .speed = 8.0f });
+					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
+			}
+		} else if (randomPositionY == 1) {
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .speed = 8.0f });
+					bullets[i].ShotDir({ transform.position.x, -160.0f }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
+			}
+
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .speed = 8.0f });
+					bullets[i].ShotDir({ transform.position.x, 160.0f }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
+			}
+		} else {
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .speed = 8.0f });
+					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
+			}
+
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .speed = 8.0f });
+					bullets[i].ShotDir({ transform.position.x, 160.0f }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
 			}
 		}
-
 	}
 }
 
@@ -276,7 +333,7 @@ void Stage1Boss::AttackMachingun() {
 
 		for (int i = 0; i < kBulletMax; i++) {
 			if (!bullets[i].isActive) {
-				InitializeBullets(i,{.height = 120.0f});
+				InitializeBullets(i, { .height = 120.0f });
 				bullets[i].ShotDir({ transform.position.x, -180.0f + (120.0f * static_cast<float>(randomPosition)) }, { 1.0f, 0.0f }, 0.0f);
 				break;
 			}
@@ -291,61 +348,79 @@ void Stage1Boss::AttackMachingun() {
 			shotCounter++;
 		}
 	}
-
-
-
 }
 
 void Stage1Boss::AttackFishBone() {
-	if(shotTimer % 8 == 0) {
-		if (shotTimer >= 16) {
+	if (shotCounter >= 41) {
+		if (shotTimer % 20 == 0) {
 			shotTimer = 0;
-		}
 
-		if (shotCounter % 2 == 0) {
 			for (int i = 0; i < kBulletMax; i++) {
-				if (shotCounter % 10 == 4) {
-					if (!bullets[i].isActive) {
-						InitializeBullets(i, { .height = 210.0f });
-						bullets[i].ShotDir({ transform.position.x, 135.0f }, { 1.0f, 0.0f }, 0.0f);
-						break;
-
-					}
-				} else {
-					if (!bullets[i].isActive) {
-						InitializeBullets(i, { .height = 120.0f });
-						bullets[i].ShotDir({ transform.position.x, 180.0f }, { 1.0f, 0.0f }, 0.0f);
-						break;
-					}
-				}
-
-
-			}
-		} else {
-			for (int i = 0; i < kBulletMax; i++) {
-				if (shotCounter % 10 == 9) {
-					if (!bullets[i].isActive) {
-						InitializeBullets(i, { .height = 210.0f });
-						bullets[i].ShotDir({ transform.position.x, -135.0f }, { 1.0f, 0.0f }, 0.0f);
-						break;
-					}
-
-				} else {
-					if (!bullets[i].isActive) {
-						InitializeBullets(i, { .height = 120.0f });
-						bullets[i].ShotDir({ transform.position.x, -180.0f }, { 1.0f, 0.0f }, 0.0f);
-						break;
-					}
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .height = 480.0f });
+					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
+					break;
 				}
 			}
+
+			if (shotCounter >= 43) {
+				shotCounter = 0;
+				CommonAttackSelect();
+			} else {
+				shotCounter++;
+			}
+
 		}
+	}else if (shotCounter >= 40) {
+		if (shotTimer == 30) {
+				shotCounter++;
+		}
+	} else {
+		if (shotTimer % 5 == 0) {
+			if (shotTimer >= 20) {
+				shotTimer = 0;
+			}
 
-		if (shotCounter >= 29) {
-			shotCounter = 0;
+			if (shotCounter % 2 == 0) {
+				for (int i = 0; i < kBulletMax; i++) {
+					if (shotCounter % 14 == 6) {
+						if (!bullets[i].isActive) {
+							InitializeBullets(i, { .height = 210.0f });
+							bullets[i].ShotDir({ transform.position.x, 135.0f }, { 1.0f, 0.0f }, 0.0f);
+							break;
 
-			CommonAttackSelect();
-		} else {
+						}
+					} else {
+						if (!bullets[i].isActive) {
+							InitializeBullets(i, { .height = 120.0f });
+							bullets[i].ShotDir({ transform.position.x, 180.0f }, { 1.0f, 0.0f }, 0.0f);
+							break;
+						}
+					}
+
+
+				}
+			} else {
+				for (int i = 0; i < kBulletMax; i++) {
+					if (shotCounter % 14 == 13) {
+						if (!bullets[i].isActive) {
+							InitializeBullets(i, { .height = 210.0f });
+							bullets[i].ShotDir({ transform.position.x, -135.0f }, { 1.0f, 0.0f }, 0.0f);
+							break;
+						}
+
+					} else {
+						if (!bullets[i].isActive) {
+							InitializeBullets(i, { .height = 120.0f });
+							bullets[i].ShotDir({ transform.position.x, -180.0f }, { 1.0f, 0.0f }, 0.0f);
+							break;
+						}
+					}
+				}
+			}
+
 			shotCounter++;
+
 		}
 	}
 }
@@ -359,7 +434,7 @@ void Stage1Boss::AttackAllWall() {
 		if (shotCounter == 7 || shotCounter == 0) {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
-					InitializeBullets(i, {.height = 480.0f});
+					InitializeBullets(i, { .height = 480.0f });
 					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
 					break;
 				}
@@ -382,6 +457,70 @@ void Stage1Boss::AttackAllWall() {
 			CommonAttackSelect();
 		} else {
 			shotCounter++;
+		}
+	}
+}
+
+void Stage1Boss::AttackBoneTussle() {
+
+	if (shotTimer >= 160) {
+		shotTimer = 0;
+
+		if (shotCounter >= 3) {
+			shotCounter = 0;
+
+			SpecialAttackSelect();
+		} else {
+			shotCounter++;
+		}
+	} else if (shotTimer >= 41) {
+	} else if (shotTimer >= 40) {
+		if (randomPositionY == 0) {
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .speed = kBulletHighSpeed });
+					bullets[i].ShotDir({ transform.position.x, 160.0f }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
+			}
+		} else if (randomPositionY == 1) {
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .speed = kBulletHighSpeed });
+					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
+			}
+		} else {
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .speed = kBulletHighSpeed });
+					bullets[i].ShotDir({ transform.position.x, -160.0f }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
+			}
+		}
+	} else if (shotTimer > 1) {
+	} else {
+
+		randomPositionY = Random::RandomInt(0, 1);
+
+		if (randomPositionY == 0) {
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .speed = 8.0f });
+					bullets[i].ShotDir({ transform.position.x, -160.0f }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
+			}
+		} else {
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .speed = 8.0f });
+					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
+					break;
+				}
+			}
 		}
 	}
 }

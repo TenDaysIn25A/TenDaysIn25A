@@ -86,7 +86,7 @@ void SampleSceneMidzuki::CheckHitAll() {
 				enemy.bullets[bi].Deactive();
 
 				if (!player.isInvinciblity) {
-					player.life--;
+					player.currentLife--;
 					enemy.bullets[bi].transform.position.x = 0.0f;
 
 				}

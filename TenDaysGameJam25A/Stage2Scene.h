@@ -52,7 +52,6 @@ public:
 	Renderer renderer;
 	BackGround backGround;
 
-	Player player;
 	ParryState parryState;
 	Stage2Boss enemy;
 };

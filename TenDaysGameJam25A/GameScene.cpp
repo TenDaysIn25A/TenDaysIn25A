@@ -93,14 +93,12 @@ void GameScene::Update() {
 				player.just.Activate({ player.transform.position.x, player.transform.position.y + 100.0f }, 0.0f);
 			}
 		}
-
-		
 	}
-
-
 }
 
 void GameScene::CheckHitAll() {
+
+	Novice::ScreenPrintf(116, 116, "%d", player.isInvinciblity);
 
 	if (currentDimension == DimensionState::ONE) {
 		for (int bi = 0; bi < enemy.kBulletMax; bi++) {
@@ -115,17 +113,16 @@ void GameScene::CheckHitAll() {
 					player.parry.transform.position, player.parry.width, player.parry.height, { stage1Scene.enemy.bullets[bi].transform.position.x, 0.0f }, stage1Scene.enemy.bullets[bi].width, stage1Scene.enemy.bullets[bi].height)) {
 
 					float justArea = player.parry.transform.position.x - player.parry.kJustParryAbleGrace * stage1Scene.enemy.bullets[bi].speed;
-
-					player.parry.parryState = ParryState::NORMAL;
-					player.parry.color = 0xFFFF00FF;
-
 					
 					if (stage1Scene.enemy.bullets[bi].transform.position.x >= justArea) {
 						player.parry.parryState = ParryState::JUST;
 						player.parry.color = 0xFF0000FF;
 						player.isUpDamage = true;
 						player.damageUpTime = 150;
-					} 
+					} else {
+						player.parry.parryState = ParryState::NORMAL;
+						player.parry.color = 0xFFFF00FF;
+					}
 
 					stage1Scene.enemy.bullets[bi].effect.SetColor(player.parry.color);
 
@@ -145,7 +142,7 @@ void GameScene::CheckHitAll() {
 					stage1Scene.enemy.bullets[bi].Deactive();
 
 					if (!player.isInvinciblity) {
-						stage1Scene.player.TakeDamage(1);
+						player.TakeDamage(1);
 						stage1Scene.enemy.bullets[bi].transform.position.x = 0.0f;
 						player.isInvinciblity = true;
 					}
@@ -258,6 +255,10 @@ void GameScene::Draw()const {
 	player.miss.Draw();
 	player.nice.Draw();
 	player.just.Draw();
+
+	for (int i = 0;i < player.currentLife;i++) {
+		renderer.DrawSprite(player.life[i], player.lifeWidth, player.lifeHeight, 0.0f,player.grhandleLife, 0xFF6666FF);
+	}
 
 	Novice::ScreenPrintf(640, 360, "%f", player.currentStamina);
 }

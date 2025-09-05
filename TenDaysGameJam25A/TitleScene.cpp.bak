@@ -8,13 +8,15 @@ void TitleScene::Initialize() {
 	height = 720.0f;
 	grHandle = Novice::LoadTexture("./Resources/images/title.png");
 
-	buttonToStageSelect.Initialize();
+	buttonToStageSelect.Initialize(Novice::LoadTexture("./Resources/images/start.png"),160.0f, -48.0f);
 	buttonToConfig.Initialize();
 	buttonToCredit.Initialize();
+	buttonToEnd.Initialize();
 
 	buttonToStageSelect.transform.position = {0.0f, -100.0f};
 	buttonToConfig.transform.position = {0.0f, -150.0f};
-	buttonToCredit.transform.position = {0.0f, -200.0f};
+	buttonToCredit.transform.position = {550.0f, -300.0f};
+	buttonToEnd.transform.position = { 0.0f, -200.0f };
 }
 
 void TitleScene::Update() {
@@ -22,6 +24,7 @@ void TitleScene::Update() {
 	buttonToStageSelect.Update();
 	buttonToConfig.Update();
 	buttonToCredit.Update();
+	buttonToEnd.Update();
 }
 
 void TitleScene::Draw() const {
@@ -31,6 +34,7 @@ void TitleScene::Draw() const {
 	buttonToStageSelect.Draw();
 	buttonToConfig.Draw();
 	buttonToCredit.Draw();
+	buttonToEnd.Draw();
 }
 
 void TitleScene::SetCamera() {

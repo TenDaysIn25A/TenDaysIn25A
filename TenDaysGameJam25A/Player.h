@@ -109,9 +109,14 @@ public:
 	const float kStaminaHeight = 60.0f;
 	int grhandleStamina;
 
+	Transform2D life[3];
+	const float lifeWidth = 50.0f;
+	const float lifeHeight = 50.0f;
+	int grhandleLife;
+
 	// ステータス
 	// ----------------------------------------------
-	int life;
+	int currentLife;
 	float currentStamina;
 	int invincibleTimer;
 	int staminaRecoverCoolTime;

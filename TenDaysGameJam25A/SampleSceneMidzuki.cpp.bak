@@ -56,10 +56,13 @@ void SampleSceneMidzuki::CheckHitAll() {
 					player.parry.parryState = ParryState::JUST;
 					player.parry.color = 0xFF0000FF;
 					player.isUpDamage = true;
+					player.damageUpTime = 150;
+					
 				} else {
 					player.parry.parryState = ParryState::NORMAL;
 					player.parry.color = 0xFFFF00FF;
 				}
+				enemy.bullets[bi].effect.SetColor(player.parry.color);
 
 				enemy.bullets[bi].Deactive();
 				enemy.bullets[bi].transform.position.x = -1000.0f;
@@ -78,21 +81,22 @@ void SampleSceneMidzuki::CheckHitAll() {
 		if (enemy.bullets[bi].isActive) {
 
 			if (Collision::BoxToBox(player.transform.position, player.width, player.height, { enemy.bullets[bi].transform.position.x,0.0f }, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
+				enemy.bullets[bi].effect.SetColor(0xFFFFFFFF);
 
 				enemy.bullets[bi].Deactive();
 
-				if (!player.isHit) {
+				if (!player.isInvinciblity) {
 					player.life--;
 					enemy.bullets[bi].transform.position.x = 0.0f;
 
 				}
 
 				if (player.invincibleTimer == 0) {
-					player.isHit = true;
+					player.isInvinciblity = true;
 				}
 
 			} else {
-				player.isHit = false;
+				player.isInvinciblity = false;
 			}
 		}
 	}
@@ -136,6 +140,8 @@ void SampleSceneMidzuki::Draw() const {
 	Novice::ScreenPrintf(0, 32, "%d", player.isUpDamage);
 
 	Novice::ScreenPrintf(0, 48, "%d", player.damageUpTime);
+
+	Novice::ScreenPrintf(0, 64, "%d", player.bullets[0].damage);
 	
 
 

@@ -4,7 +4,7 @@
 #include "Enemy.h"
 
 enum class Stage1BossAttack {
-	WALL, MACHINGUN, TUNNEL, ALL_WALL,FOURWALL
+	WALL, MACHINGUN, FISHBONE, ALL_WALL,FOURWALL,PAPYRUS,
 };
 
 class Stage1Boss {
@@ -118,6 +118,11 @@ public:
 	void AttackFourWall();
 
 	/// <summary>
+	/// ウルトラかっこいい普通の攻撃パターン
+	/// </summary>
+	void AttackBoneTussle();
+
+	/// <summary>
 	/// 特殊攻撃をフェーズごとに選択
 	/// </summary>
 	void SpecialAttackSelect();
@@ -150,8 +155,8 @@ public:
 	// ----------------------------------------------
 	static constexpr int kBulletMax = 64;
 	Bullet bullets[kBulletMax];
-	static constexpr float kBulletNormalSpeed = 10.0f;
-	static constexpr float kBulletHighSpeed = 15.0f;
+	static constexpr float kBulletNormalSpeed = 16.0f;
+	static constexpr float kBulletHighSpeed = 20.0f;
 	static constexpr float kBulletNormalWidth = 80.0f;
 	static constexpr float kBulletNormalHeight = 160.0f;
 	static constexpr int kBulletNormalDamage = 1;

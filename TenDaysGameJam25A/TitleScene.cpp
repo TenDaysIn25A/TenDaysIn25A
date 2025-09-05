@@ -8,7 +8,7 @@ void TitleScene::Initialize() {
 	height = 720.0f;
 	grHandle = Novice::LoadTexture("./Resources/images/title.png");
 
-	buttonToStageSelect.Initialize();
+	buttonToStageSelect.Initialize(Novice::LoadTexture("./Resources/images/start.png"),160.0f, 48.0f);
 	buttonToConfig.Initialize();
 	buttonToCredit.Initialize();
 	buttonToEnd.Initialize();

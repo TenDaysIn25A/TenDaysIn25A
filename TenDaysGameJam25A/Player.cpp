@@ -5,11 +5,18 @@ Player::Player() { Initialize(); }
 void Player::Initialize() {
 	transform.position = { 300.0f,0.0f };
 	isAlive = true;
-	life = 3;
+	currentLife = 3;
+	for(int i = 0;i < currentLife;i++){
+	
+		life[i].position.x = 580.0f - i * 60.0f;
+		life[i].position.y = -300.0f;
+
+	}
+	grhandleLife = Novice::LoadTexture("./Resources/images/box.png");
 	isInvinciblity = false;
 	isUpDamage = false;
 	invincibleTimer = 0;
-	speed = 5.0f;
+	speed = 10.0f;
 	parry.Initialize();
 	damageUpTime = 150;
 
@@ -157,10 +164,10 @@ void Player::TakeDamage(int damage) {
 		return;
 	}
 
-	life -= damage;
+	currentLife -= damage;
 	invincibleTimer = kInvincibleTimer;
 
-	if (life <= 0) {
+	if (currentLife <= 0) {
 		Destroy();
 	}
 }
