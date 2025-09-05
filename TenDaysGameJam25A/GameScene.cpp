@@ -112,9 +112,9 @@ void GameScene::CheckHitAll() {
 				if (Collision::BoxToBox(
 					player.parry.transform.position, player.parry.width, player.parry.height, { stage1Scene.enemy.bullets[bi].transform.position.x, 0.0f }, stage1Scene.enemy.bullets[bi].width, stage1Scene.enemy.bullets[bi].height)) {
 
-					float justArea = player.parry.transform.position.x - player.parry.kJustParryAbleGrace * stage1Scene.enemy.bullets[bi].speed;
+					float justArea = player.parry.transform.position.x + player.parry.kJustParryAbleGrace * stage1Scene.enemy.bullets[bi].speed;
 					
-					if (stage1Scene.enemy.bullets[bi].transform.position.x >= justArea) {
+					if (stage1Scene.enemy.bullets[bi].transform.position.x <= justArea) {
 						player.parry.parryState = ParryState::JUST;
 						player.parry.color = 0xFF0000FF;
 						player.isUpDamage = true;
