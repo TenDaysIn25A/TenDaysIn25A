@@ -17,7 +17,7 @@ void Stage1Boss::Initialize() {
 
 	shotTimer = 0;
 	shotCounter = 0;
-	transform.position = { -576.0f, 0.0f };
+	transform.position = { 576.0f, 0.0f };
 	transform.rotation = 0.0f;
 	transform.scale = { 1.0f, 1.0f };
 	attack = Stage1BossAttack::WALL;
@@ -191,6 +191,15 @@ void Stage1Boss::AttackWall() {
 	if (shotTimer >= 80) {
 		shotTimer = 0;
 
+		if (shotCounter >= 7) {
+			shotCounter = 0;
+
+			SpecialAttackSelect();
+		} else {
+			shotCounter++;
+		}
+	}else if (shotTimer > 41) {
+	}else if (shotTimer > 40) {
 		int randomPosition;
 
 		if (shotCounter >= 7) {
@@ -200,9 +209,9 @@ void Stage1Boss::AttackWall() {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .height = 160.0f });
 					if (randomPosition == 0) {
-						bullets[i].ShotDir({ transform.position.x, 160.0f }, { 1.0f, 0.0f }, 0.0f);
+						bullets[i].ShotDir({ transform.position.x, 160.0f }, { -1.0f, 0.0f }, 0.0f);
 					} else {
-						bullets[i].ShotDir({ transform.position.x, -160.0f }, { 1.0f, 0.0f }, 0.0f);
+						bullets[i].ShotDir({ transform.position.x, -160.0f }, { -1.0f, 0.0f }, 0.0f);
 					}
 					break;
 				}
@@ -213,19 +222,14 @@ void Stage1Boss::AttackWall() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, {});
-					bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPosition)) }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
 		}
 
-		if (shotCounter >= 7) {
-			shotCounter = 0;
-
-			SpecialAttackSelect();
-		} else {
-			shotCounter++;
-		}
+		
+	} else {
 	}
 }
 
@@ -247,7 +251,7 @@ void Stage1Boss::AttackFourWall() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .speed = kBulletHighSpeed });
-					bullets[i].ShotDir({ transform.position.x, 160.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, 160.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
@@ -255,7 +259,7 @@ void Stage1Boss::AttackFourWall() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .speed = kBulletHighSpeed });
-					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, 0.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
@@ -263,7 +267,7 @@ void Stage1Boss::AttackFourWall() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .speed = kBulletHighSpeed });
-					bullets[i].ShotDir({ transform.position.x, -160.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, -160.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
@@ -277,7 +281,7 @@ void Stage1Boss::AttackFourWall() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .speed = 8.0f });
-					bullets[i].ShotDir({ transform.position.x, -160.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, -160.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
@@ -285,7 +289,7 @@ void Stage1Boss::AttackFourWall() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .speed = 8.0f });
-					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, 0.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
@@ -293,7 +297,7 @@ void Stage1Boss::AttackFourWall() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .speed = 8.0f });
-					bullets[i].ShotDir({ transform.position.x, -160.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, -160.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
@@ -301,7 +305,7 @@ void Stage1Boss::AttackFourWall() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .speed = 8.0f });
-					bullets[i].ShotDir({ transform.position.x, 160.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, 160.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
@@ -309,7 +313,7 @@ void Stage1Boss::AttackFourWall() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .speed = 8.0f });
-					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, 0.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
@@ -317,7 +321,7 @@ void Stage1Boss::AttackFourWall() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .speed = 8.0f });
-					bullets[i].ShotDir({ transform.position.x, 160.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, 160.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
@@ -334,7 +338,7 @@ void Stage1Boss::AttackMachingun() {
 		for (int i = 0; i < kBulletMax; i++) {
 			if (!bullets[i].isActive) {
 				InitializeBullets(i, { .height = 120.0f });
-				bullets[i].ShotDir({ transform.position.x, -180.0f + (120.0f * static_cast<float>(randomPosition)) }, { 1.0f, 0.0f }, 0.0f);
+				bullets[i].ShotDir({ transform.position.x, -180.0f + (120.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
 				break;
 			}
 		}
@@ -351,29 +355,28 @@ void Stage1Boss::AttackMachingun() {
 }
 
 void Stage1Boss::AttackFishBone() {
-	if (shotCounter >= 41) {
+	if (shotCounter >= 44) {
+		if (shotTimer >= 20) {
+			shotCounter = 0;
+			CommonAttackSelect();
+		}
+	} else if (shotCounter >= 41) {
 		if (shotTimer % 20 == 0) {
 			shotTimer = 0;
-
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .height = 480.0f });
-					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, 0.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
 
-			if (shotCounter >= 43) {
-				shotCounter = 0;
-				CommonAttackSelect();
-			} else {
-				shotCounter++;
-			}
+			shotCounter++;
 
 		}
-	}else if (shotCounter >= 40) {
+	} else if (shotCounter >= 40) {
 		if (shotTimer == 30) {
-				shotCounter++;
+			shotCounter++;
 		}
 	} else {
 		if (shotTimer % 5 == 0) {
@@ -386,14 +389,14 @@ void Stage1Boss::AttackFishBone() {
 					if (shotCounter % 14 == 6) {
 						if (!bullets[i].isActive) {
 							InitializeBullets(i, { .height = 210.0f });
-							bullets[i].ShotDir({ transform.position.x, 135.0f }, { 1.0f, 0.0f }, 0.0f);
+							bullets[i].ShotDir({ transform.position.x, 135.0f }, { -1.0f, 0.0f }, 0.0f);
 							break;
 
 						}
 					} else {
 						if (!bullets[i].isActive) {
 							InitializeBullets(i, { .height = 120.0f });
-							bullets[i].ShotDir({ transform.position.x, 180.0f }, { 1.0f, 0.0f }, 0.0f);
+							bullets[i].ShotDir({ transform.position.x, 180.0f }, { -1.0f, 0.0f }, 0.0f);
 							break;
 						}
 					}
@@ -405,14 +408,14 @@ void Stage1Boss::AttackFishBone() {
 					if (shotCounter % 14 == 13) {
 						if (!bullets[i].isActive) {
 							InitializeBullets(i, { .height = 210.0f });
-							bullets[i].ShotDir({ transform.position.x, -135.0f }, { 1.0f, 0.0f }, 0.0f);
+							bullets[i].ShotDir({ transform.position.x, -135.0f }, { -1.0f, 0.0f }, 0.0f);
 							break;
 						}
 
 					} else {
 						if (!bullets[i].isActive) {
 							InitializeBullets(i, { .height = 120.0f });
-							bullets[i].ShotDir({ transform.position.x, -180.0f }, { 1.0f, 0.0f }, 0.0f);
+							bullets[i].ShotDir({ transform.position.x, -180.0f }, { -1.0f, 0.0f }, 0.0f);
 							break;
 						}
 					}
@@ -435,7 +438,7 @@ void Stage1Boss::AttackAllWall() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .height = 480.0f });
-					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, 0.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
@@ -445,7 +448,7 @@ void Stage1Boss::AttackAllWall() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, {});
-					bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPosition)) }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
@@ -479,7 +482,7 @@ void Stage1Boss::AttackBoneTussle() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .speed = kBulletHighSpeed });
-					bullets[i].ShotDir({ transform.position.x, 160.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, 160.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
@@ -487,7 +490,7 @@ void Stage1Boss::AttackBoneTussle() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .speed = kBulletHighSpeed });
-					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, 0.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
@@ -495,7 +498,7 @@ void Stage1Boss::AttackBoneTussle() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .speed = kBulletHighSpeed });
-					bullets[i].ShotDir({ transform.position.x, -160.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, -160.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
@@ -509,7 +512,7 @@ void Stage1Boss::AttackBoneTussle() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .speed = 8.0f });
-					bullets[i].ShotDir({ transform.position.x, -160.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, -160.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}
@@ -517,7 +520,7 @@ void Stage1Boss::AttackBoneTussle() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					InitializeBullets(i, { .speed = 8.0f });
-					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
+					bullets[i].ShotDir({ transform.position.x, 0.0f }, { -1.0f, 0.0f }, 0.0f);
 					break;
 				}
 			}

@@ -103,7 +103,7 @@ void Bullet::DeactiveOutOfWindow() {
 		Deactive();
 	}
 	
-	if (transform.position.x <= -(640.0f + width)) {
+	if (transform.position.x <= -(640.0f + (width / 2.0f))) {
 		Deactive();
 	}
 	

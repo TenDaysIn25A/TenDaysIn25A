@@ -40,7 +40,7 @@ void Bullet::Draw() const {
 	}
 	if (currentDimension == DimensionState::ONE) {
 		renderer.DrawSprite(oneDimTransform, width, 80.0f, 0.0f, grHandle, color);
-	}
+	} 
 
 } 
 

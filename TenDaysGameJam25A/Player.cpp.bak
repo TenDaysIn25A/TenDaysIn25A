@@ -5,11 +5,18 @@ Player::Player() { Initialize(); }
 void Player::Initialize() {
 	transform.position = { 300.0f,0.0f };
 	isAlive = true;
-	life = 3;
+	currentLife = 3;
+	for(int i = 0;i < currentLife;i++){
+	
+		life[i].position.x = 580.0f - i * 60.0f;
+		life[i].position.y = -300.0f;
+
+	}
+	grhandleLife = Novice::LoadTexture("./Resources/images/box.png");
 	isInvinciblity = false;
 	isUpDamage = false;
 	invincibleTimer = 0;
-	speed = 5.0f;
+	speed = 10.0f;
 	parry.Initialize();
 	damageUpTime = 150;
 
@@ -18,6 +25,7 @@ void Player::Initialize() {
 
 	shotCoolTime = kDefaultShotCoolTime;
 
+	//パリィ
 	parry.transform.position.x = transform.position.x - width;
 	parry.transform.position.y = transform.position.y;
 	parry.width = width;
@@ -25,6 +33,7 @@ void Player::Initialize() {
 	parry.parryState = ParryState::NONE;
 	parry.isParryAble = false;
 	parry.isCanJust = false;
+
 	grHandleCaracter = Novice::LoadTexture("./Resources/images/box.png");
 
 	for (int bi = 0;bi < kBulletMax;bi++) {
@@ -38,6 +47,11 @@ void Player::Initialize() {
 
 	shotTimer = shotCoolTime;
 
+	currentStamina = kMaxStamina;
+	grhandleStamina = Novice::LoadTexture("./Resources/images/box.png");
+	stamina.position = { 0.0f,300.0f };
+	staminaRecoverCoolTime = kStaminaRecoverCoolTime;
+
 	miss.Initialize(Novice::LoadTexture("./Resources/images/miss.png"), 256.0f, 128.0f);
 	nice.Initialize(Novice::LoadTexture("./Resources/images/nice.png"), 512.0f, 128.0f);
 	just.Initialize(Novice::LoadTexture("./Resources/images/just.png"), 512.0f, 128.0f);
@@ -45,12 +59,11 @@ void Player::Initialize() {
 
 void Player::Update() {
 	input.Update();
+	click.Update();
 
 	miss.Update();
 	nice.Update();
 	just.Update();
-
-	transform.position.x = 300.0f + (3 - life) * 160.0f;
 
 	if (isInvinciblity) {
 
@@ -90,11 +103,15 @@ void Player::Update() {
 		parry.transform.position.x = transform.position.x - width;
 
 
+		currentStamina -= kConsumedStamina;
+
+
+		staminaRecoverCoolTime = kStaminaRecoverCoolTime;
 	} else {
 
 		Move();
 
-		if (input.GetKey(DIK_SPACE)) {
+		if (click.GetClick(0)) {
 
 			if (shotTimer >= shotCoolTime) {
 
@@ -110,12 +127,23 @@ void Player::Update() {
 						} else {
 							bullets[bi].color = 0xFFFFFFFF;
 						}
-
 						break;
 					}
-
 				}
 			}
+		}
+
+		if (currentStamina < kMaxStamina) {
+
+			if (staminaRecoverCoolTime > 0) {
+				staminaRecoverCoolTime--;
+			} else {
+				currentStamina += kRecoverStaminaAmount;
+			}
+
+		} else {
+			currentStamina = kMaxStamina;
+			staminaRecoverCoolTime = kStaminaRecoverCoolTime;
 		}
 
 		ClampInWindow2D();
@@ -136,16 +164,16 @@ void Player::TakeDamage(int damage) {
 		return;
 	}
 
-	life -= damage;
+	currentLife -= damage;
 	invincibleTimer = kInvincibleTimer;
 
-	if (life <= 0) {
+	if (currentLife <= 0) {
 		Destroy();
 	}
-
 }
 
 void Player::Draw() const {
+
 	parry.Draw();
 
 	if (invincibleTimer % 4 <= 1) {
@@ -155,7 +183,6 @@ void Player::Draw() const {
 	for (int bi = 0;bi < kBulletMax;bi++) {
 		bullets[bi].Draw();
 	}
-
 }
 
 void Player::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
@@ -168,8 +195,16 @@ void Player::Move() {
 		direction.y = 1.0f;
 	}
 
+	if (input.GetKey(DIK_A)) {
+		direction.x = -1.0f;
+	}
+
 	if (input.GetKey(DIK_S)) {
 		direction.y = -1.0f;
+	}
+
+	if (input.GetKey(DIK_D)) {
+		direction.x = 1.0f;
 	}
 
 	velocity = Vector2::Normalize(direction) * speed;

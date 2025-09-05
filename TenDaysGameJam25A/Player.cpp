@@ -3,7 +3,7 @@
 Player::Player() { Initialize(); }
 
 void Player::Initialize() {
-	transform.position = { 300.0f,0.0f };
+	transform.position = { -300.0f,0.0f };
 	isAlive = true;
 	currentLife = 3;
 	for(int i = 0;i < currentLife;i++){
@@ -26,7 +26,7 @@ void Player::Initialize() {
 	shotCoolTime = kDefaultShotCoolTime;
 
 	//パリィ
-	parry.transform.position.x = transform.position.x - width;
+	parry.transform.position.x = transform.position.x + width;
 	parry.transform.position.y = transform.position.y;
 	parry.width = width;
 	parry.height = height;
@@ -40,7 +40,7 @@ void Player::Initialize() {
 		bullets[bi].Initialize();
 		bullets[bi].height = 40.0f;
 		bullets[bi].width = 40.0f;
-		bullets[bi].direction = { -1.0f,0.0f };
+		bullets[bi].direction = { 1.0f,0.0f };
 		bullets[bi].damage = kDefaultDamage;
 		bullets[bi].speed = 40.0f;
 	}
@@ -100,7 +100,7 @@ void Player::Update() {
 
 		parry.Update();
 
-		parry.transform.position.x = transform.position.x - width;
+		parry.transform.position.x = transform.position.x + width + 1;
 
 
 		currentStamina -= kConsumedStamina;
@@ -218,6 +218,14 @@ void Player::ClampInWindow2D() {
 
 	if (transform.position.y <= -200.0f) {
 		transform.position.y = -200.0f;
+	}
+
+	if (transform.position.x >= 472.0f) {
+		transform.position.x = 472.0f;
+	}
+
+	if (transform.position.x <= -600.0f) {
+		transform.position.x = -600.0f;
 	}
 }
 
