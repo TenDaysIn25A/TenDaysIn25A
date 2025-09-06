@@ -12,7 +12,26 @@ void SampleSceneMidzuki::Initialize() {
 
 	enemy.Initialize();
 
+	light.Initialize();
+
 	currentDimension = DimensionState::TWO;
+
+	box.position = { -150,0.0f };
+	boxWidth = 80.0f;
+	boxHeight = 160.0f;
+
+
+	playerLeftTop.position = { player.transform.position.x - player.width / 2.0f,player.transform.position.y + player.height / 2.0f };
+	playerRightTop.position = { player.transform.position.x + player.width / 2.0f,player.transform.position.y + player.height / 2.0f };
+	playerLeftBottom.position = { player.transform.position.x - player.width / 2.0f,player.transform.position.y - player.height / 2.0f };
+	playerRightBottom.position = { player.transform.position.x + player.width / 2.0f,player.transform.position.y - player.height / 2.0f };
+
+	radius = { 5.0f,5.0f };
+
+	leftTopColor = 0xFFFFFFFF;
+	rightTopColor = 0xFFFFFFFF;
+	leftBottomColor = 0xFFFFFFFF;
+	rightBottomColor = 0xFFFFFFFF;
 }
 
 void SampleSceneMidzuki::Update() {
@@ -23,7 +42,36 @@ void SampleSceneMidzuki::Update() {
 
 	player.Update();
 
+	playerLeftTop.position = { player.transform.position.x - player.width / 2.0f,player.transform.position.y + player.height / 2.0f };
+	playerRightTop.position = { player.transform.position.x + player.width / 2.0f,player.transform.position.y + player.height / 2.0f };
+	playerLeftBottom.position = { player.transform.position.x - player.width / 2.0f,player.transform.position.y - player.height / 2.0f };
+	playerRightBottom.position = { player.transform.position.x + player.width / 2.0f,player.transform.position.y - player.height / 2.0f };
+
 	enemy.Update();
+
+	if (light.isPlayerInTheShadow(box,boxWidth,boxHeight,playerLeftTop.position)) {
+		leftTopColor = 0xFF0000FF;
+	} else {
+		leftTopColor = 0xFFFFFFFF;
+	}
+
+	if (light.isPlayerInTheShadow(box,boxWidth,boxHeight,playerRightTop.position)) {
+		rightTopColor = 0xFF0000FF;
+	} else {
+		rightTopColor = 0xFFFFFFFF;
+	}
+
+	if (light.isPlayerInTheShadow(box, boxWidth, boxHeight, playerLeftBottom.position)) {
+		leftBottomColor = 0xFF0000FF;
+	} else {
+		leftBottomColor = 0xFFFFFFFF;
+	}
+
+	if (light.isPlayerInTheShadow(box, boxWidth, boxHeight, playerRightBottom.position)) {
+		rightBottomColor = 0xFF0000FF;
+	} else {
+		rightBottomColor = 0xFFFFFFFF;
+	}
 
 	for (int bi = 0;bi < enemy.kBulletMax;bi++) {
 
@@ -143,8 +191,14 @@ void SampleSceneMidzuki::Draw() const {
 
 	Novice::ScreenPrintf(0, 64, "%d", player.bullets[0].damage);
 	
+	renderer.DrawEllipse(playerLeftTop, radius, { 0,0 }, 0.0f, leftTopColor, kFillModeSolid);
+	renderer.DrawEllipse(playerRightTop, radius, { 0,0 }, 0.0f, rightTopColor, kFillModeSolid);
+	renderer.DrawEllipse(playerLeftBottom, radius, { 0,0 }, 0.0f, leftBottomColor, kFillModeSolid);
+	renderer.DrawEllipse(playerRightBottom, radius, { 0,0 }, 0.0f, rightBottomColor, kFillModeSolid);
+	renderer.DrawEllipse(light.transform, light.radius, { 0,0 }, 0.0f, 0xFFFF00FF, kFillModeSolid);
 
-
+	renderer.DrawBox(box, boxWidth, boxHeight, 0.0f, 0xFFFFFFFF, kFillModeSolid);
+	
 }
 
 void SampleSceneMidzuki::SetCamera() {

@@ -99,12 +99,14 @@ void Bullet::Deactive() {
 void Bullet::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
 
 void Bullet::DeactiveOutOfWindow() {
-	if (transform.position.x >= 640.0f + (width / 2.0f)) {
-		Deactive();
-	}
-	
-	if (transform.position.x <= -(640.0f + (width / 2.0f))) {
-		Deactive();
+	if (velocity.x >= 0.0f) {
+		if (transform.position.x >= 640.0f + width ) {
+			Deactive();
+		}
+	} else {
+		if (transform.position.x <= -(640.0f + width)) {
+			Deactive();
+		}
 	}
 	
 	if (transform.position.y >= 360.0f + height) {

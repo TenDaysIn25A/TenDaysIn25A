@@ -14,6 +14,8 @@ void BackGround::Initialize() {
 	duration = 0.15f;
 	dimansionState = DimensionState::TWO;
 	currentDimension = DimensionState::TWO;
+
+	color = 0x4444FFFF;
 }
 
 void BackGround::Update() {
@@ -92,7 +94,7 @@ void BackGround::Activate() {
 
 void BackGround::Draw() const {
 
-	Novice::DrawSprite(static_cast<int>(underBGPos.x), static_cast<int>(underBGPos.y), grHandleHalfBg, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
+	Novice::DrawSprite(static_cast<int>(underBGPos.x), static_cast<int>(underBGPos.y), grHandleHalfBg, 1.0f, 1.0f, 0.0f, color);
 
-	Novice::DrawSprite(static_cast<int>(topBGPos.x), static_cast<int>(topBGPos.y), grHandleHalfBg, 1.0f, 1.0f, static_cast<float>(M_PI), 0xFFFFFFFF);
+	Novice::DrawSprite(static_cast<int>(topBGPos.x), static_cast<int>(topBGPos.y), grHandleHalfBg, 1.0f, 1.0f, static_cast<float>(M_PI), color);
 }

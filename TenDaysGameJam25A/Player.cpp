@@ -95,6 +95,8 @@ void Player::Update() {
 		shotCoolTime = kDefaultShotCoolTime;
 	}
 
+	Move();
+
 	if (currentDimension == DimensionState::ONE) {
 
 		parry.Update();
@@ -105,8 +107,6 @@ void Player::Update() {
 
 		staminaRecoverCoolTime = kStaminaRecoverCoolTime;
 	} else {
-
-		Move();
 
 		if (click.GetClick(0)) {
 
@@ -190,16 +190,19 @@ void Player::Move() {
 	velocity = {0.0f, 0.0f};
 	direction = {0.0f, 0.0f};
 
-	if (input.GetKey(DIK_W)) {
-		direction.y = 1.0f;
+	if (currentDimension == DimensionState::TWO) {
+
+		if (input.GetKey(DIK_W)) {
+			direction.y = 1.0f;
+		}
+
+		if (input.GetKey(DIK_S)) {
+			direction.y = -1.0f;
+		}
 	}
 
 	if (input.GetKey(DIK_A)) {
 		direction.x = -1.0f;
-	}
-
-	if (input.GetKey(DIK_S)) {
-		direction.y = -1.0f;
 	}
 
 	if (input.GetKey(DIK_D)) {

@@ -14,9 +14,9 @@ void Button::Initialize() {
 
 	duration = 0.2f;
 
-	scaleNone = {1.0f, 1.0f};
-	scaleHover = {1.4f, 1.4f};
-	scaleCliked = {1.4f,0.0f};
+	scaleNone = {0.8f, 0.8f};
+	scaleHover = {1.0f, 1.0f};
+	scaleCliked = {1.0f,0.0f};
 
 	transform.scale = scaleNone;
 	state = ButtonState::NONE;
@@ -49,7 +49,7 @@ void Button::Update() {
 	switch (state) {
 	case ButtonState::NONE:
 		nextScale = scaleNone;
-		color = 0x333333FF;
+		color = 0xAAAAAAFF;
 		break;
 	case ButtonState::HOVER:
 		if (nextState == ButtonState::CLICKED) {
@@ -57,7 +57,7 @@ void Button::Update() {
 		} else {
 			nextScale = scaleHover;
 		}
-		color = 0xAAAAAAFF;
+		color = 0xFFFFFFFF;
 		break;
 	case ButtonState::CLICKED:
 		nextScale = scaleCliked;

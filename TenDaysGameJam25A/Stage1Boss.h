@@ -2,6 +2,7 @@
 #include "Dlib.h"
 #include "Bullet.h"
 #include "Enemy.h"
+#include "EnemyHpGauge.h"
 
 enum class Stage1BossAttack {
 	WALL, MACHINGUN, FISHBONE, ALL_WALL,FOURWALL,PAPYRUS,
@@ -162,6 +163,8 @@ public:
 	static constexpr int kBulletNormalDamage = 1;
 	int grHandleBullet;
 
+	EnemyHpGauge hpGauge;
+
 	Stage1BossAttack attack;
 	AttackPhase attackPhase;
 
@@ -172,7 +175,7 @@ public:
 	bool isAlive;
 	
 	const unsigned int kDamageColor = 0xAA5555FF;
-	const unsigned int kColor = 0xFFAAAAFF;
+	const unsigned int kColor = 0x55FFFFFF;
 
 	int color;
 

@@ -121,10 +121,12 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Enemy1D.cpp" />
     <ClCompile Include="Enemy2D.cpp" />
+    <ClCompile Include="EnemyHpGauge.cpp" />
     <ClCompile Include="GameClearScene.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Click.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Stage1Scene.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
@@ -197,10 +199,12 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Enemy1D.h" />
     <ClInclude Include="Enemy2D.h" />
+    <ClInclude Include="EnemyHpGauge.h" />
     <ClInclude Include="GameClearScene.h" />
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Click.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Stage1Scene.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Matrix3x3.h" />

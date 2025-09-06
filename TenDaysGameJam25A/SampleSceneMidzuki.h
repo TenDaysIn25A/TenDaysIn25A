@@ -4,6 +4,7 @@
 #include"Player.h"
 #include"Enemy.h"
 #include"Parry.h"
+#include"Light.h"
 
 class SampleSceneMidzuki {
 public:
@@ -50,6 +51,22 @@ public:
 	Transform2D camera;
 	DimensionState dimensionState;
 	Renderer renderer;
+	Light light;
+
+	Transform2D box;
+	float boxWidth;
+	float boxHeight;
+
+	Transform2D playerLeftTop;
+	Transform2D playerRightTop;
+	Transform2D playerLeftBottom;
+	Transform2D playerRightBottom;
+	Vector2 radius;
+
+	unsigned int leftTopColor;
+	unsigned int rightTopColor;
+	unsigned int leftBottomColor;
+	unsigned int rightBottomColor;
 
 	PlayerTest samplePlayer;
 	Player player;

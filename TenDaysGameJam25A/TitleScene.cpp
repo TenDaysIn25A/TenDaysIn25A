@@ -3,10 +3,10 @@
 TitleScene::TitleScene() { Initialize(); };
 
 void TitleScene::Initialize() {
-	transform.position = { 0.0f,0.0f };
-	width = 1280.0f;
-	height = 720.0f;
-	grHandle = Novice::LoadTexture("./Resources/images/title.png");
+	transform.position = { 0.0f,100.0f };
+	width = 732.0f;
+	height = 192.0f;
+	grHandle = Novice::LoadTexture("./Resources/images/only_title.png");
 
 	buttonToStageSelect.Initialize(Novice::LoadTexture("./Resources/images/start.png"),160.0f, 48.0f);
 	buttonToConfig.Initialize();

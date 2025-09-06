@@ -110,6 +110,9 @@
     <Filter Include="Sources\System\Click">
       <UniqueIdentifier>{f6d69c70-f1da-453a-9f08-8200d4a5731b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Objects\EnemyHpGauge">
+      <UniqueIdentifier>{b101b955-8809-4877-bbd0-207f29af0e6c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
@@ -252,6 +255,9 @@
     </ClCompile>
     <ClCompile Include="Click.cpp">
       <Filter>Sources\System\Click</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyHpGauge.cpp">
+      <Filter>Sources\Objects\EnemyHpGauge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -459,6 +465,9 @@
     <ClInclude Include="Stage5Boss.h" />
     <ClInclude Include="Click.h">
       <Filter>Sources\System\Click</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyHpGauge.h">
+      <Filter>Sources\Objects\EnemyHpGauge</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

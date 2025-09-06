@@ -131,9 +131,6 @@ void GameScene::CheckHitAll() {
 					stage1Scene.enemy.bullets[bi].effect.SetColor(player.parry.color);
 
 					stage1Scene.enemy.bullets[bi].Deactive();
-					stage1Scene.enemy.bullets[bi].transform.position.x = -1000.0f;
-					stage1Scene.enemy.bullets[bi].transform.position.y = -1000.0f;
-					break;
 				}
 			}
 		}

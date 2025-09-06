@@ -51,6 +51,8 @@ public:
 	float t;        
 	float duration; 
 
+	unsigned int color;
+
 	Vector2 startUnder;
 	Vector2 startTop;
 	Vector2 midUnder;
