@@ -32,9 +32,7 @@ void Stage1Boss::Initialize() {
 	}
 
 	hpGauge.Initialize();
-	hpGauge.CreateHpGauge({ 0.0f,240.0f }, hp, maxHp, 500.0f, 60.0f, color, true);
-
-	light.Initialize();
+	hpGauge.CreateHpGauge({0.0f,240.0f},hp,maxHp,500.0f,60.0f,color,true);
 }
 
 void Stage1Boss::InitializeBullets(int index, const BulletConfig& bulletConfig) {
@@ -71,12 +69,7 @@ void Stage1Boss::Update() {
 		}
 	}
 
-	if (attack == Stage1BossAttack::LIGHT) {
-
-
-	}
-
-	hpGauge.ReferenceHp(hp, maxHp);
+	hpGauge.ReferenceHp(hp,maxHp);
 	hpGauge.Update();
 
 	color = kColor;
@@ -92,26 +85,6 @@ void Stage1Boss::Draw() const {
 
 	hpGauge.Draw();
 	renderer.DrawSprite(transform, width, height, 0.0f, grHandleCaracter, color);
-
-	if (attack == Stage1BossAttack::LIGHT) {
-
-		if (shotTimer >= 120) {
-			renderer.DrawEllipse(light.transform, light.radius, { 0,0 }, 0.0f, 0xFFFF00FF, kFillModeSolid);
-
-
-			if (light.lightNotice) {
-
-				if (currentDimension == DimensionState::TWO) {
-					light.DrawShadow(bullets[60].transform, bullets[60].width, bullets[60].height, 0x0000000FF);
-				} else {
-					Transform2D oneDimShadow;
-					oneDimShadow.position = { bullets[60].transform.position.x,0.0f };
-
-					light.DrawShadow(oneDimShadow, bullets[60].width, bullets[60].height, 0x0000000FF);
-				}
-			}
-		}
-	}
 
 	for (int i = 0; i < kBulletMax; i++) {
 		bullets[i].Draw();
@@ -166,28 +139,8 @@ void Stage1Boss::Shot() {
 	case Stage1BossAttack::PAPYRUS:
 		AttackFourWall();
 		break;
-	case Stage1BossAttack::LIGHT:
-		AttackLight();
-
-		if (bullets[60].transform.position.x <= -200.0f) {
-			bullets[60].transform.position.x = -200.0f;
-			bullets[60].speed = 0.0f;
-		}
-
-		if (light.lightNotice) {
-			bullets[60].color = 0x000000FF;
-		} else {
-			bullets[60].color = 0xFFFFFFFF;
-		}
-
-		if (light.isActive) {
-			light.backGroundColor = 0XFF2222FF;
-		} else {
-			light.backGroundColor = 0xFFFF99FF;
-		}
-
-		break;
 	}
+
 	shotTimer++;
 }
 
@@ -214,7 +167,7 @@ void Stage1Boss::SpecialAttackSelect() {
 		if (randomAttack == 1) {
 			attack = Stage1BossAttack::ALL_WALL;
 		} else if (randomAttack == 2) {
-			attack = Stage1BossAttack::LIGHT;
+			attack = Stage1BossAttack::FISHBONE;
 		} else {
 		}
 		break;
@@ -229,10 +182,10 @@ void Stage1Boss::SpecialAttackSelect() {
 		}
 		break;
 	case AttackPhase::THIRD:
-		randomAttack = Random::RandomInt(1, 2);
+		randomAttack = 2;//Random::RandomInt(1, 2);
 
 		if (randomAttack == 1) {
-			attack = Stage1BossAttack::LIGHT;
+			attack = Stage1BossAttack::ALL_WALL;
 		} else if (randomAttack == 2) {
 			attack = Stage1BossAttack::FISHBONE;
 		} else {
@@ -252,8 +205,8 @@ void Stage1Boss::AttackWall() {
 		} else {
 			shotCounter++;
 		}
-	} else if (shotTimer > 41) {
-	} else if (shotTimer > 40) {
+	}else if (shotTimer > 41) {
+	}else if (shotTimer > 40) {
 		int randomPosition;
 
 		if (shotCounter >= 7) {
@@ -286,7 +239,7 @@ void Stage1Boss::AttackWall() {
 			}
 		}
 
-
+		
 	} else {
 	}
 }
@@ -627,81 +580,4 @@ void Stage1Boss::AttackBoneTussle() {
 			}
 		}
 	}
-}
-
-void Stage1Boss::AttackLight() {
-
-	if (shotTimer >= 320) {
-		shotTimer = 0;
-
-		light.isActive = false;
-
-		light.lightNotice = false;
-
-		bullets[60].Deactive();
-
-		CommonAttackSelect();
-
-	} else if (shotTimer >= 228) {
-
-		light.isActive = true;
-
-		light.lightNotice = true;
-
-	}else if (shotTimer >= 168){
-
-		light.lightNotice = false;
-	}else if(shotTimer >=166){
-
-		light.lightNotice = true;
-	}else if(shotTimer >= 126){
-
-		light.lightNotice = false;
-
-	}else if(shotTimer >= 124){
-
-		light.lightNotice = true;
-
-	} else if (shotTimer >= 120){
-
-	} else if (shotTimer > 61) {
-	} else if (shotTimer > 60) {
-
-		if (shotCounter == 0) {
-			int randomPattern;
-
-			randomPattern = Random::RandomInt(0, 2);
-
-			if (randomPattern == 0) {
-
-				if (!bullets[60].isActive) {
-					if (!bullets[60].effect.GetIsActive()) {
-						InitializeBullets(60, { .height = 160.0f });
-						bullets[60].ShotDir({ 640.0f + (bullets[60].width), 0.0f }, { -1.0f, 0.0f }, 0.0f);
-					}
-				}
-			} else if (randomPattern == 1) {
-
-				if (!bullets[60].effect.GetIsActive()) {
-					if (!bullets[60].isActive) {
-						InitializeBullets(60, {.height = 80.0f});
-						bullets[60].ShotDir({ 640.0f + (bullets[60].width), 200.0f }, { -1.0f, 0.0f }, 0.0f);
-					}
-				}
-
-			} else {
-
-				if (!bullets[60].effect.GetIsActive()) {
-					if (!bullets[60].isActive) {
-						InitializeBullets(60, { .height = 80.0f });
-						bullets[60].ShotDir({ 640.0f + (bullets[60].width), -200.0f }, { -1.0f, 0.0f }, 0.0f);
-
-					}
-				}
-			}
-			shotCounter++;
-		}
-	} else {
-	}
-
 }

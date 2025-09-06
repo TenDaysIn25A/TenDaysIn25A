@@ -84,6 +84,26 @@ void SampleSceneMidzuki::Update() {
 		}
 	}
 
+	if (input.GetKey(DIK_UP)) {
+		light.transform.position.y++;
+	}
+
+	if (input.GetKey(DIK_LEFT)) {
+		light.transform.position.x--;
+	}
+
+	if (input.GetKey(DIK_DOWN)) {
+		light.transform.position.y--;
+	}
+
+	if (input.GetKey(DIK_RIGHT)) {
+		light.transform.position.x++;
+	}
+
+	if (input.GetKeyTrigger(DIK_SPACE)) {
+		light.isActive = !light.isActive;
+	}
+
 	CheckHitAll();
 }
 
@@ -190,6 +210,8 @@ void SampleSceneMidzuki::Draw() const {
 	Novice::ScreenPrintf(0, 48, "%d", player.damageUpTime);
 
 	Novice::ScreenPrintf(0, 64, "%d", player.bullets[0].damage);
+
+
 	
 	renderer.DrawEllipse(playerLeftTop, radius, { 0,0 }, 0.0f, leftTopColor, kFillModeSolid);
 	renderer.DrawEllipse(playerRightTop, radius, { 0,0 }, 0.0f, rightTopColor, kFillModeSolid);
@@ -199,6 +221,8 @@ void SampleSceneMidzuki::Draw() const {
 
 	renderer.DrawBox(box, boxWidth, boxHeight, 0.0f, 0xFFFFFFFF, kFillModeSolid);
 	
+
+
 }
 
 void SampleSceneMidzuki::SetCamera() {

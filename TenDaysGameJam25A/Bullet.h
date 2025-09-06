@@ -1,5 +1,10 @@
 ﻿#pragma once
 #include "Dlib.h"
+
+enum class BulletType{
+	SHOT,RETURNFISH,SQUID,
+};
+
 class Bullet {
 public:
 	Bullet();
@@ -18,14 +23,22 @@ public:
 
 	void DeactiveOutOfWindow();
 
+	void FishLightShine(const Vector2& lightPos);
+
 private:
 	void Move();
+	void FishMove();
+	void squidMove();
 
 public:
 	// ステータス
 	int damage;
 	int isActive;
-	
+	BulletType type;
+
+	int timer;
+	int isLightShines;
+
 	// 物理プロパティ
 	float speed;
 	Transform2D transform;

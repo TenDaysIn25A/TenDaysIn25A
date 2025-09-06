@@ -11,6 +11,10 @@ public:
 	float rotation;
 	Vector2 scale;
 	
+private:
+	mutable Matrix3x3 worldMatrix_;
+	mutable bool isDirty_ = true;
+
 public:
 	Transform2D();
 	~Transform2D() = default;
@@ -33,5 +37,5 @@ public:
 	/// <param name="deltaScale"></param>
 	void Scale(const Vector2& deltaScale);
 
-	Matrix3x3 GetWorldMatrix() const;
+	const Matrix3x3& GetWorldMatrix() const;
 };

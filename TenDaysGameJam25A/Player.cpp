@@ -54,6 +54,11 @@ void Player::Initialize() {
 	miss.Initialize(Novice::LoadTexture("./Resources/images/miss.png"), 256.0f, 128.0f);
 	nice.Initialize(Novice::LoadTexture("./Resources/images/nice.png"), 512.0f, 128.0f);
 	just.Initialize(Novice::LoadTexture("./Resources/images/just.png"), 512.0f, 128.0f);
+
+	leftTop.position = { transform.position.x - width / 2.0f,transform.position.y + height / 2.0f };
+	rightTop.position = { transform.position.x + width / 2.0f,transform.position.y + height / 2.0f };
+	leftBottom.position = { transform.position.x - width / 2.0f,transform.position.y - height / 2.0f };
+	rightBottom.position = { transform.position.x + width / 2.0f,transform.position.y - height / 2.0f };
 }
 
 void Player::Update() {
@@ -148,6 +153,11 @@ void Player::Update() {
 		ClampInWindow2D();
 	}
 
+	leftTop.position = { transform.position.x - width / 2.0f,transform.position.y + height / 2.0f };
+	rightTop.position = { transform.position.x + width / 2.0f,transform.position.y + height / 2.0f };
+	leftBottom.position = { transform.position.x - width / 2.0f,transform.position.y - height / 2.0f };
+	rightBottom.position = { transform.position.x + width / 2.0f,transform.position.y - height / 2.0f };
+
 	for (int bi = 0; bi < kBulletMax; bi++) {
 		bullets[bi].Update();
 	}
@@ -222,8 +232,8 @@ void Player::ClampInWindow2D() {
 		transform.position.y = -200.0f;
 	}
 
-	if (transform.position.x >= 380.0f) {
-		transform.position.x = 380.0f;
+	if (transform.position.x >= 360.0f) {
+		transform.position.x = 360.0f;
 	}
 
 	if (transform.position.x <= -600.0f) {

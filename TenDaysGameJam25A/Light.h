@@ -20,7 +20,7 @@ public:
 
 	int isTargetRightOfLight(Vector2& posA, Vector2& target);
 
-	void DrawShadow(Transform2D& enemyBullet, float enemyBulletWidth, float enemyBulletHeight);
+	void DrawShadow(Transform2D enemyBullet, float enemyBulletWidth, float enemyBulletHeight,unsigned int color)const;
 
 	//===============================
 	// メンバ変数
@@ -34,9 +34,10 @@ public:
 	Vector2 radius;
 	
 	float cross;
+	unsigned int backGroundColor;
 
 	bool isActive;
-
+	bool lightNotice;
 
 };
 

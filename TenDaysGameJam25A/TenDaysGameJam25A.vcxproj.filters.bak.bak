@@ -110,11 +110,10 @@
     <Filter Include="Sources\System\Click">
       <UniqueIdentifier>{f6d69c70-f1da-453a-9f08-8200d4a5731b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Objects\Enemy\Light">
+      <UniqueIdentifier>{57cfcc43-e746-445d-bba2-b16377dfb740}</UniqueIdentifier>
     <Filter Include="Sources\Objects\EnemyHpGauge">
       <UniqueIdentifier>{b101b955-8809-4877-bbd0-207f29af0e6c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources\Objects\Enemy\Light">
-      <UniqueIdentifier>{638a539d-250e-4286-ae43-e3975ff1f591}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -259,11 +258,10 @@
     <ClCompile Include="Click.cpp">
       <Filter>Sources\System\Click</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyHpGauge.cpp">
-      <Filter>Sources\Objects\EnemyHpGauge</Filter>
-    </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Sources\Objects\Enemy\Light</Filter>
+    <ClCompile Include="EnemyHpGauge.cpp">
+      <Filter>Sources\Objects\EnemyHpGauge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -472,11 +470,10 @@
     <ClInclude Include="Click.h">
       <Filter>Sources\System\Click</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyHpGauge.h">
-      <Filter>Sources\Objects\EnemyHpGauge</Filter>
-    </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>Sources\Objects\Enemy\Light</Filter>
+    <ClInclude Include="EnemyHpGauge.h">
+      <Filter>Sources\Objects\EnemyHpGauge</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

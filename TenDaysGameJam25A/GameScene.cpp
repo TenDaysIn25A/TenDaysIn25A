@@ -87,14 +87,24 @@ void GameScene::Update() {
 
 	CheckHitAll();
 
+	Vector2 reactionPosition = {player.transform.position.x, player.transform.position.y + 100.0f};
 	if (player.click.GetClickTrigger(0)) {
 		if (currentDimension == DimensionState::ONE) {
 			if (player.parry.parryState == ParryState::NONE) {
-							player.miss.Activate({ player.transform.position.x, player.transform.position.y + 100.0f }, 0.0f);
+				if (player.transform.position.x < -640.0f + player.just.width / 2.0f - 128.0f) {
+					reactionPosition.x = -640.0f + player.just.width / 2.0f - 128.0f;
+				}
+				player.miss.Activate({reactionPosition.x, reactionPosition.y}, 0.0f);
 			} else if (player.parry.parryState == ParryState::NORMAL) {
-				player.nice.Activate({ player.transform.position.x, player.transform.position.y + 100.0f }, 0.0f);
+				if (player.transform.position.x < -640.0f + player.just.width / 2.0f - 72.0f) {
+					reactionPosition.x = -640.0f + player.just.width / 2.0f - 72.0f;
+				}
+				player.nice.Activate({reactionPosition.x, reactionPosition.y}, 0.0f);
 			} else {
-				player.just.Activate({ player.transform.position.x, player.transform.position.y + 100.0f }, 0.0f);
+				if (player.transform.position.x < -640.0f + player.just.width / 2.0f) {
+					reactionPosition.x = -640.0f + player.just.width / 2.0f;
+				}
+				player.just.Activate({reactionPosition.x, reactionPosition.y}, 0.0f);
 			}
 		}
 	}
@@ -126,11 +136,14 @@ void GameScene::CheckHitAll() {
 					} else {
 						player.parry.parryState = ParryState::NORMAL;
 						player.parry.color = 0xFFFF00FF;
-					}
-
+					} 
 					stage1Scene.enemy.bullets[bi].effect.SetColor(player.parry.color);
 
 					stage1Scene.enemy.bullets[bi].Deactive();
+				} else {
+
+					player.currentStamina -= player.kMissConsumedStamina;
+
 				}
 			}
 		}
@@ -199,11 +212,66 @@ void GameScene::CheckHitAll() {
 		}
 	}
 
+	//光とプレイヤー(プレイヤーの4頂点が、光がさえぎられていない領域にあるか)
+	if (dimensionState == DimensionState::TWO) {
+		if (stage1Scene.enemy.light.isActive) {
+			if (stage1Scene.enemy.light.isPlayerInTheShadow(stage1Scene.enemy.bullets[60].transform, stage1Scene.enemy.bullets[60].width, stage1Scene.enemy.bullets[60].height, player.leftTop.position)) {
+
+			} else {
+				player.TakeDamage(2);
+			}
+
+			if (stage1Scene.enemy.light.isPlayerInTheShadow(stage1Scene.enemy.bullets[60].transform, stage1Scene.enemy.bullets[60].width, stage1Scene.enemy.bullets[60].height, player.rightTop.position)) {
+
+			} else {
+				player.TakeDamage(2);
+			}
+
+			if (stage1Scene.enemy.light.isPlayerInTheShadow(stage1Scene.enemy.bullets[60].transform, stage1Scene.enemy.bullets[60].width, stage1Scene.enemy.bullets[60].height, player.leftBottom.position)) {
+
+			} else {
+				player.TakeDamage(2);
+			}
+
+			if (stage1Scene.enemy.light.isPlayerInTheShadow(stage1Scene.enemy.bullets[60].transform, stage1Scene.enemy.bullets[60].width, stage1Scene.enemy.bullets[60].height, player.rightBottom.position)) {
+
+			} else {
+				player.TakeDamage(2);
+			}
+		}
+	} else {
+
+		if (stage1Scene.enemy.light.isActive) {
+
+			if (stage1Scene.enemy.bullets[60].isActive) {
+
+				if (player.transform.position.x <= stage1Scene.enemy.bullets[60].transform.position.x) {
+
+				} else {
+					player.TakeDamage(2);
+				}
+
+			} else {
+				player.TakeDamage(2);
+			}
+		}
+
+	}
 }
 
 void GameScene::Draw()const {
 
 	Novice::DrawBox(0, 120, 1281, 480, 0.0f, 0x000000FF, kFillModeSolid);
+
+	Novice::ScreenPrintf(132, 132, "%d", stage1Scene.enemy.light.lightNotice);
+	Novice::ScreenPrintf(148, 132, "%d", stage1Scene.enemy.shotTimer);
+
+	if (stage1Scene.enemy.light.lightNotice) {
+		Transform2D lightBg;
+		lightBg.position.x = 0.0f;
+		lightBg.position.y = 0.0f;
+		renderer.DrawBox(lightBg, 1280.0f, 720.0f, 0.0f, stage1Scene.enemy.light.backGroundColor, kFillModeSolid);
+	}
 
 	switch (currentStage) {
 

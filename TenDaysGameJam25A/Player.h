@@ -85,6 +85,11 @@ public:
 	// ----------------------------------------------
 	Transform2D transform;
 
+	Transform2D leftTop;
+	Transform2D rightTop;
+	Transform2D leftBottom;
+	Transform2D rightBottom;
+
 	float speed;
 	Vector2 direction;
 	Vector2 velocity;
@@ -107,6 +112,7 @@ public:
 
 	Transform2D stamina;
 	const float kStaminaHeight = 60.0f;
+	const float kMissConsumedStamina = 30.0f;
 	int grhandleStamina;
 
 	Transform2D life[3];

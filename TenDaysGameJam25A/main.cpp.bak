@@ -22,6 +22,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ライブラリの初期化
 	Novice::Initialize(kWindowTitle, 1280, 720);
+	DeltaTime deltaTime;
+	deltaTime.Initialize();
 
 	Input input;
 	//int grHandleBackGround = Novice::LoadTexture("./Resources/images/backGround.png");
@@ -134,6 +136,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			sceneManager.Update();
 
+			if (sceneManager.titleScene.buttonToEnd.IsClicked()) {
+				sceneManager.currentScene = Scene::END;
+			}
+
 			//Novice::ScreenPrintf(0, 700, "Scene : GAME_SCENE");
 			break;
 		case SampleScene::COUNT:
@@ -142,10 +148,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 		}
 
+		deltaTime.Update();
+		Novice::ScreenPrintf(1260, 0, "%d", static_cast<int>(1.0f / deltaTime.deltaTime));
+
 		// フレームの終了
 		Novice::EndFrame();
 
+		if (sceneManager.currentScene == Scene::END) {
+			break;
+		}
+
+
 	}
+
 
 	// ライブラリの終了
 	Novice::Finalize();

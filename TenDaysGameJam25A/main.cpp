@@ -34,6 +34,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	SceneManager sceneManager;
 
+	DeltaTime deltaTime;
+	deltaTime.Initialize();
+
 	BackGround backGround;
 	backGround.Initialize();
 
@@ -145,6 +148,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		default:
 			break;
 		}
+
+		deltaTime.Update();
+		Novice::ScreenPrintf(1260, 0, "%d", static_cast<int>(1.0f / deltaTime.deltaTime));
 
 		// フレームの終了
 		Novice::EndFrame();
