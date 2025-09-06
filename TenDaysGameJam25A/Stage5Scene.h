@@ -50,7 +50,7 @@ public:
 	Transform2D camera;
 	DimensionState dimensionState;
 	Renderer renderer;
-	BackGround backGround;
+
 
 	ParryState parryState;
 	Stage5Boss enemy;

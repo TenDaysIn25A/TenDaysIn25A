@@ -6,8 +6,6 @@ void Stage1Scene::Initialize() {
 
 	enemy.Initialize();
 
-	backGround.Initialize();
-
 	currentDimension = DimensionState::TWO;
 }
 void Stage1Scene::Update() {

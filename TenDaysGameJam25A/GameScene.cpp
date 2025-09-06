@@ -9,7 +9,9 @@ void GameScene::Initialize() {
 	stage3Scene.Initialize();
 	stage4Scene.Initialize();
 	stage5Scene.Initialize();
+	backGround.Initialize();
 	player.Initialize();
+	
 }
 
 void GameScene::Update() {
@@ -29,11 +31,13 @@ void GameScene::Update() {
 			}
 		}
 
-		if (backGround.click.GetClickRelease(1)) {
+		if (backGround.dimansionState == DimensionState::ONE) {
+			if (backGround.click.GetClickRelease(1)) {
 
-			if (!backGround.isChanging) {
-				backGround.Activate();
-				player.staminaRecoverCoolTime = player.kStaminaRecoverCoolTime;
+				if (!backGround.isChanging) {
+					backGround.Activate();
+					player.staminaRecoverCoolTime = player.kStaminaRecoverCoolTime;
+				}
 			}
 		}
 	} 

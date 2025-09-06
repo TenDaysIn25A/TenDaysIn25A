@@ -13,14 +13,13 @@ void BackGround::Initialize() {
 	t = 0.0f;
 	duration = 0.15f;
 	dimansionState = DimensionState::TWO;
+	currentDimension = DimensionState::TWO;
 }
 
 void BackGround::Update() {
 
 	input.Update();
 	click.Update();
-
-
 
 	if (click.GetClickNotAnswer(1)) {
 

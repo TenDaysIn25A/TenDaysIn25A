@@ -6,7 +6,6 @@ void Stage2Scene::Initialize() {
 
 	enemy.Initialize();
 
-	backGround.Initialize();
 
 	currentDimension = DimensionState::TWO;
 }
@@ -14,12 +13,9 @@ void Stage2Scene::Update() {
 	// ここで各更新処理を行う
 	input.Update();
 
-	backGround.Update();
-	
-	if (backGround.isChanging) {
-		return;
-	}
 
+
+	
 
 	if (input.GetKeyTrigger(DIK_0)) {
 		if (currentDimension == DimensionState::ONE) {
@@ -47,7 +43,7 @@ void Stage2Scene::Draw() const {
 
 	enemy.Draw();
 
-	backGround.Draw();
+	
 
 
 }
