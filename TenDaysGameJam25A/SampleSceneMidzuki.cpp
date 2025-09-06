@@ -32,6 +32,34 @@ void SampleSceneMidzuki::Initialize() {
 	rightTopColor = 0xFFFFFFFF;
 	leftBottomColor = 0xFFFFFFFF;
 	rightBottomColor = 0xFFFFFFFF;
+
+	chochinMouthBottom.position = { kChochinMouthOffsetX,kChochinMouthOffsetY };
+	chochinMouthBottomWidth = 480.0f;
+	chochinMouthBottomHeight = 480.0f;
+	chochinMouthBottomTheta = 0.0f;
+	grHandleChochinMouthBottom = Novice::LoadTexture("./Resources/images/chochinMouthBottom.png");
+
+
+	chochinMouthTop.position = { kChochinMouthOffsetX,kChochinMouthOffsetY };
+	chochinMouthTopWidth = 480.0f;
+	chochinMouthTopHeight = 480.0f;
+	chochinMouthTopTheta = 0.0f;
+	grHandleChochinMouthTop = Novice::LoadTexture("./Resources/images/chochinMouthTop.png");
+
+	chochinAmplitudeX = 30.0f;
+	chochinAmplitudeY = 36.0f;
+	chochinWavingThetaX = float(M_PI) / 2.0f;
+	chochinWavingThetaY = 0.0f;
+
+	chochinEies.position = {kChochinEiesOffsetX,kChochinEiesOffsetY};
+	chochinEiesWidth = 96.0f;
+	chochinEiesHeight = 96.0f;
+	grHandleChochinEies = Novice::LoadTexture("./Resources/images/chochinEies.png");
+	chochinEiesTheta = float (M_PI) * 0.0f;
+	chochinEiesRotateTimer = 4;
+
+	chochinThetaSpeed = 0.07f;
+	chochinColor = 0x00EEEEFF;
 }
 
 void SampleSceneMidzuki::Update() {
@@ -49,13 +77,13 @@ void SampleSceneMidzuki::Update() {
 
 	enemy.Update();
 
-	if (light.isPlayerInTheShadow(box,boxWidth,boxHeight,playerLeftTop.position)) {
+	if (light.isPlayerInTheShadow(box, boxWidth, boxHeight, playerLeftTop.position)) {
 		leftTopColor = 0xFF0000FF;
 	} else {
 		leftTopColor = 0xFFFFFFFF;
 	}
 
-	if (light.isPlayerInTheShadow(box,boxWidth,boxHeight,playerRightTop.position)) {
+	if (light.isPlayerInTheShadow(box, boxWidth, boxHeight, playerRightTop.position)) {
 		rightTopColor = 0xFF0000FF;
 	} else {
 		rightTopColor = 0xFFFFFFFF;
@@ -101,7 +129,52 @@ void SampleSceneMidzuki::Update() {
 	}
 
 	if (input.GetKeyTrigger(DIK_SPACE)) {
-		light.isActive = !light.isActive;
+		if (chochinColor == 0x00EEEEFF) {
+			chochinColor = 0xEEEE00FF;
+
+
+		} else {
+			chochinColor = 0x00EEEEFF;
+		}
+	}
+
+	chochinMouthBottom.position.x = cosf(chochinWavingThetaX) * chochinAmplitudeX + kChochinMouthOffsetX;
+	chochinMouthBottom.position.y = sinf(chochinWavingThetaY) * chochinAmplitudeY + kChochinMouthOffsetY;
+
+	chochinMouthTop.position.x = cosf(chochinWavingThetaX) * chochinAmplitudeX + kChochinMouthOffsetX;
+	chochinMouthTop.position.y = sinf(chochinWavingThetaY) * chochinAmplitudeY + kChochinMouthOffsetY;
+
+	chochinEies.position.x = chochinMouthBottom.position.x + kChochinEiesOffsetX;
+	chochinEies.position.y = chochinMouthBottom.position.y + kChochinEiesOffsetY;
+
+	if (chochinEiesRotateTimer > 0) {
+		chochinEiesRotateTimer--;
+	} else {
+		chochinEiesTheta += float(M_PI) / 2.0f;
+
+		if (chochinColor == 0x00EEEEFF) {
+			chochinEiesRotateTimer = 4;
+
+
+		} else {
+			chochinEiesRotateTimer = 1;
+		}
+	}
+
+	if (chochinColor == 0x00EEEEFF) {
+
+		chochinWavingThetaX += float(M_PI) / 90.0f;
+		chochinWavingThetaY += float(M_PI) / 60.0f;
+	} else {
+		chochinWavingThetaX += float(M_PI) / 60.0f;
+		chochinWavingThetaY += float(M_PI) / 30.0f;
+	}
+
+	chochinMouthBottomTheta += chochinThetaSpeed;
+	chochinMouthTopTheta -= chochinThetaSpeed;
+
+	if (chochinMouthBottomTheta > 3.0f || chochinMouthBottomTheta < 0.0f) {
+		chochinThetaSpeed *= -1.0f;
 	}
 
 	CheckHitAll();
@@ -125,7 +198,7 @@ void SampleSceneMidzuki::CheckHitAll() {
 					player.parry.color = 0xFF0000FF;
 					player.isUpDamage = true;
 					player.damageUpTime = 150;
-					
+
 				} else {
 					player.parry.parryState = ParryState::NORMAL;
 					player.parry.color = 0xFFFF00FF;
@@ -175,8 +248,8 @@ void SampleSceneMidzuki::Draw() const {
 
 	// 一次元の背景_黒
 	Novice::DrawBox(
-		0, 320,
-		1280, 80,
+		0, 0,
+		1280, 720,
 		0.0f,
 		0x000000FF,
 		kFillModeSolid
@@ -212,7 +285,7 @@ void SampleSceneMidzuki::Draw() const {
 	Novice::ScreenPrintf(0, 64, "%d", player.bullets[0].damage);
 
 
-	
+
 	renderer.DrawEllipse(playerLeftTop, radius, { 0,0 }, 0.0f, leftTopColor, kFillModeSolid);
 	renderer.DrawEllipse(playerRightTop, radius, { 0,0 }, 0.0f, rightTopColor, kFillModeSolid);
 	renderer.DrawEllipse(playerLeftBottom, radius, { 0,0 }, 0.0f, leftBottomColor, kFillModeSolid);
@@ -220,9 +293,10 @@ void SampleSceneMidzuki::Draw() const {
 	renderer.DrawEllipse(light.transform, light.radius, { 0,0 }, 0.0f, 0xFFFF00FF, kFillModeSolid);
 
 	renderer.DrawBox(box, boxWidth, boxHeight, 0.0f, 0xFFFFFFFF, kFillModeSolid);
-	
 
-
+	renderer.DrawSprite(chochinMouthBottom, chochinMouthBottomWidth, chochinMouthBottomHeight, chochinMouthBottomTheta, grHandleChochinMouthBottom, chochinColor);
+	renderer.DrawSprite(chochinMouthTop, chochinMouthTopWidth, chochinMouthTopHeight, chochinMouthTopTheta, grHandleChochinMouthTop, chochinColor);
+	renderer.DrawSprite(chochinEies, chochinEiesWidth, chochinEiesHeight, chochinEiesTheta*180 / float(M_PI), grHandleChochinEies, chochinColor);
 }
 
 void SampleSceneMidzuki::SetCamera() {

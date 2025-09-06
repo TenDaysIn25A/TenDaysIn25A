@@ -11,7 +11,7 @@ void GameScene::Initialize() {
 	stage5Scene.Initialize();
 	backGround.Initialize();
 	player.Initialize();
-	
+
 }
 
 void GameScene::Update() {
@@ -40,7 +40,7 @@ void GameScene::Update() {
 				}
 			}
 		}
-	} 
+	}
 
 	if (player.currentStamina < 0) {
 		player.currentStamina = 0;
@@ -87,24 +87,24 @@ void GameScene::Update() {
 
 	CheckHitAll();
 
-	Vector2 reactionPosition = {player.transform.position.x, player.transform.position.y + 100.0f};
+	Vector2 reactionPosition = { player.transform.position.x, player.transform.position.y + 100.0f };
 	if (player.click.GetClickTrigger(0)) {
 		if (currentDimension == DimensionState::ONE) {
 			if (player.parry.parryState == ParryState::NONE) {
 				if (player.transform.position.x < -640.0f + player.just.width / 2.0f - 128.0f) {
 					reactionPosition.x = -640.0f + player.just.width / 2.0f - 128.0f;
 				}
-				player.miss.Activate({reactionPosition.x, reactionPosition.y}, 0.0f);
+				player.miss.Activate({ reactionPosition.x, reactionPosition.y }, 0.0f);
 			} else if (player.parry.parryState == ParryState::NORMAL) {
 				if (player.transform.position.x < -640.0f + player.just.width / 2.0f - 72.0f) {
 					reactionPosition.x = -640.0f + player.just.width / 2.0f - 72.0f;
 				}
-				player.nice.Activate({reactionPosition.x, reactionPosition.y}, 0.0f);
+				player.nice.Activate({ reactionPosition.x, reactionPosition.y }, 0.0f);
 			} else {
 				if (player.transform.position.x < -640.0f + player.just.width / 2.0f) {
 					reactionPosition.x = -640.0f + player.just.width / 2.0f;
 				}
-				player.just.Activate({reactionPosition.x, reactionPosition.y}, 0.0f);
+				player.just.Activate({ reactionPosition.x, reactionPosition.y }, 0.0f);
 			}
 		}
 	}
@@ -120,14 +120,14 @@ void GameScene::CheckHitAll() {
 			if (!stage1Scene.enemy.bullets[bi].isActive) {
 				continue;
 			}
-			
+
 			//パリィの当たり判定
 			if (player.parry.isParry) {
 				if (Collision::BoxToBox(
 					player.parry.transform.position, player.parry.width, player.parry.height, { stage1Scene.enemy.bullets[bi].transform.position.x, 0.0f }, stage1Scene.enemy.bullets[bi].width, stage1Scene.enemy.bullets[bi].height)) {
 
 					float justArea = player.parry.transform.position.x + player.parry.kJustParryAbleGrace * stage1Scene.enemy.bullets[bi].speed;
-					
+
 					if (stage1Scene.enemy.bullets[bi].transform.position.x <= justArea) {
 						player.parry.parryState = ParryState::JUST;
 						player.parry.color = 0xFF0000FF;
@@ -136,7 +136,7 @@ void GameScene::CheckHitAll() {
 					} else {
 						player.parry.parryState = ParryState::NORMAL;
 						player.parry.color = 0xFFFF00FF;
-					} 
+					}
 					stage1Scene.enemy.bullets[bi].effect.SetColor(player.parry.color);
 
 					stage1Scene.enemy.bullets[bi].Deactive();
@@ -213,7 +213,7 @@ void GameScene::CheckHitAll() {
 	}
 
 	//光とプレイヤー(プレイヤーの4頂点が、光がさえぎられていない領域にあるか)
-	if (dimensionState == DimensionState::TWO) {
+	if (currentDimension == DimensionState::TWO) {
 		if (stage1Scene.enemy.light.isActive) {
 			if (stage1Scene.enemy.light.isPlayerInTheShadow(stage1Scene.enemy.bullets[60].transform, stage1Scene.enemy.bullets[60].width, stage1Scene.enemy.bullets[60].height, player.leftTop.position)) {
 
@@ -277,6 +277,7 @@ void GameScene::Draw()const {
 
 	case Stage::STAGE1:
 
+
 		stage1Scene.Draw();
 
 		Novice::ScreenPrintf(100, 16, "Stage1");
@@ -284,6 +285,8 @@ void GameScene::Draw()const {
 		break;
 
 	case Stage::STAGE2:
+		//stage2Boss.hpGauge.Draw();
+
 		stage2Scene.Draw();
 
 		Novice::ScreenPrintf(100, 16, "Stage2");
@@ -325,8 +328,10 @@ void GameScene::Draw()const {
 	player.nice.Draw();
 	player.just.Draw();
 
+	stage1Scene.enemy.hpGauge.Draw();
+
 	for (int i = 0;i < player.currentLife;i++) {
-		renderer.DrawSprite(player.life[i], player.lifeWidth, player.lifeHeight, 0.0f,player.grhandleLife, 0xFF6666FF);
+		renderer.DrawSprite(player.life[i], player.lifeWidth, player.lifeHeight, 0.0f, player.grhandleLife, 0xFF6666FF);
 	}
 
 	Novice::ScreenPrintf(640, 360, "%f", player.currentStamina);

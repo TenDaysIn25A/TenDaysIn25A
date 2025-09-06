@@ -58,7 +58,6 @@ public:
 	//-------------------------------------
 	Input input;
 	Transform2D camera;
-	DimensionState dimensionState;
 	Renderer renderer;
 	BackGround backGround;
 	Stage currentStage;

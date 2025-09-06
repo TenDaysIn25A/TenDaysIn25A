@@ -9,6 +9,9 @@ void Bullet::Initialize() {
 	direction = { 0.0f, 0.0f };
 	isActive = false;
 	timer = 0;
+	theta = 0.0f;
+	waveAmplitudeY = 0.0f;
+	waveOffsetY = 0.0f;
 	isLightShines = false;
 	transform.position = { -1000.0f, -1000.0f };
 	grHandle = Novice::LoadTexture("./Resources/images/box.png");
@@ -31,6 +34,8 @@ void Bullet::Update() {
 		FishMove();
 	} else if (type == BulletType::SQUID) {
 		squidMove();
+	} else if (type == BulletType::WAVE) {
+		WaveMove();
 	} else {
 		Move();
 	}
@@ -88,6 +93,32 @@ void Bullet::ShotDir(const Vector2& startPos, const Vector2& dir, float spreadRo
 	float spreadRadian = spreadRotationDegree * (static_cast<float>(M_PI) / 180.0f);
 
 	float angle = Random::RandomFloat(-spreadRadian, spreadRadian);
+
+	float cosA = std::cos(angle);
+	float sinA = std::sin(angle);
+	direction.x = baseDir.x * cosA - baseDir.y * sinA;
+	direction.y = baseDir.x * sinA + baseDir.y * cosA;
+
+	// 速度
+	velocity = direction * speed;
+
+	// 回転角度を direction_ から求める
+	transform.rotation = static_cast<float>(std::atan2(direction.y, direction.x));
+}
+
+void Bullet::WaveDir(const Vector2& startPos, const Vector2& dir, float setTheta,float amplitude,float waveOffset) {
+
+	isActive = true;
+	transform.position = startPos;
+
+	// 基本の向き
+	Vector2 baseDir = Vector2::Normalize(dir);
+
+	waveAmplitudeY = amplitude;
+	waveOffsetY = waveOffset;
+	theta = setTheta;
+
+	float angle = (static_cast<float>(M_PI) / 180.0f);
 
 	float cosA = std::cos(angle);
 	float sinA = std::sin(angle);
@@ -182,6 +213,11 @@ void Bullet::squidMove(){
 		velocity.x += 0.4f;
 		transform.Translate(velocity);
 	}
+}
+
+void Bullet::WaveMove(){
+	transform.Translate(velocity);
+	transform.position.y = sinf(theta) * waveAmplitudeY + waveOffsetY;
 }
 
 

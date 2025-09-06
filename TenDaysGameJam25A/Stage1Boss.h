@@ -6,7 +6,7 @@
 #include"Light.h"
 
 enum class Stage1BossAttack {
-	WALL, MACHINGUN, FISHBONE, ALL_WALL,FOURWALL,PAPYRUS,LIGHT
+	MADNESS_TEMPTATION, SQUIDSWIM, FISHBONE, FISHSWIM,FOURWALL,PAPYRUS,LIGHT,
 };
 
 class Stage1Boss {
@@ -26,6 +26,7 @@ public:
 		float speed = kBulletNormalSpeed;
 		int damage = kBulletNormalDamage;
 		unsigned int color = 0xFFFFFFFF;
+		BulletType type = BulletType::SHOT;
 		int grHandle = Novice::LoadTexture("./Resources/images/box.png");
 	};
 
@@ -97,7 +98,7 @@ public:
 	/// <summary>
 	/// アタックウォールの攻撃パターン
 	/// </summary>
-	void AttackWall();
+	void AttackMadnessTemptation();
 
 	/// <summary>
 	/// アタックマシンガンの攻撃パターン
@@ -112,7 +113,7 @@ public:
 	/// <summary>
 	/// アタックオールウォールの攻撃パターン
 	/// </summary>
-	void AttackAllWall();
+	void AttackFishSwim();
 
 	/// <summary>
 	/// アタックオールウォールの攻撃パターン
@@ -135,6 +136,16 @@ public:
 	/// 通常攻撃をフェーズごとに選択
 	/// </summary>
 	void CommonAttackSelect();
+
+	/// <summary>
+	/// アニメーションの初期化
+	/// </summary>
+	void AnimInitialize();
+
+	/// <summary>
+	/// 敵のアニメーションを実行する
+	/// </summary>
+	void AnimUpdate();
 
 	// ----------------------------------------------
 	// メンバ変数
@@ -165,6 +176,11 @@ public:
 	static constexpr float kBulletNormalHeight = 160.0f;
 	static constexpr int kBulletNormalDamage = 1;
 	int grHandleBullet;
+	int grHandleBulletFish;
+	int grHandleFishBoneTop;
+	int grHandleFishBoneBottom;
+	int grHandleBigFishBoneBottom;
+	int grHandleBigFishBoneTop;
 
 	EnemyHpGauge hpGauge;
 
@@ -192,6 +208,8 @@ public:
 
 	int randomPositionY;
 
+	int returnFishPosY[6];
+
 	int lightAttackTimer;
 	const int kLightAttackDefaultTimer = 60;
 	Light light;
@@ -199,4 +217,36 @@ public:
 	// 描画
 	// 
 	int grHandleCaracter;
+
+	//アニメーションを描画する関数
+	Transform2D chochinMouthBottom;
+	float chochinMouthBottomWidth;
+	float chochinMouthBottomHeight;
+	int grHandleChochinMouthBottom;
+	float chochinMouthBottomTheta;
+
+	Transform2D chochinMouthTop;
+	float chochinMouthTopWidth;
+	float chochinMouthTopHeight;
+	int grHandleChochinMouthTop;
+	float chochinMouthTopTheta;
+
+	Transform2D chochinEies;
+	float chochinEiesWidth;
+	float chochinEiesHeight;
+	int grHandleChochinEies;
+	float chochinEiesTheta;
+	int chochinEiesRotateTimer;
+	const float kChochinEiesOffsetX = 0.0f;
+	const float kChochinEiesOffsetY = 320.0f;
+
+	float chochinAmplitudeX;
+	float chochinAmplitudeY;
+	float chochinWavingThetaX;
+	float chochinWavingThetaY;
+	float chochinThetaSpeed;
+	const float kChochinMouthOffsetX = 500.0f;
+	const float kChochinMouthOffsetY = -200.0f;
+
+	unsigned int chochinColor;
 };

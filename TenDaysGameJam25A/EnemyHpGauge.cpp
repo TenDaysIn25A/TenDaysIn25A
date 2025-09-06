@@ -9,7 +9,7 @@ void EnemyHpGauge::Initialize(){
 	height = 40;
 	gaugeFramePixel = 4.0f;
 	positionXMisalignment = 0.0f;
-	transform.position = {0.0,240.0f};
+	transform.position = {0.0,300.0f};
 	color = kColor;
 	isVisible = false;
 	isBackGroundVisible = false;

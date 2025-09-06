@@ -10,7 +10,7 @@
 #include "SceneManager.h"
 #include "GameScene.h"
 #include"Dlib.h"
-#include"BackGround.h"
+//#include"BackGround.h"
 
 const char kWindowTitle[] = "LC1A_03_04_15_19_10DaysGameJam";
 

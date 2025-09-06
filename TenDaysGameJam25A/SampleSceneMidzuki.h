@@ -68,6 +68,37 @@ public:
 	unsigned int leftBottomColor;
 	unsigned int rightBottomColor;
 
+	Transform2D chochinMouthBottom;
+	float chochinMouthBottomWidth;
+	float chochinMouthBottomHeight;
+	int grHandleChochinMouthBottom;
+	float chochinMouthBottomTheta;
+
+	Transform2D chochinMouthTop;
+	float chochinMouthTopWidth;
+	float chochinMouthTopHeight;
+	int grHandleChochinMouthTop;
+	float chochinMouthTopTheta;
+
+	Transform2D chochinEies;
+	float chochinEiesWidth;
+	float chochinEiesHeight;
+	int grHandleChochinEies;
+	float chochinEiesTheta;
+	int chochinEiesRotateTimer;
+	const float kChochinEiesOffsetX = 0.0f;
+	const float kChochinEiesOffsetY = 320.0f;
+
+	float chochinAmplitudeX;
+	float chochinAmplitudeY;
+	float chochinWavingThetaX;
+	float chochinWavingThetaY;
+	float chochinThetaSpeed;
+	const float kChochinMouthOffsetX = 500.0f;
+	const float kChochinMouthOffsetY = -200.0f;
+
+	unsigned int chochinColor;
+
 	PlayerTest samplePlayer;
 	Player player;
 	ParryState parryState;

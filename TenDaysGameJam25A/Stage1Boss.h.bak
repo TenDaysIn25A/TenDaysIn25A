@@ -3,9 +3,10 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "EnemyHpGauge.h"
+#include"Light.h"
 
 enum class Stage1BossAttack {
-	WALL, MACHINGUN, FISHBONE, ALL_WALL,FOURWALL,PAPYRUS,
+	WALL, MACHINGUN, FISHBONE, ALL_WALL,FOURWALL,PAPYRUS,LIGHT
 };
 
 class Stage1Boss {
@@ -118,6 +119,8 @@ public:
 	/// </summary>
 	void AttackFourWall();
 
+	void AttackLight();
+
 	/// <summary>
 	/// ウルトラかっこいい普通の攻撃パターン
 	/// </summary>
@@ -175,7 +178,7 @@ public:
 	bool isAlive;
 	
 	const unsigned int kDamageColor = 0xAA5555FF;
-	const unsigned int kColor = 0xFFFFFFFF;
+	const unsigned int kColor = 0x55FFFFFF;
 
 	int color;
 
@@ -188,6 +191,10 @@ public:
 	int exchengePhaseThirdHp;
 
 	int randomPositionY;
+
+	int lightAttackTimer;
+	const int kLightAttackDefaultTimer = 60;
+	Light light;
 
 	// 描画
 	// 
