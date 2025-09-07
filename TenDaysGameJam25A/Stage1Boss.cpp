@@ -8,9 +8,10 @@ void Stage1Boss::Initialize() {
 	height = 480.0f;
 	isAlive = true;
 	isPhase3Start = false;
+	isStartAnimation = true;
 	isAnger = false;
 	isTemptation = false;
-	hp = 600;
+	hp = 0;
 	maxHp = 600;
 
 	color = kColor;
@@ -33,6 +34,11 @@ void Stage1Boss::Initialize() {
 	grHandleFishBoneBottom = Novice::LoadTexture("./Resources/images/fhishBoneBottom.png");
 	grHandleBigFishBoneTop = Novice::LoadTexture("./Resources/images/fishBoneBickTop.png");
 	grHandleBigFishBoneBottom = Novice::LoadTexture("./Resources/images/fishBoneBickBottom.png");
+	grHandleBigWave = Novice::LoadTexture("./Resources/images/chochinWaveH.png");
+	grHandleSquid = Novice::LoadTexture("./Resources/images/squid.png");
+	grHandleBlock = Novice::LoadTexture("./Resources/images/wall.png");
+	grHandleTwinBlocks = Novice::LoadTexture("./Resources/images/wallBig.png");
+	grHandleLight = Novice::LoadTexture("./Resources/images/lightCircle.png");
 
 	for (int i = 0; i < kBulletMax; i++) {
 		InitializeBullets(i, {});
@@ -45,6 +51,9 @@ void Stage1Boss::Initialize() {
 	AnimInitialize();
 
 	light.Initialize();
+
+	auHandleRoar = Novice::LoadAudio("./Resources/sounds/kirasRoar.m4a");
+	isPlayedAudioRoar = false;
 }
 
 void Stage1Boss::AnimInitialize() {
@@ -90,6 +99,15 @@ void Stage1Boss::AnimInitialize() {
 
 	chochinThetaSpeed = 0.07f;
 	chochinColor = 0x00EEEEFF;
+
+	chochinPositionX = 400.0f;
+	chochinVelocityX = -20.0f;
+	chochinAnimTimer = 0;
+
+	for (int i = 0; i < kChochinRoaringMax; i++) {
+		chochinRoaringRadius[i] = 0.0f;
+		isChochinRoaringVisible[i] = false;
+	}
 }
 
 void Stage1Boss::InitializeBullets(int index, const BulletConfig& bulletConfig) {
@@ -111,7 +129,6 @@ void Stage1Boss::Update() {
 		return;
 	}
 
-	Shot();
 
 	for (int i = 0; i < kBulletMax; i++) {
 		bullets[i].Update();
@@ -129,26 +146,38 @@ void Stage1Boss::Update() {
 		light.backGroundColor = 0x00FFFFFF;
 	}
 
-	if (attackPhase == AttackPhase::FIRST) {
-		if (hp <= exchengePhaseSecondHp) {
-			attackPhase = AttackPhase::SECOND;
-		}
-	} else if (attackPhase == AttackPhase::SECOND) {
-		if (hp <= exchengePhaseThirdHp) {
-			isPhase3Start = true;
-			attackPhase = AttackPhase::THIRD;
-		}
-	}
+
 
 	if (attack == Stage1BossAttack::LIGHT) {
 
 
 	}
 
+	for (int i = 0; i < kBulletMax; i++) {
+		if (bullets[i].height == 960.0f) {
+			bullets[i].transform.position.y -= 5.0f;
+		}
+	}
+
 	hpGauge.ReferenceHp(hp, maxHp);
 	hpGauge.Update();
 
 	AnimUpdate();
+
+	if (!isStartAnimation) {
+		Shot();
+
+		if (attackPhase == AttackPhase::FIRST) {
+			if (hp <= exchengePhaseSecondHp) {
+				attackPhase = AttackPhase::SECOND;
+			}
+		} else if (attackPhase == AttackPhase::SECOND) {
+			if (hp <= exchengePhaseThirdHp) {
+				isPhase3Start = true;
+				attackPhase = AttackPhase::THIRD;
+			}
+		}
+	}
 
 	if (isAnger) {
 		if (isTemptation) {
@@ -163,99 +192,247 @@ void Stage1Boss::Update() {
 			color = kColor;
 		}
 	}
-	
+
 }
 
 void Stage1Boss::AnimUpdate() {
-	if (input.GetKeyTrigger(DIK_SPACE)) {
-		
-		isAnger = !isAnger;
+	// 音声の時間分延長します。
+	int roarAnimationAdditionalDuration = 180;
 
-		chochinLightIsActive = !chochinLightIsActive;
+	if (isStartAnimation) {
+
+		if (chochinAnimTimer >= 265 + roarAnimationAdditionalDuration) {
+			//アニメーション終了
+
+			isStartAnimation = false;
+
+		} else if (chochinAnimTimer >= 185 + roarAnimationAdditionalDuration) {
+			// 普通のアニメーションに戻る
+			
+			chochinAnimTimer++;
+
+			if (chochinMouthBottomTheta > 3.0f || chochinMouthBottomTheta < 0.0f) {
+				chochinThetaSpeed *= -1.0f;
+			}
+
+		} else if (chochinAnimTimer >= 184 + roarAnimationAdditionalDuration) {
+			// 口閉じる
+
+			if (chochinMouthBottomTheta < 0.0f) {
+				chochinThetaSpeed = 0.07f;
+				chochinMouthBottomTheta = 0.0f;
+				chochinMouthTopTheta = 0.0f;
+				chochinAnimTimer++;
+			} else {
+				chochinThetaSpeed = -2.5f;
+			}
+
+
+		} else if (chochinAnimTimer >= 124) {
+			// 咆哮時のエフェクト描画
+			
+			if (hp >= maxHp) {
+				hp = maxHp;
+			} else {
+				hp += 10;
+			}
+
+			chochinThetaSpeed = 0.0f;
+
+			if (chochinAnimTimer % 5 == 0) {
+				for (int i = 0; i < kChochinRoaringMax; i++) {
+					if (!isChochinRoaringVisible[i]) {
+						isChochinRoaringVisible[i] = true;
+						break;
+					}
+				}
+			}
+
+			chochinAnimTimer++;
+		} else if (chochinAnimTimer >= 120) {
+			// キラ口開く
+			
+			// 咆哮再生
+			if (!isPlayedAudioRoar) {
+				Novice::PlayAudio(auHandleRoar, false, auVolumeRoar);
+				isPlayedAudioRoar = true;
+			}
+
+			chochinThetaSpeed = 5.0f;
+			chochinAnimTimer++;
+		} else if (chochinAnimTimer >= 30) {
+			// キラが入ってくるまで
+			if (chochinPositionX < 210.0f) {
+				chochinVelocityX += 1.0f;
+			}
+
+			if (chochinVelocityX >= 0.0f) {
+				chochinVelocityX = 0.0f;
+				chochinPositionX = 0.0f;
+			} else {
+				chochinPositionX += chochinVelocityX;
+			}
+
+			chochinAnimTimer++;
+		} else {
+			chochinAnimTimer++;
+		}
+
+
+
+		chochinMouthBottom.position.x = cosf(chochinWavingThetaX) * chochinAmplitudeX + kChochinMouthOffsetX + chochinPositionX;
+		chochinMouthBottom.position.y = sinf(chochinWavingThetaY) * chochinAmplitudeY + kChochinMouthOffsetY;
+
+		if (chochinAnimationCount > 3) {
+			chochinAnimationCount = 0;
+		} else {
+			chochinAnimationCount++;
+		}
+
+		chochinMouthTop.position.x = cosf(chochinWavingThetaX) * chochinAmplitudeX + kChochinMouthOffsetX + chochinPositionX;
+		chochinMouthTop.position.y = sinf(chochinWavingThetaY) * chochinAmplitudeY + kChochinMouthOffsetY;
+
+		chochinEies.position.x = chochinMouthBottom.position.x + kChochinEiesOffsetX + chochinPositionX;
+		chochinEies.position.y = chochinMouthBottom.position.y + kChochinEiesOffsetY;
+
+		chochinLight.position.x = chochinMouthBottom.position.x + kChochinLightOffsetX + chochinPositionX;
+		chochinLight.position.y = chochinMouthBottom.position.y + kChochinLightOffsetY;
 
 		if (chochinLightIsActive) {
 
-			chochinLightThetaSpeed = 3.0f;
+			if (chochinLightTheta > 30.0f) {
+				chochinLightThetaSpeed = -1.0f;
+				chochinLightTheta = 30.0f;
+			} else if (chochinLightTheta < 0.0f) {
+				chochinLightThetaSpeed = 1.0f;
+				chochinLightTheta = 0.0f;
+			}
+
 		} else {
 
-			chochinLightThetaSpeed /= 3.0f;
+			if (chochinLightTheta > 30.0f) {
+				chochinLightThetaSpeed = -0.5f;
+			} else if (chochinLightTheta < 0.0f) {
+				chochinLightThetaSpeed = 0.5f;
+			}
+
+		}
+		Novice::ScreenPrintf(116, 116, "%f", chochinLightThetaSpeed);
+
+		chochinLightTheta += chochinLightThetaSpeed;
+
+		if (chochinEiesRotateTimer > 0) {
+			chochinEiesRotateTimer--;
+		} else {
+			chochinEiesTheta += float(M_PI) / 2.0f;
+
+			if (chochinColor == 0x00EEEEFF) {
+				chochinEiesRotateTimer = 4;
+
+
+			} else {
+				chochinEiesRotateTimer = 1;
+			}
+		}
+
+		if (chochinAnimTimer >= 185) {
+			chochinMouthBottomTheta += chochinThetaSpeed;
+			chochinMouthTopTheta -= chochinThetaSpeed;
+		} else {
+			chochinMouthBottomTheta += chochinThetaSpeed * 2.0f;
+			chochinMouthTopTheta -= chochinThetaSpeed / 2.0f;
+		}
+	} else {
+		if (input.GetKeyTrigger(DIK_SPACE)) {
+
+			isAnger = !isAnger;
+
+			chochinLightIsActive = !chochinLightIsActive;
+
+			if (chochinLightIsActive) {
+
+				chochinLightThetaSpeed = 3.0f;
+			} else {
+
+				chochinLightThetaSpeed /= 3.0f;
+
+			}
 
 		}
 
-	}
+		chochinMouthBottom.position.x = cosf(chochinWavingThetaX) * chochinAmplitudeX + kChochinMouthOffsetX;
+		chochinMouthBottom.position.y = sinf(chochinWavingThetaY) * chochinAmplitudeY + kChochinMouthOffsetY;
 
-	chochinMouthBottom.position.x = cosf(chochinWavingThetaX) * chochinAmplitudeX + kChochinMouthOffsetX;
-	chochinMouthBottom.position.y = sinf(chochinWavingThetaY) * chochinAmplitudeY + kChochinMouthOffsetY;
-
-
-
-	if (chochinAnimationCount > 3) {
-		chochinAnimationCount = 0;
-	} else {
-		chochinAnimationCount++;
-	}
-
-	chochinMouthTop.position.x = cosf(chochinWavingThetaX) * chochinAmplitudeX + kChochinMouthOffsetX;
-	chochinMouthTop.position.y = sinf(chochinWavingThetaY) * chochinAmplitudeY + kChochinMouthOffsetY;
-
-	chochinEies.position.x = chochinMouthBottom.position.x + kChochinEiesOffsetX;
-	chochinEies.position.y = chochinMouthBottom.position.y + kChochinEiesOffsetY;
-
-	chochinLight.position.x = chochinMouthBottom.position.x + kChochinLightOffsetX;
-	chochinLight.position.y = chochinMouthBottom.position.y + kChochinLightOffsetY;
-
-	if (chochinLightIsActive) {
-
-		if (chochinLightTheta > 30.0f) {
-			chochinLightThetaSpeed = -1.0f;
-			chochinLightTheta = 30.0f;
-		} else if (chochinLightTheta < 0.0f) {
-			chochinLightThetaSpeed = 1.0f;
-			chochinLightTheta = 0.0f;
+		if (chochinAnimationCount > 3) {
+			chochinAnimationCount = 0;
+		} else {
+			chochinAnimationCount++;
 		}
 
-	} else {
+		chochinMouthTop.position.x = cosf(chochinWavingThetaX) * chochinAmplitudeX + kChochinMouthOffsetX;
+		chochinMouthTop.position.y = sinf(chochinWavingThetaY) * chochinAmplitudeY + kChochinMouthOffsetY;
 
-		if (chochinLightTheta > 30.0f) {
-			chochinLightThetaSpeed = -0.5f;
-		} else if (chochinLightTheta < 0.0f) {
-			chochinLightThetaSpeed = 0.5f;
+		chochinEies.position.x = chochinMouthBottom.position.x + kChochinEiesOffsetX;
+		chochinEies.position.y = chochinMouthBottom.position.y + kChochinEiesOffsetY;
+
+		chochinLight.position.x = chochinMouthBottom.position.x + kChochinLightOffsetX;
+		chochinLight.position.y = chochinMouthBottom.position.y + kChochinLightOffsetY;
+
+		if (chochinLightIsActive) {
+
+			if (chochinLightTheta > 30.0f) {
+				chochinLightThetaSpeed = -1.0f;
+				chochinLightTheta = 30.0f;
+			} else if (chochinLightTheta < 0.0f) {
+				chochinLightThetaSpeed = 1.0f;
+				chochinLightTheta = 0.0f;
+			}
+
+		} else {
+
+			if (chochinLightTheta > 30.0f) {
+				chochinLightThetaSpeed = -0.5f;
+			} else if (chochinLightTheta < 0.0f) {
+				chochinLightThetaSpeed = 0.5f;
+			}
+
 		}
+		Novice::ScreenPrintf(116, 116, "%f", chochinLightThetaSpeed);
 
-	}
-	Novice::ScreenPrintf(116, 116, "%f", chochinLightThetaSpeed);
+		chochinLightTheta += chochinLightThetaSpeed;
 
-	chochinLightTheta += chochinLightThetaSpeed;
+		if (chochinEiesRotateTimer > 0) {
+			chochinEiesRotateTimer--;
+		} else {
+			chochinEiesTheta += float(M_PI) / 2.0f;
 
-	if (chochinEiesRotateTimer > 0) {
-		chochinEiesRotateTimer--;
-	} else {
-		chochinEiesTheta += float(M_PI) / 2.0f;
+			if (chochinColor == 0x00EEEEFF) {
+				chochinEiesRotateTimer = 4;
+
+
+			} else {
+				chochinEiesRotateTimer = 1;
+			}
+		}
 
 		if (chochinColor == 0x00EEEEFF) {
-			chochinEiesRotateTimer = 4;
 
-
+			chochinWavingThetaX += float(M_PI) / 90.0f;
+			chochinWavingThetaY += float(M_PI) / 60.0f;
 		} else {
-			chochinEiesRotateTimer = 1;
+			chochinWavingThetaX += float(M_PI) / 60.0f;
+			chochinWavingThetaY += float(M_PI) / 30.0f;
+		}
+
+		chochinMouthBottomTheta += chochinThetaSpeed;
+		chochinMouthTopTheta -= chochinThetaSpeed;
+
+		if (chochinMouthBottomTheta > 3.0f || chochinMouthBottomTheta < 0.0f) {
+			chochinThetaSpeed *= -1.0f;
 		}
 	}
 
-	if (chochinColor == 0x00EEEEFF) {
-
-		chochinWavingThetaX += float(M_PI) / 90.0f;
-		chochinWavingThetaY += float(M_PI) / 60.0f;
-	} else {
-		chochinWavingThetaX += float(M_PI) / 60.0f;
-		chochinWavingThetaY += float(M_PI) / 30.0f;
-	}
-
-	chochinMouthBottomTheta += chochinThetaSpeed;
-	chochinMouthTopTheta -= chochinThetaSpeed;
-
-	if (chochinMouthBottomTheta > 3.0f || chochinMouthBottomTheta < 0.0f) {
-		chochinThetaSpeed *= -1.0f;
-	}
+	RoaringCircleUpdate();
 }
 
 
@@ -277,8 +454,8 @@ void Stage1Boss::Draw() const {
 	if (attack == Stage1BossAttack::LIGHT) {
 
 		if (shotTimer >= 120) {
-			renderer.DrawEllipse(light.transform, light.radius, { 0,0 }, 0.0f, 0xFFFF00FF, kFillModeSolid);
-
+			//renderer.DrawEllipse(light.transform, light.radius, { 0,0 }, 0.0f, 0xFFFF00FF, kFillModeSolid);
+			//renderer.DrawSprite(light.transform, 80.0f, 80.0f, 0.0f, grHandleLight, 0xFFFF00FF);
 
 			if (light.lightNotice) {
 
@@ -319,6 +496,29 @@ void Stage1Boss::AnimDraw() const {
 		renderer.DrawSprite(chochinLight, chochinLightWidth, chochinLightHeight, chochinLightTheta, grHandleChochinLight3, color);
 	}
 	renderer.DrawSprite(chochinEies, chochinEiesWidth, chochinEiesHeight, chochinEiesTheta * 180 / float(M_PI), grHandleChochinEies, color);
+
+	RoaringCircleDraw();
+}
+
+void Stage1Boss::RoaringCircleUpdate() {
+	for (int i = 0; i < kChochinRoaringMax; i++) {
+		if (isChochinRoaringVisible[i]) {
+			chochinRoaringRadius[i] += 20.0f;
+
+			if (chochinRoaringRadius[i] >= 1600.0f) {
+				isChochinRoaringVisible[i] = false;
+				chochinRoaringRadius[i] = 0.0f;
+			}
+		}
+	}
+}
+
+void Stage1Boss::RoaringCircleDraw() const {
+	for (int i = 0; i < kChochinRoaringMax; i++) {
+		if (isChochinRoaringVisible[i]) {
+			renderer.DrawEllipse(chochinMouthTop, { chochinRoaringRadius[i],chochinRoaringRadius[i] }, { 0.0f,0.0f }, 0.0f, chochinColor, kFillModeWireFrame);
+		}
+	}
 }
 
 void Stage1Boss::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
@@ -329,6 +529,10 @@ void Stage1Boss::Move() {
 
 void Stage1Boss::TakeDamage(int damage) {
 	if (!isAlive) {
+		return;
+	}
+
+	if (isStartAnimation) {
 		return;
 	}
 
@@ -381,7 +585,7 @@ void Stage1Boss::Shot() {
 			break;
 		}
 	}
-	
+
 
 	shotTimer++;
 }
@@ -414,7 +618,7 @@ void Stage1Boss::SpecialAttackSelect() {
 		}
 		break;
 	case AttackPhase::SECOND:
-		randomAttack = Random::RandomInt(1, 2);
+		randomAttack = 1;//Random::RandomInt(1, 2);
 
 		if (randomAttack == 1) {
 			attack = Stage1BossAttack::TURN;
@@ -626,8 +830,8 @@ void Stage1Boss::AttackRandomFish() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					if (!bullets[i].effect.GetIsActive()) {
-						InitializeBullets(i, { .height = 480.0f });
-						bullets[i].ShotDir({ 640.0f + (bullets[i].width), 0.0f }, { -1.0f, 0.0f }, 0.0f);
+						InitializeBullets(i, { .height = 960.0f ,.grHandle = grHandleBigWave });
+						bullets[i].ShotDir({ 640.0f + (bullets[i].width), 240.0f }, { -1.0f, 0.0f }, 0.0f);
 						break;
 					}
 				}
@@ -681,12 +885,12 @@ void Stage1Boss::AttackRandomFish() {
 }
 
 void Stage1Boss::AttackTurn() {
-	if (shotTimer >= 40) {
+	if (shotTimer >= 60) {
 		shotTimer = 0;
 
 		//int randomPosition = Random::RandomInt(0, 3);
 
-		if (shotCounter < 16) {
+		if (shotCounter < 10) {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					if (!bullets[i].effect.GetIsActive()) {
@@ -702,10 +906,10 @@ void Stage1Boss::AttackTurn() {
 			}
 		}
 
-		if (shotCounter >= 19) {
+		if (shotCounter >= 12) {
 			shotCounter = 0;
 
-			SpecialAttackSelect();
+			CommonAttackSelect();
 
 		} else {
 			shotCounter++;
@@ -723,8 +927,15 @@ void Stage1Boss::AttackMachingun() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					if (!bullets[i].effect.GetIsActive()) {
-						InitializeBullets(i, { .height = 80.0f ,.type = BulletType::SQUID });
-						bullets[i].ShotDir({ 640.0f + (bullets[i].width), -180.0f + (120.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
+						if (Random::RandomInt(1, 3) == 1) {
+							randomPosition = Random::RandomInt(0, 200);
+							InitializeBullets(i, { .height = 80.0f,.grHandle = grHandleBulletFish });
+							bullets[i].WaveDir({ 640.0f + (bullets[i].width),0.0f }, { -1.0f, 0.0f }, 180.0f, static_cast<float>(randomPosition), 0.0f);
+						} else {
+							InitializeBullets(i, { .height = 80.0f ,.type = BulletType::SQUID ,.grHandle = grHandleSquid });
+							bullets[i].ShotDir({ 640.0f + (bullets[i].width), -180.0f + (120.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
+						}
+
 						break;
 					}
 				}
@@ -734,7 +945,7 @@ void Stage1Boss::AttackMachingun() {
 		if (shotCounter >= 19) {
 			shotCounter = 0;
 
-			CommonAttackSelect();
+			SpecialAttackSelect();
 
 		} else {
 			shotCounter++;
@@ -755,8 +966,8 @@ void Stage1Boss::AttackFishBone() {
 			for (int i = 0; i < kBulletMax; i++) {
 				if (!bullets[i].isActive) {
 					if (!bullets[i].effect.GetIsActive()) {
-						InitializeBullets(i, { .height = 480.0f });
-						bullets[i].ShotDir({ 640.0f + (bullets[i].width), 0.0f }, { -1.0f, 0.0f }, 0.0f);
+						InitializeBullets(i, { .height = 960.0f ,.grHandle = grHandleBigWave });
+						bullets[i].ShotDir({ 640.0f + (bullets[i].width), 240.0f }, { -1.0f, 0.0f }, 0.0f);
 						break;
 					}
 				}
@@ -1019,7 +1230,7 @@ void Stage1Boss::AttackLight() {
 
 			if (!bullets[60].isActive) {
 				if (!bullets[60].effect.GetIsActive()) {
-					InitializeBullets(60, { .height = 160.0f });
+					InitializeBullets(60, { .height = 160.0f ,.grHandle = grHandleTwinBlocks });
 					bullets[60].ShotDir({ 640.0f + (bullets[60].width), 0.0f }, { -1.0f, 0.0f }, 0.0f);
 				}
 			}
@@ -1027,7 +1238,7 @@ void Stage1Boss::AttackLight() {
 
 			if (!bullets[60].effect.GetIsActive()) {
 				if (!bullets[60].isActive) {
-					InitializeBullets(60, { .height = 80.0f });
+					InitializeBullets(60, { .height = 80.0f ,.grHandle = grHandleBlock });
 					bullets[60].ShotDir({ 640.0f + (bullets[60].width), 200.0f }, { -1.0f, 0.0f }, 0.0f);
 				}
 			}
@@ -1036,7 +1247,7 @@ void Stage1Boss::AttackLight() {
 
 			if (!bullets[60].effect.GetIsActive()) {
 				if (!bullets[60].isActive) {
-					InitializeBullets(60, { .height = 80.0f });
+					InitializeBullets(60, { .height = 80.0f ,.grHandle = grHandleBlock });
 					bullets[60].ShotDir({ 640.0f + (bullets[60].width), -200.0f }, { -1.0f, 0.0f }, 0.0f);
 
 				}

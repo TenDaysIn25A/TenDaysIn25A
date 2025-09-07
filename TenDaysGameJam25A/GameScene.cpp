@@ -11,10 +11,10 @@ void GameScene::Initialize() {
 	stage5Scene.Initialize();
 	backGround.Initialize();
 	player.Initialize();
-
 }
 
 void GameScene::Update() {
+
 
 	input.Update();
 	click.Update();
@@ -59,6 +59,7 @@ void GameScene::Update() {
 		player.transform.position.y = 0.0f;
 	}
 
+
 	switch (currentStage) {
 
 	case Stage::STAGE1:
@@ -84,7 +85,7 @@ void GameScene::Update() {
 	}
 
 	player.Update();
-
+	
 	CheckHitAll();
 
 	Vector2 reactionPosition = { player.transform.position.x, player.transform.position.y + 100.0f };
@@ -137,7 +138,6 @@ void GameScene::CheckHitAll() {
 						player.parry.parryState = ParryState::NORMAL;
 						player.parry.color = 0xFFFF00FF;
 					}
-					stage1Scene.enemy.bullets[bi].effect.SetColor(player.parry.color);
 
 					stage1Scene.enemy.bullets[bi].Deactive();
 
@@ -155,7 +155,7 @@ void GameScene::CheckHitAll() {
 		// プレイヤーとエネミーの弾の当たり判定（１次元）
 		for (int bi = 0; bi < stage1Scene.enemy.kBulletMax; bi++) {
 			if (stage1Scene.enemy.bullets[bi].isActive) {
-				if (Collision::BoxToBox(player.transform.position, player.width, player.height, { stage1Scene.enemy.bullets[bi].transform.position.x, 0.0f }, stage1Scene.enemy.bullets[bi].width, stage1Scene.enemy.bullets[bi].height)) {
+				if (Collision::BoxToBox(player.transform.position, player.width, player.hitBoxHeight, { stage1Scene.enemy.bullets[bi].transform.position.x, 0.0f }, stage1Scene.enemy.bullets[bi].width, stage1Scene.enemy.bullets[bi].height)) {
 
 					stage1Scene.enemy.bullets[bi].Deactive();
 
@@ -173,7 +173,7 @@ void GameScene::CheckHitAll() {
 		for (int bi = 0; bi < stage1Scene.enemy.kBulletMax; bi++) {
 			if (stage1Scene.enemy.bullets[bi].isActive) {
 				// 縦幅を少し小さくして、ちょうど当たってるときは当たらないようにする
-				if (Collision::BoxToBox(player.transform.position, player.width, player.height - 6.0f, stage1Scene.enemy.bullets[bi].transform.position, stage1Scene.enemy.bullets[bi].width, stage1Scene.enemy.bullets[bi].height)) {
+				if (Collision::BoxToBox(player.transform.position, player.hitBoxWidth, player.hitBoxWidth - 6.0f, stage1Scene.enemy.bullets[bi].transform.position, stage1Scene.enemy.bullets[bi].width, stage1Scene.enemy.bullets[bi].height)) {
 
 					stage1Scene.enemy.bullets[bi].Deactive();
 
@@ -199,6 +199,10 @@ void GameScene::CheckHitAll() {
 
 						player.bullets[i].effect.SetColor(player.bullets[i].color);
 						player.bullets[i].Deactive();
+
+						if (player.isUpDamage) {
+							stage1Scene.enemy.bullets[j].Deactive();
+						}
 					}
 				}
 			}
@@ -335,7 +339,7 @@ void GameScene::Draw()const {
 	stage1Scene.enemy.hpGauge.Draw();
 
 	for (int i = 0;i < player.currentLife;i++) {
-		renderer.DrawSprite(player.life[i], player.lifeWidth, player.lifeHeight, 0.0f, player.grhandleLife, 0xFF6666FF);
+		renderer.DrawSprite(player.life[i], player.lifeWidth, player.lifeHeight, 0.0f, player.grhandleLife, 0xFFFFFFFF);
 	}
 
 	Novice::ScreenPrintf(640, 360, "%f", player.currentStamina);

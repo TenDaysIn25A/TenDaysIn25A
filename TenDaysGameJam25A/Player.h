@@ -102,6 +102,7 @@ public:
 	int shotTimer;
 	int isShot[kBulletMax];
 	int shotCoolTime;
+	int bulletPattern;
 	const int kUpedShotCoolTime = 5;
 	const int kDefaultShotCoolTime = 10;
 
@@ -119,6 +120,9 @@ public:
 	const float lifeWidth = 50.0f;
 	const float lifeHeight = 50.0f;
 	int grhandleLife;
+
+	float hitBoxWidth;
+	float hitBoxHeight;
 
 	// ステータス
 	// ----------------------------------------------

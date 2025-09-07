@@ -1,14 +1,14 @@
 ﻿#pragma once
 #include"Dlib.h"
 
-class GameClearScene{
+class TitleScene{
 
 public:
 
 	//==============================
 	// メンバ関数
 	//==============================
-	GameClearScene();
+	TitleScene();
 
 	void Initialize();
 	void Update();
@@ -25,9 +25,6 @@ public:
 	Renderer renderer;
 	DrawEffects drawEffects;
 	Transform2D transform;
-	Button buttonToRetry;
-	Button buttonToStageSelect;
-	
 
 
 	//プロパティ
@@ -36,6 +33,12 @@ public:
 	float height;
 
 	int grHandle;
+
+	// ボタン
+	Button buttonToStageSelect;
+	Button buttonToConfig;
+	Button buttonToCredit;
+	Button buttonToEnd;
 
 };
 

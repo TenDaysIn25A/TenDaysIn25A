@@ -15,7 +15,7 @@ void BackGround::Initialize() {
 	dimansionState = DimensionState::TWO;
 	currentDimension = DimensionState::TWO;
 
-	color = 0x4444FFFF;
+	color = 0xFFFFFFFF;
 }
 
 void BackGround::Update() {

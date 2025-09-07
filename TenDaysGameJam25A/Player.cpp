@@ -11,7 +11,7 @@ void Player::Initialize() {
 		life[i].position.x = -580.0f + i * 60.0f;
 		life[i].position.y = -300.0f;
 	}
-	grhandleLife = Novice::LoadTexture("./Resources/images/box.png");
+	grhandleLife = Novice::LoadTexture("./Resources/images/heart.png");
 	isInvinciblity = false;
 	isUpDamage = false;
 	invincibleTimer = 0;
@@ -21,6 +21,9 @@ void Player::Initialize() {
 
 	width = 80.0f;
 	height = 79.0f;
+
+	hitBoxHeight = 50.0f;
+	hitBoxWidth = 50.0f;
 
 	shotCoolTime = kDefaultShotCoolTime;
 
@@ -43,6 +46,7 @@ void Player::Initialize() {
 		bullets[bi].direction = {1.0f, 0.0f};
 		bullets[bi].damage = kDefaultDamage;
 		bullets[bi].speed = 40.0f;
+		bullets[bi].grHandle = Novice::LoadTexture("./Resources/images/ChiririBulletA.png");
 	}
 
 	shotTimer = shotCoolTime;
@@ -114,9 +118,17 @@ void Player::Update() {
 		transform.rotation = 0.0f;
 	} else {
 
+		for (int bi = 0; bi < kBulletMax; bi++) {
+
+			bullets[bi].transform.Rotate(20.0f);
+
+		}
+
 		if (click.GetClick(0)) {
 
 			if (shotTimer >= shotCoolTime) {
+
+				bulletPattern = Random::RandomInt(1, 3);
 
 				shotTimer = 0;
 
@@ -126,8 +138,18 @@ void Player::Update() {
 						if (!bullets[bi].effect.GetIsActive()) {
 							bullets[bi].ShotDir(transform.position, bullets[bi].direction, 0.0f);
 
+							bullets[bi].transform.rotation = Random::RandomFloat(1.0f, 30.0f);
+
+							if (bulletPattern == 1) {
+								bullets[bi].grHandle = Novice::LoadTexture("./Resources/images/ChiririBulletA.png");
+							} else if (bulletPattern == 2) {
+								bullets[bi].grHandle = Novice::LoadTexture("./Resources/images/ChiririBulletB.png");
+							} else {
+								bullets[bi].grHandle = Novice::LoadTexture("./Resources/images/ChiririBulletC.png");
+							}
+
 							if (isUpDamage) {
-								bullets[bi].color = 0xFF0000FF;
+								bullets[bi].color = 0xD00000FF;
 							} else {
 								bullets[bi].color = 0xFFFFFFFF;
 							}

@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include"Dlib.h"
+#include"BackGround.h"
+#include"Player.h"
 
 class TitleScene{
 
@@ -14,6 +16,8 @@ public:
 	void Update();
 	void Draw() const;
 	void SetCamera();
+	void MiniGame();
+	void MiniGameCheckHitAl();
 
 	//===============================
 	// メンバ変数
@@ -22,23 +26,36 @@ public:
 	//システム
 	//----------------------------------
 	Input input;
+	Click click;
 	Renderer renderer;
 	DrawEffects drawEffects;
 	Transform2D transform;
-
+	BackGround backGround;
+	Player player;
 
 	//プロパティ
 	//------------------------------
+
+	static constexpr int kBulletMax = 64;
 	float width;
 	float height;
 
 	int grHandle;
+	int miniGameEndTime;
+	bool isEndMinigame;
+	bool isStartMinigame;
+
+	//ミニゲーム用の弾
+	Bullet bullets[kBulletMax];
+	int shotCoolTime;
 
 	// ボタン
 	Button buttonToStageSelect;
 	Button buttonToConfig;
 	Button buttonToCredit;
 	Button buttonToEnd;
+
+	int miniGameScore;
 
 };
 

@@ -1,8 +1,14 @@
 ﻿#include"SceneManager.h"
 
-SceneManager::SceneManager() { Initialize(); };
+// 生成時に初期化
+SceneManager::SceneManager() { 
+	Initialize(); 
+	currentScene = Scene::TITLE;
+};
 
 void SceneManager::Initialize() {
+
+
 	gameScene.Initialize();
 	isPause = false;
 	buttonToSelectFromPause.Initialize();

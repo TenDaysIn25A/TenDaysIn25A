@@ -141,7 +141,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="SampleSceneMidzuki.cpp" />
     <ClCompile Include="SampleSceneYuto.cpp" />
     <ClCompile Include="DeltaTime.cpp" />
-    <ClCompile Include="ScaneManager.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Stage2Scene.cpp" />
     <ClCompile Include="Stage3Scene.cpp" />
     <ClCompile Include="Stage4Scene.cpp" />

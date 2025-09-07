@@ -6,7 +6,7 @@
 #include"Light.h"
 
 enum class Stage1BossAttack {
-	MADNESS_TEMPTATION, SQUIDSWIM, FISHBONE, FISHSWIM,FOURWALL,PAPYRUS,LIGHT,TURN,RANDOMFISH,
+	MADNESS_TEMPTATION, SQUIDSWIM, FISHBONE, FISHSWIM, FOURWALL, PAPYRUS, LIGHT, TURN, RANDOMFISH,
 };
 
 class Stage1Boss {
@@ -48,7 +48,7 @@ public:
 	/// <summary>
 	/// 弾の初期化
 	/// </summary>
-	void InitializeBullets(int index ,const BulletConfig& bulletConfig);
+	void InitializeBullets(int index, const BulletConfig& bulletConfig);
 
 	/// <summary>
 	/// 更新処理をここに
@@ -150,6 +150,7 @@ public:
 	/// </summary>
 	void CommonAttackSelect();
 
+private:
 	/// <summary>
 	/// アニメーションの初期化
 	/// </summary>
@@ -165,6 +166,17 @@ public:
 	/// </summary>
 	void AnimDraw() const;
 
+	/// <summary>
+	/// 敵のアニメーションの描画処理
+	/// </summary>
+	void RoaringCircleUpdate();
+
+	/// <summary>
+	/// 敵のアニメーションの描画処理
+	/// </summary>
+	void RoaringCircleDraw() const;
+
+public:
 	// ----------------------------------------------
 	// メンバ変数
 	// ----------------------------------------------
@@ -199,6 +211,11 @@ public:
 	int grHandleFishBoneBottom;
 	int grHandleBigFishBoneBottom;
 	int grHandleBigFishBoneTop;
+	int grHandleBigWave;
+	int grHandleSquid;
+	int grHandleBlock;
+	int grHandleTwinBlocks;
+	int grHandleLight;
 
 	EnemyHpGauge hpGauge;
 
@@ -213,6 +230,7 @@ public:
 	bool isAnger;
 	bool isTemptation;
 	bool isPhase3Start;
+	bool isStartAnimation;
 
 	const unsigned int kDamageColor = 0xAA5555FF;
 	const unsigned int kAngerColor = 0xEEEE00FF;
@@ -292,4 +310,20 @@ public:
 	const float kChochinMouthOffsetY = -200.0f;
 
 	unsigned int chochinColor;
+
+	float chochinPositionX;
+	float chochinVelocityX;
+	int chochinAnimTimer;
+
+	static constexpr int kChochinRoaringMax = 64;
+
+	float chochinRoaringRadius[kChochinRoaringMax];
+	bool isChochinRoaringVisible[kChochinRoaringMax];
+
+	// 音楽
+	// ------------------------------------------------------------------------
+
+	int auHandleRoar; // 咆哮
+	bool isPlayedAudioRoar; // 咆哮が再生されたか
+	const float auVolumeRoar = 0.3f; // 咆哮の音量
 };

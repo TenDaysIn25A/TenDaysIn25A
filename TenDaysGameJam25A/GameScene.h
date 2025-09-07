@@ -73,5 +73,4 @@ public:
 	Stage5Scene stage5Scene;
 
 	bool isChanging;
-
 };
