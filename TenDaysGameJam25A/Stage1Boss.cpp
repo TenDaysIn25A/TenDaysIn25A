@@ -218,7 +218,7 @@ void Stage1Boss::AnimUpdate() {
 		} else if (chochinAnimTimer >= 184 + roarAnimationAdditionalDuration) {
 			// 口閉じる
 
-			if (chochinMouthBottomTheta < 0.0f) {
+			if (chochinMouthBottomTheta <= 0.0f) {
 				chochinThetaSpeed = 0.07f;
 				chochinMouthBottomTheta = 0.0f;
 				chochinMouthTopTheta = 0.0f;
@@ -226,6 +226,7 @@ void Stage1Boss::AnimUpdate() {
 			} else {
 				chochinThetaSpeed = -2.5f;
 			}
+
 
 
 		} else if (chochinAnimTimer >= 124) {
@@ -277,8 +278,6 @@ void Stage1Boss::AnimUpdate() {
 		} else {
 			chochinAnimTimer++;
 		}
-
-
 
 		chochinMouthBottom.position.x = cosf(chochinWavingThetaX) * chochinAmplitudeX + kChochinMouthOffsetX + chochinPositionX;
 		chochinMouthBottom.position.y = sinf(chochinWavingThetaY) * chochinAmplitudeY + kChochinMouthOffsetY;
@@ -335,7 +334,7 @@ void Stage1Boss::AnimUpdate() {
 			}
 		}
 
-		if (chochinAnimTimer >= 185) {
+		if (chochinAnimTimer >= 185 + roarAnimationAdditionalDuration) {
 			chochinMouthBottomTheta += chochinThetaSpeed;
 			chochinMouthTopTheta -= chochinThetaSpeed;
 		} else {
