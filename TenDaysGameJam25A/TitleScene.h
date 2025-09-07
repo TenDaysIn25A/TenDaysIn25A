@@ -32,10 +32,10 @@ public:
 	Transform2D transform;
 	BackGround backGround;
 	Player player;
+	Transform2D Chiriri;
 
 	//プロパティ
 	//------------------------------
-
 	static constexpr int kBulletMax = 64;
 	float width;
 	float height;
@@ -56,6 +56,5 @@ public:
 	Button buttonToEnd;
 
 	int miniGameScore;
-
 };
 

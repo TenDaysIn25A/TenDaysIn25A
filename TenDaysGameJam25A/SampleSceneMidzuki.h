@@ -146,6 +146,4 @@ public:
 	float playerRotateTheta;
 	ParryState parryState;
 	Enemy enemy;
-
-
 };

@@ -7,6 +7,7 @@ void Stage1Boss::Initialize() {
 	width = 320.0f;
 	height = 480.0f;
 	isAlive = true;
+	isEnd = false;
 	isPhase3Start = false;
 	isStartAnimation = true;
 	isAnger = false;
@@ -126,6 +127,9 @@ void Stage1Boss::Update() {
 
 	//死んだら、ここで返る
 	if (!isAlive) {
+
+		Destory();
+
 		return;
 	}
 
@@ -438,7 +442,7 @@ void Stage1Boss::AnimUpdate() {
 void Stage1Boss::Draw() const {
 	//死んだら、ここで返る
 	if (!isAlive) {
-		return;
+		
 	}
 
 	//Novice::ScreenPrintf(0, 0, "%d/%d", hp, maxHp);
@@ -545,7 +549,28 @@ void Stage1Boss::TakeDamage(int damage) {
 }
 
 void Stage1Boss::Destory() {
+
+	light.isActive = false;
+	light.lightNotice = false;
+	chochinLightIsActive = false;
 	isAlive = false;
+
+	chochinMouthBottom.Translate({ Random::RandomFloat(-5.0f,5.0f),-3.0f});
+	
+	chochinMouthTop.position = chochinMouthBottom.position;
+
+	chochinMouthBottomTheta = 40.0f;
+	chochinMouthTopTheta = -40.0f;
+
+	chochinEies.position.x = chochinMouthBottom.position.x + kChochinEiesOffsetX;
+	chochinEies.position.y = chochinMouthBottom.position.y + kChochinEiesOffsetY;
+
+	chochinLight.position.x = chochinMouthBottom.position.x + kChochinLightOffsetX;
+	chochinLight.position.y = chochinMouthBottom.position.y + kChochinLightOffsetY;
+
+	if (chochinMouthBottom.position.y <= -800.0f) {
+		isEnd = true;
+	}
 
 	for (int i = 0; i < kBulletMax; i++) {
 		bullets[i].Deactive();
@@ -607,7 +632,7 @@ void Stage1Boss::SpecialAttackSelect() {
 	int randomAttack;
 	switch (attackPhase) {
 	case AttackPhase::FIRST:
-		randomAttack = 1;//Random::RandomInt(1, 2);
+		randomAttack =1;
 
 		if (randomAttack == 1) {
 			attack = Stage1BossAttack::RANDOMFISH;
@@ -617,7 +642,7 @@ void Stage1Boss::SpecialAttackSelect() {
 		}
 		break;
 	case AttackPhase::SECOND:
-		randomAttack = 1;//Random::RandomInt(1, 2);
+		randomAttack = Random::RandomInt(1, 2);
 
 		if (randomAttack == 1) {
 			attack = Stage1BossAttack::TURN;

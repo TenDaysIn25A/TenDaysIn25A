@@ -134,7 +134,7 @@ void SceneManager::Update() {
 			isPause = !isPause;
 		}
 
-		if (!gameScene.stage1Scene.enemy.isAlive ||
+		if (gameScene.stage1Scene.enemy.isEnd ||
 			!gameScene.stage2Scene.enemy.isAlive ||
 			!gameScene.stage3Scene.enemy.isAlive ||
 			!gameScene.stage4Scene.enemy.isAlive ||

@@ -227,6 +227,7 @@ public:
 	float width;
 	float height;
 	bool isAlive;
+	bool isEnd;
 	bool isAnger;
 	bool isTemptation;
 	bool isPhase3Start;
