@@ -2,7 +2,7 @@
 #include "Dlib.h"
 
 enum class BulletType{
-	SHOT,RETURNFISH,SQUID,WAVE,
+	SHOT,RETURNFISH,SQUID,WAVE,TURN
 };
 
 class Bullet {
@@ -17,6 +17,7 @@ public:
 
 	void ShotPos(const Vector2& startPos, const Vector2& endPos, float spreadRotationDegree);
 	void WaveDir(const Vector2& startPos, const Vector2& dir, float theta, float amplitude, float waveOffset);
+	void TurnDir(const Vector2& startPos, const Vector2& dir, float amplitude);
 	void ShotDir(const Vector2& startPos, const Vector2& dir, float spreadRotationDegree);
 	void Deactive();
 
@@ -31,7 +32,7 @@ private:
 	void FishMove();
 	void squidMove();
 	void WaveMove();
-
+	void TurnMove();
 public:
 	// ステータス
 	int damage;
@@ -41,8 +42,11 @@ public:
 	int timer;
 	int isLightShines;
 
+	int isTurn;
+
 	float theta;
 	float waveAmplitudeY;
+	float waveOffsetX;
 	float waveOffsetY;
 
 	// 物理プロパティ
@@ -60,4 +64,5 @@ public:
 	DrawEffects effect;
 	unsigned int color;
 	int grHandle;
+	int grHandleBox;
 };

@@ -32,6 +32,7 @@ public:
 	Button buttonToLeftSide;
 	Button buttonToStage;
 	Button buttonToTitle;
+	Transform2D backGround;
 
 	//プロパティ
 	//------------------------------
@@ -40,5 +41,40 @@ public:
 
 	int grHandle;
 
+	Vector2 chochinStageDefault;
+	float animationFirtSpeed;
+	float kAnimationAcceleration  = 8.0f;
+
+	Transform2D chochinLight;
+	float chochinLightWidth;
+	float chochinLightHeight;
+	int grHandleStageSelectChochinLight0;
+	int grHandleStageSelectChochinLight1;
+	int grHandleStageSelectChochinLight2;
+	int grHandleStageSelectChochinLight3;
+	float chochinLightTheta;
+	const float kChochinLightOffsetX = 0.0f;
+	const float kChochinLightOffsetY =360.0f;
+	int chochinAnimationCount;
+
+	Transform2D chochinStageColorText;
+	int grHandleChochinStageColorText;
+	const float chochinStageColorTextOffsetX = -284.0f;
+	float chochinStageColorTextWidth;
+	float chochinStageColorTextHeight;
+	unsigned int chochinStageColorTextColor;
+	int chochinStageTextColorChongeTimer;
+
+	Transform2D chochinStageWhiteText;
+	int grHandleChochinStageWhiteText;
+	float chochinStageWhiteTextWidth;
+	float chochinStageWhiteTextHeight;
+	const Vector2 kChochinStageWhiteTextOffset = { 60.0f,-200.0f };
+
+	float chochinTextAmplitudeY;
+	float chochinTextWavingThetaY;
+
+	bool isAnimationLeftMove;
+	bool isAnimationRightMove;
 };
 

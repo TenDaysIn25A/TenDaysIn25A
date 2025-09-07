@@ -9,6 +9,8 @@ void SampleSceneMidzuki::Initialize() {
 	samplePlayer.Initialize();
 
 	player.Initialize();
+	player.height = 79.0f;
+	player.grHandleCaracterDimTwo = Novice::LoadTexture("./Resources/images/Chiriri.png");
 
 	enemy.Initialize();
 
@@ -19,12 +21,14 @@ void SampleSceneMidzuki::Initialize() {
 	box.position = { -150,0.0f };
 	boxWidth = 80.0f;
 	boxHeight = 160.0f;
-
-
+	
 	playerLeftTop.position = { player.transform.position.x - player.width / 2.0f,player.transform.position.y + player.height / 2.0f };
 	playerRightTop.position = { player.transform.position.x + player.width / 2.0f,player.transform.position.y + player.height / 2.0f };
 	playerLeftBottom.position = { player.transform.position.x - player.width / 2.0f,player.transform.position.y - player.height / 2.0f };
 	playerRightBottom.position = { player.transform.position.x + player.width / 2.0f,player.transform.position.y - player.height / 2.0f };
+
+	playerTheta = 0.0f;
+	playerRotateTheta = 180.0f * float(M_PI) / 60.0f;
 
 	radius = { 5.0f,5.0f };
 
@@ -33,33 +37,73 @@ void SampleSceneMidzuki::Initialize() {
 	leftBottomColor = 0xFFFFFFFF;
 	rightBottomColor = 0xFFFFFFFF;
 
+	//下あご
 	chochinMouthBottom.position = { kChochinMouthOffsetX,kChochinMouthOffsetY };
 	chochinMouthBottomWidth = 480.0f;
 	chochinMouthBottomHeight = 480.0f;
 	chochinMouthBottomTheta = 0.0f;
-	grHandleChochinMouthBottom = Novice::LoadTexture("./Resources/images/chochinMouthBottom.png");
+	grHandleChochinMouthBottom0 = Novice::LoadTexture("./Resources/images/chochinMouthBottom0.png");
+	grHandleChochinMouthBottom1 = Novice::LoadTexture("./Resources/images/chochinMouthBottom1.png");
+	grHandleChochinMouthBottom2 = Novice::LoadTexture("./Resources/images/chochinMouthBottom2.png");
+	grHandleChochinMouthBottom3 = Novice::LoadTexture("./Resources/images/chochinMouthBottom3.png");
 
 
+	//上あご
 	chochinMouthTop.position = { kChochinMouthOffsetX,kChochinMouthOffsetY };
 	chochinMouthTopWidth = 480.0f;
 	chochinMouthTopHeight = 480.0f;
 	chochinMouthTopTheta = 0.0f;
-	grHandleChochinMouthTop = Novice::LoadTexture("./Resources/images/chochinMouthTop.png");
+	grHandleChochinMouthTop0 = Novice::LoadTexture("./Resources/images/chochinMouthTop0.png");
+	grHandleChochinMouthTop1 = Novice::LoadTexture("./Resources/images/chochinMouthTop1.png");
+	grHandleChochinMouthTop2 = Novice::LoadTexture("./Resources/images/chochinMouthTop2.png");
+	grHandleChochinMouthTop3 = Novice::LoadTexture("./Resources/images/chochinMouthTop3.png");
+	chochinAnimationCount = 0;
 
+
+	//あごの動き
 	chochinAmplitudeX = 30.0f;
 	chochinAmplitudeY = 36.0f;
 	chochinWavingThetaX = float(M_PI) / 2.0f;
 	chochinWavingThetaY = 0.0f;
 
-	chochinEies.position = {kChochinEiesOffsetX,kChochinEiesOffsetY};
+	//目
+	chochinEies.position = { kChochinEiesOffsetX,kChochinEiesOffsetY };
 	chochinEiesWidth = 96.0f;
 	chochinEiesHeight = 96.0f;
 	grHandleChochinEies = Novice::LoadTexture("./Resources/images/chochinEies.png");
-	chochinEiesTheta = float (M_PI) * 0.0f;
+	chochinEiesTheta = float(M_PI) * 0.0f;
 	chochinEiesRotateTimer = 4;
+
+	//提灯
+	chochinLight.position = { 0.0f,0.0f };
+	chochinLightWidth = 480.0f;
+	chochinLightHeight = 220.0f;
+	grHandleChochinLight0 = Novice::LoadTexture("./Resources/images/chochinLight0.png");
+	grHandleChochinLight1 = Novice::LoadTexture("./Resources/images/chochinLight1.png");
+	grHandleChochinLight2 = Novice::LoadTexture("./Resources/images/chochinLight2.png");
+	grHandleChochinLight3 = Novice::LoadTexture("./Resources/images/chochinLight3.png");
+	chochinLightTheta = 0.0f;
+	chochinLightThetaSpeed = 0.5f;
+	chochinLightIsActive = false;
 
 	chochinThetaSpeed = 0.07f;
 	chochinColor = 0x00EEEEFF;
+
+	//ステージ選択＿テキスト
+	chochinStageWhiteText.position = { kChochinStageWhiteTextOffset };
+	grHandleChochinStageWhiteText = Novice::LoadTexture("./Resources/images/chochinStageWhiteTxt.png");
+	chochinStageWhiteTextWidth = 418.0f;
+	chochinStageWhiteTextHeight = 60.0f;
+
+	chochinStageColorText.position = { chochinStageWhiteText.position.x + chochinStageColorTextOffsetX,chochinStageWhiteText.position.y };
+	grHandleChochinStageColorText = Novice::LoadTexture("./Resources/images/chochinStageColorTxt.png");
+	chochinStageColorTextWidth = 128.0f;
+	chochinStageColorTextHeight = 60.0f;
+	chochinStageTextColorChongeTimer = 180;
+
+	chochinTextAmplitudeY = 30.0f;
+	chochinTextWavingThetaY = 0.0f;
+	chochinStageColorTextColor = 0xFFFFFFFF;
 }
 
 void SampleSceneMidzuki::Update() {
@@ -136,16 +180,63 @@ void SampleSceneMidzuki::Update() {
 		} else {
 			chochinColor = 0x00EEEEFF;
 		}
+
+		chochinLightIsActive = !chochinLightIsActive;
+
+		if (chochinLightIsActive) {
+
+			chochinLightThetaSpeed *= 2.0f;
+		} else {
+
+			chochinLightThetaSpeed /= 2.0f;
+
+		}
+
 	}
 
 	chochinMouthBottom.position.x = cosf(chochinWavingThetaX) * chochinAmplitudeX + kChochinMouthOffsetX;
 	chochinMouthBottom.position.y = sinf(chochinWavingThetaY) * chochinAmplitudeY + kChochinMouthOffsetY;
+
+
+
+	if (chochinAnimationCount > 3) {
+		chochinAnimationCount = 0;
+	} else {
+		chochinAnimationCount++;
+	}
 
 	chochinMouthTop.position.x = cosf(chochinWavingThetaX) * chochinAmplitudeX + kChochinMouthOffsetX;
 	chochinMouthTop.position.y = sinf(chochinWavingThetaY) * chochinAmplitudeY + kChochinMouthOffsetY;
 
 	chochinEies.position.x = chochinMouthBottom.position.x + kChochinEiesOffsetX;
 	chochinEies.position.y = chochinMouthBottom.position.y + kChochinEiesOffsetY;
+
+	chochinLight.position.x = chochinMouthBottom.position.x + kChochinLightOffsetX;
+	chochinLight.position.y = chochinMouthBottom.position.y + kChochinLightOffsetY;
+
+	if (chochinLightIsActive) {
+
+		if (chochinLightTheta > 30.0f) {
+			chochinLightThetaSpeed = -1.0f;
+			chochinLightTheta = 30.0f;
+		} else if (chochinLightTheta < 0.0f) {
+			chochinLightThetaSpeed = 1.0f;
+			chochinLightTheta = 0.0f;
+		}
+
+	} else {
+
+		if (chochinLightTheta >  30.0f) {
+			chochinLightThetaSpeed = -0.5f;
+		} else if (chochinLightTheta < 0.0f) {
+			chochinLightThetaSpeed = 0.5f;
+		}
+
+	}
+
+	Novice::ScreenPrintf(116, 116, "%f", chochinLightThetaSpeed);
+
+	chochinLightTheta += chochinLightThetaSpeed;
 
 	if (chochinEiesRotateTimer > 0) {
 		chochinEiesRotateTimer--;
@@ -176,6 +267,50 @@ void SampleSceneMidzuki::Update() {
 	if (chochinMouthBottomTheta > 3.0f || chochinMouthBottomTheta < 0.0f) {
 		chochinThetaSpeed *= -1.0f;
 	}
+
+	chochinStageWhiteText.position.y = sinf(chochinTextWavingThetaY) * chochinTextAmplitudeY + kChochinStageWhiteTextOffset.y;
+
+	chochinTextWavingThetaY += float(M_PI) / 60.0f;
+
+	chochinStageColorText.position.y = chochinStageWhiteText.position.y;
+
+	if (chochinStageTextColorChongeTimer > 0) {
+		chochinStageTextColorChongeTimer--;
+
+		if (chochinStageTextColorChongeTimer == 60) {
+			chochinStageColorTextColor = 0x00FFFFFF;
+
+		} else if (chochinStageTextColorChongeTimer == 55) {
+			chochinStageColorTextColor = 0x00FFFFFF;
+		} else if (chochinStageTextColorChongeTimer == 51) {
+			chochinStageColorTextColor = 0x00FFFFFF;
+
+		} else if (chochinStageTextColorChongeTimer == 120) {
+			chochinStageColorTextColor = 0x00FFFFFF;
+		}
+
+		if (chochinStageTextColorChongeTimer == 57) {
+			chochinStageColorTextColor = 0xFFFFFFFF;
+
+		} else if (chochinStageTextColorChongeTimer == 53) {
+			chochinStageColorTextColor = 0xFFFFFFFF;
+		} else if (chochinStageTextColorChongeTimer == 41) {
+			chochinStageColorTextColor = 0xFFFFFFFF;
+		} else if (chochinStageTextColorChongeTimer == 116) {
+			chochinStageColorTextColor = 0xFFFFFFFF;
+		}
+
+		if (chochinStageTextColorChongeTimer == 160) {
+			chochinStageColorTextColor = 0xFFFFFFFF;
+		}
+
+	} else {
+		chochinStageTextColorChongeTimer = 180;
+		chochinStageColorTextColor = 0xFFFF00FF;
+	}
+
+	player.transform.Rotate(10.0f);
+
 
 	CheckHitAll();
 }
@@ -262,8 +397,9 @@ void SampleSceneMidzuki::Draw() const {
 	}
 
 	// プレイヤーの描画
-	player.Draw();
+	//player.Draw();
 
+	renderer.DrawSprite(player.transform, player.width, player.height, 0.0f, player.grHandleCaracterDimTwo, 0xFFFFFFFF);
 
 	Novice::ScreenPrintf(0, 0, "parryable%d", player.parry.isParryAble);
 
@@ -294,9 +430,35 @@ void SampleSceneMidzuki::Draw() const {
 
 	renderer.DrawBox(box, boxWidth, boxHeight, 0.0f, 0xFFFFFFFF, kFillModeSolid);
 
-	renderer.DrawSprite(chochinMouthBottom, chochinMouthBottomWidth, chochinMouthBottomHeight, chochinMouthBottomTheta, grHandleChochinMouthBottom, chochinColor);
-	renderer.DrawSprite(chochinMouthTop, chochinMouthTopWidth, chochinMouthTopHeight, chochinMouthTopTheta, grHandleChochinMouthTop, chochinColor);
-	renderer.DrawSprite(chochinEies, chochinEiesWidth, chochinEiesHeight, chochinEiesTheta*180 / float(M_PI), grHandleChochinEies, chochinColor);
+	if (chochinAnimationCount == 0) {
+		renderer.DrawSprite(chochinMouthBottom, chochinMouthBottomWidth, chochinMouthBottomHeight, chochinMouthBottomTheta, grHandleChochinMouthBottom0, chochinColor);
+		renderer.DrawSprite(chochinMouthTop, chochinMouthTopWidth, chochinMouthTopHeight, chochinMouthTopTheta, grHandleChochinMouthTop0, chochinColor);
+		renderer.DrawSprite(chochinLight, chochinLightWidth, chochinLightHeight, chochinLightTheta, grHandleChochinLight0, chochinColor);
+	} else if (chochinAnimationCount == 1) {
+
+		renderer.DrawSprite(chochinMouthBottom, chochinMouthBottomWidth, chochinMouthBottomHeight, chochinMouthBottomTheta, grHandleChochinMouthBottom1, chochinColor);
+		renderer.DrawSprite(chochinMouthTop, chochinMouthTopWidth, chochinMouthTopHeight, chochinMouthTopTheta, grHandleChochinMouthTop1, chochinColor);
+		renderer.DrawSprite(chochinLight, chochinLightWidth, chochinLightHeight, chochinLightTheta, grHandleChochinLight1, chochinColor);
+
+	} else if (chochinAnimationCount == 2) {
+
+		renderer.DrawSprite(chochinMouthBottom, chochinMouthBottomWidth, chochinMouthBottomHeight, chochinMouthBottomTheta, grHandleChochinMouthBottom2, chochinColor);
+		renderer.DrawSprite(chochinMouthTop, chochinMouthTopWidth, chochinMouthTopHeight, chochinMouthTopTheta, grHandleChochinMouthTop2, chochinColor);
+		renderer.DrawSprite(chochinLight, chochinLightWidth, chochinLightHeight, chochinLightTheta, grHandleChochinLight2, chochinColor);
+
+	} else {
+
+		renderer.DrawSprite(chochinMouthBottom, chochinMouthBottomWidth, chochinMouthBottomHeight, chochinMouthBottomTheta, grHandleChochinMouthBottom3, chochinColor);
+		renderer.DrawSprite(chochinMouthTop, chochinMouthTopWidth, chochinMouthTopHeight, chochinMouthTopTheta, grHandleChochinMouthTop3, chochinColor);
+		renderer.DrawSprite(chochinLight, chochinLightWidth, chochinLightHeight, chochinLightTheta, grHandleChochinLight3, chochinColor);
+
+	}
+
+	renderer.DrawSprite(chochinEies, chochinEiesWidth, chochinEiesHeight, chochinEiesTheta * 180 / float(M_PI), grHandleChochinEies, chochinColor);
+	
+
+	renderer.DrawSprite(chochinStageWhiteText, chochinStageWhiteTextWidth, chochinStageWhiteTextHeight, 0.0f, grHandleChochinStageWhiteText, 0xFFFFFFFF);
+	renderer.DrawSprite(chochinStageColorText, chochinStageColorTextWidth, chochinStageColorTextHeight, 0.0f, grHandleChochinStageColorText, chochinStageColorTextColor);
 }
 
 void SampleSceneMidzuki::SetCamera() {

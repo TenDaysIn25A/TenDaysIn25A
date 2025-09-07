@@ -137,9 +137,46 @@ void Renderer::DrawSprite(const Transform2D& transform, float width, float heigh
 	}
 }
 
+void Renderer::DrawSpriteRect(const Transform2D& transform, float srcX, float srcY, float srcW, float srcH, int textureHandle, unsigned int color) const { 
+	Transform2D t = transform;
+
+	// 中心からのオフセット（ローカル座標）
+	Vector2 localLeftTop = {-srcW / 2, -srcH / 2};
+	Vector2 localRightTop = {srcW / 2, -srcH / 2};
+	Vector2 localLeftBottom = {-srcW / 2, srcH / 2};
+	Vector2 localRightBottom = {srcW / 2, srcH / 2};
+
+	// ワールド行列
+	Matrix3x3 worldMatrix = t.GetWorldMatrix();
+
+	// ワールド座標
+	Vector2 lt = localLeftTop.Transform(worldMatrix);
+	Vector2 rt = localRightTop.Transform(worldMatrix);
+	Vector2 lb = localLeftBottom.Transform(worldMatrix);
+	Vector2 rb = localRightBottom.Transform(worldMatrix);
+
+	Novice::DrawQuad(
+	    static_cast<int>(lt.x), 
+		static_cast<int>(lt.y),
+		static_cast<int>(rt.x),
+		static_cast<int>(rt.y), 
+		static_cast<int>(lb.x),
+		static_cast<int>(lb.y),
+		static_cast<int>(rb.x),
+		static_cast<int>(rb.y),
+	    static_cast<int>(srcX), 
+		static_cast<int>(srcY), 
+		static_cast<int>(srcW),
+		static_cast<int>(srcH), 
+		textureHandle, 
+		color
+	);
+}
+
 void Renderer::DrawQuad(
     const Transform2D& transform, const Vector2& leftTop, const Vector2& rightTop, const Vector2& leftBottom, const Vector2& rightBottom, float deltaAngle, unsigned int color,
     FillMode fillMode) const {
+
 	Transform2D t = transform;
 	t.rotation = transform.rotation + deltaAngle / 180.0f * static_cast<float>(M_PI);
 
@@ -272,6 +309,3 @@ void Renderer::DrawEllipse(const Transform2D& transform, const Vector2& radius, 
 		fillMode
 	);
 }
-
-
-

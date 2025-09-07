@@ -27,6 +27,23 @@ public:
 	void DrawBox(const Transform2D& transform, float width, float height, float deltaAngle, unsigned int color, FillMode fillMode) const;
 
 	void DrawSprite(const Transform2D& transform, float width, float height, float deltaAngle, int textureHandle = -1, unsigned int color = 0xFFFFFFFF) const;
+	
+		/// <summary>
+	/// スプライトの指定矩形部分のみを描画を描画する
+	/// </summary>
+	/// <param name="destX">描画するスプライトの左上座標 X</param>
+	/// <param name="destY">描画するスプライトの左上座標 Y</param>
+	/// <param name="srcX">画像上の描画したい範囲左上座標 X</param>
+	/// <param name="srcY">画像上の描画したい範囲左上座標 Y</param>
+	/// <param name="srcW">画像上の描画したい範囲横幅</param>
+	/// <param name="srcH">画像上の描画したい範囲縦幅</param>
+	/// <param name="textureHandle">テクスチャのハンドル</param>
+	/// <param name="scale">描画するスプライトの倍率 X</param>
+	/// <param name="scale">描画するスプライトの倍率 Y</param>
+	/// <param name="angle">描画するスプライトの回転角</param>
+	/// <param name="color">描画するスプライトの色</param>
+
+	void DrawSpriteRect(const Transform2D& transform, float srcX , float srcY ,float srcW, float srcH, int textureHandle = -1, unsigned int color = 0xFFFFFFFF) const;
 
 	void DrawQuad(
 	    const Transform2D& transform, const Vector2& leftTop, const Vector2& rightTop, const Vector2& leftBottom, const Vector2& rightBottom, float deltaAngle, unsigned int color,

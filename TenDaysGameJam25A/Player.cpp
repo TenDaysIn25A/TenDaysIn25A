@@ -20,7 +20,7 @@ void Player::Initialize() {
 	damageUpTime = 150;
 
 	width = 80.0f;
-	height = 80.0f;
+	height = 79.0f;
 
 	shotCoolTime = kDefaultShotCoolTime;
 
@@ -33,7 +33,8 @@ void Player::Initialize() {
 	parry.isParryAble = false;
 	parry.isCanJust = false;
 
-	grHandleCaracter = Novice::LoadTexture("./Resources/images/box.png");
+	grHandleCaracterDimTwo = Novice::LoadTexture("./Resources/images/Chiriri.png");
+	grHandleCaracterDimOne = Novice::LoadTexture("./Resources/images/box.png");
 
 	for (int bi = 0; bi < kBulletMax; bi++) {
 		bullets[bi].Initialize();
@@ -100,8 +101,6 @@ void Player::Update() {
 		shotCoolTime = kDefaultShotCoolTime;
 	}
 
-	Move();
-
 	if (currentDimension == DimensionState::ONE) {
 
 		parry.Update();
@@ -111,6 +110,8 @@ void Player::Update() {
 		currentStamina -= kConsumedStamina;
 
 		staminaRecoverCoolTime = kStaminaRecoverCoolTime;
+
+		transform.rotation = 0.0f;
 	} else {
 
 		if (click.GetClick(0)) {
@@ -149,9 +150,12 @@ void Player::Update() {
 			currentStamina = kMaxStamina;
 			staminaRecoverCoolTime = kStaminaRecoverCoolTime;
 		}
-
-		ClampInWindow2D();
+		transform.Rotate(10.0f);
 	}
+
+	Move();
+
+	ClampInWindow2D();
 
 	leftTop.position = { transform.position.x - width / 2.0f,transform.position.y + height / 2.0f };
 	rightTop.position = { transform.position.x + width / 2.0f,transform.position.y + height / 2.0f };
@@ -186,7 +190,12 @@ void Player::Draw() const {
 	parry.Draw();
 
 	if (invincibleTimer % 4 <= 1) {
-		renderer.DrawSprite(transform, width, height, 0.0f, grHandleCaracter, 0x2222FFFF);
+
+		if (currentDimension == DimensionState::TWO) {
+			renderer.DrawSprite(transform, width, height, 0.0f, grHandleCaracterDimTwo, 0xFFFFFFFF);
+		} else {
+			renderer.DrawSprite(transform, width, height, 0.0f, grHandleCaracterDimOne, 0x00D000FF);
+		}
 	}
 
 	for (int bi = 0; bi < kBulletMax; bi++) {

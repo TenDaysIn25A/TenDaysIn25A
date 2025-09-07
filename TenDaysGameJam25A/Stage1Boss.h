@@ -6,7 +6,7 @@
 #include"Light.h"
 
 enum class Stage1BossAttack {
-	MADNESS_TEMPTATION, SQUIDSWIM, FISHBONE, FISHSWIM,FOURWALL,PAPYRUS,LIGHT,
+	MADNESS_TEMPTATION, SQUIDSWIM, FISHBONE, FISHSWIM,FOURWALL,PAPYRUS,LIGHT,TURN,RANDOMFISH,
 };
 
 class Stage1Boss {
@@ -96,30 +96,43 @@ public:
 	// ----------------------------------------------
 
 	/// <summary>
-	/// アタックウォールの攻撃パターン
+	/// ユウワクノキョウキの攻撃パターン
 	/// </summary>
 	void AttackMadnessTemptation();
 
 	/// <summary>
-	/// アタックマシンガンの攻撃パターン
+	/// アタックイカソウメンの攻撃パターン
 	/// </summary>
 	void AttackMachingun();
 
 	/// <summary>
-	/// アタック連打の攻撃パターン
+	/// アタックフィッシュボーンの攻撃パターン
 	/// </summary>
 	void AttackFishBone();
 
 	/// <summary>
-	/// アタックオールウォールの攻撃パターン
+	/// アタック魚群の攻撃パターン
 	/// </summary>
 	void AttackFishSwim();
 
 	/// <summary>
-	/// アタックオールウォールの攻撃パターン
+	/// アタックパッピの攻撃パターン
 	/// </summary>
 	void AttackFourWall();
 
+	/// <summary>
+	/// 強ランダムの攻撃パターン
+	/// </summary>
+	void AttackRandomFish();
+
+	/// <summary>
+	/// アタックターンの攻撃パターン
+	/// </summary>
+	void AttackTurn();
+
+	/// <summary>
+	/// キラメキノキョウキの攻撃パターン
+	/// </summary>
 	void AttackLight();
 
 	/// <summary>
@@ -146,6 +159,11 @@ public:
 	/// 敵のアニメーションを実行する
 	/// </summary>
 	void AnimUpdate();
+
+	/// <summary>
+	/// 敵のアニメーションの描画処理
+	/// </summary>
+	void AnimDraw() const;
 
 	// ----------------------------------------------
 	// メンバ変数
@@ -192,9 +210,14 @@ public:
 	float width;
 	float height;
 	bool isAlive;
-	
+	bool isAnger;
+	bool isTemptation;
+	bool isPhase3Start;
+
 	const unsigned int kDamageColor = 0xAA5555FF;
-	const unsigned int kColor = 0x55FFFFFF;
+	const unsigned int kAngerColor = 0xEEEE00FF;
+	const unsigned int kTemptationColor = 0xF055F0FF;
+	const unsigned int kColor = 0x00EEEEFF;
 
 	int color;
 
@@ -216,20 +239,27 @@ public:
 
 	// 描画
 	// 
-	int grHandleCaracter;
+	int grHandleBox;
 
 	//アニメーションを描画する関数
 	Transform2D chochinMouthBottom;
 	float chochinMouthBottomWidth;
 	float chochinMouthBottomHeight;
-	int grHandleChochinMouthBottom;
+	int grHandleChochinMouthBottom0;
+	int grHandleChochinMouthBottom1;
+	int grHandleChochinMouthBottom2;
+	int grHandleChochinMouthBottom3;
 	float chochinMouthBottomTheta;
 
 	Transform2D chochinMouthTop;
 	float chochinMouthTopWidth;
 	float chochinMouthTopHeight;
-	int grHandleChochinMouthTop;
+	int grHandleChochinMouthTop0;
+	int grHandleChochinMouthTop1;
+	int grHandleChochinMouthTop2;
+	int grHandleChochinMouthTop3;
 	float chochinMouthTopTheta;
+	int chochinAnimationCount;
 
 	Transform2D chochinEies;
 	float chochinEiesWidth;
@@ -240,12 +270,25 @@ public:
 	const float kChochinEiesOffsetX = 0.0f;
 	const float kChochinEiesOffsetY = 320.0f;
 
+	Transform2D chochinLight;
+	float chochinLightWidth;
+	float chochinLightHeight;
+	int grHandleChochinLight0;
+	int grHandleChochinLight1;
+	int grHandleChochinLight2;
+	int grHandleChochinLight3;
+	float chochinLightTheta;
+	float chochinLightThetaSpeed;
+	bool chochinLightIsActive;
+	const float kChochinLightOffsetX = -100.0f;
+	const float kChochinLightOffsetY = 330.0f;
+
 	float chochinAmplitudeX;
 	float chochinAmplitudeY;
 	float chochinWavingThetaX;
 	float chochinWavingThetaY;
 	float chochinThetaSpeed;
-	const float kChochinMouthOffsetX = 500.0f;
+	const float kChochinMouthOffsetX = 550.0f;
 	const float kChochinMouthOffsetY = -200.0f;
 
 	unsigned int chochinColor;

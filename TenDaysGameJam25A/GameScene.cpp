@@ -112,7 +112,7 @@ void GameScene::Update() {
 
 void GameScene::CheckHitAll() {
 
-	Novice::ScreenPrintf(116, 116, "%d", player.isInvinciblity);
+	Novice::ScreenPrintf(148, 116, "%d", player.isInvinciblity);
 
 	if (currentDimension == DimensionState::ONE) {
 		for (int bi = 0; bi < enemy.kBulletMax; bi++) {
@@ -140,11 +140,15 @@ void GameScene::CheckHitAll() {
 					stage1Scene.enemy.bullets[bi].effect.SetColor(player.parry.color);
 
 					stage1Scene.enemy.bullets[bi].Deactive();
+
 				} else {
 
-					player.currentStamina -= player.kMissConsumedStamina;
-
 				}
+
+				if (player.parry.parryState == ParryState::NONE) {
+					player.currentStamina -= player.kMissConsumedStamina;
+				}
+
 			}
 		}
 

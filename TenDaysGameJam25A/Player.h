@@ -145,6 +145,7 @@ public:
 
 	// 描画
 	// ----------------------------------------------
-	int grHandleCaracter;
+	int grHandleCaracterDimTwo;
+	int grHandleCaracterDimOne;
 
 };
