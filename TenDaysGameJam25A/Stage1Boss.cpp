@@ -316,7 +316,7 @@ void Stage1Boss::AnimUpdate() {
 			}
 
 		}
-		Novice::ScreenPrintf(116, 116, "%f", chochinLightThetaSpeed);
+		//Novice::ScreenPrintf(116, 116, "%f", chochinLightThetaSpeed);
 
 		chochinLightTheta += chochinLightThetaSpeed;
 
@@ -396,7 +396,7 @@ void Stage1Boss::AnimUpdate() {
 			}
 
 		}
-		Novice::ScreenPrintf(116, 116, "%f", chochinLightThetaSpeed);
+		//Novice::ScreenPrintf(116, 116, "%f", chochinLightThetaSpeed);
 
 		chochinLightTheta += chochinLightThetaSpeed;
 
@@ -441,7 +441,7 @@ void Stage1Boss::Draw() const {
 		return;
 	}
 
-	Novice::ScreenPrintf(0, 0, "%d/%d", hp, maxHp);
+	//Novice::ScreenPrintf(0, 0, "%d/%d", hp, maxHp);
 
 	//renderer.DrawSprite(transform, width, height, 0.0f, grHandleCaracter, color);
 	if (currentDimension == DimensionState::TWO) {

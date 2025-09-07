@@ -234,7 +234,7 @@ void SampleSceneMidzuki::Update() {
 
 	}
 
-	Novice::ScreenPrintf(116, 116, "%f", chochinLightThetaSpeed);
+	//Novice::ScreenPrintf(116, 116, "%f", chochinLightThetaSpeed);
 
 	chochinLightTheta += chochinLightThetaSpeed;
 
@@ -401,24 +401,24 @@ void SampleSceneMidzuki::Draw() const {
 
 	renderer.DrawSprite(player.transform, player.width, player.height, 0.0f, player.grHandleCaracterDimTwo, 0xFFFFFFFF);
 
-	Novice::ScreenPrintf(0, 0, "parryable%d", player.parry.isParryAble);
+	//Novice::ScreenPrintf(0, 0, "parryable%d", player.parry.isParryAble);
 
 	if (player.parry.parryState == ParryState::NONE) {
-		Novice::ScreenPrintf(0, 16, "NONE");
+		//Novice::ScreenPrintf(0, 16, "NONE");
 	} else if (player.parry.parryState == ParryState::NORMAL) {
-		Novice::ScreenPrintf(0, 16, "NOMAL");
+		//Novice::ScreenPrintf(0, 16, "NOMAL");
 	} else if (player.parry.parryState == ParryState::JUST) {
-		Novice::ScreenPrintf(0, 16, "JUST");
+		//Novice::ScreenPrintf(0, 16, "JUST");
 	} else {
-		Novice::ScreenPrintf(0, 16, "else");
+		//Novice::ScreenPrintf(0, 16, "else");
 	}
 
 
-	Novice::ScreenPrintf(0, 32, "%d", player.isUpDamage);
+	//Novice::ScreenPrintf(0, 32, "%d", player.isUpDamage);
 
-	Novice::ScreenPrintf(0, 48, "%d", player.damageUpTime);
+	//Novice::ScreenPrintf(0, 48, "%d", player.damageUpTime);
 
-	Novice::ScreenPrintf(0, 64, "%d", player.bullets[0].damage);
+	//Novice::ScreenPrintf(0, 64, "%d", player.bullets[0].damage);
 
 
 

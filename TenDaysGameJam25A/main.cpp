@@ -116,21 +116,21 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			sampleSceneDaichi.Update();
 			sampleSceneDaichi.Draw();
 			
-			Novice::ScreenPrintf(0, 700, "Scene : DAICHI");
+			//Novice::ScreenPrintf(0, 700, "Scene : DAICHI");
 			break;
 		case SampleScene::MIDZUKI:
 			
 			sampleSceneMidzuki.Update();
 			sampleSceneMidzuki.Draw();
 			
-			Novice::ScreenPrintf(0, 700, "Scene : MIDZUKI");
+			//Novice::ScreenPrintf(0, 700, "Scene : MIDZUKI");
 			break;
 		case SampleScene::YUTO:
 
 			sampleSceneYuto.Update();
 			sampleSceneYuto.Draw();
 
-			Novice::ScreenPrintf(0, 700, "Scene : YUTO");
+			//Novice::ScreenPrintf(0, 700, "Scene : YUTO");
 			break;
 
 		case SampleScene::GAME_SCENE:
@@ -150,7 +150,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		}
 
 		deltaTime.Update();
-		Novice::ScreenPrintf(1260, 0, "%d", static_cast<int>(1.0f / deltaTime.deltaTime));
+		//Novice::ScreenPrintf(1260, 0, "%d", static_cast<int>(1.0f / deltaTime.deltaTime));
 
 		// フレームの終了
 		Novice::EndFrame();

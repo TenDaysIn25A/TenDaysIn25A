@@ -113,7 +113,7 @@ void GameScene::Update() {
 
 void GameScene::CheckHitAll() {
 
-	Novice::ScreenPrintf(148, 116, "%d", player.isInvinciblity);
+	//Novice::ScreenPrintf(148, 116, "%d", player.isInvinciblity);
 
 	if (currentDimension == DimensionState::ONE) {
 		for (int bi = 0; bi < enemy.kBulletMax; bi++) {
@@ -271,8 +271,8 @@ void GameScene::Draw()const {
 
 	Novice::DrawBox(0, 120, 1281, 480, 0.0f, 0x000000FF, kFillModeSolid);
 
-	Novice::ScreenPrintf(132, 132, "%d", stage1Scene.enemy.light.lightNotice);
-	Novice::ScreenPrintf(148, 132, "%d", stage1Scene.enemy.shotTimer);
+	//Novice::ScreenPrintf(132, 132, "%d", stage1Scene.enemy.light.lightNotice);
+	//Novice::ScreenPrintf(148, 132, "%d", stage1Scene.enemy.shotTimer);
 
 	if (stage1Scene.enemy.light.lightNotice) {
 		Transform2D lightBg;
@@ -288,7 +288,7 @@ void GameScene::Draw()const {
 
 		stage1Scene.Draw();
 
-		Novice::ScreenPrintf(100, 16, "Stage1");
+		//Novice::ScreenPrintf(100, 16, "Stage1");
 
 		break;
 
@@ -297,28 +297,28 @@ void GameScene::Draw()const {
 
 		stage2Scene.Draw();
 
-		Novice::ScreenPrintf(100, 16, "Stage2");
+		//Novice::ScreenPrintf(100, 16, "Stage2");
 
 		break;
 
 	case Stage::STAGE3:
 		stage3Scene.Draw();
 
-		Novice::ScreenPrintf(100, 16, "Stage3");
+		//Novice::ScreenPrintf(100, 16, "Stage3");
 
 		break;
 
 	case Stage::STAGE4:
 		stage4Scene.Draw();
 
-		Novice::ScreenPrintf(100, 16, "Stage4");
+		//Novice::ScreenPrintf(100, 16, "Stage4");
 
 		break;
 
 	case Stage::STAGE5:
 		stage5Scene.Draw();
 
-		Novice::ScreenPrintf(100, 16, "Stage5");
+		//Novice::ScreenPrintf(100, 16, "Stage5");
 
 		break;
 	}
@@ -342,7 +342,7 @@ void GameScene::Draw()const {
 		renderer.DrawSprite(player.life[i], player.lifeWidth, player.lifeHeight, 0.0f, player.grhandleLife, 0xFFFFFFFF);
 	}
 
-	Novice::ScreenPrintf(640, 360, "%f", player.currentStamina);
+	//Novice::ScreenPrintf(640, 360, "%f", player.currentStamina);
 }
 
 void GameScene::ExchangeStage(Stage changeStage) {

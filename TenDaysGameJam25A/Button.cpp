@@ -83,8 +83,8 @@ void Button::Update() {
 }
 
 void Button::Draw() const {
-	Novice::ScreenPrintf(0, 0, "%f", mousePos.x);
-	Novice::ScreenPrintf(0, 20, "%f", mousePos.y);
+	//Novice::ScreenPrintf(0, 0, "%f", mousePos.x);
+	//Novice::ScreenPrintf(0, 20, "%f", mousePos.y);
 
 	renderer.DrawSprite(transform, width, height, 0.0f, grHandle, color);
 }

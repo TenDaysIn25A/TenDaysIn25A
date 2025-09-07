@@ -45,7 +45,7 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::CREDIT);
 		}
 
-		Novice::ScreenPrintf(100, 0, "TITLE");
+		//Novice::ScreenPrintf(100, 0, "TITLE");
 
 		break;
 
@@ -63,9 +63,9 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::TITLE);
 		}
 
-		Novice::ScreenPrintf(100, 0, "STAGE_SELECT");
+		//Novice::ScreenPrintf(100, 0, "STAGE_SELECT");
 
-		Novice::ScreenPrintf(100, 32, "SelectNow : %d", stageSelectScene.currentStage);
+		//Novice::ScreenPrintf(100, 32, "SelectNow : %d", stageSelectScene.currentStage);
 
 		break;
 
@@ -78,7 +78,7 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::TITLE);
 		}
 
-		Novice::ScreenPrintf(100, 0, "CONFIG");
+		//Novice::ScreenPrintf(100, 0, "CONFIG");
 
 		break;
 
@@ -91,7 +91,7 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::TITLE);
 		}
 
-		Novice::ScreenPrintf(100, 0, "CREDIT");
+		//Novice::ScreenPrintf(100, 0, "CREDIT");
 
 		break;
 
@@ -127,7 +127,7 @@ void SceneManager::Update() {
 			buttonToTitleFromPause.Draw();
 			buttonToContinueFromPause.Draw();
 
-			Novice::ScreenPrintf(100, 100, "Pause");
+			//Novice::ScreenPrintf(100, 100, "Pause");
 		}
 
 		if (input.GetKeyTrigger(DIK_ESCAPE)) {
@@ -146,7 +146,7 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::GAMEOVER);
 		}
 
-		Novice::ScreenPrintf(100, 0, "INGAME");
+		//Novice::ScreenPrintf(100, 0, "INGAME");
 
 		break;
 
@@ -163,7 +163,7 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::STAGE_SELECT);
 		}
 
-		Novice::ScreenPrintf(100, 0, "GAMECLEAR");
+		//Novice::ScreenPrintf(100, 0, "GAMECLEAR");
 
 		break;
 
@@ -181,7 +181,7 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::STAGE_SELECT);
 		}
 
-		Novice::ScreenPrintf(100, 0, "GAMEOVER");
+		//Novice::ScreenPrintf(100, 0, "GAMEOVER");
 
 		break;
 

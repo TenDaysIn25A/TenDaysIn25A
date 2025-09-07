@@ -8,22 +8,20 @@ void TitleScene::Initialize() {
 	height = 192.0f;
 	grHandle = Novice::LoadTexture("./Resources/images/only_title.png");
 
-	buttonToStageSelect.Initialize(Novice::LoadTexture("./Resources/images/start.png"), 160.0f, 48.0f);
-	buttonToConfig.Initialize(Novice::LoadTexture("./Resources/images/config.png"), 304.0f, 96.0f);
-	buttonToCredit.Initialize(Novice::LoadTexture("./Resources/images/credit.png"), 200.0f, 48.0f);
+	buttonToStageSelect.Initialize(Novice::LoadTexture("./Resources/images/start.png"), 196.0f, 48.0f);
+	buttonToConfig.Initialize(Novice::LoadTexture("./Resources/images/config.png"), 248.0f, 48.0f);
+	buttonToCredit.Initialize(Novice::LoadTexture("./Resources/images/credit.png"), 248.0f, 48.0f);
 	buttonToEnd.Initialize(Novice::LoadTexture("./Resources/images/quit.png"), 240.0f, 48.0f);
 
 	buttonToStageSelect.transform.position = { 0.0f, -100.0f };
-	buttonToConfig.transform.position = { 0.0f, -150.0f };
-	buttonToCredit.transform.position = { 550.0f, -300.0f };
-	buttonToEnd.transform.position = { 0.0f, -200.0f };
+	buttonToConfig.transform.position = { 0.0f, -170.0f };
+	buttonToCredit.transform.position = { 0.0f, -240.0f};
+	buttonToEnd.transform.position = { 550.0f, -330.0f};
 
 	backGround.Initialize();
 	player.Initialize();
 	for (int bi = 0;bi < kBulletMax;bi++) {
-
 		bullets[bi].Initialize();
-
 	}
 
 	isStartMinigame = false;
@@ -35,9 +33,9 @@ void TitleScene::Update() {
 	input.Update();
 	click.Update();
 
-	Novice::ScreenPrintf(16, 16, "%d", isStartMinigame);
-	Novice::ScreenPrintf(16, 32, "%d", isEndMinigame);
-	Novice::ScreenPrintf(16, 48, "%d", miniGameEndTime);
+	//Novice::ScreenPrintf(16, 16, "%d", isStartMinigame);
+	//Novice::ScreenPrintf(16, 32, "%d", isEndMinigame);
+	//Novice::ScreenPrintf(16, 48, "%d", miniGameEndTime);
 
 	if (click.GetClickTrigger(1)) {
 

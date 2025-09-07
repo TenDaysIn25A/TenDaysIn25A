@@ -18,15 +18,15 @@ void SampleSceneYuto::Update() {
 	click.Update();
 
 	if (click.GetClickTrigger(0)) {
-		Novice::ScreenPrintf(0,100,"Left:Trigger");
+		//Novice::ScreenPrintf(0,100,"Left:Trigger");
 	}
 
 	if (click.GetClick(0)) {
-		Novice::ScreenPrintf(0,116,"Left:Press");
+		//Novice::ScreenPrintf(0,116,"Left:Press");
 	}
 
 	if (click.GetClickRelease(0)) {
-		Novice::ScreenPrintf(0,132,"Left:Release");
+		//Novice::ScreenPrintf(0,132,"Left:Release");
 	}
 
 
@@ -89,11 +89,11 @@ void SampleSceneYuto::Draw() const {
 	enemy.Draw();
 
 	player.Draw();
-	Novice::ScreenPrintf(0, 0, "FPS : %d", static_cast<int>(1.0f / deltaTime.deltaTime));
-	Novice::ScreenPrintf(0, 20, "%s", currentDimension == DimensionState::ONE ? "one" : "two");
-	Novice::ScreenPrintf(0, 40, "%d/%d", enemy.hp, enemy.maxHp);
-	Novice::ScreenPrintf(0, 60, "enemyPosX:%f,Y:%f", enemy.transform.position.x, enemy.transform.position.y);
-	Novice::ScreenPrintf(0, 80, "playerPosX:%f,Y:%f", player.transform.position.x, player.transform.position.y);
+	//Novice::ScreenPrintf(0, 0, "FPS : %d", static_cast<int>(1.0f / deltaTime.deltaTime));
+	//Novice::ScreenPrintf(0, 20, "%s", currentDimension == DimensionState::ONE ? "one" : "two");
+	//Novice::ScreenPrintf(0, 40, "%d/%d", enemy.hp, enemy.maxHp);
+	//Novice::ScreenPrintf(0, 60, "enemyPosX:%f,Y:%f", enemy.transform.position.x, enemy.transform.position.y);
+	//Novice::ScreenPrintf(0, 80, "playerPosX:%f,Y:%f", player.transform.position.x, player.transform.position.y);
 }
 
 void SampleSceneYuto::SetCamera() {
