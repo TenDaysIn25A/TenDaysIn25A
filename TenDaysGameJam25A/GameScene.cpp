@@ -137,6 +137,7 @@ void GameScene::CheckHitAll() {
 					} else {
 						player.parry.parryState = ParryState::NORMAL;
 						player.parry.color = 0xFFFF00FF;
+						player.magazine++;
 					}
 
 					stage1Scene.enemy.bullets[bi].Deactive();

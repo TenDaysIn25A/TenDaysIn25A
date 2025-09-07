@@ -22,8 +22,14 @@ void TitleScene::Initialize() {
 	player.Initialize();
 	for (int bi = 0;bi < kBulletMax;bi++) {
 		bullets[bi].Initialize();
+		bullets[bi].height = 80.0f;
+		bullets[bi].width = 80.0f;
+		bullets[bi].direction = { -1.0f, 0.0f };
+		bullets[bi].damage = 0;
+		bullets[bi].speed = 20.0f;
 	}
 
+	shotCoolTime = 60;
 	isStartMinigame = false;
 	miniGameEndTime = 15;
 	currentDimension = DimensionState::TWO;
@@ -40,6 +46,7 @@ void TitleScene::Update() {
 	if (click.GetClickTrigger(1)) {
 
 		if (!isStartMinigame) {
+			Initialize();
 			isStartMinigame = true;
 			backGround.Initialize();
 			player.Initialize();
@@ -63,6 +70,8 @@ void TitleScene::Update() {
 void TitleScene::MiniGame() {
 	if (currentDimension == DimensionState::ONE) {
 		player.Update();
+
+		
 	}
 
 	player.transform.position.x = -270.0f;
@@ -112,6 +121,13 @@ void TitleScene::MiniGame() {
 void TitleScene::MiniGameCheckHitAl() {
 
 	if (currentDimension == DimensionState::ONE) {
+
+		shotCoolTime--;
+
+		if (shotCoolTime <= 0) {
+			shotCoolTime = Random::RandomInt(30, 60);
+		}
+
 		for (int bi = 0; bi < kBulletMax; bi++) {
 
 			if (!bullets[bi].isActive) {

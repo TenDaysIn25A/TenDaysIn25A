@@ -5,6 +5,8 @@
 #include "Reaction.h"
 #include"backGround.h"
 
+enum class ShotType{MACHINEGUN,SHOTGUN};
+
 class Player {
 public:
 	// ----------------------------------------------
@@ -49,6 +51,10 @@ public:
 	/// </summary>
 	void Move();
 
+	void MachinGunBullet();
+
+	void ShotGunBullet();
+
 	/// <summary>
 	/// 画面内にクランプする。
 	/// </summary>
@@ -89,6 +95,8 @@ public:
 	Transform2D rightTop;
 	Transform2D leftBottom;
 	Transform2D rightBottom;
+	ShotType shotType;
+
 
 	float speed;
 	Vector2 direction;
@@ -105,6 +113,11 @@ public:
 	int bulletPattern;
 	const int kUpedShotCoolTime = 5;
 	const int kDefaultShotCoolTime = 10;
+
+	int magazine;
+	const int kMagazineSize = 5;
+	int pelletAmount;
+	const int kPelletMaxAmount = 8;
 
 	const int kParryTimer = 2;
 	const int kUpedDamage = 4;

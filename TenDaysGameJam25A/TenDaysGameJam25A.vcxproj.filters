@@ -220,9 +220,6 @@
     <ClCompile Include="GameOverScene.cpp">
       <Filter>Sources\Scenes\GameOverScene</Filter>
     </ClCompile>
-    <ClCompile Include="ScaneManager.cpp">
-      <Filter>Sources\Scenes\SceneManager</Filter>
-    </ClCompile>
     <ClCompile Include="Stage2Scene.cpp">
       <Filter>Sources\Scenes\GameScene\StageScene</Filter>
     </ClCompile>
@@ -264,6 +261,9 @@
     </ClCompile>
     <ClCompile Include="Light.cpp">
       <Filter>Sources\Objects\Enemy\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Sources\Scenes\SceneManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

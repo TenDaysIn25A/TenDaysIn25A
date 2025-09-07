@@ -44,6 +44,8 @@ public:
 	int miniGameEndTime;
 	bool isEndMinigame;
 	bool isStartMinigame;
+	int miniGameScore;
+	int grHandleChiriri;
 
 	//ミニゲーム用の弾
 	Bullet bullets[kBulletMax];
@@ -55,6 +57,5 @@ public:
 	Button buttonToCredit;
 	Button buttonToEnd;
 
-	int miniGameScore;
 };
 

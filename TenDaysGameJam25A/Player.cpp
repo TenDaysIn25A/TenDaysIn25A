@@ -3,7 +3,7 @@
 Player::Player() { Initialize(); }
 
 void Player::Initialize() {
-	transform.position = {-300.0f, 0.0f};
+	transform.position = { -300.0f, 0.0f };
 	isAlive = true;
 	currentLife = 3;
 	for (int i = 0; i < currentLife; i++) {
@@ -25,7 +25,10 @@ void Player::Initialize() {
 	hitBoxHeight = 50.0f;
 	hitBoxWidth = 50.0f;
 
+	shotType = ShotType::SHOTGUN;
 	shotCoolTime = kDefaultShotCoolTime;
+	magazine = 0;
+	pelletAmount = 0;
 
 	// パリィ
 	parry.transform.position.x = transform.position.x + width;
@@ -43,7 +46,7 @@ void Player::Initialize() {
 		bullets[bi].Initialize();
 		bullets[bi].height = 40.0f;
 		bullets[bi].width = 40.0f;
-		bullets[bi].direction = {1.0f, 0.0f};
+		bullets[bi].direction = { 1.0f, 0.0f };
 		bullets[bi].damage = kDefaultDamage;
 		bullets[bi].speed = 40.0f;
 		bullets[bi].grHandle = Novice::LoadTexture("./Resources/images/ChiririBulletA.png");
@@ -53,7 +56,7 @@ void Player::Initialize() {
 
 	currentStamina = kMaxStamina;
 	grhandleStamina = Novice::LoadTexture("./Resources/images/box.png");
-	stamina.position = {100.0f, -300.0f};
+	stamina.position = { 100.0f, -300.0f };
 	staminaRecoverCoolTime = kStaminaRecoverCoolTime;
 
 	miss.Initialize(Novice::LoadTexture("./Resources/images/miss.png"), 256.0f, 128.0f);
@@ -83,6 +86,60 @@ void Player::Update() {
 		}
 	}
 
+
+	if (currentDimension == DimensionState::ONE) {
+
+		parry.Update();
+
+		parry.transform.position.x = transform.position.x + width + 1;
+
+		currentStamina -= kConsumedStamina;
+
+		staminaRecoverCoolTime = kStaminaRecoverCoolTime;
+
+		transform.rotation = 0.0f;
+	} else {
+
+
+
+		if (currentStamina < kMaxStamina) {
+
+			if (staminaRecoverCoolTime > 0) {
+				staminaRecoverCoolTime--;
+			} else {
+				currentStamina += kRecoverStaminaAmount;
+			}
+
+		} else {
+			currentStamina = kMaxStamina;
+			staminaRecoverCoolTime = kStaminaRecoverCoolTime;
+		}
+
+		transform.Rotate(10.0f);
+	}
+
+	if (shotType == ShotType::MACHINEGUN) {
+		MachinGunBullet();
+	} else if (shotType == ShotType::SHOTGUN) {
+		ShotGunBullet();
+	}
+
+	Move();
+
+	ClampInWindow2D();
+
+	leftTop.position = { transform.position.x - width / 2.0f,transform.position.y + height / 2.0f };
+	rightTop.position = { transform.position.x + width / 2.0f,transform.position.y + height / 2.0f };
+	leftBottom.position = { transform.position.x - width / 2.0f,transform.position.y - height / 2.0f };
+	rightBottom.position = { transform.position.x + width / 2.0f,transform.position.y - height / 2.0f };
+
+
+
+
+}
+
+void Player::MachinGunBullet() {
+
 	if (isUpDamage) {
 
 		damageUpTime--;
@@ -101,27 +158,13 @@ void Player::Update() {
 		for (int bi = 0; bi < kBulletMax; bi++) {
 			bullets[bi].damage = kDefaultDamage;
 		}
-
 		shotCoolTime = kDefaultShotCoolTime;
 	}
 
-	if (currentDimension == DimensionState::ONE) {
-
-		parry.Update();
-
-		parry.transform.position.x = transform.position.x + width + 1;
-
-		currentStamina -= kConsumedStamina;
-
-		staminaRecoverCoolTime = kStaminaRecoverCoolTime;
-
-		transform.rotation = 0.0f;
-	} else {
+	if (currentDimension == DimensionState::TWO) {
 
 		for (int bi = 0; bi < kBulletMax; bi++) {
-
 			bullets[bi].transform.Rotate(20.0f);
-
 		}
 
 		if (click.GetClick(0)) {
@@ -160,29 +203,104 @@ void Player::Update() {
 			}
 		}
 
-		if (currentStamina < kMaxStamina) {
-
-			if (staminaRecoverCoolTime > 0) {
-				staminaRecoverCoolTime--;
-			} else {
-				currentStamina += kRecoverStaminaAmount;
-			}
-
-		} else {
-			currentStamina = kMaxStamina;
-			staminaRecoverCoolTime = kStaminaRecoverCoolTime;
-		}
-		transform.Rotate(10.0f);
 	}
 
-	Move();
+	for (int bi = 0; bi < kBulletMax; bi++) {
+		bullets[bi].Update();
+	}
 
-	ClampInWindow2D();
+	if (shotTimer < shotCoolTime) {
+		shotTimer++;
+	}
+}
 
-	leftTop.position = { transform.position.x - width / 2.0f,transform.position.y + height / 2.0f };
-	rightTop.position = { transform.position.x + width / 2.0f,transform.position.y + height / 2.0f };
-	leftBottom.position = { transform.position.x - width / 2.0f,transform.position.y - height / 2.0f };
-	rightBottom.position = { transform.position.x + width / 2.0f,transform.position.y - height / 2.0f };
+void Player::ShotGunBullet() {
+
+	if (isUpDamage) {
+
+		damageUpTime--;
+
+		magazine = kUpedDamage;
+
+	
+
+		if (damageUpTime == 0) {
+			damageUpTime = 150;
+			isUpDamage = false;
+		}
+
+	} else {
+
+		for (int bi = 0; bi < kBulletMax; bi++) {
+			bullets[bi].damage = kDefaultDamage;
+		}
+		
+	}
+
+	shotCoolTime = kDefaultShotCoolTime;
+
+	if (magazine > kMagazineSize) {
+		magazine = kMagazineSize;
+	}
+
+	Novice::ScreenPrintf(0, 0, "%d", magazine);
+
+	if (currentDimension == DimensionState::TWO) {
+
+		for (int bi = 0; bi < kBulletMax; bi++) {
+			bullets[bi].transform.Rotate(20.0f);
+		}
+
+		if (click.GetClick(0)) {
+
+			if (magazine > 0) {
+				if (shotTimer >= shotCoolTime) {
+
+					bulletPattern = Random::RandomInt(1, 3);
+
+					shotTimer = 0;
+
+					for (int bi = 0; bi < kBulletMax; bi++) {
+
+						if (!bullets[bi].isActive) {
+							if (!bullets[bi].effect.GetIsActive()) {
+								bullets[bi].ShotDir(transform.position, bullets[bi].direction, 20.0f);
+
+								bulletPattern = Random::RandomInt(1, 3);
+
+								bullets[bi].transform.rotation = Random::RandomFloat(1.0f, 30.0f);
+
+								if (bulletPattern == 1) {
+									bullets[bi].grHandle = Novice::LoadTexture("./Resources/images/ChiririBulletA.png");
+								} else if (bulletPattern == 2) {
+									bullets[bi].grHandle = Novice::LoadTexture("./Resources/images/ChiririBulletB.png");
+								} else {
+									bullets[bi].grHandle = Novice::LoadTexture("./Resources/images/ChiririBulletC.png");
+								}
+
+								if (isUpDamage) {
+									bullets[bi].color = 0xD00000FF;
+								} else {
+									bullets[bi].color = 0xFFFFFFFF;
+								}
+								
+								pelletAmount++;
+
+								if (pelletAmount >= kPelletMaxAmount) {
+
+									pelletAmount = 0;
+
+									magazine--;
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+	}
 
 	for (int bi = 0; bi < kBulletMax; bi++) {
 		bullets[bi].Update();
@@ -228,8 +346,8 @@ void Player::Draw() const {
 void Player::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
 
 void Player::Move() {
-	velocity = {0.0f, 0.0f};
-	direction = {0.0f, 0.0f};
+	velocity = { 0.0f, 0.0f };
+	direction = { 0.0f, 0.0f };
 
 	if (currentDimension == DimensionState::TWO) {
 
