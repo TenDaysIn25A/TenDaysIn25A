@@ -4,7 +4,7 @@ Stage2Boss::Stage2Boss() { Initialize(); }
 
 void Stage2Boss::Initialize() {
 	speed = 10.0f;
-	width = 320.0f;
+	width = 240.0f;
 	height = 480.0f;
 	isAlive = true;
 	hp = 900;
@@ -24,6 +24,9 @@ void Stage2Boss::Initialize() {
 
 	grHandleBox = Novice::LoadTexture("./Resources/images/box.png");
 	grHandleBullet = Novice::LoadTexture("./Resources/images/box.png");
+	grHandleEyeFrame = Novice::LoadTexture("./Resources/images/eyeFrame.png");
+	grHandleEye = Novice::LoadTexture("./Resources/images/eyeCenter.png");
+	grHandleEyeLids = Novice::LoadTexture("./Resources/images/eyeLids.png");
 
 	for (int i = 0; i < kBulletMax; i++) {
 		InitializeBullets(i, {});
@@ -41,6 +44,12 @@ void Stage2Boss::Initialize() {
 	satelliteRotateTheta = -0.7f;
 	barrageTimer = 0;
 	isFusion = false;
+
+	blackEye.position = kBlackEyeDeafaultPos;
+	blackEyeFrame.position = kBlackEyeDeafaultPos;
+	blackEyeWidth = 224.0f;
+	blackEyeHeight = 224.0f;
+	directionPlayerToEye = { 0.0f,0.0f };
 
 	AnimInitialize();
 }
@@ -67,6 +76,14 @@ void Stage2Boss::Update() {
 		return;
 	}
 
+	directionPlayerToEye.x = playerPos.x - kBlackEyeDeafaultPos.x;
+	directionPlayerToEye.y = playerPos.y - kBlackEyeDeafaultPos.y;
+
+	blackEye.position.x = Vector2::Normalize(directionPlayerToEye).x * 45.0f + blackEyeOffSetX;
+	blackEye.position.y = Vector2::Normalize(directionPlayerToEye).y * 45.0f;
+
+	blackEyeFrame.Rotate(5.0f);
+	transform.Rotate(180.0f);
 	Shot();
 
 	for (int i = 0; i < kBulletMax; i++) {
@@ -105,8 +122,6 @@ void Stage2Boss::Draw() const {
 
 	Novice::ScreenPrintf(0, 1000, "%d/%d", hp, maxHp);
 
-
-
 	//一次元と二次元で見た目を変える
 	if (currentDimension == DimensionState::TWO) {
 		AnimDraw();
@@ -128,7 +143,10 @@ void Stage2Boss::Draw() const {
 }
 
 void Stage2Boss::AnimDraw() const {
-	renderer.DrawSprite(transform, width, height, 0.0f, grHandleBox, color);
+	renderer.DrawSprite(blackEye, blackEyeWidth, blackEyeHeight, 0.0f, grHandleEye, color);
+	renderer.DrawSprite(blackEyeFrame, blackEyeWidth, blackEyeHeight, 0.0f, grHandleEyeFrame, color);
+	renderer.DrawSprite(transform, width, height, 0.0f, grHandleEyeLids, color);
+
 }
 
 void Stage2Boss::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
@@ -242,7 +260,7 @@ void Stage2Boss::AttackNormal() {
 		for (int i = 0; i < kBulletMax; i++) {
 			if (!bullets[i].isActive) {
 				InitializeBullets(i, {});
-				bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
+				bullets[i].ShotDir({ transform.position.x + width / 2.0f, 0 + (160.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
 				break;
 			}
 		}
@@ -324,7 +342,7 @@ void Stage2Boss::AttackBlackHole() {
 			barrageTimer++;
 		} else {
 
-			
+
 			if (shotTimer >= 3) {
 
 				shotTimer = 0;
@@ -340,10 +358,10 @@ void Stage2Boss::AttackBlackHole() {
 
 								if (isFusion) {
 
-									bullets[i].ShotPos({ transform.position.x, 0 + (80.0f * static_cast<float>(randomPosition) + 40.0f) }, { blackHole.position }, 0.0f);
+									bullets[i].ShotPos({ transform.position.x + width/2.0f, 0 + (80.0f * static_cast<float>(randomPosition) + 40.0f) }, { blackHole.position }, 0.0f);
 
 								} else {
-									bullets[i].ShotDir({ transform.position.x, 0 + (80.0f * static_cast<float>(randomPosition) + 40.0f) }, { -1.0f, 0.0f }, 0.0f);
+									bullets[i].ShotDir({ transform.position.x + width / 2.0f, 0 + (80.0f * static_cast<float>(randomPosition) + 40.0f) }, { -1.0f, 0.0f }, 0.0f);
 								}
 
 								break;
@@ -419,9 +437,8 @@ void Stage2Boss::AttackBlackHole() {
 			InitializeBullets(60, { .speed = 3.0f,.width = 160.0f,.height = 160.0f, });
 			InitializeBullets(61, { .width = 80.0f,.height = 80.0f,.color = 0x00000000 });
 			bullets[61].transform.position = { 160.0f,0.0f };
-			bullets[60].ShotDir({ transform.position.x, 0.0f }, { -1.0f, 0.0f }, 0.0f);
+			bullets[60].ShotDir({ transform.position.x + width/2.0f, 0.0f }, { -1.0f, 0.0f }, 0.0f);
 		}
 		blackHolePhase = 1;
 	}
-
 }

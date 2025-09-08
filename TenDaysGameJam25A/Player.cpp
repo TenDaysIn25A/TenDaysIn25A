@@ -5,7 +5,7 @@ Player::Player() { Initialize(); }
 void Player::Initialize() {
 	transform.position = { -300.0f, 0.0f };
 	isAlive = true;
-	currentLife = 3;
+	currentLife = kMaxLife;
 	for (int i = 0; i < currentLife; i++) {
 
 		life[i].position.x = -580.0f + i * 60.0f;
@@ -96,7 +96,9 @@ void Player::Update() {
 
 		parry.transform.position.x = transform.position.x + width + 1;
 
-		currentStamina -= kConsumedStamina;
+		if (currentWalker == DimesionWalker::PLAYER) {
+			currentStamina -= kConsumedStamina;
+		}
 
 		staminaRecoverCoolTime = kStaminaRecoverCoolTime;
 

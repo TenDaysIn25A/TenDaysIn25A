@@ -21,34 +21,48 @@ void GameScene::Update() {
 
 	backGround.Update();
 
-	if (player.currentStamina > player.kFirstConsumedStamina) {
+	if (currentWalker == DimesionWalker::PLAYER) {
+		if (player.currentStamina > player.kFirstConsumedStamina) {
 
-		if (backGround.click.GetClickTrigger(1)) {
-
-			if (!backGround.isChanging) {
-				backGround.Activate();
-				player.currentStamina -= player.kFirstConsumedStamina;
-			}
-		}
-
-		if (backGround.dimansionState == DimensionState::ONE) {
-			if (backGround.click.GetClickRelease(1)) {
+			if (backGround.click.GetClickTrigger(1)) {
 
 				if (!backGround.isChanging) {
 					backGround.Activate();
-					player.staminaRecoverCoolTime = player.kStaminaRecoverCoolTime;
+					player.currentStamina -= player.kFirstConsumedStamina;
 				}
+			}
+
+			if (backGround.dimansionState == DimensionState::ONE) {
+				if (backGround.click.GetClickRelease(1)) {
+
+					if (!backGround.isChanging) {
+						backGround.Activate();
+						player.staminaRecoverCoolTime = player.kStaminaRecoverCoolTime;
+					}
+				}
+			}
+		}
+
+		if (player.currentStamina < 0) {
+			player.currentStamina = 0;
+			backGround.Activate();
+		}
+	} else {
+		if (stage2Scene.stage2Boss.isBackGroundActive) {
+			if (!backGround.isChanging) {
+				backGround.Activate();
+				stage2Scene.stage2Boss.isBackGroundActive = false;
 			}
 		}
 	}
 
-	if (player.currentStamina < 0) {
-		player.currentStamina = 0;
-		backGround.Activate();
-	}
 
 	if (backGround.isChanging) {
 		return;
+	}
+
+	if (stage2Scene.stage2Boss.isBackGroundActive) {
+		stage2Scene.stage2Boss.isBackGroundActive = false;
 	}
 
 	if (input.GetKeyTrigger(DIK_I)) {
@@ -331,12 +345,12 @@ void GameScene::Stage2CheckHit() {
 
 			if (player.bullets[i].isActive) {
 
-				if (Collision::BoxToBox(stage2Scene.stage2Boss.newSatellite.position, stage2Scene.stage2Boss.bullets[61].width, stage2Scene.stage2Boss.bullets[61].height, player.bullets[i].transform.position, player.bullets[i].width,player.bullets[i].height)) {
+				if (Collision::BoxToBox(stage2Scene.stage2Boss.newSatellite.position, stage2Scene.stage2Boss.bullets[61].width, stage2Scene.stage2Boss.bullets[61].height, player.bullets[i].transform.position, player.bullets[i].width, player.bullets[i].height)) {
 
 					player.bullets[i].effect.SetColor(player.bullets[i].color);
 					player.bullets[i].Deactive();
 
-					
+
 				}
 
 			}

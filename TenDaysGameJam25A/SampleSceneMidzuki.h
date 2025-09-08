@@ -5,6 +5,7 @@
 #include"Enemy.h"
 #include"Parry.h"
 #include"Light.h"
+#include"Stage2Scene.h"
 
 class SampleSceneMidzuki {
 public:
@@ -51,6 +52,7 @@ public:
 	DimensionState dimensionState;
 	Renderer renderer;
 	Light light;
+	Stage2Scene stage2Scene;
 
 	Transform2D box;
 	float boxWidth;
@@ -144,5 +146,4 @@ public:
 	float playerHeight;
 	float playerRotateTheta;
 	ParryState parryState;
-	Enemy enemy;
 };

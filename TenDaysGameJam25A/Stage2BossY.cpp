@@ -7,6 +7,7 @@ void Stage2BossY::Initialize() {
 	width = 320.0f;
 	height = 480.0f;
 	isAlive = true;
+	isBackGroundActive = false;
 	hp = 450;
 	maxHp = 900;
 
@@ -27,6 +28,10 @@ void Stage2BossY::Initialize() {
 
 	for (int i = 0; i < kBulletMax; i++) {
 		InitializeBullets(i, {});
+	}
+
+	for (int i = 0; i < kPredictionMax; i++) {
+		prediction[i].Initialize();
 	}
 
 	//HPゲージの初期化と作成
@@ -81,6 +86,10 @@ void Stage2BossY::Update() {
 
 	AnimUpdate();
 
+	for (int i = 0; i < kPredictionMax; i++) {
+		prediction[i].UpDate();
+	}
+
 	color = kColor;
 }
 
@@ -101,6 +110,10 @@ void Stage2BossY::Draw() const {
 		AnimDraw();
 	} else {
 		renderer.DrawSprite(transform, width, height, 0.0f, grHandleBox, color);
+	}
+
+	for (int i = 0; i < kPredictionMax; i++) {
+		prediction[i].Draw();
 	}
 
 	for (int i = 0; i < kBulletMax; i++) {
@@ -147,7 +160,8 @@ void Stage2BossY::Shot() {
 		AttackMeteorShower();
 		break;
 	case Stage2BossAttackY::STOP:
-		AttackStop();
+		//AttackStop();
+		AttackMeteor();
 		break;
 	}
 
@@ -263,8 +277,8 @@ void Stage2BossY::AttackMeteorShower() {
 
 void Stage2BossY::AttackStop() {
 
-	if (shotTimer >= 10000) {
-
+	if (shotTimer >= 224) {
+	} else if (shotTimer > 194) {
 	} else if (shotTimer > 193) {
 		for (int i = 0; i < kBulletMax; i++) {
 			if (bullets[i].isActive) {
@@ -272,9 +286,16 @@ void Stage2BossY::AttackStop() {
 			}
 		}
 
+		currentWalker = DimesionWalker::PLAYER;
+		isBackGroundActive = true;
 		SpecialAttackSelect();
 	} else if (shotTimer > 192) {
+	} else if (shotTimer > 162) {
 	} else if (shotTimer > 161) {
+		if (currentDimension == DimensionState::TWO) {
+			isBackGroundActive = true;
+		}
+
 	} else if (shotTimer > 151) {
 		
 	} else if (shotTimer > 141) {
@@ -327,4 +348,17 @@ void Stage2BossY::AttackStop() {
 		holePosition = Random::RandomInt(1, 9);
 	}
 
+}
+
+//ノーマル1、切り替え1、3連
+void Stage2BossY::AttackMeteor(){
+	if (shotTimer >= 60) {
+	}else if(shotTimer >= 59){
+		for (int i = 0; i < kPredictionMax; i++) {
+			if (!prediction[i].isVisible) {
+				prediction[i].LineCharge({0.0f,0.0f},1280.0f,240.0f,300);
+				break;
+			}
+		}
+	}
 }

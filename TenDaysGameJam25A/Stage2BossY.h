@@ -4,6 +4,7 @@
 #include "Enemy.h"
 #include "EnemyHpGauge.h"
 #include "BackGround.h"
+#include "Prediction.h"
 
 enum class Stage2BossAttackY {
 	NORMAL,STOP,
@@ -173,6 +174,21 @@ public:
 	Stage2BossAttackY attack;
 	AttackPhase attackPhase;
 
+	//衛星軌道
+	Transform2D newSatellite;
+	float satelliteRotateTheta;
+	bool isFusion;
+
+	//ブラックホール
+	Transform2D blackHole;
+	float blackHoleWidth;
+	float blackHoleHeight;
+	float gravityAreaWidth;
+	float gravityAreaHeight;
+	int blackHolePhase;
+	int barrageTimer;
+
+	//エネミーの通常機能
 	int hp;
 	int maxHp;
 	float width;
@@ -186,12 +202,21 @@ public:
 	int shotTimer;
 	int shotCounter;
 
+	static constexpr int kExchengePhaseThirdHp = 300;
+	static constexpr int kExchengePhaseSecondHp = 600;
+
+	//作成した変数
 	float meteorShowerCenterPos[kBulletMax];
 	float meteorTheta;
 	int holePosition;
+	int isBackGroundActive;
 
-	static constexpr int kExchengePhaseThirdHp = 300;
-	static constexpr int kExchengePhaseSecondHp = 600;
+
+	static constexpr int kPredictionMax = 5;
+	Prediction prediction[kPredictionMax];
+
+	static constexpr int kLaserMax = 5;
+	Transform2D laserPosition[kLaserMax];
 
 	// 描画
 	// 

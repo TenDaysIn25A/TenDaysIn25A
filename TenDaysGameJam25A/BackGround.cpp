@@ -23,11 +23,13 @@ void BackGround::Update() {
 	input.Update();
 	click.Update();
 
-	if (click.GetClickNotAnswer(1)) {
-		if (currentDimension == DimensionState::ONE) {
+	if (currentWalker == DimesionWalker::PLAYER) {
+		if (click.GetClickNotAnswer(1)) {
+			if (currentDimension == DimensionState::ONE) {
 
-			if (!isChanging) {
-				Activate();
+				if (!isChanging) {
+					Activate();
+				}
 			}
 		}
 	}

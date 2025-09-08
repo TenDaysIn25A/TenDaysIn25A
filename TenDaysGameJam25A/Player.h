@@ -129,7 +129,8 @@ public:
 	const float kMissConsumedStamina = 30.0f;
 	int grhandleStamina;
 
-	Transform2D life[3];
+	static constexpr int kMaxLife = 5;
+	Transform2D life[kMaxLife];
 	const float lifeWidth = 50.0f;
 	const float lifeHeight = 50.0f;
 	int grhandleLife;

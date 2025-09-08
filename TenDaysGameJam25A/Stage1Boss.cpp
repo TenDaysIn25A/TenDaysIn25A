@@ -190,14 +190,29 @@ void Stage1Boss::Update() {
 	if (isAnger) {
 		if (isTemptation) {
 			color = kTemptationColor;
+			for (int i = 0;i < kBulletMax;i++) {
+				bullets[i].color = kTemptationColor;
+			}
+
 		} else {
 			color = kAngerColor;
+			for (int i = 0;i < kBulletMax;i++) {
+				bullets[i].color = 0xFFFFFFFF;
+			}
 		}
 	} else {
 		if (isTemptation) {
 			color = kTemptationColor;
+			for (int i = 0;i < kBulletMax;i++) {
+				bullets[i].color = kTemptationColor;
+			}
 		} else {
 			color = kColor;
+			for (int i = 0;i < kBulletMax;i++) {
+				if (!bullets[i].isActive) {
+					bullets[i].color = 0xFFFFFFFF;
+				}
+			}
 		}
 	}
 
@@ -1023,7 +1038,7 @@ void Stage1Boss::AttackFishBone() {
 					if (shotCounter % 14 == 6) {
 						if (!bullets[i].isActive) {
 							if (!bullets[i].effect.GetIsActive()) {
-								InitializeBullets(i, { .height = 210.0f,.grHandle = grHandleBigFishBoneBottom });
+								InitializeBullets(i, { .height = 220.0f,.grHandle = grHandleBigFishBoneBottom });
 								bullets[i].ShotDir({ 640.0f + (bullets[i].width), 135.0f }, { -1.0f, 0.0f }, 0.0f);
 								break;
 							}
@@ -1043,7 +1058,7 @@ void Stage1Boss::AttackFishBone() {
 					if (shotCounter % 14 == 13) {
 						if (!bullets[i].isActive) {
 							if (!bullets[i].effect.GetIsActive()) {
-								InitializeBullets(i, { .height = 210.0f,.grHandle = grHandleBigFishBoneTop });
+								InitializeBullets(i, { .height = 220.0f,.grHandle = grHandleBigFishBoneTop });
 								bullets[i].ShotDir({ 640.0f + (bullets[i].width), -135.0f }, { -1.0f, 0.0f }, 0.0f);
 								break;
 							}

@@ -16,6 +16,7 @@ public:
 	void Update();
 	void Draw() const;
 	void SetCamera();
+	void MiniGameInitialize();
 	void MiniGame();
 	void MiniGameCheckHitAll();
 
@@ -33,6 +34,9 @@ public:
 	BackGround backGround;
 	Player player;
 	Transform2D Chiriri;
+	BitMapFont font;
+
+
 
 	//プロパティ
 	//------------------------------
@@ -45,13 +49,27 @@ public:
 	bool isEndMinigame;
 	bool isStartMinigame;
 	int miniGameScore;
+	int memHighScore;
 	int grHandleChiriri;
+
+	Vector2 scorePos;
+	Vector2 highScorePos;
+	const Vector2 kScoreDefaultPos = { -600.0f, 180.0f,};
+	const Vector2 kHighScoreDefaultPos = { -600.0f ,280};
+	int scoreHeight;
+	int highScoreHeight;
+	int currentCombo;
+	int comboBonus;
+	int memHighCombo;
+	int comboHeight;
+	Vector2 comboPos;
+	
 
 	//ミニゲーム用の弾
 	Bullet bullets[kBulletMax];
 	int shotCoolTime;
 
-	int miniGameLife;
+
 
 	// ボタン
 	Button buttonToStageSelect;

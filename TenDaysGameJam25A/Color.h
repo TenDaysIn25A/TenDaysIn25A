@@ -17,14 +17,15 @@ constexpr unsigned int STAGE_1_BOSS[Pallet::COUNT] = {0x37FABAFF};
 } // namespace Color
 
 enum class PickUpColor {
-	kPickUpRed,
-	kPickUpGreen,
-	kPickUpBlue,
-	kPickUpAlpha
+	PICK_UP_RED,
+	PICK_UP_GREEN,
+	PICK_UP_BLUE,
+	PICK_UP_ALPHA,
 };
 
 class Color {
 public:
+
 
 	/// <summary>
 	/// 赤、緑、青、透明度を入力すると8桁のカラーコードとして返す

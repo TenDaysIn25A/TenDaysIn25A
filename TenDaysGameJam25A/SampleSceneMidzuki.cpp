@@ -12,8 +12,8 @@ void SampleSceneMidzuki::Initialize() {
 	player.height = 79.0f;
 	player.grHandleCaracterDimTwo = Novice::LoadTexture("./Resources/images/Chiriri.png");
 
-	enemy.Initialize();
-
+	
+	stage2Scene.Initialize();
 	light.Initialize();
 
 	currentDimension = DimensionState::TWO;
@@ -114,12 +114,14 @@ void SampleSceneMidzuki::Update() {
 
 	player.Update();
 
+	stage2Scene.stage2Boss.playerPos = player.transform.position;
+	stage2Scene.Update();
+
 	playerLeftTop.position = { player.transform.position.x - player.width / 2.0f,player.transform.position.y + player.height / 2.0f };
 	playerRightTop.position = { player.transform.position.x + player.width / 2.0f,player.transform.position.y + player.height / 2.0f };
 	playerLeftBottom.position = { player.transform.position.x - player.width / 2.0f,player.transform.position.y - player.height / 2.0f };
 	playerRightBottom.position = { player.transform.position.x + player.width / 2.0f,player.transform.position.y - player.height / 2.0f };
 
-	enemy.Update();
 
 	if (light.isPlayerInTheShadow(box, boxWidth, boxHeight, playerLeftTop.position)) {
 		leftTopColor = 0xFF0000FF;
@@ -145,16 +147,6 @@ void SampleSceneMidzuki::Update() {
 		rightBottomColor = 0xFFFFFFFF;
 	}
 
-	for (int bi = 0;bi < enemy.kBulletMax;bi++) {
-
-		if (player.parry.parryState == ParryState::NORMAL) {
-			enemy.bullets[bi].isActive = false;
-			break;
-		} else if (player.parry.parryState == ParryState::JUST) {
-			enemy.bullets[bi].isActive = false;
-			break;
-		}
-	}
 
 	if (input.GetKey(DIK_UP)) {
 		light.transform.position.y++;
@@ -317,65 +309,7 @@ void SampleSceneMidzuki::Update() {
 
 void SampleSceneMidzuki::CheckHitAll() {
 
-	for (int bi = 0;bi < enemy.kBulletMax;bi++) {
-
-		if (!enemy.bullets[bi].isActive) {
-			continue;
-		}
-
-		if (player.parry.isParry) {
-			if (Collision::BoxToBox(player.parry.transform.position, player.parry.width, player.parry.height, { enemy.bullets[bi].transform.position.x,0.0f }, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
-
-				float justArea = player.parry.transform.position.x - player.parry.kJustParryAbleGrace * enemy.bullets[bi].speed;
-
-				if (enemy.bullets[bi].transform.position.x >= justArea) {
-					player.parry.parryState = ParryState::JUST;
-					player.parry.color = 0xFF0000FF;
-					player.isUpDamage = true;
-					player.damageUpTime = 150;
-
-				} else {
-					player.parry.parryState = ParryState::NORMAL;
-					player.parry.color = 0xFFFF00FF;
-				}
-				enemy.bullets[bi].effect.SetColor(player.parry.color);
-
-				enemy.bullets[bi].Deactive();
-				enemy.bullets[bi].transform.position.x = -1000.0f;
-				enemy.bullets[bi].transform.position.y = -1000.0f;
-				break;
-
-			} else {
-
-			}
-		}
-	}
-
-
-	for (int bi = 0;bi < enemy.kBulletMax;bi++) {
-
-		if (enemy.bullets[bi].isActive) {
-
-			if (Collision::BoxToBox(player.transform.position, player.width, player.height, { enemy.bullets[bi].transform.position.x,0.0f }, enemy.bullets[bi].width, enemy.bullets[bi].height)) {
-				enemy.bullets[bi].effect.SetColor(0xFFFFFFFF);
-
-				enemy.bullets[bi].Deactive();
-
-				if (!player.isInvinciblity) {
-					player.currentLife--;
-					enemy.bullets[bi].transform.position.x = 0.0f;
-
-				}
-
-				if (player.invincibleTimer == 0) {
-					player.isInvinciblity = true;
-				}
-
-			} else {
-				player.isInvinciblity = false;
-			}
-		}
-	}
+	
 }
 
 void SampleSceneMidzuki::Draw() const {
@@ -392,9 +326,7 @@ void SampleSceneMidzuki::Draw() const {
 
 	// ノーツの描画
 
-	for (int bi = 0;bi < enemy.kBulletMax; bi++) {
-		enemy.bullets[bi].Draw();
-	}
+	
 
 	// プレイヤーの描画
 	//player.Draw();
@@ -422,43 +354,45 @@ void SampleSceneMidzuki::Draw() const {
 
 
 
-	renderer.DrawEllipse(playerLeftTop, radius, { 0,0 }, 0.0f, leftTopColor, kFillModeSolid);
-	renderer.DrawEllipse(playerRightTop, radius, { 0,0 }, 0.0f, rightTopColor, kFillModeSolid);
-	renderer.DrawEllipse(playerLeftBottom, radius, { 0,0 }, 0.0f, leftBottomColor, kFillModeSolid);
-	renderer.DrawEllipse(playerRightBottom, radius, { 0,0 }, 0.0f, rightBottomColor, kFillModeSolid);
-	renderer.DrawEllipse(light.transform, light.radius, { 0,0 }, 0.0f, 0xFFFF00FF, kFillModeSolid);
+	//renderer.DrawEllipse(playerLeftTop, radius, { 0,0 }, 0.0f, leftTopColor, kFillModeSolid);
+	//renderer.DrawEllipse(playerRightTop, radius, { 0,0 }, 0.0f, rightTopColor, kFillModeSolid);
+	//renderer.DrawEllipse(playerLeftBottom, radius, { 0,0 }, 0.0f, leftBottomColor, kFillModeSolid);
+	//renderer.DrawEllipse(playerRightBottom, radius, { 0,0 }, 0.0f, rightBottomColor, kFillModeSolid);
+	//renderer.DrawEllipse(light.transform, light.radius, { 0,0 }, 0.0f, 0xFFFF00FF, kFillModeSolid);
 
-	renderer.DrawBox(box, boxWidth, boxHeight, 0.0f, 0xFFFFFFFF, kFillModeSolid);
+	//renderer.DrawBox(box, boxWidth, boxHeight, 0.0f, 0xFFFFFFFF, kFillModeSolid);
 
-	if (chochinAnimationCount == 0) {
-		renderer.DrawSprite(chochinMouthBottom, chochinMouthBottomWidth, chochinMouthBottomHeight, chochinMouthBottomTheta, grHandleChochinMouthBottom0, chochinColor);
-		renderer.DrawSprite(chochinMouthTop, chochinMouthTopWidth, chochinMouthTopHeight, chochinMouthTopTheta, grHandleChochinMouthTop0, chochinColor);
-		renderer.DrawSprite(chochinLight, chochinLightWidth, chochinLightHeight, chochinLightTheta, grHandleChochinLight0, chochinColor);
-	} else if (chochinAnimationCount == 1) {
+	//if (chochinAnimationCount == 0) {
+	//	renderer.DrawSprite(chochinMouthBottom, chochinMouthBottomWidth, chochinMouthBottomHeight, chochinMouthBottomTheta, grHandleChochinMouthBottom0, chochinColor);
+	//	renderer.DrawSprite(chochinMouthTop, chochinMouthTopWidth, chochinMouthTopHeight, chochinMouthTopTheta, grHandleChochinMouthTop0, chochinColor);
+	//	renderer.DrawSprite(chochinLight, chochinLightWidth, chochinLightHeight, chochinLightTheta, grHandleChochinLight0, chochinColor);
+	//} else if (chochinAnimationCount == 1) {
 
-		renderer.DrawSprite(chochinMouthBottom, chochinMouthBottomWidth, chochinMouthBottomHeight, chochinMouthBottomTheta, grHandleChochinMouthBottom1, chochinColor);
-		renderer.DrawSprite(chochinMouthTop, chochinMouthTopWidth, chochinMouthTopHeight, chochinMouthTopTheta, grHandleChochinMouthTop1, chochinColor);
-		renderer.DrawSprite(chochinLight, chochinLightWidth, chochinLightHeight, chochinLightTheta, grHandleChochinLight1, chochinColor);
+	//	renderer.DrawSprite(chochinMouthBottom, chochinMouthBottomWidth, chochinMouthBottomHeight, chochinMouthBottomTheta, grHandleChochinMouthBottom1, chochinColor);
+	//	renderer.DrawSprite(chochinMouthTop, chochinMouthTopWidth, chochinMouthTopHeight, chochinMouthTopTheta, grHandleChochinMouthTop1, chochinColor);
+	//	renderer.DrawSprite(chochinLight, chochinLightWidth, chochinLightHeight, chochinLightTheta, grHandleChochinLight1, chochinColor);
 
-	} else if (chochinAnimationCount == 2) {
+	//} else if (chochinAnimationCount == 2) {
 
-		renderer.DrawSprite(chochinMouthBottom, chochinMouthBottomWidth, chochinMouthBottomHeight, chochinMouthBottomTheta, grHandleChochinMouthBottom2, chochinColor);
-		renderer.DrawSprite(chochinMouthTop, chochinMouthTopWidth, chochinMouthTopHeight, chochinMouthTopTheta, grHandleChochinMouthTop2, chochinColor);
-		renderer.DrawSprite(chochinLight, chochinLightWidth, chochinLightHeight, chochinLightTheta, grHandleChochinLight2, chochinColor);
+	//	renderer.DrawSprite(chochinMouthBottom, chochinMouthBottomWidth, chochinMouthBottomHeight, chochinMouthBottomTheta, grHandleChochinMouthBottom2, chochinColor);
+	//	renderer.DrawSprite(chochinMouthTop, chochinMouthTopWidth, chochinMouthTopHeight, chochinMouthTopTheta, grHandleChochinMouthTop2, chochinColor);
+	//	renderer.DrawSprite(chochinLight, chochinLightWidth, chochinLightHeight, chochinLightTheta, grHandleChochinLight2, chochinColor);
 
-	} else {
+	//} else {
 
-		renderer.DrawSprite(chochinMouthBottom, chochinMouthBottomWidth, chochinMouthBottomHeight, chochinMouthBottomTheta, grHandleChochinMouthBottom3, chochinColor);
-		renderer.DrawSprite(chochinMouthTop, chochinMouthTopWidth, chochinMouthTopHeight, chochinMouthTopTheta, grHandleChochinMouthTop3, chochinColor);
-		renderer.DrawSprite(chochinLight, chochinLightWidth, chochinLightHeight, chochinLightTheta, grHandleChochinLight3, chochinColor);
+	//	renderer.DrawSprite(chochinMouthBottom, chochinMouthBottomWidth, chochinMouthBottomHeight, chochinMouthBottomTheta, grHandleChochinMouthBottom3, chochinColor);
+	//	renderer.DrawSprite(chochinMouthTop, chochinMouthTopWidth, chochinMouthTopHeight, chochinMouthTopTheta, grHandleChochinMouthTop3, chochinColor);
+	//	renderer.DrawSprite(chochinLight, chochinLightWidth, chochinLightHeight, chochinLightTheta, grHandleChochinLight3, chochinColor);
 
-	}
+	//}
 
-	renderer.DrawSprite(chochinEies, chochinEiesWidth, chochinEiesHeight, chochinEiesTheta * 180 / float(M_PI), grHandleChochinEies, chochinColor);
-	
+	//renderer.DrawSprite(chochinEies, chochinEiesWidth, chochinEiesHeight, chochinEiesTheta * 180 / float(M_PI), grHandleChochinEies, chochinColor);
+	//
 
-	renderer.DrawSprite(chochinStageWhiteText, chochinStageWhiteTextWidth, chochinStageWhiteTextHeight, 0.0f, grHandleChochinStageWhiteText, 0xFFFFFFFF);
-	renderer.DrawSprite(chochinStageColorText, chochinStageColorTextWidth, chochinStageColorTextHeight, 0.0f, grHandleChochinStageColorText, chochinStageColorTextColor);
+	//renderer.DrawSprite(chochinStageWhiteText, chochinStageWhiteTextWidth, chochinStageWhiteTextHeight, 0.0f, grHandleChochinStageWhiteText, 0xFFFFFFFF);
+	//renderer.DrawSprite(chochinStageColorText, chochinStageColorTextWidth, chochinStageColorTextHeight, 0.0f, grHandleChochinStageColorText, chochinStageColorTextColor);
+
+	stage2Scene.Draw();
 }
 
 void SampleSceneMidzuki::SetCamera() {

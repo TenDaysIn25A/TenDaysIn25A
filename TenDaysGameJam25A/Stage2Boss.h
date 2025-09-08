@@ -3,6 +3,7 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "EnemyHpGauge.h"
+#include "Prediction.h"
 
 enum class Stage2BossAttack {
 	NORMAL,ALL_WALL,BLACK_HOLE,
@@ -184,6 +185,16 @@ private:
 	int blackHolePhase;
 	int barrageTimer;
 
+	//黒目の動き
+	Transform2D blackEye;
+	Transform2D blackEyeFrame;
+	float blackEyeWidth;//224
+	float blackEyeHeight;//224
+	const Vector2 kBlackEyeDeafaultPos = { 520.0f,0.0f, };
+	const float blackEyeOffSetX = 530.0f;
+	Vector2 directionPlayerToEye;
+	Vector2 playerPos;
+
 	int hp;
 	int maxHp;
 	float width;
@@ -200,7 +211,21 @@ private:
 	static constexpr int kExchengePhaseThirdHp = 300;
 	static constexpr int kExchengePhaseSecondHp = 600;
 
+	   float meteorShowerCenterPos[kBulletMax];
+	float meteorTheta;
+	int holePosition;
+	int isBackGroundActive;
+
+	static constexpr int kPredictionMax = 5;
+	Prediction prediction[kPredictionMax];
+
+	static constexpr int kLaserMax = 5;
+	Transform2D laserPosition[kLaserMax];
+
 	// 描画
 	// 
 	int grHandleBox;
+	int grHandleEye;
+	int grHandleEyeFrame;
+	int grHandleEyeLids;
 };

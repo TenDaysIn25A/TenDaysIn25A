@@ -9,16 +9,16 @@ int Color::RGBPickUp(unsigned int color, PickUpColor pickUpColor) {
 	unsigned int tempColor;
 
 	switch (pickUpColor) {
-	case PickUpColor::kPickUpRed:
+	case PickUpColor::PICK_UP_RED:
 		returnColor = color / static_cast<int>(powf(16.0f, 6.0f));
 		break;
-	case PickUpColor::kPickUpGreen:
+	case PickUpColor::PICK_UP_GREEN:
 
 		tempColor = color / static_cast<int>(powf(16.0f, 6.0f));
 
 		returnColor = tempColor;
 		break;
-	case PickUpColor::kPickUpBlue:
+	case PickUpColor::PICK_UP_BLUE:
 		tempColor = color / static_cast<int>(powf(16.0f, 4.0f));
 		tempColor = tempColor * static_cast<int>(powf(16.0f, 4.0f));
 
@@ -26,7 +26,7 @@ int Color::RGBPickUp(unsigned int color, PickUpColor pickUpColor) {
 
 		returnColor = color / static_cast<int>(powf(16.0f, 2.0f));
 		break;
-	case PickUpColor::kPickUpAlpha:
+	case PickUpColor::PICK_UP_ALPHA:
 		tempColor = color / static_cast<int>(powf(16.0f, 2.0f));
 		tempColor = tempColor * static_cast<int>(powf(16.0f, 2.0f));
 
