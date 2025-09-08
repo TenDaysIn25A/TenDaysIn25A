@@ -4,7 +4,6 @@
 #include "Enemy.h"
 #include "EnemyHpGauge.h"
 #include "Prediction.h"
-#include "Laser.h"
 
 enum class Stage2BossAttack {
 	NORMAL,ALL_WALL,BLACK_HOLE,
@@ -218,6 +217,17 @@ private:
 	static constexpr int kExchengePhaseSecondHp = 600;
 	
 	float meteorShowerCenterPos[kBulletMax];
+float meteorTheta;
+int holePosition;
+int isBackGroundActive;
+
+static constexpr int kPredictionMax = 5;
+Prediction prediction[kPredictionMax];
+
+static constexpr int kLaserMax = 5;
+Laser laser[kLaserMax]; 
+
+	   float meteorShowerCenterPos[kBulletMax];
 	float meteorTheta;
 	int holePosition;
 	int isBackGroundActive;
@@ -226,8 +236,7 @@ private:
 	Prediction prediction[kPredictionMax];
 
 	static constexpr int kLaserMax = 5;
-	Laser laser[kLaserMax]; 
-
+	Transform2D laserPosition[kLaserMax];
 
 	// 描画
 	// 

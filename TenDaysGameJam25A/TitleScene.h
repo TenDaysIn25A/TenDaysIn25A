@@ -54,13 +54,15 @@ public:
 
 	Vector2 scorePos;
 	Vector2 highScorePos;
-	const Vector2 kScoreDefaultPos = { -600.0f, 180.0f,};
-	const Vector2 kHighScoreDefaultPos = { -600.0f ,280};
+	const Vector2 kScoreDefaultPos = { -600.0f, 280.0f,};
+	const Vector2 kHighScoreDefaultPos = { -600.0f ,180.0f};
 	int scoreHeight;
 	int highScoreHeight;
 	int currentCombo;
 	int comboBonus;
-	int memHighCombo;
+	int memMaxCombo;
+	Vector2 maxComboPos;
+	int maxComboHeight;
 	int comboHeight;
 	Vector2 comboPos;
 	

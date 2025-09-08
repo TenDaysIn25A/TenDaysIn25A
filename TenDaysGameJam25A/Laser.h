@@ -1,17 +1,13 @@
 ﻿#pragma once
 #include "Dlib.h"
 
-enum class PredictionType {
-	Charge, Diffusion,
-};
-
-class Prediction{
+class Laser{
 public:
 
-	Prediction();
+	Laser();
 
 	void Initialize();
-	void UpDate();
+	void Update();
 	void Draw()const;
 
 
@@ -22,13 +18,13 @@ public:
 	void SetCamera(const Transform2D& camera);
 
 	/// <summary>
-	/// 予告線を作成する
+	/// レーザーを作成する
 	/// </summary>
-	/// <param name="position">予告線の位置</param>
-	/// <param name="setWidth">予告線の横幅</param>
-	/// <param name="setHeight">予告線の縦幅</param>
-	/// <param name="setTimerMax">予告線を表示するフレームの長さ</param>
-	void LineCharge(const Vector2& position, float setWidth, float setHeight, int setTimerMax);
+	/// <param name="position">レーザーの位置</param>
+	/// <param name="setWidth">レーザーの横幅</param>
+	/// <param name="setHeight">レーザーの縦幅</param>
+	/// <param name="setTimerMax">レーザーを表示するフレームの長さ</param>
+	void LaserCreate(const Vector2& position, float setWidth, float setHeight, int setTimerMax);
 
 	// ----------------------------------------------
 	// メンバ変数
@@ -45,22 +41,14 @@ public:
 
 	Transform2D transform; // positionとか宣言しなくてええんやで
 
-	float speed;
-	Vector2 direction;
-	Vector2 velocity;
-
-	//エネミーの通常機能
 	float width;
 	float height;
 	float beforeHeight;
-	bool isVisible;
+	bool isActive;
 	int timer;
 	int timerMax;
-	PredictionType type;
 	Tweening easing;
-	Color colorMath;
 
-	const unsigned int kDamageColor = 0xAA5555FF;
 	const unsigned int kColor = 0xFFFFFFFF;
 	int color;
 
@@ -68,3 +56,4 @@ public:
 	// 
 	int grHandleBox;
 };
+

@@ -27,7 +27,10 @@ void Stage2Boss::Initialize() {
 	grHandleEyeFrame = Novice::LoadTexture("./Resources/images/eyeFrame.png");
 	grHandleEye = Novice::LoadTexture("./Resources/images/eyeCenter.png");
 	grHandleEyeLids = Novice::LoadTexture("./Resources/images/eyeLids.png");
-
+	grHandleBlackHole0 = Novice::LoadTexture("./Resources/images/blackHole0.png");
+	grHandleBlackHole1 = Novice::LoadTexture("./Resources/images/blackHole1.png");
+	grHandleBlackHole2 = Novice::LoadTexture("./Resources/images/blackHole2.png");
+	grHandleBlackHole3 = Novice::LoadTexture("./Resources/images/blackHole3.png");
 	for (int i = 0; i < kBulletMax; i++) {
 		InitializeBullets(i, {});
 	}
@@ -36,8 +39,9 @@ void Stage2Boss::Initialize() {
 	hpGauge.Initialize();
 	hpGauge.CreateHpGauge({ 360.0f,300.0f }, hp, maxHp, 500.0f, 60.0f, color, true);
 
-	blackHoleWidth = 80.0f;
-	blackHoleHeight = 80.0f;
+	blackHoleWidth = 160.0f;
+	blackHoleHeight = 160.0f;
+	blackHoleAnimatioCount = 0;
 	blackHolePhase = 0;
 	gravityAreaWidth = 480.0f;
 	gravityAreaHeight = 480.0f;
@@ -83,7 +87,6 @@ void Stage2Boss::Update() {
 	blackEye.position.y = Vector2::Normalize(directionPlayerToEye).y * 45.0f;
 
 	blackEyeFrame.Rotate(5.0f);
-	transform.Rotate(180.0f);
 	Shot();
 
 	for (int i = 0; i < kBulletMax; i++) {
@@ -134,7 +137,16 @@ void Stage2Boss::Draw() const {
 	}
 
 	if (isFusion) {
-		renderer.DrawSprite(blackHole, blackHoleWidth, blackHoleHeight, 0.0f, grHandleBox, 0xFF00FFFF);
+
+		if (blackHoleAnimatioCount == 0) {
+			renderer.DrawSprite(blackHole, blackHoleWidth, blackHoleHeight, 0.0f, grHandleBlackHole0, 0xFFFFFFFF);
+		}else if (blackHoleAnimatioCount == 1) {
+			renderer.DrawSprite(blackHole, blackHoleWidth, blackHoleHeight, 0.0f, grHandleBlackHole1, 0xFFFFFFFF);
+		} else if (blackHoleAnimatioCount == 2) {
+			renderer.DrawSprite(blackHole, blackHoleWidth, blackHoleHeight, 0.0f, grHandleBlackHole2, 0xFFFFFFFF);
+		} else if (blackHoleAnimatioCount == 3) {
+			renderer.DrawSprite(blackHole, blackHoleWidth, blackHoleHeight, 0.0f, grHandleBlackHole3, 0xFFFFFFFF);
+		} 
 	}
 
 	if (bullets[60].isActive) {
@@ -337,6 +349,11 @@ void Stage2Boss::AttackBlackHole() {
 
 	if (blackHolePhase == 2) {
 
+		blackHoleAnimatioCount++;
+		if (blackHoleAnimatioCount > 3) {
+			blackHoleAnimatioCount = 0;
+		}
+
 		if (barrageTimer < 60) {
 
 			barrageTimer++;
@@ -358,7 +375,7 @@ void Stage2Boss::AttackBlackHole() {
 
 								if (isFusion) {
 
-									bullets[i].ShotPos({ transform.position.x + width/2.0f, 0 + (80.0f * static_cast<float>(randomPosition) + 40.0f) }, { blackHole.position }, 0.0f);
+									bullets[i].ShotPos({ transform.position.x + width / 2.0f, 0 + (80.0f * static_cast<float>(randomPosition) + 40.0f) }, { blackHole.position }, 0.0f);
 
 								} else {
 									bullets[i].ShotDir({ transform.position.x + width / 2.0f, 0 + (80.0f * static_cast<float>(randomPosition) + 40.0f) }, { -1.0f, 0.0f }, 0.0f);
@@ -437,8 +454,9 @@ void Stage2Boss::AttackBlackHole() {
 			InitializeBullets(60, { .speed = 3.0f,.width = 160.0f,.height = 160.0f, });
 			InitializeBullets(61, { .width = 80.0f,.height = 80.0f,.color = 0x00000000 });
 			bullets[61].transform.position = { 160.0f,0.0f };
-			bullets[60].ShotDir({ transform.position.x + width/2.0f, 0.0f }, { -1.0f, 0.0f }, 0.0f);
+			bullets[60].ShotDir({ transform.position.x + width / 2.0f, 0.0f }, { -1.0f, 0.0f }, 0.0f);
 		}
+		blackHoleAnimatioCount = 0;
 		blackHolePhase = 1;
 	}
 }

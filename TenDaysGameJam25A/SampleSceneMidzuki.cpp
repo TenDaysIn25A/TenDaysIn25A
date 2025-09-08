@@ -115,6 +115,7 @@ void SampleSceneMidzuki::Update() {
 	player.Update();
 
 	stage2Scene.stage2Boss.playerPos = player.transform.position;
+
 	stage2Scene.Update();
 
 	playerLeftTop.position = { player.transform.position.x - player.width / 2.0f,player.transform.position.y + player.height / 2.0f };

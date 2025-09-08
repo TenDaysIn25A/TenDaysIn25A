@@ -63,11 +63,21 @@ void Prediction::Draw()const{
 		return;
 	}
 
-	renderer.DrawSprite(transform,width,beforeHeight,0.0f,grHandleBox,color);
+	if (currentDimension == DimensionState::TWO) {
+		renderer.DrawSprite(transform, width, beforeHeight, 0.0f, grHandleBox, color);
 
-	renderer.DrawBox(transform,width + 1.0f, beforeHeight,0.0f,kColor,kFillModeWireFrame);
-	renderer.DrawBox(transform,width + 1.0f,height,0.0f,kColor,kFillModeWireFrame);
-	renderer.DrawBox(transform,width + 1.0f,height * 2.0f,0.0f,kColor,kFillModeWireFrame);
+		renderer.DrawBox(transform, width + 1.0f, beforeHeight, 0.0f, kColor, kFillModeWireFrame);
+		renderer.DrawBox(transform, width + 1.0f, height, 0.0f, kColor, kFillModeWireFrame);
+		renderer.DrawBox(transform, width + 1.0f, height * 2.0f, 0.0f, kColor, kFillModeWireFrame);
+	}else{
+		Transform2D t = transform;
+		t.position.y = 0.0f;
+		renderer.DrawSprite(t, width, beforeHeight, 0.0f, grHandleBox, color);
+
+		renderer.DrawBox(t, width + 1.0f, beforeHeight, 0.0f, kColor, kFillModeWireFrame);
+		renderer.DrawBox(t, width + 1.0f, height, 0.0f, kColor, kFillModeWireFrame);
+		renderer.DrawBox(t, width + 1.0f, height * 2.0f, 0.0f, kColor, kFillModeWireFrame);
+	}
 }
 
 void Prediction::LineCharge(const Vector2& position, float setWidth, float setHeight, int setTimerMax){

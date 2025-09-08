@@ -36,16 +36,17 @@ void TitleScene::Initialize() {
 	miniGameScore = 0;
 	memHighScore = 0;
 	miniGameEndTime = 15;
-	scoreHeight = 64;
-
-	highScoreHeight = 128;
+	scoreHeight = 128;
+	highScoreHeight = 64;
 	scorePos = kScoreDefaultPos;
 	highScorePos = kHighScoreDefaultPos;
-	comboPos = { -550,-250 };
+	comboPos = { -590.0f,-250.0f };
+	maxComboPos = { -610.0f,-150.0f };
 	comboHeight = 128;
+	maxComboHeight = 64;
 	comboBonus = 1;
 	currentCombo = 0;
-	memHighCombo = 0;
+	memMaxCombo = 0;
 	currentDimension = DimensionState::TWO;
 }
 
@@ -104,8 +105,8 @@ void TitleScene::MiniGame() {
 				memHighScore = miniGameScore;
 			}
 
-			if (currentCombo > memHighCombo) {
-				memHighCombo = currentCombo;
+			if (currentCombo > memMaxCombo) {
+				memMaxCombo = currentCombo;
 			}
 			isStartMinigame = false;
 			isEndMinigame = false;
@@ -147,11 +148,12 @@ void TitleScene::MiniGame() {
 
 				}
 				player.miss.Activate({ reactionPosition.x, reactionPosition.y }, 0.0f);
+
+				if (currentCombo > memMaxCombo) {
+					memMaxCombo = currentCombo;
+				}
 				currentCombo = 0;
 
-				if (currentCombo > memHighCombo) {
-					memHighCombo = currentCombo;
-				}
 			} else if (player.parry.parryState == ParryState::NORMAL) {
 				if (player.transform.position.x < -640.0f + player.just.width / 2.0f - 72.0f) {
 					reactionPosition.x = -640.0f + player.just.width / 2.0f - 72.0f;
@@ -228,8 +230,8 @@ void TitleScene::MiniGameInitialize() {
 	shotCoolTime = 60;
 	miniGameScore = 0;
 	miniGameEndTime = 15;
-	scoreHeight = 64;
-	highScoreHeight = 128;
+	scoreHeight = 128;
+	highScoreHeight = 64;
 	scorePos = kScoreDefaultPos;
 	highScorePos = kHighScoreDefaultPos;
 	for (int bi = 0;bi < kBulletMax;bi++) {
@@ -241,7 +243,8 @@ void TitleScene::MiniGameInitialize() {
 		bullets[bi].speed = 20.0f;
 		bullets[bi].transform.position = { 600.0f,0.0f };
 	}
-	comboPos = { -550,-250 };
+	comboPos = { -590,-250 };
+	maxComboPos = { -610,-150 };
 	comboHeight = 128;
 	comboBonus = 1;
 	currentCombo = 0;
@@ -269,6 +272,7 @@ void TitleScene::Draw() const {
 		font.DrawNumber(scorePos, miniGameScore, scoreHeight, 0.0f, 0xFF0000FF);
 		font.DrawNumber(highScorePos, memHighScore, highScoreHeight, 0.0f, 0xFF0000FF);
 		font.DrawNumber(comboPos, currentCombo, comboHeight, 0.0f, 0xFF0000FF);
+		font.DrawNumber(maxComboPos, memMaxCombo, maxComboHeight, 0.0f, 0xFF0000FF);
 		player.miss.Draw();
 		player.nice.Draw();
 		player.just.Draw();

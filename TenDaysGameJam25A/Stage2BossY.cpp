@@ -4,7 +4,7 @@ Stage2BossY::Stage2BossY() { Initialize(); }
 
 void Stage2BossY::Initialize() {
 	speed = 10.0f;
-	width = 320.0f;
+	width = 240.0f;
 	height = 480.0f;
 	isAlive = true;
 	isBackGroundActive = false;
@@ -25,6 +25,10 @@ void Stage2BossY::Initialize() {
 
 	grHandleBox = Novice::LoadTexture("./Resources/images/box.png");
 	grHandleBullet = Novice::LoadTexture("./Resources/images/box.png");
+	grHandleEyeFrame = Novice::LoadTexture("./Resources/images/eyeFrame.png");
+	grHandleEye = Novice::LoadTexture("./Resources/images/eyeCenter.png");
+	grHandleEyeLids = Novice::LoadTexture("./Resources/images/eyeLids.png");
+	grHandleBullet = Novice::LoadTexture("./Resources/images/box.png");
 
 	for (int i = 0; i < kBulletMax; i++) {
 		InitializeBullets(i, {});
@@ -32,6 +36,10 @@ void Stage2BossY::Initialize() {
 
 	for (int i = 0; i < kPredictionMax; i++) {
 		prediction[i].Initialize();
+	}
+
+	for (int i = 0; i < kLaserMax; i++) {
+		laser[i].Initialize();
 	}
 
 	//HPゲージの初期化と作成
@@ -43,6 +51,12 @@ void Stage2BossY::Initialize() {
 
 void Stage2BossY::AnimInitialize() {
 
+
+	blackEye.position = kBlackEyeDeafaultPos;
+	blackEyeFrame.position = kBlackEyeDeafaultPos;
+	blackEyeWidth = 224.0f;
+	blackEyeHeight = 224.0f;
+	directionPlayerToEye = { 0.0f,0.0f };
 }
 
 void Stage2BossY::InitializeBullets(int index, const BulletConfig& bulletConfig) {
@@ -90,11 +104,22 @@ void Stage2BossY::Update() {
 		prediction[i].UpDate();
 	}
 
+	for (int i = 0; i < kLaserMax; i++) {
+		laser[i].Update();
+	}
+
 	color = kColor;
 }
 
 void Stage2BossY::AnimUpdate() {
+	directionPlayerToEye.x = playerPos.x - kBlackEyeDeafaultPos.x;
+	directionPlayerToEye.y = playerPos.y - kBlackEyeDeafaultPos.y;
 
+	blackEye.position.x = Vector2::Normalize(directionPlayerToEye).x * 45.0f + blackEyeOffSetX;
+	blackEye.position.y = Vector2::Normalize(directionPlayerToEye).y * 45.0f;
+
+	blackEyeFrame.Rotate(5.0f);
+	transform.Rotate(180.0f);
 }
 
 void Stage2BossY::Draw() const {
@@ -104,6 +129,10 @@ void Stage2BossY::Draw() const {
 	}
 
 	Novice::ScreenPrintf(0, 1000, "%d/%d", hp, maxHp);
+
+	for (int i = 0; i < kLaserMax; i++) {
+		laser[i].Draw();
+	}
 
 	//一次元と二次元で見た目を変える
 	if (currentDimension == DimensionState::TWO) {
@@ -122,8 +151,13 @@ void Stage2BossY::Draw() const {
 }
 
 void Stage2BossY::AnimDraw() const {
-	renderer.DrawSprite(transform, width, height, 0.0f, grHandleBox, color);
+	//renderer.DrawSprite(transform, width, height, 0.0f, grHandleBox, color);
+
+	renderer.DrawSprite(blackEye, blackEyeWidth, blackEyeHeight, 0.0f, grHandleEye, color);
+	renderer.DrawSprite(blackEyeFrame, blackEyeWidth, blackEyeHeight, 0.0f, grHandleEyeFrame, color);
+	renderer.DrawSprite(transform, width, height, 0.0f, grHandleEyeLids, color);
 }
+
 
 void Stage2BossY::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
 
@@ -352,11 +386,19 @@ void Stage2BossY::AttackStop() {
 
 //ノーマル1、切り替え1、3連
 void Stage2BossY::AttackMeteor(){
-	if (shotTimer >= 60) {
+	if (shotTimer >= 161) {
+	}else if (shotTimer >= 160) {
+		for (int i = 0; i < kLaserMax; i++) {
+			if (!laser[i].isActive) {
+				laser[i].LaserCreate({ 0.0f,100.0f }, 1280.0f, 240.0f, 300);
+				break;
+			}
+		}
+	}else if (shotTimer >= 60) {
 	}else if(shotTimer >= 59){
 		for (int i = 0; i < kPredictionMax; i++) {
 			if (!prediction[i].isVisible) {
-				prediction[i].LineCharge({0.0f,0.0f},1280.0f,240.0f,300);
+				prediction[i].LineCharge({0.0f,100.0f},1280.0f,240.0f,100);
 				break;
 			}
 		}

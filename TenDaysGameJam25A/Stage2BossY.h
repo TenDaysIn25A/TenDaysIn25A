@@ -5,9 +5,10 @@
 #include "EnemyHpGauge.h"
 #include "BackGround.h"
 #include "Prediction.h"
+#include "Laser.h"
 
 enum class Stage2BossAttackY {
-	NORMAL,STOP,
+	NORMAL, STOP,
 };
 
 class Stage2BossY {
@@ -120,7 +121,7 @@ public:
 	/// </summary>
 	void AttackMeteor();
 
-
+	void LaserCreate();
 
 private:
 	/// <summary>
@@ -188,6 +189,16 @@ public:
 	int blackHolePhase;
 	int barrageTimer;
 
+	//黒目の動き
+	Transform2D blackEye;
+	Transform2D blackEyeFrame;
+	float blackEyeWidth;//224
+	float blackEyeHeight;//224
+	const Vector2 kBlackEyeDeafaultPos = { 520.0f,0.0f, };
+	const float blackEyeOffSetX = 530.0f;
+	Vector2 directionPlayerToEye;
+	Vector2 playerPos;
+
 	//エネミーの通常機能
 	int hp;
 	int maxHp;
@@ -206,19 +217,22 @@ public:
 	static constexpr int kExchengePhaseSecondHp = 600;
 
 	//作成した変数
+
 	float meteorShowerCenterPos[kBulletMax];
 	float meteorTheta;
 	int holePosition;
 	int isBackGroundActive;
 
-
 	static constexpr int kPredictionMax = 5;
 	Prediction prediction[kPredictionMax];
 
 	static constexpr int kLaserMax = 5;
-	Transform2D laserPosition[kLaserMax];
+	Laser laser[kLaserMax];
 
 	// 描画
 	// 
 	int grHandleBox;
+	int grHandleEye;
+	int grHandleEyeFrame;
+	int grHandleEyeLids;
 };

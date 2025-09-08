@@ -108,6 +108,8 @@ void GameScene::Update() {
 
 	player.Update();
 
+	stage2Scene.stage2Boss.playerPos = player.transform.position;
+
 	CheckHitAll();
 
 	Vector2 reactionPosition = { player.transform.position.x, player.transform.position.y + 100.0f };
@@ -117,6 +119,8 @@ void GameScene::Update() {
 				if (player.transform.position.x < -640.0f + player.just.width / 2.0f - 128.0f) {
 					reactionPosition.x = -640.0f + player.just.width / 2.0f - 128.0f;
 				}
+
+				player.currentStamina -= player.kMissConsumedStamina;
 				player.miss.Activate({ reactionPosition.x, reactionPosition.y }, 0.0f);
 			} else if (player.parry.parryState == ParryState::NORMAL) {
 				if (player.transform.position.x < -640.0f + player.just.width / 2.0f - 72.0f) {
@@ -198,9 +202,6 @@ void GameScene::Stage1CheckHit() {
 
 				}
 
-				if (player.parry.parryState == ParryState::NONE) {
-					player.currentStamina -= player.kMissConsumedStamina;
-				}
 
 			}
 		}
@@ -456,6 +457,25 @@ void GameScene::Stage2CheckHit() {
 							player.isInvinciblity = true;
 						}
 					}
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < stage2Scene.stage2Boss.kLaserMax; i++) {
+		if (stage2Scene.stage2Boss.laser[i].isActive) {
+			if (currentDimension == DimensionState::TWO) {
+				if (Collision::BoxToBox(player.transform.position, player.hitBoxWidth, player.hitBoxWidth - 6.0f, stage2Scene.stage2Boss.laser[i].transform.position, stage2Scene.stage2Boss.laser[i].width, stage2Scene.stage2Boss.laser[i].height)) {
+
+					if (!player.isInvinciblity) {
+						player.TakeDamage(1);
+						player.isInvinciblity = true;
+					}
+				}
+			} else {
+				if (!player.isInvinciblity) {
+					player.TakeDamage(1);
+					player.isInvinciblity = true;
 				}
 			}
 		}
