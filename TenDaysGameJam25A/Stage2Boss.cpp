@@ -19,7 +19,7 @@ void Stage2Boss::Initialize() {
 	transform.scale = { 1.0f, 1.0f };
 
 	//開始時に実行する攻撃と開始時のフェーズ
-	attack = Stage2BossAttack::BLACK_HOLE;
+	attack = Stage2BossAttack::NORMAL;
 	attackPhase = AttackPhase::FIRST;
 
 	grHandleBox = Novice::LoadTexture("./Resources/images/box.png");
@@ -34,10 +34,13 @@ void Stage2Boss::Initialize() {
 	hpGauge.CreateHpGauge({ 360.0f,300.0f }, hp, maxHp, 500.0f, 60.0f, color, true);
 
 	blackHoleWidth = 80.0f;
-	blackHoleheight = 80.0f;
+	blackHoleHeight = 80.0f;
 	blackHolePhase = 0;
 	gravityAreaWidth = 480.0f;
 	gravityAreaHeight = 480.0f;
+	satelliteRotateTheta = -0.7f;
+	barrageTimer = 0;
+	isFusion = false;
 
 	AnimInitialize();
 }
@@ -116,7 +119,7 @@ void Stage2Boss::Draw() const {
 	}
 
 	if (isFusion) {
-		renderer.DrawSprite(blackHole, blackHoleWidth, blackHoleheight, 0.0f, grHandleBox, 0xFF00FFFF);
+		renderer.DrawSprite(blackHole, blackHoleWidth, blackHoleHeight, 0.0f, grHandleBox, 0xFF00FFFF);
 	}
 
 	if (bullets[60].isActive) {
@@ -199,7 +202,7 @@ void Stage2Boss::SpecialAttackSelect() {
 		if (randomAttack == 1) {
 			attack = Stage2BossAttack::NORMAL;
 		} else if (randomAttack == 2) {
-			attack = Stage2BossAttack::ALL_WALL;
+			attack = Stage2BossAttack::BLACK_HOLE;
 		} else {
 		}
 		break;
@@ -316,63 +319,71 @@ void Stage2Boss::AttackBlackHole() {
 
 	if (blackHolePhase == 2) {
 
-		if (shotTimer >= 3) {
+		if (barrageTimer < 60) {
 
-			shotTimer = 0;
+			barrageTimer++;
+		} else {
 
-			if (shotCounter < 100) {
+			
+			if (shotTimer >= 3) {
 
-				int randomPosition = Random::RandomInt(-3, 2);
+				shotTimer = 0;
 
-				for (int i = 0; i < kBulletMax; i++) {
-					if (!bullets[i].isActive) {
-						if (!bullets[i].effect.GetIsActive()) {
-							InitializeBullets(i, { .width = 80.0f,.height = 80.0f });
+				if (shotCounter < 100) {
 
-							if (isFusion) {
+					int randomPosition = Random::RandomInt(-3, 2);
 
-								bullets[i].ShotPos({ transform.position.x, 0 + (80.0f * static_cast<float>(randomPosition) + 40.0f) }, { blackHole.position }, 0.0f);
+					for (int i = 0; i < kBulletMax; i++) {
+						if (!bullets[i].isActive) {
+							if (!bullets[i].effect.GetIsActive()) {
+								InitializeBullets(i, { .width = 80.0f,.height = 80.0f });
 
-							} else {
-								bullets[i].ShotDir({ transform.position.x, 0 + (80.0f * static_cast<float>(randomPosition) + 40.0f) }, { -1.0f, 0.0f }, 0.0f);
+								if (isFusion) {
+
+									bullets[i].ShotPos({ transform.position.x, 0 + (80.0f * static_cast<float>(randomPosition) + 40.0f) }, { blackHole.position }, 0.0f);
+
+								} else {
+									bullets[i].ShotDir({ transform.position.x, 0 + (80.0f * static_cast<float>(randomPosition) + 40.0f) }, { -1.0f, 0.0f }, 0.0f);
+								}
+
+								break;
 							}
+						}
+					}
+					shotCounter++;
+				} else {
 
+					for (int bi = 0;bi < kBulletMax;bi++) {
+
+
+
+						if (bullets[bi].isActive) {
 							break;
+						}
+
+						if (bi == kBulletMax - 1) {
+							CommonAttackSelect();
+							barrageTimer = 0;
+							shotCounter = 0;
+							isFusion = false;
+							blackHolePhase = 0;
 						}
 					}
 				}
-				shotCounter++;
-			} else {
+			}
 
-				for (int bi = 0;bi < kBulletMax;bi++) {
+			for (int bi = 0;bi < kBulletMax;bi++) {
 
-
+				if (bullets[bi].transform.position.x <= blackHole.position.x) {
 
 					if (bullets[bi].isActive) {
+						bullets[bi].Deactive();
 						break;
 					}
-
-					if (bi == kBulletMax - 1) {
-						CommonAttackSelect();
-
-						isFusion = false;
-					}
 				}
 			}
+
 		}
-
-		for (int bi = 0;bi < kBulletMax;bi++) {
-
-			if (bullets[bi].transform.position.x <= blackHole.position.x) {
-
-				if (bullets[bi].isActive) {
-					bullets[bi].Deactive();
-					break;
-				}
-			}
-		}
-
-
 
 	} else if (blackHolePhase == 1) {
 
@@ -392,6 +403,7 @@ void Stage2Boss::AttackBlackHole() {
 				bullets[60].Deactive();
 				isFusion = true;
 				blackHolePhase = 2;
+				satelliteRotateTheta = -0.7f;
 				shotTimer = 0;
 			}
 		}
@@ -399,6 +411,7 @@ void Stage2Boss::AttackBlackHole() {
 		if (bullets[60].transform.position.x <= -800.0f) {
 			blackHolePhase = 2;
 			shotTimer = 0;
+			satelliteRotateTheta = -0.7f;
 		}
 
 	} else {

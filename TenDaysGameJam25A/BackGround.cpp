@@ -14,7 +14,7 @@ void BackGround::Initialize() {
 	duration = 0.15f;
 	dimansionState = DimensionState::TWO;
 	currentDimension = DimensionState::TWO;
-
+	currentWalker = DimesionWalker::PLAYER;
 	color = 0xFFFFFFFF;
 }
 
@@ -24,7 +24,6 @@ void BackGround::Update() {
 	click.Update();
 
 	if (click.GetClickNotAnswer(1)) {
-
 		if (currentDimension == DimensionState::ONE) {
 
 			if (!isChanging) {
@@ -94,7 +93,13 @@ void BackGround::Activate() {
 
 void BackGround::Draw() const {
 
-	Novice::DrawSprite(static_cast<int>(underBGPos.x), static_cast<int>(underBGPos.y), grHandleHalfBg, 1.0f, 1.0f, 0.0f, color);
+	if (currentWalker == DimesionWalker::PLAYER) {
+		Novice::DrawSprite(static_cast<int>(underBGPos.x), static_cast<int>(underBGPos.y), grHandleHalfBg, 1.0f, 1.0f, 0.0f, color);
 
-	Novice::DrawSprite(static_cast<int>(topBGPos.x), static_cast<int>(topBGPos.y), grHandleHalfBg, 1.0f, 1.0f, static_cast<float>(M_PI), color);
+		Novice::DrawSprite(static_cast<int>(topBGPos.x), static_cast<int>(topBGPos.y), grHandleHalfBg, 1.0f, 1.0f, static_cast<float>(M_PI), color);
+	} else {
+		Novice::DrawSprite(static_cast<int>(underBGPos.x), static_cast<int>(underBGPos.y), grHandleHalfBg, 1.0f, 1.0f, 0.0f, kBossColor);
+
+		Novice::DrawSprite(static_cast<int>(topBGPos.x), static_cast<int>(topBGPos.y), grHandleHalfBg, 1.0f, 1.0f, static_cast<float>(M_PI), kBossColor);
+	}
 }

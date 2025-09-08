@@ -1,6 +1,9 @@
 #include "StageSelectScene.h"
 
-StageSelectScene::StageSelectScene() { Initialize(); };
+StageSelectScene::StageSelectScene() {
+	Initialize();
+	chochinStageDefault = { 0.0f,0.0f };
+};
 
 void StageSelectScene::Initialize() {
 
@@ -25,11 +28,11 @@ void StageSelectScene::Initialize() {
 
 	currentStage = Stage::STAGE1;
 
-	chochinStageDefault = { 0.0f,0.0f };
+
 	chochinAnimationCount = 0;
 	animationFirtSpeed = 88.0f;
 
-	chochinLight.position = { kChochinLightOffsetX ,kChochinLightOffsetY };
+	chochinLight.position = { chochinStageDefault.x + kChochinLightOffsetX ,chochinStageDefault.y + kChochinLightOffsetY };
 	chochinLightWidth = 345.0f;
 	chochinLightHeight = 220.0f;
 	grHandleStageSelectChochinLight0 = Novice::LoadTexture("./Resources/images/stageSelectChochinLight0.png");

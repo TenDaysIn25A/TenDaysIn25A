@@ -178,10 +178,11 @@ private:
 	//ブラックホール
 	Transform2D blackHole;
 	float blackHoleWidth;
-	float blackHoleheight;
+	float blackHoleHeight;
 	float gravityAreaWidth;
 	float gravityAreaHeight;
 	int blackHolePhase;
+	int barrageTimer;
 
 	int hp;
 	int maxHp;

@@ -19,7 +19,7 @@ void Stage2BossY::Initialize() {
 	transform.scale = { 1.0f, 1.0f };
 
 	//開始時に実行する攻撃と開始時のフェーズ
-	attack = Stage2BossAttackY::NORMAL;
+	attack = Stage2BossAttackY::STOP;
 	attackPhase = AttackPhase::FIRST;
 
 	grHandleBox = Novice::LoadTexture("./Resources/images/box.png");
@@ -146,6 +146,9 @@ void Stage2BossY::Shot() {
 	case Stage2BossAttackY::NORMAL:
 		AttackMeteorShower();
 		break;
+	case Stage2BossAttackY::STOP:
+		AttackStop();
+		break;
 	}
 
 	shotTimer++;
@@ -197,7 +200,7 @@ void Stage2BossY::AttackMeteorShower() {
 
 		for (int i = 0; i < kBulletMax; i++) {
 			if (!bullets[i].isActive) {
-				InitializeBullets(i, {.height = 80.0f});
+				InitializeBullets(i, { .height = 80.0f });
 				meteorShowerCenterPos[i] = 200.0f - (80.0f * static_cast<float>(randomPosition));
 				bullets[i].ShotDir({ 640.0f + (bullets[i].width),200.0f - (80.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
 
@@ -205,7 +208,7 @@ void Stage2BossY::AttackMeteorShower() {
 			}
 		}
 
-		do{
+		do {
 			randomPosition = Random::RandomInt(-1, 6);
 
 			for (int i = 0; i < kBulletMax; i++) {
@@ -222,7 +225,7 @@ void Stage2BossY::AttackMeteorShower() {
 
 		} while (tmpPositionNumber[0] == randomPosition);
 
-		do{
+		do {
 			randomPosition = Random::RandomInt(-1, 6);
 
 			for (int i = 0; i < kBulletMax; i++) {
@@ -256,4 +259,72 @@ void Stage2BossY::AttackMeteorShower() {
 	}
 
 	meteorTheta += 2.0f;
+}
+
+void Stage2BossY::AttackStop() {
+
+	if (shotTimer >= 10000) {
+
+	} else if (shotTimer > 193) {
+		for (int i = 0; i < kBulletMax; i++) {
+			if (bullets[i].isActive) {
+				bullets[i].Deactive();
+			}
+		}
+
+		SpecialAttackSelect();
+	} else if (shotTimer > 192) {
+	} else if (shotTimer > 161) {
+	} else if (shotTimer > 151) {
+		
+	} else if (shotTimer > 141) {
+		if (shotTimer % 2 == 0) {
+			if (currentWalker == DimesionWalker::PLAYER) {
+				currentWalker = DimesionWalker::BOSS;
+			} else {
+				currentWalker = DimesionWalker::PLAYER;
+			}
+		}
+	} else if (shotTimer > 140) {
+		for (int i = 0; i < kBulletMax; i++) {
+			if (bullets[i].isActive) {
+				bullets[i].velocity.x = 0.0f;
+			}
+		}
+
+	} else if (shotTimer > 1) {
+		if (shotTimer % 16 == 0) {
+			if (shotCounter != holePosition && shotCounter != holePosition + 1) {
+				for (int i = 0; i < kBulletMax; i++) {
+					if (!bullets[i].isActive) {
+						if (!bullets[i].effect.GetIsActive()) {
+							InitializeBullets(i, { .height = 80.0f });
+							bullets[i].ShotDir({ 640.0f + (bullets[i].width),200.0f }, { -1.0f, 0.0f }, 0.0f);
+							break;
+						}
+					}
+				}
+			}
+
+			shotCounter++;
+		} else if (shotTimer % 16 == 8) {
+			if (shotCounter != holePosition && shotCounter != holePosition + 1) {
+				for (int i = 0; i < kBulletMax; i++) {
+					if (!bullets[i].isActive) {
+						if (!bullets[i].effect.GetIsActive()) {
+							InitializeBullets(i, { .height = 80.0f });
+							bullets[i].ShotDir({ 640.0f + (bullets[i].width),-200.0f }, { -1.0f, 0.0f }, 0.0f);
+							break;
+						}
+					}
+				}
+			}
+
+			shotCounter++;
+		}
+
+	} else {
+		holePosition = Random::RandomInt(1, 9);
+	}
+
 }

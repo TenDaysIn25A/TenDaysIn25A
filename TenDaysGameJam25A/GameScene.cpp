@@ -84,6 +84,14 @@ void GameScene::Update() {
 		break;
 	}
 
+	if (stage2Scene.stage2Boss.isFusion) {
+		player.isBlackHole = true;
+		player.blackHolePos = stage2Scene.stage2Boss.blackHole.position;
+	} else {
+		player.isBlackHole = false;
+		player.blackHolePos = { 0.0f,0.0f };
+	}
+
 	player.Update();
 
 	CheckHitAll();
@@ -119,7 +127,7 @@ void GameScene::CheckHitAll() {
 
 	case Stage::STAGE1:
 		Stage1CheckHit();
-		
+
 		break;
 
 	case Stage::STAGE2:
@@ -131,16 +139,16 @@ void GameScene::CheckHitAll() {
 		break;
 
 	case Stage::STAGE4:
-		
+
 		break;
 
 	case Stage::STAGE5:
-		
+
 		break;
 	}
-	
 
-	
+
+
 }
 
 //ステージ1の当たり判定
@@ -307,66 +315,132 @@ void GameScene::Stage1CheckHit() {
 
 //ステージ2の当たり判定
 void GameScene::Stage2CheckHit() {
-	if (currentDimension == DimensionState::ONE) {
-		for (int bi = 0; bi < stage2Scene.stage2Boss.kBulletMax; bi++) {
 
-			if (!stage2Scene.stage2Boss.bullets[bi].isActive) {
-				continue;
-			}
+	if (stage2Scene.stage2Boss.blackHolePhase == 1) {
+		//衛星とプレイヤーの当たり判定
+		if (Collision::BoxToBox(player.transform.position, player.hitBoxWidth, player.hitBoxHeight, stage2Scene.stage2Boss.newSatellite.position, stage2Scene.stage2Boss.bullets[61].width, stage2Scene.stage2Boss.bullets[61].height)) {
 
-			//パリィの当たり判定
-			if (player.parry.isParry) {
-				if (Collision::BoxToBox(
-					player.parry.transform.position, player.parry.width, player.parry.height, { stage2Scene.stage2Boss.bullets[bi].transform.position.x, 0.0f }, stage2Scene.stage2Boss.bullets[bi].width, stage2Scene.stage2Boss.bullets[bi].height)) {
-					float justArea = player.parry.transform.position.x + player.parry.kJustParryAbleGrace * stage2Scene.stage2Boss.bullets[bi].speed;
-					if (stage2Scene.stage2Boss.bullets[bi].transform.position.x <= justArea) {
-						player.parry.parryState = ParryState::JUST;
-						player.parry.color = 0xFF0000FF;
-						player.isUpDamage = true;
-						player.damageUpTime = 150;
-					} else {
-						player.parry.parryState = ParryState::NORMAL;
-						player.parry.color = 0xFFFF00FF;
-						player.magazine++;
-					}
-					stage2Scene.stage2Boss.bullets[bi].Deactive();
-				} else {
-
-				}
-
-				if (player.parry.parryState == ParryState::NONE) {
-					player.currentStamina -= player.kMissConsumedStamina;
-				}
+			if (!player.isInvinciblity) {
+				player.TakeDamage(1);
+				player.isInvinciblity = true;
 			}
 		}
 
-		// プレイヤーとエネミーの弾の当たり判定（１次元）
-		for (int bi = 0; bi < stage2Scene.stage2Boss.kBulletMax; bi++) {
-			if (stage2Scene.stage2Boss.bullets[bi].isActive) {
-				if (Collision::BoxToBox(player.transform.position, player.width, player.hitBoxHeight, { stage2Scene.stage2Boss.bullets[bi].transform.position.x, 0.0f }, stage2Scene.stage2Boss.bullets[bi].width, stage2Scene.stage2Boss.bullets[bi].height)) {
-					stage2Scene.stage2Boss.bullets[bi].Deactive();
+		//衛星と弾の当たり判定
+		for (int i = 0; i < player.kBulletMax; i++) {
+
+			if (player.bullets[i].isActive) {
+
+				if (Collision::BoxToBox(stage2Scene.stage2Boss.newSatellite.position, stage2Scene.stage2Boss.bullets[61].width, stage2Scene.stage2Boss.bullets[61].height, player.bullets[i].transform.position, player.bullets[i].width,player.bullets[i].height)) {
+
+					player.bullets[i].effect.SetColor(player.bullets[i].color);
+					player.bullets[i].Deactive();
+
+					
+				}
+
+			}
+
+		}
+
+		if (currentDimension == DimensionState::ONE) {
+
+			// プレイヤーとエネミーの弾の当たり判定（１次元）
+
+			if (stage2Scene.stage2Boss.bullets[60].isActive) {
+				if (Collision::BoxToBox(player.transform.position, player.width, player.hitBoxHeight, { stage2Scene.stage2Boss.bullets[60].transform.position.x, 0.0f }, stage2Scene.stage2Boss.bullets[60].width, stage2Scene.stage2Boss.bullets[60].height)) {
+
 
 					if (!player.isInvinciblity) {
 						player.TakeDamage(1);
-						stage2Scene.stage2Boss.bullets[bi].transform.position.x = 0.0f;
+
 						player.isInvinciblity = true;
 					}
 				}
 			}
-		}
-	} else {
-		// プレイヤーとエネミーの弾の当たり判定（２次元）
-		for (int bi = 0; bi < stage2Scene.stage2Boss.kBulletMax; bi++) {
-			if (stage2Scene.stage2Boss.bullets[bi].isActive) {
+
+		} else {
+			// プレイヤーとエネミーの弾の当たり判定（２次元）
+
+			if (stage2Scene.stage2Boss.bullets[60].isActive) {
 				// 縦幅を少し小さくして、ちょうど当たってるときは当たらないようにする
-				if (Collision::BoxToBox(player.transform.position, player.hitBoxWidth, player.hitBoxWidth - 6.0f, stage2Scene.stage2Boss.bullets[bi].transform.position, stage2Scene.stage2Boss.bullets[bi].width, stage2Scene.stage2Boss.bullets[bi].height)) {
+				if (Collision::BoxToBox(player.transform.position, player.hitBoxWidth, player.hitBoxWidth - 6.0f, stage2Scene.stage2Boss.bullets[60].transform.position, stage2Scene.stage2Boss.bullets[60].width, stage2Scene.stage2Boss.bullets[60].height)) {
 
-					stage2Scene.stage2Boss.bullets[bi].Deactive();
+
 
 					if (!player.isInvinciblity) {
 						player.TakeDamage(1);
-						stage2Scene.stage2Boss.bullets[bi].transform.position.x = 0.0f;
+
 						player.isInvinciblity = true;
+					}
+				}
+			}
+
+		}
+
+	} else {
+
+		if (currentDimension == DimensionState::ONE) {
+			for (int bi = 0; bi < stage2Scene.stage2Boss.kBulletMax; bi++) {
+
+				if (!stage2Scene.stage2Boss.bullets[bi].isActive) {
+					continue;
+				}
+
+				//パリィの当たり判定
+				if (player.parry.isParry) {
+					if (Collision::BoxToBox(
+						player.parry.transform.position, player.parry.width, player.parry.height, { stage2Scene.stage2Boss.bullets[bi].transform.position.x, 0.0f }, stage2Scene.stage2Boss.bullets[bi].width, stage2Scene.stage2Boss.bullets[bi].height)) {
+						float justArea = player.parry.transform.position.x + player.parry.kJustParryAbleGrace * stage2Scene.stage2Boss.bullets[bi].speed;
+						if (stage2Scene.stage2Boss.bullets[bi].transform.position.x <= justArea) {
+							player.parry.parryState = ParryState::JUST;
+							player.parry.color = 0xFF0000FF;
+							player.isUpDamage = true;
+							player.damageUpTime = 150;
+						} else {
+							player.parry.parryState = ParryState::NORMAL;
+							player.parry.color = 0xFFFF00FF;
+							player.magazine++;
+						}
+						stage2Scene.stage2Boss.bullets[bi].Deactive();
+					} else {
+
+					}
+
+					if (player.parry.parryState == ParryState::NONE) {
+						player.currentStamina -= player.kMissConsumedStamina;
+					}
+				}
+			}
+
+			// プレイヤーとエネミーの弾の当たり判定（１次元）
+			for (int bi = 0; bi < stage2Scene.stage2Boss.kBulletMax; bi++) {
+				if (stage2Scene.stage2Boss.bullets[bi].isActive) {
+					if (Collision::BoxToBox(player.transform.position, player.width, player.hitBoxHeight, { stage2Scene.stage2Boss.bullets[bi].transform.position.x, 0.0f }, stage2Scene.stage2Boss.bullets[bi].width, stage2Scene.stage2Boss.bullets[bi].height)) {
+						stage2Scene.stage2Boss.bullets[bi].Deactive();
+
+						if (!player.isInvinciblity) {
+							player.TakeDamage(1);
+							stage2Scene.stage2Boss.bullets[bi].transform.position.x = 0.0f;
+							player.isInvinciblity = true;
+						}
+					}
+				}
+			}
+		} else {
+			// プレイヤーとエネミーの弾の当たり判定（２次元）
+			for (int bi = 0; bi < stage2Scene.stage2Boss.kBulletMax; bi++) {
+				if (stage2Scene.stage2Boss.bullets[bi].isActive) {
+					// 縦幅を少し小さくして、ちょうど当たってるときは当たらないようにする
+					if (Collision::BoxToBox(player.transform.position, player.hitBoxWidth, player.hitBoxWidth - 6.0f, stage2Scene.stage2Boss.bullets[bi].transform.position, stage2Scene.stage2Boss.bullets[bi].width, stage2Scene.stage2Boss.bullets[bi].height)) {
+
+						stage2Scene.stage2Boss.bullets[bi].Deactive();
+
+						if (!player.isInvinciblity) {
+							player.TakeDamage(1);
+							stage2Scene.stage2Boss.bullets[bi].transform.position.x = 0.0f;
+							player.isInvinciblity = true;
+						}
 					}
 				}
 			}
@@ -404,6 +478,32 @@ void GameScene::Stage2CheckHit() {
 			}
 		}
 	}
+
+	//プレイヤーとブラックホールの当たり判定
+	if (stage2Scene.stage2Boss.isFusion) {
+
+		if (Collision::BoxToBox(player.transform.position, player.hitBoxWidth, player.hitBoxHeight, stage2Scene.stage2Boss.blackHole.position, stage2Scene.stage2Boss.blackHoleWidth, stage2Scene.stage2Boss.blackHoleHeight)) {
+
+			player.TakeDamage(3);
+
+		}
+
+	}
+
+	//プレイヤーの弾とブラックホールの当たり判定
+	for (int bi = 0;bi < player.kBulletMax;bi++) {
+		if (stage2Scene.stage2Boss.isFusion) {
+
+			if (Collision::BoxToBox(player.bullets[bi].transform.position, player.bullets[bi].width, player.bullets[bi].height, stage2Scene.stage2Boss.blackHole.position, stage2Scene.stage2Boss.blackHoleWidth, stage2Scene.stage2Boss.blackHoleHeight)) {
+
+				player.bullets[bi].Deactive();
+				break;
+			}
+		}
+	}
+
+
+
 }
 
 void GameScene::Stage3CheckHit() {
@@ -513,7 +613,7 @@ void GameScene::Draw()const {
 
 	//Novice::ScreenPrintf(132, 132, "%d", stage1Scene.stage1Boss.light.lightNotice);
 	//Novice::ScreenPrintf(148, 132, "%d", stage1Scene.stage1Boss.shotTimer);
-	
+
 	for (int i = 0; i < stage1Scene.stage1Boss.kLightMax; i++) {
 		if (stage1Scene.stage1Boss.light[i].lightNotice) {
 			Transform2D lightBg;

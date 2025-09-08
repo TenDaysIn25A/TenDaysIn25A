@@ -53,6 +53,8 @@ public:
 
 	unsigned int color;
 
+	const unsigned int kBossColor = 0xAA00CCFF;
+
 	Vector2 startUnder;
 	Vector2 startTop;
 	Vector2 midUnder;

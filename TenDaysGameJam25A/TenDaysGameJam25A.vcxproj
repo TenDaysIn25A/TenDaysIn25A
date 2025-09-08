@@ -143,6 +143,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="SampleSceneYuto.cpp" />
     <ClCompile Include="DeltaTime.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Stage2BossY.cpp" />
     <ClCompile Include="Stage2Scene.cpp" />
     <ClCompile Include="Stage3Scene.cpp" />
     <ClCompile Include="Stage4Scene.cpp" />
@@ -222,6 +223,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="SampleSceneYuto.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="DeltaTime.h" />
+    <ClInclude Include="Stage2BossY.h" />
     <ClInclude Include="Stage2Scene.h" />
     <ClInclude Include="Stage3Scene.h" />
     <ClInclude Include="Stage4Scene.h" />

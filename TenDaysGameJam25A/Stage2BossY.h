@@ -3,9 +3,10 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "EnemyHpGauge.h"
+#include "BackGround.h"
 
 enum class Stage2BossAttackY {
-	NORMAL,
+	NORMAL,STOP,
 };
 
 class Stage2BossY {
@@ -111,7 +112,14 @@ public:
 	/// <summary>
 	/// アタックノーマルの攻撃パターン
 	/// </summary>
-	void AttackMeteorShower();
+	void AttackStop();
+
+	/// <summary>
+	/// アタックノーマルの攻撃パターン
+	/// </summary>
+	void AttackMeteor();
+
+
 
 private:
 	/// <summary>
@@ -180,6 +188,7 @@ public:
 
 	float meteorShowerCenterPos[kBulletMax];
 	float meteorTheta;
+	int holePosition;
 
 	static constexpr int kExchengePhaseThirdHp = 300;
 	static constexpr int kExchengePhaseSecondHp = 600;

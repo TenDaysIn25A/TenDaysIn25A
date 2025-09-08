@@ -67,6 +67,9 @@ void Player::Initialize() {
 	rightTop.position = { transform.position.x + width / 2.0f,transform.position.y + height / 2.0f };
 	leftBottom.position = { transform.position.x - width / 2.0f,transform.position.y - height / 2.0f };
 	rightBottom.position = { transform.position.x + width / 2.0f,transform.position.y - height / 2.0f };
+
+	isBlackHole = false;
+	blackHolePos = { 0.0f,0.0f };
 }
 
 void Player::Update() {
@@ -126,6 +129,17 @@ void Player::Update() {
 
 	Move();
 
+	if (isBlackHole) {
+		Vector2 directionPlayerToBlackHole;
+		directionPlayerToBlackHole.x = blackHolePos.x - transform.position.x;
+		directionPlayerToBlackHole.y = blackHolePos.y - transform.position.y ;
+
+		Vector2 blackHoleGravityVelocity;
+		blackHoleGravityVelocity = Vector2::Normalize(directionPlayerToBlackHole) * speed;
+
+		transform.Translate(blackHoleGravityVelocity);
+	}
+
 	ClampInWindow2D();
 
 	leftTop.position = { transform.position.x - width / 2.0f,transform.position.y + height / 2.0f };
@@ -179,7 +193,13 @@ void Player::MachinGunBullet() {
 
 					if (!bullets[bi].isActive) {
 						if (!bullets[bi].effect.GetIsActive()) {
-							bullets[bi].ShotDir(transform.position, bullets[bi].direction, 0.0f);
+
+							if (isBlackHole) {
+								bullets[bi].ShotPos(transform.position, blackHolePos, 0.0f);
+							} else {
+								bullets[bi].direction = { 1.0f,0.0f };
+								bullets[bi].ShotDir(transform.position, bullets[bi].direction, 0.0f);
+							}
 
 							bullets[bi].transform.rotation = Random::RandomFloat(1.0f, 30.0f);
 
@@ -264,8 +284,13 @@ void Player::ShotGunBullet() {
 
 						if (!bullets[bi].isActive) {
 							if (!bullets[bi].effect.GetIsActive()) {
-								bullets[bi].ShotDir(transform.position, bullets[bi].direction, 20.0f);
 
+								if (isBlackHole) {
+									bullets[bi].ShotPos(transform.position, blackHolePos, 0.0f);
+								} else {
+									bullets[bi].direction = { 1.0f,0.0f };
+									bullets[bi].ShotDir(transform.position, bullets[bi].direction, 20.0f);
+								}
 								bulletPattern = Random::RandomInt(1, 3);
 
 								bullets[bi].transform.rotation = Random::RandomFloat(1.0f, 30.0f);

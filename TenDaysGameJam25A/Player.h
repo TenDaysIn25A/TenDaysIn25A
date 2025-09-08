@@ -154,6 +154,8 @@ public:
 	bool isAlive;
 	bool isUpDamage;
 	bool isStaminaRecovery;
+	bool isBlackHole;
+	Vector2 blackHolePos;
 
 	// 包含オブジェクト
 	// ----------------------------------------------
