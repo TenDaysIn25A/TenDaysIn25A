@@ -101,7 +101,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		if (input.GetKeyTrigger(DIK_F7)) {
 			sceneManager.ExchangeScene(Scene::GAMEOVER);
 		}
-
 		
 		// ----------------------------------------------------------
 		// シーン

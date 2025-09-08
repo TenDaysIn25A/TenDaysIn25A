@@ -7,7 +7,7 @@ void Stage2Boss::Initialize() {
 	width = 320.0f;
 	height = 480.0f;
 	isAlive = true;
-	hp = 450;
+	hp = 900;
 	maxHp = 900;
 
 	color = kColor;
@@ -19,7 +19,7 @@ void Stage2Boss::Initialize() {
 	transform.scale = { 1.0f, 1.0f };
 
 	//開始時に実行する攻撃と開始時のフェーズ
-	attack = Stage2BossAttack::NORMAL;
+	attack = Stage2BossAttack::BLACK_HOLE;
 	attackPhase = AttackPhase::FIRST;
 
 	grHandleBox = Novice::LoadTexture("./Resources/images/box.png");
@@ -32,6 +32,12 @@ void Stage2Boss::Initialize() {
 	//HPゲージの初期化と作成
 	hpGauge.Initialize();
 	hpGauge.CreateHpGauge({ 360.0f,300.0f }, hp, maxHp, 500.0f, 60.0f, color, true);
+
+	blackHoleWidth = 80.0f;
+	blackHoleheight = 80.0f;
+	blackHolePhase = 0;
+	gravityAreaWidth = 480.0f;
+	gravityAreaHeight = 480.0f;
 
 	AnimInitialize();
 }
@@ -96,6 +102,8 @@ void Stage2Boss::Draw() const {
 
 	Novice::ScreenPrintf(0, 1000, "%d/%d", hp, maxHp);
 
+
+
 	//一次元と二次元で見た目を変える
 	if (currentDimension == DimensionState::TWO) {
 		AnimDraw();
@@ -105,6 +113,14 @@ void Stage2Boss::Draw() const {
 
 	for (int i = 0; i < kBulletMax; i++) {
 		bullets[i].Draw();
+	}
+
+	if (isFusion) {
+		renderer.DrawSprite(blackHole, blackHoleWidth, blackHoleheight, 0.0f, grHandleBox, 0xFF00FFFF);
+	}
+
+	if (bullets[60].isActive) {
+		renderer.DrawSprite(newSatellite, bullets[61].width, bullets[61].height, 0.0f, grHandleBox, 0xFFFFFFFF);
 	}
 }
 
@@ -146,6 +162,14 @@ void Stage2Boss::Shot() {
 	case Stage2BossAttack::NORMAL:
 		AttackNormal();
 		break;
+
+	case Stage2BossAttack::ALL_WALL:
+		AttackAllWall();
+		break;
+
+	case Stage2BossAttack::BLACK_HOLE:
+		AttackBlackHole();
+		break;
 	}
 
 	shotTimer++;
@@ -157,10 +181,10 @@ void Stage2Boss::CommonAttackSelect() {
 		attack = Stage2BossAttack::NORMAL;
 		break;
 	case AttackPhase::SECOND:
-		attack = Stage2BossAttack::NORMAL;
+		attack = Stage2BossAttack::ALL_WALL;
 		break;
 	case AttackPhase::THIRD:
-		attack = Stage2BossAttack::NORMAL;
+		attack = Stage2BossAttack::ALL_WALL;
 		break;
 	}
 }
@@ -170,19 +194,37 @@ void Stage2Boss::SpecialAttackSelect() {
 	switch (attackPhase) {
 	case AttackPhase::FIRST:
 		//攻撃を2つの中から一つ抽選して現在の攻撃にする
-		randomAttack = Random::RandomInt(1, 2);
+		randomAttack = Random::RandomInt(2, 2);
 
 		if (randomAttack == 1) {
 			attack = Stage2BossAttack::NORMAL;
 		} else if (randomAttack == 2) {
-			attack = Stage2BossAttack::NORMAL;
+			attack = Stage2BossAttack::ALL_WALL;
 		} else {
 		}
 		break;
 	case AttackPhase::SECOND:
 
+		randomAttack = Random::RandomInt(2, 2);
+
+		if (randomAttack == 1) {
+			attack = Stage2BossAttack::NORMAL;
+		} else if (randomAttack == 2) {
+			attack = Stage2BossAttack::ALL_WALL;
+		} else {
+		}
+
 		break;
 	case AttackPhase::THIRD:
+
+		randomAttack = Random::RandomInt(2, 2);
+
+		if (randomAttack == 1) {
+			attack = Stage2BossAttack::NORMAL;
+		} else if (randomAttack == 2) {
+			attack = Stage2BossAttack::ALL_WALL;
+		} else {
+		}
 
 		break;
 	}
@@ -210,4 +252,163 @@ void Stage2Boss::AttackNormal() {
 			shotCounter++;
 		}
 	}
+}
+
+void Stage2Boss::AttackAllWall() {
+
+	if (shotTimer >= 80) {
+		shotTimer = 0;
+
+		int randomPosition;
+
+		int randomWall;
+
+		if (shotCounter >= 7) {
+
+
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, {});
+					bullets[i].height = 480.0f;
+
+					bullets[i].ShotDir({ transform.position.x, 0.0f }, { -1.0f, 0.0f }, 0.0f);
+
+					break;
+				}
+			}
+		} else {
+			randomPosition = Random::RandomInt(-1, 1);
+			randomWall = Random::RandomInt(0, 3);
+
+			if (randomWall <= 2) {
+				for (int i = 0; i < kBulletMax; i++) {
+					if (!bullets[i].isActive) {
+						InitializeBullets(i, {});
+						bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
+						break;
+					}
+				}
+			} else {
+				for (int i = 0; i < kBulletMax; i++) {
+					if (!bullets[i].isActive) {
+						InitializeBullets(i, {});
+						bullets[i].height = 480.0f;
+
+						bullets[i].ShotDir({ transform.position.x, 0.0f }, { -1.0f, 0.0f }, 0.0f);
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (shotCounter >= 7) {
+			shotCounter = 0;
+
+			SpecialAttackSelect();
+		} else {
+			shotCounter++;
+		}
+	}
+}
+
+void Stage2Boss::AttackBlackHole() {
+
+	if (blackHolePhase == 2) {
+
+		if (shotTimer >= 3) {
+
+			shotTimer = 0;
+
+			if (shotCounter < 100) {
+
+				int randomPosition = Random::RandomInt(-3, 2);
+
+				for (int i = 0; i < kBulletMax; i++) {
+					if (!bullets[i].isActive) {
+						if (!bullets[i].effect.GetIsActive()) {
+							InitializeBullets(i, { .width = 80.0f,.height = 80.0f });
+
+							if (isFusion) {
+
+								bullets[i].ShotPos({ transform.position.x, 0 + (80.0f * static_cast<float>(randomPosition) + 40.0f) }, { blackHole.position }, 0.0f);
+
+							} else {
+								bullets[i].ShotDir({ transform.position.x, 0 + (80.0f * static_cast<float>(randomPosition) + 40.0f) }, { -1.0f, 0.0f }, 0.0f);
+							}
+
+							break;
+						}
+					}
+				}
+				shotCounter++;
+			} else {
+
+				for (int bi = 0;bi < kBulletMax;bi++) {
+
+
+
+					if (bullets[bi].isActive) {
+						break;
+					}
+
+					if (bi == kBulletMax - 1) {
+						CommonAttackSelect();
+
+						isFusion = false;
+					}
+				}
+			}
+		}
+
+		for (int bi = 0;bi < kBulletMax;bi++) {
+
+			if (bullets[bi].transform.position.x <= blackHole.position.x) {
+
+				if (bullets[bi].isActive) {
+					bullets[bi].Deactive();
+					break;
+				}
+			}
+		}
+
+
+
+	} else if (blackHolePhase == 1) {
+
+		satelliteRotateTheta += 0.02f;
+		newSatellite.position.x = bullets[61].transform.position.x * cosf(satelliteRotateTheta) - bullets[61].transform.position.y * sinf(satelliteRotateTheta) + bullets[60].transform.position.x;
+		newSatellite.position.y = bullets[61].transform.position.y * cosf(satelliteRotateTheta) + bullets[61].transform.position.x * sinf(satelliteRotateTheta) + bullets[60].transform.position.y;
+
+		if (bullets[60].isActive) {
+			blackHole.position = bullets[60].transform.position;
+		}
+
+		if (currentDimension == DimensionState::ONE) {
+
+			newSatellite.position.y = 0.0f;
+			if (Collision::BoxToBox({ bullets[60].transform.position.x,0.0f }, bullets[60].width, bullets[60].height, { newSatellite.position.x,0.0f }, bullets[61].width, bullets[61].height)) {
+
+				bullets[60].Deactive();
+				isFusion = true;
+				blackHolePhase = 2;
+				shotTimer = 0;
+			}
+		}
+
+		if (bullets[60].transform.position.x <= -800.0f) {
+			blackHolePhase = 2;
+			shotTimer = 0;
+		}
+
+	} else {
+		if (!bullets[60].isActive) {
+			InitializeBullets(60, { .speed = 3.0f,.width = 160.0f,.height = 160.0f, });
+			InitializeBullets(61, { .width = 80.0f,.height = 80.0f,.color = 0x00000000 });
+			bullets[61].transform.position = { 160.0f,0.0f };
+			bullets[60].ShotDir({ transform.position.x, 0.0f }, { -1.0f, 0.0f }, 0.0f);
+		}
+		blackHolePhase = 1;
+	}
+
 }

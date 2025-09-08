@@ -253,7 +253,8 @@ public:
 
 	int lightAttackTimer;
 	const int kLightAttackDefaultTimer = 60;
-	Light light;
+	static constexpr int kLightMax = 2;
+	Light light[kLightMax];
 
 	// 描画
 	// 

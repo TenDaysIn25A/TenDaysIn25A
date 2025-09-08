@@ -109,6 +109,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="BitMapFont.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
@@ -152,6 +153,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Stage4Boss.cpp" />
     <ClCompile Include="Stage5Boss.cpp" />
     <ClCompile Include="StageSelectScene.cpp" />
+    <ClCompile Include="StopWatch.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Transform2D.cpp" />
     <ClCompile Include="Tweening.cpp" />
@@ -161,6 +163,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
   <ItemGroup>
     <ClInclude Include="..\DirectXGame\3d\Camera.h" />
     <ClInclude Include="BackGround.h" />
+    <ClInclude Include="BitMapFont.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\base\StringUtility.h" />
@@ -229,6 +232,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Stage4Boss.h" />
     <ClInclude Include="Stage5Boss.h" />
     <ClInclude Include="StageSelectScene.h" />
+    <ClInclude Include="StopWatch.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Transform2D.h" />
     <ClInclude Include="Tweening.h" />

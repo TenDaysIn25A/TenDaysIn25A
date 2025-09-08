@@ -226,13 +226,21 @@ void GameScene::Stage1CheckHit() {
 					if (Collision::BoxToBox(
 						stage1Scene.stage1Boss.bullets[j].transform.position, stage1Scene.stage1Boss.bullets[j].width, stage1Scene.stage1Boss.bullets[j].height, player.bullets[i].transform.position, player.bullets[i].width,
 						player.bullets[i].height)) {
+						if (stage1Scene.stage1Boss.bullets[j].type == BulletType::HERMITCLAB) {
 
-						player.bullets[i].effect.SetColor(player.bullets[i].color);
-						player.bullets[i].Deactive();
+							player.bullets[i].effect.SetColor(player.bullets[i].color);
+							player.bullets[i].Deactive();
 
-						if (player.isUpDamage) {
-							stage1Scene.stage1Boss.bullets[j].Deactive();
+							stage1Scene.stage1Boss.bullets[j].PlayerBulletHit();
+						} else {
+							player.bullets[i].effect.SetColor(player.bullets[i].color);
+							player.bullets[i].Deactive();
+
+							if (player.isUpDamage) {
+								stage1Scene.stage1Boss.bullets[j].Deactive();
+							}
 						}
+
 					}
 				}
 			}
@@ -252,26 +260,26 @@ void GameScene::Stage1CheckHit() {
 
 	//光とプレイヤー(プレイヤーの4頂点が、光がさえぎられていない領域にあるか)
 	if (currentDimension == DimensionState::TWO) {
-		if (stage1Scene.stage1Boss.light.isActive) {
-			if (stage1Scene.stage1Boss.light.isPlayerInTheShadow(stage1Scene.stage1Boss.bullets[60].transform, stage1Scene.stage1Boss.bullets[60].width, stage1Scene.stage1Boss.bullets[60].height, player.leftTop.position)) {
+		if (stage1Scene.stage1Boss.light[0].isActive) {
+			if (stage1Scene.stage1Boss.light[0].isPlayerInTheShadow(stage1Scene.stage1Boss.bullets[60].transform, stage1Scene.stage1Boss.bullets[60].width, stage1Scene.stage1Boss.bullets[60].height, player.leftTop.position)) {
 
 			} else {
 				player.TakeDamage(2);
 			}
 
-			if (stage1Scene.stage1Boss.light.isPlayerInTheShadow(stage1Scene.stage1Boss.bullets[60].transform, stage1Scene.stage1Boss.bullets[60].width, stage1Scene.stage1Boss.bullets[60].height, player.rightTop.position)) {
+			if (stage1Scene.stage1Boss.light[0].isPlayerInTheShadow(stage1Scene.stage1Boss.bullets[60].transform, stage1Scene.stage1Boss.bullets[60].width, stage1Scene.stage1Boss.bullets[60].height, player.rightTop.position)) {
 
 			} else {
 				player.TakeDamage(2);
 			}
 
-			if (stage1Scene.stage1Boss.light.isPlayerInTheShadow(stage1Scene.stage1Boss.bullets[60].transform, stage1Scene.stage1Boss.bullets[60].width, stage1Scene.stage1Boss.bullets[60].height, player.leftBottom.position)) {
+			if (stage1Scene.stage1Boss.light[0].isPlayerInTheShadow(stage1Scene.stage1Boss.bullets[60].transform, stage1Scene.stage1Boss.bullets[60].width, stage1Scene.stage1Boss.bullets[60].height, player.leftBottom.position)) {
 
 			} else {
 				player.TakeDamage(2);
 			}
 
-			if (stage1Scene.stage1Boss.light.isPlayerInTheShadow(stage1Scene.stage1Boss.bullets[60].transform, stage1Scene.stage1Boss.bullets[60].width, stage1Scene.stage1Boss.bullets[60].height, player.rightBottom.position)) {
+			if (stage1Scene.stage1Boss.light[0].isPlayerInTheShadow(stage1Scene.stage1Boss.bullets[60].transform, stage1Scene.stage1Boss.bullets[60].width, stage1Scene.stage1Boss.bullets[60].height, player.rightBottom.position)) {
 
 			} else {
 				player.TakeDamage(2);
@@ -279,7 +287,7 @@ void GameScene::Stage1CheckHit() {
 		}
 	} else {
 
-		if (stage1Scene.stage1Boss.light.isActive) {
+		if (stage1Scene.stage1Boss.light[0].isActive) {
 
 			if (stage1Scene.stage1Boss.bullets[60].isActive) {
 
@@ -505,12 +513,14 @@ void GameScene::Draw()const {
 
 	//Novice::ScreenPrintf(132, 132, "%d", stage1Scene.stage1Boss.light.lightNotice);
 	//Novice::ScreenPrintf(148, 132, "%d", stage1Scene.stage1Boss.shotTimer);
-
-	if (stage1Scene.stage1Boss.light.lightNotice) {
-		Transform2D lightBg;
-		lightBg.position.x = 0.0f;
-		lightBg.position.y = 0.0f;
-		renderer.DrawBox(lightBg, 1280.0f, 720.0f, 0.0f, stage1Scene.stage1Boss.light.backGroundColor, kFillModeSolid);
+	
+	for (int i = 0; i < stage1Scene.stage1Boss.kLightMax; i++) {
+		if (stage1Scene.stage1Boss.light[i].lightNotice) {
+			Transform2D lightBg;
+			lightBg.position.x = 0.0f;
+			lightBg.position.y = 0.0f;
+			renderer.DrawBox(lightBg, 1280.0f, 720.0f, 0.0f, stage1Scene.stage1Boss.light[i].backGroundColor, kFillModeSolid);
+		}
 	}
 
 	switch (currentStage) {
@@ -568,7 +578,20 @@ void GameScene::Draw()const {
 	player.nice.Draw();
 	player.just.Draw();
 
-	stage1Scene.stage1Boss.hpGauge.Draw();
+	switch (currentStage) {
+
+	case Stage::STAGE1:
+
+		stage1Scene.stage1Boss.hpGauge.Draw();
+
+		break;
+
+	case Stage::STAGE2:
+
+		stage2Scene.stage2Boss.hpGauge.Draw();
+
+		break;
+	}
 
 	for (int i = 0;i < player.currentLife;i++) {
 		renderer.DrawSprite(player.life[i], player.lifeWidth, player.lifeHeight, 0.0f, player.grhandleLife, 0xFFFFFFFF);

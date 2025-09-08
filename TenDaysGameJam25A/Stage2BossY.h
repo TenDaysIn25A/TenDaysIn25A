@@ -4,11 +4,11 @@
 #include "Enemy.h"
 #include "EnemyHpGauge.h"
 
-enum class Stage2BossAttack {
-	NORMAL,ALL_WALL,BLACK_HOLE,
+enum class Stage2BossAttackY {
+	NORMAL,
 };
 
-class Stage2Boss {
+class Stage2BossY {
 public:
 
 	/// <summary>
@@ -33,7 +33,7 @@ public:
 	// メンバ関数
 	// ----------------------------------------------
 
-	Stage2Boss();
+	Stage2BossY();
 
 	// 根幹
 	// ----------------------------------------------
@@ -46,7 +46,7 @@ public:
 	/// <summary>
 	/// 弾の初期化
 	/// </summary>
-	void InitializeBullets(int index ,const BulletConfig& bulletConfig);
+	void InitializeBullets(int index, const BulletConfig& bulletConfig);
 
 	/// <summary>
 	/// 更新処理をここに
@@ -106,17 +106,12 @@ public:
 	/// <summary>
 	/// アタックノーマルの攻撃パターン
 	/// </summary>
-	void AttackNormal();
+	void AttackMeteorShower();
 
 	/// <summary>
-	/// 全壁攻撃
+	/// アタックノーマルの攻撃パターン
 	/// </summary>
-	void AttackAllWall();
-
-	/// <summary>
-	/// ブラックホール攻撃
-	/// </summary>
-	void AttackBlackHole();
+	void AttackMeteorShower();
 
 private:
 	/// <summary>
@@ -134,7 +129,7 @@ private:
 	/// </summary>
 	void AnimDraw() const;
 
-	public:
+public:
 	// ----------------------------------------------
 	// メンバ変数
 	// ----------------------------------------------
@@ -167,21 +162,8 @@ private:
 
 	EnemyHpGauge hpGauge;
 
-	Stage2BossAttack attack;
+	Stage2BossAttackY attack;
 	AttackPhase attackPhase;
-
-	//衛星軌道
-	Transform2D newSatellite;
-	float satelliteRotateTheta;
-	bool isFusion;
-
-	//ブラックホール
-	Transform2D blackHole;
-	float blackHoleWidth;
-	float blackHoleheight;
-	float gravityAreaWidth;
-	float gravityAreaHeight;
-	int blackHolePhase;
 
 	int hp;
 	int maxHp;
@@ -195,6 +177,9 @@ private:
 
 	int shotTimer;
 	int shotCounter;
+
+	float meteorShowerCenterPos[kBulletMax];
+	float meteorTheta;
 
 	static constexpr int kExchengePhaseThirdHp = 300;
 	static constexpr int kExchengePhaseSecondHp = 600;
