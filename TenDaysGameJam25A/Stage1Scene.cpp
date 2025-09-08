@@ -4,27 +4,26 @@ Stage1Scene::Stage1Scene() { Initialize(); }
 
 void Stage1Scene::Initialize() {
 
-	enemy.Initialize();
+	stage1Boss.Initialize();
 
 	currentDimension = DimensionState::TWO;
 }
+
 void Stage1Scene::Update() {
 
-
-	enemy.Update();
-
+	stage1Boss.Update();
 
 	SetCamera();
 }
 
 void Stage1Scene::Draw() const {
 
-	enemy.Draw();
+	stage1Boss.Draw();
 
 }
 
 void Stage1Scene::SetCamera() {
-	enemy.SetCamera(camera);
+	stage1Boss.SetCamera(camera);
 }
 
 void Stage1Scene::CheckHitAll() {

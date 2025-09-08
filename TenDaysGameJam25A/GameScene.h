@@ -50,6 +50,21 @@ public:
 	/// </summary>
 	void CheckHitAll();
 
+	/// <summary>
+	/// ステージ1の当たり判定
+	/// </summary>
+	void Stage1CheckHit();
+
+	/// <summary>
+	/// ステージ2の当たり判定
+	/// </summary>
+	void Stage2CheckHit();
+
+	/// <summary>
+	/// ステージ3の当たり判定
+	/// </summary>
+	void Stage3CheckHit();
+
 	// ----------------------------------------------
 	// メンバ変数
 	// ----------------------------------------------
@@ -65,7 +80,6 @@ public:
 
 	Player player;
 	ParryState parryState;
-	Enemy enemy;
 	Stage1Scene stage1Scene;
 	Stage2Scene stage2Scene;
 	Stage3Scene stage3Scene;

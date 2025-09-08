@@ -52,5 +52,5 @@ public:
 	Renderer renderer;
 	
 	ParryState parryState;
-	Stage1Boss enemy;
+	Stage1Boss stage1Boss;
 };

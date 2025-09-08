@@ -240,7 +240,6 @@ public:
 
 	int color;
 
-	int attackPositionX;
 
 	int shotTimer;
 	int shotCounter;

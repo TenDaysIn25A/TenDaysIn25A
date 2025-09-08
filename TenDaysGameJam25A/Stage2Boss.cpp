@@ -4,31 +4,40 @@ Stage2Boss::Stage2Boss() { Initialize(); }
 
 void Stage2Boss::Initialize() {
 	speed = 10.0f;
-	width = 128.0f;
+	width = 320.0f;
 	height = 480.0f;
 	isAlive = true;
-	hp = 300;
-	maxHp = 300;
+	hp = 450;
+	maxHp = 900;
 
 	color = kColor;
 
-	exchengePhaseSecondHp = 200;
-	exchengePhaseThirdHp = 100;
-
 	shotTimer = 0;
 	shotCounter = 0;
-	transform.position = { -576.0f, 0.0f };
+	transform.position = { 640.0f - (width / 2.0f), 0.0f };
 	transform.rotation = 0.0f;
 	transform.scale = { 1.0f, 1.0f };
-	attack = Stage2BossAttack::WALL;
+
+	//開始時に実行する攻撃と開始時のフェーズ
+	attack = Stage2BossAttack::NORMAL;
 	attackPhase = AttackPhase::FIRST;
 
-	grHandleCaracter = Novice::LoadTexture("./Resources/images/box.png");
+	grHandleBox = Novice::LoadTexture("./Resources/images/box.png");
 	grHandleBullet = Novice::LoadTexture("./Resources/images/box.png");
 
 	for (int i = 0; i < kBulletMax; i++) {
 		InitializeBullets(i, {});
 	}
+
+	//HPゲージの初期化と作成
+	hpGauge.Initialize();
+	hpGauge.CreateHpGauge({ 360.0f,300.0f }, hp, maxHp, 500.0f, 60.0f, color, true);
+
+	AnimInitialize();
+}
+
+void Stage2Boss::AnimInitialize() {
+
 }
 
 void Stage2Boss::InitializeBullets(int index, const BulletConfig& bulletConfig) {
@@ -55,17 +64,28 @@ void Stage2Boss::Update() {
 		bullets[i].Update();
 	}
 
+	//HP残量に応じて形態を変化させる
 	if (attackPhase == AttackPhase::FIRST) {
-		if (hp <= exchengePhaseSecondHp) {
+		if (hp <= kExchengePhaseSecondHp) {
 			attackPhase = AttackPhase::SECOND;
 		}
 	} else if (attackPhase == AttackPhase::SECOND) {
-		if (hp <= exchengePhaseThirdHp) {
+		if (hp <= kExchengePhaseThirdHp) {
 			attackPhase = AttackPhase::THIRD;
 		}
 	}
 
+	//HPゲージにHPと最大HPを渡しアップデートする
+	hpGauge.ReferenceHp(hp, maxHp);
+	hpGauge.Update();
+
+	AnimUpdate();
+
 	color = kColor;
+}
+
+void Stage2Boss::AnimUpdate() {
+
 }
 
 void Stage2Boss::Draw() const {
@@ -74,13 +94,22 @@ void Stage2Boss::Draw() const {
 		return;
 	}
 
-	Novice::ScreenPrintf(0, 0, "%d/%d", hp, maxHp);
+	Novice::ScreenPrintf(0, 1000, "%d/%d", hp, maxHp);
+
+	//一次元と二次元で見た目を変える
+	if (currentDimension == DimensionState::TWO) {
+		AnimDraw();
+	} else {
+		renderer.DrawSprite(transform, width, height, 0.0f, grHandleBox, color);
+	}
 
 	for (int i = 0; i < kBulletMax; i++) {
 		bullets[i].Draw();
 	}
+}
 
-	renderer.DrawSprite(transform, width, height, 0.0f, grHandleCaracter, color);
+void Stage2Boss::AnimDraw() const {
+	renderer.DrawSprite(transform, width, height, 0.0f, grHandleBox, color);
 }
 
 void Stage2Boss::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
@@ -90,6 +119,7 @@ void Stage2Boss::Move() {
 }
 
 void Stage2Boss::TakeDamage(int damage) {
+	//死んだら、ここで返る
 	if (!isAlive) {
 		return;
 	}
@@ -113,20 +143,8 @@ void Stage2Boss::Destory() {
 
 void Stage2Boss::Shot() {
 	switch (attack) {
-	case Stage2BossAttack::WALL:
-		AttackWall();
-		break;
-	case Stage2BossAttack::MACHINGUN:
-		AttackMachingun();
-		break;
-	case Stage2BossAttack::TUNNEL:
-		AttackFishBone();
-		break;
-	case Stage2BossAttack::ALL_WALL:
-		AttackAllWall();
-		break;
-	case Stage2BossAttack::FOURWALL:
-		AttackFourWall();
+	case Stage2BossAttack::NORMAL:
+		AttackNormal();
 		break;
 	}
 
@@ -136,13 +154,13 @@ void Stage2Boss::Shot() {
 void Stage2Boss::CommonAttackSelect() {
 	switch (attackPhase) {
 	case AttackPhase::FIRST:
-		attack = Stage2BossAttack::WALL;
+		attack = Stage2BossAttack::NORMAL;
 		break;
 	case AttackPhase::SECOND:
-		attack = Stage2BossAttack::MACHINGUN;
+		attack = Stage2BossAttack::NORMAL;
 		break;
 	case AttackPhase::THIRD:
-		attack = Stage2BossAttack::FOURWALL;
+		attack = Stage2BossAttack::NORMAL;
 		break;
 	}
 }
@@ -151,235 +169,43 @@ void Stage2Boss::SpecialAttackSelect() {
 	int randomAttack;
 	switch (attackPhase) {
 	case AttackPhase::FIRST:
+		//攻撃を2つの中から一つ抽選して現在の攻撃にする
 		randomAttack = Random::RandomInt(1, 2);
 
 		if (randomAttack == 1) {
-			attack = Stage2BossAttack::ALL_WALL;
+			attack = Stage2BossAttack::NORMAL;
 		} else if (randomAttack == 2) {
-			attack = Stage2BossAttack::TUNNEL;
+			attack = Stage2BossAttack::NORMAL;
 		} else {
 		}
 		break;
 	case AttackPhase::SECOND:
-		randomAttack = Random::RandomInt(1, 2);
 
-		if (randomAttack == 1) {
-			attack = Stage2BossAttack::ALL_WALL;
-		} else if (randomAttack == 2) {
-			attack = Stage2BossAttack::TUNNEL;
-		} else {
-		}
 		break;
 	case AttackPhase::THIRD:
-		randomAttack = Random::RandomInt(1, 2);
-		
-		if (randomAttack == 1) {
-			attack = Stage2BossAttack::ALL_WALL;
-		} else if (randomAttack == 2) {
-			attack = Stage2BossAttack::TUNNEL;
-		} else {
-		}
+
 		break;
 	}
 }
 
-void Stage2Boss::AttackWall() {
+void Stage2Boss::AttackNormal() {
 	if (shotTimer >= 80) {
 		shotTimer = 0;
 
-		int randomPosition;
-
-		if (shotCounter >= 7) {
-			randomPosition = Random::RandomInt(0, 1);
-
-			for (int i = 0; i < kBulletMax; i++) {
-				if (!bullets[i].isActive) {
-					InitializeBullets(i, {});
-					bullets[i].height = 160.0f;
-					if (randomPosition == 0) {
-						bullets[i].ShotDir({ transform.position.x, 160.0f }, { 1.0f, 0.0f }, 0.0f);
-					} else {
-						bullets[i].ShotDir({ transform.position.x, -160.0f }, { 1.0f, 0.0f }, 0.0f);
-					}
-					break;
-				}
-			}
-		} else {
-			randomPosition = Random::RandomInt(-1, 1);
-
-			for (int i = 0; i < kBulletMax; i++) {
-				if (!bullets[i].isActive) {
-					InitializeBullets(i, {});
-					bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPosition)) }, { 1.0f, 0.0f }, 0.0f);
-					break;
-				}
-			}
-		}
-
-		if (shotCounter >= 7) {
-			shotCounter = 0;
-
-			SpecialAttackSelect();
-		} else {
-			shotCounter++;
-		}
-	}
-}
-
-void Stage2Boss::AttackFourWall() {
-	randomPositionY;
-
-	if (shotTimer >= 160) {
-		shotTimer = -1;
-
-		if (shotCounter >= 3) {
-			shotCounter = 0;
-
-			SpecialAttackSelect();
-		} else {
-			shotCounter++;
-		}
-	} else if (shotTimer >= 80) {
-
-	} else if (shotTimer >= 1) {
-		if (shotTimer % 20 == 0) {
-			for (int i = 0; i < kBulletMax; i++) {
-				if (!bullets[i].isActive) {
-					InitializeBullets(i, {});
-					bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPositionY)) }, { 1.0f, 0.0f }, 0.0f);
-					break;
-				}
-			}
-		}
-
-	} else {
-
-		randomPositionY = Random::RandomInt(-1, 1);
+		int randomPosition = Random::RandomInt(-1, 1);
 
 		for (int i = 0; i < kBulletMax; i++) {
 			if (!bullets[i].isActive) {
 				InitializeBullets(i, {});
-				bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPositionY)) }, { 1.0f, 0.0f }, 0.0f);
+				bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
 				break;
-			}
-		}
-
-	}
-}
-
-void Stage2Boss::AttackMachingun() {
-	if (shotTimer >= 40) {
-		shotTimer = 0;
-
-		int randomPosition = Random::RandomInt(0, 3);
-
-		for (int i = 0; i < kBulletMax; i++) {
-			if (!bullets[i].isActive) {
-				InitializeBullets(i,{.height = 120.0f});
-				bullets[i].ShotDir({ transform.position.x, -180.0f + (120.0f * static_cast<float>(randomPosition)) }, { 1.0f, 0.0f }, 0.0f);
-				break;
-			}
-		}
-
-		if (shotCounter >= 15) {
-			shotCounter = 0;
-
-			SpecialAttackSelect();
-
-		} else {
-			shotCounter++;
-		}
-	}
-
-
-
-}
-
-void Stage2Boss::AttackFishBone() {
-	if(shotTimer % 8 == 0) {
-		if (shotTimer >= 16) {
-			shotTimer = 0;
-		}
-
-		if (shotCounter % 2 == 0) {
-			for (int i = 0; i < kBulletMax; i++) {
-				if (shotCounter % 10 == 4) {
-					if (!bullets[i].isActive) {
-						InitializeBullets(i, { .height = 200.0f });
-						bullets[i].ShotDir({ transform.position.x, 140.0f }, { 1.0f, 0.0f }, 0.0f);
-						break;
-
-					}
-				} else {
-					if (!bullets[i].isActive) {
-						InitializeBullets(i, { .height = 120.0f });
-						bullets[i].ShotDir({ transform.position.x, 180.0f }, { 1.0f, 0.0f }, 0.0f);
-						break;
-					}
-				}
-
-
-			}
-		} else {
-			for (int i = 0; i < kBulletMax; i++) {
-				if (shotCounter % 10 == 9) {
-					if (!bullets[i].isActive) {
-						InitializeBullets(i, { .height = 200.0f });
-						bullets[i].ShotDir({ transform.position.x, -140.0f }, { 1.0f, 0.0f }, 0.0f);
-						break;
-					}
-
-				} else {
-					if (!bullets[i].isActive) {
-						InitializeBullets(i, { .height = 120.0f });
-						bullets[i].ShotDir({ transform.position.x, -180.0f }, { 1.0f, 0.0f }, 0.0f);
-						break;
-					}
-				}
-			}
-		}
-
-		if (shotCounter >= 29) {
-			shotCounter = 0;
-
-			CommonAttackSelect();
-		} else {
-			shotCounter++;
-		}
-	}
-}
-
-void Stage2Boss::AttackAllWall() {
-	if (shotTimer >= 80) {
-		shotTimer = 0;
-
-		int randomPosition;
-
-		if (shotCounter == 7 || shotCounter == 0) {
-			for (int i = 0; i < kBulletMax; i++) {
-				if (!bullets[i].isActive) {
-					bullets[i].height = 480.0f;
-					InitializeBullets(i, {.height = 480.0f});
-					bullets[i].ShotDir({ transform.position.x, 0.0f }, { 1.0f, 0.0f }, 0.0f);
-					break;
-				}
-			}
-		} else {
-			randomPosition = Random::RandomInt(-1, 1);
-
-			for (int i = 0; i < kBulletMax; i++) {
-				if (!bullets[i].isActive) {
-					InitializeBullets(i, {});
-					bullets[i].ShotDir({ transform.position.x, 0 + (160.0f * static_cast<float>(randomPosition)) }, { 1.0f, 0.0f }, 0.0f);
-					break;
-				}
 			}
 		}
 
 		if (shotCounter >= 7) {
 			shotCounter = 0;
 
-			CommonAttackSelect();
+			SpecialAttackSelect();
 		} else {
 			shotCounter++;
 		}

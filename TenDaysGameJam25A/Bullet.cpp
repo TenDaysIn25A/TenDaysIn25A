@@ -14,6 +14,7 @@ void Bullet::Initialize() {
 	waveOffsetY = 0.0f;
 	isLightShines = false;
 	isTurn = false;
+	isHermitClabStop = false;
 	transform.scale = { 1.0f,1.0f };
 	transform.position = { -1000.0f, -1000.0f };
 	grHandle = Novice::LoadTexture("./Resources/images/box.png");
@@ -41,6 +42,8 @@ void Bullet::Update() {
 		WaveMove();
 	} else if (type == BulletType::TURN) {
 		TurnMove();
+	} else if (type == BulletType::HERMITCLAB) {
+		ClabMove();
 	} else {
 		Move();
 	}
@@ -227,7 +230,6 @@ void Bullet::FishMove() {
 
 			velocity = direction * -speed;
 
-
 			transform.rotation = static_cast<float>(M_PI) * 2.0f;
 			transform.Translate(velocity);
 
@@ -288,7 +290,7 @@ void Bullet::TurnMove() {
 	} else {
 		if (theta <= 90.0f) {
 			theta = 90.0f;
-			transform.rotation = static_cast<float>(M_PI)*2;
+			transform.rotation = static_cast<float>(M_PI) * 2;
 			velocity.x = speed;
 		} else {
 			if (waveOffsetX <= -400.0f) {
@@ -298,6 +300,25 @@ void Bullet::TurnMove() {
 			}
 		}
 	}
+}
+
+void Bullet::PlayerBulletHit() {
+	if (type == BulletType::HERMITCLAB) {
+		isHermitClabStop = true;
+		velocity.x = 10.0f;
+	}
+}
+
+void Bullet::ClabMove() {
+	if (isHermitClabStop) {
+		if (velocity.x <= 0.0f) {
+			velocity.x = 0.0f;
+		} else {
+			velocity -= 1.0f;
+		}
+	}
+
+	transform.Translate(velocity);
 }
 
 void Bullet::FishLightShine(const Vector2& lightPos) {

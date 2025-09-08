@@ -25,7 +25,7 @@ void Player::Initialize() {
 	hitBoxHeight = 50.0f;
 	hitBoxWidth = 50.0f;
 
-	shotType = ShotType::SHOTGUN;
+	shotType = ShotType::MACHINEGUN;//ShotType::SHOTGUN;
 	shotCoolTime = kDefaultShotCoolTime;
 	magazine = 0;
 	pelletAmount = 0;

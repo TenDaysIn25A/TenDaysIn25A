@@ -9,7 +9,7 @@ void Stage1Boss::Initialize() {
 	isAlive = true;
 	isEnd = false;
 	isPhase3Start = false;
-	isStartAnimation = true;
+	isStartAnimation = false;
 	isAnger = false;
 	isTemptation = false;
 	hp = 0;
@@ -1230,15 +1230,14 @@ void Stage1Boss::AttackLight() {
 	} else if (shotTimer >= 180) {
 
 	} else if (shotTimer > 61) {
-		if (bullets[60].velocity.x >= 0.0f) {
+		/*if (bullets[60].velocity.x >= 0.0f) {
 			bullets[60].velocity.x = 0.0f;
 
 		} else {
 			if (bullets[60].transform.position.x <= 0.0f) {
-				//bullets[60].transform.position.x = -200.0f;
 				bullets[60].velocity.x += 0.5f;
 			}
-		}
+		}*/
 
 	} else if (shotTimer > 60) {
 
@@ -1254,7 +1253,7 @@ void Stage1Boss::AttackLight() {
 
 			if (!bullets[60].isActive) {
 				if (!bullets[60].effect.GetIsActive()) {
-					InitializeBullets(60, { .height = 160.0f ,.grHandle = grHandleTwinBlocks });
+					InitializeBullets(60, { .height = 160.0f ,.type = BulletType::HERMITCLAB,.grHandle = grHandleTwinBlocks });
 					bullets[60].ShotDir({ 640.0f + (bullets[60].width), 0.0f }, { -1.0f, 0.0f }, 0.0f);
 				}
 			}

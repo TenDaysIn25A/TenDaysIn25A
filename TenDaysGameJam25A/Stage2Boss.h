@@ -2,9 +2,10 @@
 #include "Dlib.h"
 #include "Bullet.h"
 #include "Enemy.h"
+#include "EnemyHpGauge.h"
 
 enum class Stage2BossAttack {
-	WALL, MACHINGUN, TUNNEL, ALL_WALL,FOURWALL
+	NORMAL,
 };
 
 class Stage2Boss {
@@ -24,9 +25,9 @@ public:
 		float height = kBulletNormalHeight;
 		int damage = kBulletNormalDamage;
 		unsigned int color = 0xFFFFFFFF;
+		BulletType type = BulletType::SHOT;
 		int grHandle = Novice::LoadTexture("./Resources/images/box.png");
 	};
-
 
 	// ----------------------------------------------
 	// メンバ関数
@@ -93,31 +94,6 @@ public:
 	// ----------------------------------------------
 
 	/// <summary>
-	/// アタックウォールの攻撃パターン
-	/// </summary>
-	void AttackWall();
-
-	/// <summary>
-	/// アタックマシンガンの攻撃パターン
-	/// </summary>
-	void AttackMachingun();
-
-	/// <summary>
-	/// アタック連打の攻撃パターン
-	/// </summary>
-	void AttackFishBone();
-
-	/// <summary>
-	/// アタックオールウォールの攻撃パターン
-	/// </summary>
-	void AttackAllWall();
-
-	/// <summary>
-	/// アタックオールウォールの攻撃パターン
-	/// </summary>
-	void AttackFourWall();
-
-	/// <summary>
 	/// 特殊攻撃をフェーズごとに選択
 	/// </summary>
 	void SpecialAttackSelect();
@@ -127,6 +103,28 @@ public:
 	/// </summary>
 	void CommonAttackSelect();
 
+	/// <summary>
+	/// アタックノーマルの攻撃パターン
+	/// </summary>
+	void AttackNormal();
+
+private:
+	/// <summary>
+	/// アニメーションの初期化
+	/// </summary>
+	void AnimInitialize();
+
+	/// <summary>
+	/// 敵のアニメーションを実行する
+	/// </summary>
+	void AnimUpdate();
+
+	/// <summary>
+	/// 敵のアニメーションの描画処理
+	/// </summary>
+	void AnimDraw() const;
+
+	public:
 	// ----------------------------------------------
 	// メンバ変数
 	// ----------------------------------------------
@@ -157,6 +155,8 @@ public:
 	static constexpr int kBulletNormalDamage = 1;
 	int grHandleBullet;
 
+	EnemyHpGauge hpGauge;
+
 	Stage2BossAttack attack;
 	AttackPhase attackPhase;
 
@@ -167,20 +167,16 @@ public:
 	bool isAlive;
 
 	const unsigned int kDamageColor = 0xAA5555FF;
-	const unsigned int kColor = 0xFFFFAAFF;
+	const unsigned int kColor = 0xAA00CCFF;
 	int color;
-
-	int attackPositionX;
 
 	int shotTimer;
 	int shotCounter;
 
-	int exchengePhaseSecondHp;
-	int exchengePhaseThirdHp;
-
-	int randomPositionY;
+	static constexpr int kExchengePhaseThirdHp = 300;
+	static constexpr int kExchengePhaseSecondHp = 600;
 
 	// 描画
 	// 
-	int grHandleCaracter;
+	int grHandleBox;
 };

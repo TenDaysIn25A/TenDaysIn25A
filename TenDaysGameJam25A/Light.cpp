@@ -4,7 +4,7 @@ Light::Light() { Initialize(); };
 
 void Light::Initialize() {
 
-	transform.position = { 0.0f,0.0f };
+	transform.position = { 500.0f,0.0f };
 	radius = { 50.0f ,50.0f};
 	isActive = false;
 	lightNotice = false;

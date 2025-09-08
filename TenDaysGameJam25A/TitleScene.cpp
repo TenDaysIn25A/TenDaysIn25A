@@ -15,11 +15,12 @@ void TitleScene::Initialize() {
 
 	buttonToStageSelect.transform.position = { 0.0f, -100.0f };
 	buttonToConfig.transform.position = { 0.0f, -170.0f };
-	buttonToCredit.transform.position = { 0.0f, -240.0f};
-	buttonToEnd.transform.position = { 550.0f, -330.0f};
+	buttonToCredit.transform.position = { 0.0f, -240.0f };
+	buttonToEnd.transform.position = { 550.0f, -330.0f };
 
 	backGround.Initialize();
 	player.Initialize();
+
 	for (int bi = 0;bi < kBulletMax;bi++) {
 		bullets[bi].Initialize();
 		bullets[bi].height = 80.0f;
@@ -27,6 +28,7 @@ void TitleScene::Initialize() {
 		bullets[bi].direction = { -1.0f, 0.0f };
 		bullets[bi].damage = 0;
 		bullets[bi].speed = 20.0f;
+		bullets[bi].transform.position = { 600.0f,0.0f };
 	}
 
 	shotCoolTime = 60;
@@ -64,14 +66,13 @@ void TitleScene::Update() {
 	buttonToCredit.Update();
 	buttonToEnd.Update();
 
-
 }
 
 void TitleScene::MiniGame() {
 	if (currentDimension == DimensionState::ONE) {
 		player.Update();
 
-		
+
 	}
 
 	player.transform.position.x = -270.0f;
@@ -93,7 +94,31 @@ void TitleScene::MiniGame() {
 		}
 	}
 
+	shotCoolTime--;
+
+	if (shotCoolTime <= 0) {
+		for (int bi = 0;bi < kBulletMax;bi++) {
+
+			if (!bullets[bi].isActive) {
+				if (!bullets[bi].effect.GetIsActive()) {
+					bullets[bi].speed = Random::RandomFloat(10.0f, 30.0f);
+					bullets[bi].ShotDir({ 600.0f,0.0f }, bullets[bi].direction, 0.0f);
+
+					break;
+				}
+			}
+		}
+		shotCoolTime = Random::RandomInt(30,60);
+	}
+
+	for (int bi = 0;bi < kBulletMax;bi++) {
+
+		bullets[bi].Update();
+	}
+
 	backGround.Update();
+
+	MiniGameCheckHitAll();
 
 	Vector2 reactionPosition = { player.transform.position.x, player.transform.position.y + 100.0f };
 	if (player.click.GetClickTrigger(0)) {
@@ -118,21 +143,11 @@ void TitleScene::MiniGame() {
 	}
 }
 
-void TitleScene::MiniGameCheckHitAl() {
+void TitleScene::MiniGameCheckHitAll() {
 
-	if (currentDimension == DimensionState::ONE) {
+	for (int bi = 0; bi < kBulletMax; bi++) {
 
-		shotCoolTime--;
-
-		if (shotCoolTime <= 0) {
-			shotCoolTime = Random::RandomInt(30, 60);
-		}
-
-		for (int bi = 0; bi < kBulletMax; bi++) {
-
-			if (!bullets[bi].isActive) {
-				continue;
-			}
+		if (bullets[bi].isActive) {
 
 			//パリィの当たり判定
 			if (player.parry.isParry) {
@@ -152,42 +167,40 @@ void TitleScene::MiniGameCheckHitAl() {
 					}
 
 					bullets[bi].Deactive();
+					break;
 
 				} else {
-
-				}
-
-				if (player.parry.parryState == ParryState::NONE) {
-					player.currentStamina -= player.kMissConsumedStamina;
-				}
-
-			}
-		}
-
-		// プレイヤーとエネミーの弾の当たり判定（１次元）
-		for (int bi = 0; bi < kBulletMax; bi++) {
-			if (bullets[bi].isActive) {
-				if (Collision::BoxToBox(player.transform.position, player.width, player.hitBoxHeight, { bullets[bi].transform.position.x, 0.0f }, bullets[bi].width,bullets[bi].height)) {
-
-					bullets[bi].Deactive();
-
-					if (!player.isInvinciblity) {
-						player.TakeDamage(1);
-						bullets[bi].transform.position.x = 0.0f;
-						player.isInvinciblity = true;
-					}
 
 				}
 			}
 		}
 	}
 
+	// プレイヤーとエネミーの弾の当たり判定（１次元）
+	for (int bi = 0; bi < kBulletMax; bi++) {
+		if (bullets[bi].isActive) {
+			if (Collision::BoxToBox(player.transform.position, player.width, player.hitBoxHeight, { bullets[bi].transform.position.x, 0.0f }, bullets[bi].width, bullets[bi].height)) {
+
+				bullets[bi].Deactive();
+
+				if (!player.isInvinciblity) {
+					player.TakeDamage(1);
+					bullets[bi].transform.position.x = 600.0f;
+					player.isInvinciblity = true;
+				}
+
+				break;
+			}
+		}
+	}
 }
+
+
 
 void TitleScene::Draw() const {
 	Novice::DrawBox(0, 0, 1280, 720, 0.0f, 0x000000FF, kFillModeSolid);
-	if (currentDimension == DimensionState::TWO){
-		renderer.DrawSprite(transform, width, height, 0.0f, grHandle, 0xFFFFFFFF); 
+	if (currentDimension == DimensionState::TWO) {
+		renderer.DrawSprite(transform, width, height, 0.0f, grHandle, 0xFFFFFFFF);
 		buttonToStageSelect.Draw();
 		buttonToConfig.Draw();
 		buttonToCredit.Draw();
@@ -195,13 +208,23 @@ void TitleScene::Draw() const {
 	} else {
 		player.Draw();
 	}
+	if (currentDimension == DimensionState::ONE) {
+		for (int bi = 0;bi < kBulletMax;bi++) {
+			bullets[bi].Draw();
+		}
+	}
 
 	if (isStartMinigame) {
 		backGround.Draw();
-		player.miss.Draw();
-		player.nice.Draw();
-		player.just.Draw();
 	}
+
+	player.miss.Draw();
+	player.nice.Draw();
+	player.just.Draw();
+
+	Novice::ScreenPrintf(100, 360, "%d", isStartMinigame);
+	Novice::ScreenPrintf(116, 360, "%d", isEndMinigame);
+	Novice::ScreenPrintf(132, 360, "%d", miniGameEndTime);
 }
 
 void TitleScene::SetCamera() {

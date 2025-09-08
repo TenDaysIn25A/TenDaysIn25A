@@ -11,10 +11,10 @@ void GameScene::Initialize() {
 	stage5Scene.Initialize();
 	backGround.Initialize();
 	player.Initialize();
-
 }
 
 void GameScene::Update() {
+
 
 	input.Update();
 	click.Update();
@@ -58,6 +58,7 @@ void GameScene::Update() {
 	if (currentDimension == DimensionState::ONE) {
 		player.transform.position.y = 0.0f;
 	}
+
 
 	switch (currentStage) {
 
@@ -112,7 +113,7 @@ void GameScene::Update() {
 
 void GameScene::CheckHitAll() {
 
-	Novice::ScreenPrintf(116, 116, "%d", player.isInvinciblity);
+	//Novice::ScreenPrintf(148, 116, "%d", player.isInvinciblity);
 
 	if (currentDimension == DimensionState::ONE) {
 		for (int bi = 0; bi < enemy.kBulletMax; bi++) {
@@ -136,22 +137,26 @@ void GameScene::CheckHitAll() {
 					} else {
 						player.parry.parryState = ParryState::NORMAL;
 						player.parry.color = 0xFFFF00FF;
+						player.magazine++;
 					}
-					stage1Scene.enemy.bullets[bi].effect.SetColor(player.parry.color);
 
 					stage1Scene.enemy.bullets[bi].Deactive();
+
 				} else {
 
-					player.currentStamina -= player.kMissConsumedStamina;
-
 				}
+
+				if (player.parry.parryState == ParryState::NONE) {
+					player.currentStamina -= player.kMissConsumedStamina;
+				}
+
 			}
 		}
 
 		// プレイヤーとエネミーの弾の当たり判定（１次元）
 		for (int bi = 0; bi < stage1Scene.enemy.kBulletMax; bi++) {
 			if (stage1Scene.enemy.bullets[bi].isActive) {
-				if (Collision::BoxToBox(player.transform.position, player.width, player.height, { stage1Scene.enemy.bullets[bi].transform.position.x, 0.0f }, stage1Scene.enemy.bullets[bi].width, stage1Scene.enemy.bullets[bi].height)) {
+				if (Collision::BoxToBox(player.transform.position, player.width, player.hitBoxHeight, { stage1Scene.enemy.bullets[bi].transform.position.x, 0.0f }, stage1Scene.enemy.bullets[bi].width, stage1Scene.enemy.bullets[bi].height)) {
 
 					stage1Scene.enemy.bullets[bi].Deactive();
 
@@ -169,7 +174,7 @@ void GameScene::CheckHitAll() {
 		for (int bi = 0; bi < stage1Scene.enemy.kBulletMax; bi++) {
 			if (stage1Scene.enemy.bullets[bi].isActive) {
 				// 縦幅を少し小さくして、ちょうど当たってるときは当たらないようにする
-				if (Collision::BoxToBox(player.transform.position, player.width, player.height - 6.0f, stage1Scene.enemy.bullets[bi].transform.position, stage1Scene.enemy.bullets[bi].width, stage1Scene.enemy.bullets[bi].height)) {
+				if (Collision::BoxToBox(player.transform.position, player.hitBoxWidth, player.hitBoxWidth - 6.0f, stage1Scene.enemy.bullets[bi].transform.position, stage1Scene.enemy.bullets[bi].width, stage1Scene.enemy.bullets[bi].height)) {
 
 					stage1Scene.enemy.bullets[bi].Deactive();
 
@@ -192,9 +197,20 @@ void GameScene::CheckHitAll() {
 					if (Collision::BoxToBox(
 						stage1Scene.enemy.bullets[j].transform.position, stage1Scene.enemy.bullets[j].width, stage1Scene.enemy.bullets[j].height, player.bullets[i].transform.position, player.bullets[i].width,
 						player.bullets[i].height)) {
+						if (stage1Scene.enemy.bullets[j].type == BulletType::HERMITCLAB) {
 
-						player.bullets[i].effect.SetColor(player.bullets[i].color);
-						player.bullets[i].Deactive();
+							player.bullets[i].effect.SetColor(player.bullets[i].color);
+							player.bullets[i].Deactive();
+
+							stage1Scene.enemy.bullets[j].PlayerBulletHit();
+						} else {
+							player.bullets[i].effect.SetColor(player.bullets[i].color);
+							player.bullets[i].Deactive();
+
+							if (player.isUpDamage) {
+								stage1Scene.enemy.bullets[j].Deactive();
+							}
+						}
 					}
 				}
 			}
@@ -263,8 +279,8 @@ void GameScene::Draw()const {
 
 	Novice::DrawBox(0, 120, 1281, 480, 0.0f, 0x000000FF, kFillModeSolid);
 
-	Novice::ScreenPrintf(132, 132, "%d", stage1Scene.enemy.light.lightNotice);
-	Novice::ScreenPrintf(148, 132, "%d", stage1Scene.enemy.shotTimer);
+	//Novice::ScreenPrintf(132, 132, "%d", stage1Scene.enemy.light.lightNotice);
+	//Novice::ScreenPrintf(148, 132, "%d", stage1Scene.enemy.shotTimer);
 
 	if (stage1Scene.enemy.light.lightNotice) {
 		Transform2D lightBg;
@@ -280,7 +296,7 @@ void GameScene::Draw()const {
 
 		stage1Scene.Draw();
 
-		Novice::ScreenPrintf(100, 16, "Stage1");
+		//Novice::ScreenPrintf(100, 16, "Stage1");
 
 		break;
 
@@ -289,28 +305,28 @@ void GameScene::Draw()const {
 
 		stage2Scene.Draw();
 
-		Novice::ScreenPrintf(100, 16, "Stage2");
+		//Novice::ScreenPrintf(100, 16, "Stage2");
 
 		break;
 
 	case Stage::STAGE3:
 		stage3Scene.Draw();
 
-		Novice::ScreenPrintf(100, 16, "Stage3");
+		//Novice::ScreenPrintf(100, 16, "Stage3");
 
 		break;
 
 	case Stage::STAGE4:
 		stage4Scene.Draw();
 
-		Novice::ScreenPrintf(100, 16, "Stage4");
+		//Novice::ScreenPrintf(100, 16, "Stage4");
 
 		break;
 
 	case Stage::STAGE5:
 		stage5Scene.Draw();
 
-		Novice::ScreenPrintf(100, 16, "Stage5");
+		//Novice::ScreenPrintf(100, 16, "Stage5");
 
 		break;
 	}
@@ -328,13 +344,27 @@ void GameScene::Draw()const {
 	player.nice.Draw();
 	player.just.Draw();
 
-	stage1Scene.enemy.hpGauge.Draw();
 
-	for (int i = 0;i < player.currentLife;i++) {
-		renderer.DrawSprite(player.life[i], player.lifeWidth, player.lifeHeight, 0.0f, player.grhandleLife, 0xFF6666FF);
+	switch (currentStage) {
+
+	case Stage::STAGE1:
+
+		stage1Scene.enemy.hpGauge.Draw();
+
+		break;
+
+	case Stage::STAGE2:
+
+		stage2Scene.enemy.hpGauge.Draw();
+
+		break;
 	}
 
-	Novice::ScreenPrintf(640, 360, "%f", player.currentStamina);
+	for (int i = 0;i < player.currentLife;i++) {
+		renderer.DrawSprite(player.life[i], player.lifeWidth, player.lifeHeight, 0.0f, player.grhandleLife, 0xFFFFFFFF);
+	}
+
+	//Novice::ScreenPrintf(640, 360, "%f", player.currentStamina);
 }
 
 void GameScene::ExchangeStage(Stage changeStage) {

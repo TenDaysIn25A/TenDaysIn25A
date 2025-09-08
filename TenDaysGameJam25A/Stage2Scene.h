@@ -53,6 +53,6 @@ public:
 
 
 	ParryState parryState;
-	Stage2Boss enemy;
+	Stage2Boss stage2Boss;
 };
 

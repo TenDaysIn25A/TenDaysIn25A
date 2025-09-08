@@ -17,7 +17,7 @@ public:
 	void Draw() const;
 	void SetCamera();
 	void MiniGame();
-	void MiniGameCheckHitAl();
+	void MiniGameCheckHitAll();
 
 	//===============================
 	// メンバ変数
@@ -50,6 +50,8 @@ public:
 	//ミニゲーム用の弾
 	Bullet bullets[kBulletMax];
 	int shotCoolTime;
+
+	int miniGameLife;
 
 	// ボタン
 	Button buttonToStageSelect;

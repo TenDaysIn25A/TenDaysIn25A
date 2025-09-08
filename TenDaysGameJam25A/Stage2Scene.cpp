@@ -4,52 +4,26 @@ Stage2Scene::Stage2Scene() { Initialize(); }
 
 void Stage2Scene::Initialize() {
 
-	enemy.Initialize();
-
+	stage2Boss.Initialize();
 
 	currentDimension = DimensionState::TWO;
 }
+
 void Stage2Scene::Update() {
-	// ここで各更新処理を行う
-	input.Update();
 
-
-
-	
-
-	if (input.GetKeyTrigger(DIK_0)) {
-		if (currentDimension == DimensionState::ONE) {
-			currentDimension = DimensionState::TWO;
-		} else {
-			currentDimension = DimensionState::ONE;
-		}
-	}
-
-	if (input.GetKeyTrigger(DIK_I)) {
-		Initialize();
-	}
-
-	enemy.Update();
-
-
-
+	stage2Boss.Update();
 
 	SetCamera();
 }
 
 void Stage2Scene::Draw() const {
 
-	Novice::DrawBox(0, 120, 1281, 480, 0.0f, 0x000000FF, kFillModeSolid);
-
-	enemy.Draw();
-
-	
-
+	stage2Boss.Draw();
 
 }
 
 void Stage2Scene::SetCamera() {
-	enemy.SetCamera(camera);
+	stage2Boss.SetCamera(camera);
 }
 
 void Stage2Scene::CheckHitAll() {

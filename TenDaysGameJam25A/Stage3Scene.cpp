@@ -4,7 +4,7 @@ Stage3Scene::Stage3Scene() { Initialize(); }
 
 void Stage3Scene::Initialize() {
 
-	enemy.Initialize();
+	stage3Boss.Initialize();
 
 
 
@@ -27,7 +27,7 @@ void Stage3Scene::Update() {
 		}
 	}
 
-	enemy.Update();
+	stage3Boss.Update();
 
 	
 	SetCamera();
@@ -37,7 +37,7 @@ void Stage3Scene::Draw() const {
 
 	Novice::DrawBox(0, 120, 1281, 480, 0.0f, 0x000000FF, kFillModeSolid);
 
-	enemy.Draw();
+	stage3Boss.Draw();
 
 
 
@@ -45,7 +45,7 @@ void Stage3Scene::Draw() const {
 
 void Stage3Scene::SetCamera() {
 	
-	enemy.SetCamera(camera);
+	stage3Boss.SetCamera(camera);
 }
 
 void Stage3Scene::CheckHitAll() {

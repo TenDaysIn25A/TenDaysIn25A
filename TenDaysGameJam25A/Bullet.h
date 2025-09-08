@@ -2,7 +2,7 @@
 #include "Dlib.h"
 
 enum class BulletType{
-	SHOT,RETURNFISH,SQUID,WAVE,TURN
+	SHOT,RETURNFISH,SQUID,WAVE,TURN,HERMITCLAB,
 };
 
 class Bullet {
@@ -27,12 +27,15 @@ public:
 
 	void FishLightShine(const Vector2& lightPos);
 
+	void PlayerBulletHit();
+
 private:
 	void Move();
 	void FishMove();
 	void squidMove();
 	void WaveMove();
 	void TurnMove();
+	void ClabMove();
 public:
 	// ステータス
 	int damage;
@@ -48,6 +51,8 @@ public:
 	float waveAmplitudeY;
 	float waveOffsetX;
 	float waveOffsetY;
+	
+	int isHermitClabStop;
 
 	// 物理プロパティ
 	float speed;
