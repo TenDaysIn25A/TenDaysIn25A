@@ -116,6 +116,9 @@
     <Filter Include="Sources\Objects\Enemy\Light">
       <UniqueIdentifier>{638a539d-250e-4286-ae43-e3975ff1f591}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\System\Control">
+      <UniqueIdentifier>{868d49f1-6a07-4028-82d0-6f7712017a3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
@@ -264,6 +267,24 @@
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>Sources\Scenes\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="BitMapFont.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Laser.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Prediction.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2BossY.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="StopWatch.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlSystem.cpp">
+      <Filter>Sources\System\Control</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -477,6 +498,14 @@
     </ClInclude>
     <ClInclude Include="Light.h">
       <Filter>Sources\Objects\Enemy\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="BitMapFont.h" />
+    <ClInclude Include="Laser.h" />
+    <ClInclude Include="Prediction.h" />
+    <ClInclude Include="Stage2BossY.h" />
+    <ClInclude Include="StopWatch.h" />
+    <ClInclude Include="ControlSystem.h">
+      <Filter>Sources\System\Control</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

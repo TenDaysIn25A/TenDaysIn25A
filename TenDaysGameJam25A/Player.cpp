@@ -148,10 +148,6 @@ void Player::Update() {
 	rightTop.position = { transform.position.x + width / 2.0f,transform.position.y + height / 2.0f };
 	leftBottom.position = { transform.position.x - width / 2.0f,transform.position.y - height / 2.0f };
 	rightBottom.position = { transform.position.x + width / 2.0f,transform.position.y - height / 2.0f };
-
-
-
-
 }
 
 void Player::MachinGunBullet() {

@@ -116,6 +116,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="ConfigScene.cpp" />
+    <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="CreditScene.cpp" />
     <ClCompile Include="Dimension.cpp" />
     <ClCompile Include="DrawEffects.cpp" />
@@ -198,6 +199,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConfigScene.h" />
+    <ClInclude Include="ControlSystem.h" />
     <ClInclude Include="CreditScene.h" />
     <ClInclude Include="Dimension.h" />
     <ClInclude Include="Dlib.h" />

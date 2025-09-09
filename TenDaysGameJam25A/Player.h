@@ -165,7 +165,12 @@ public:
 
 	// 描画
 	// ----------------------------------------------
-	int grHandleCaracterDimTwo;
 	int grHandleCaracterDimOne;
+	int grHandleCaracterDimTwo;
 
+	// 音楽
+	// ----------------------------------------------
+	int auHandleShot;
+	int auHandleParry;
+	int auHandleJustParry;
 };
