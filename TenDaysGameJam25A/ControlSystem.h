@@ -6,7 +6,7 @@
 
 class ControlSystem {
 public:
-	ControlSystem() = default;
+	ControlSystem();
 
 	void Update();
 
@@ -75,6 +75,30 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	int IsBack();
+
+	/// <summary>
+	/// ↑
+	/// </summary>
+	/// <returns></returns>
+	int IsUp();
+
+	/// <summary>
+	/// ↓
+	/// </summary>
+	/// <returns></returns>
+	int IsDown();
+
+	/// <summary>
+	/// ←
+	/// </summary>
+	/// <returns></returns>
+	int IsLeft();
+
+	/// <summary>
+	/// →
+	/// </summary>
+	/// <returns></returns>
+	int IsRight();
 
 private:
 	Input input;

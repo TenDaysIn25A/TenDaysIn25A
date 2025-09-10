@@ -3,6 +3,8 @@
 TitleScene::TitleScene() { Initialize(); };
 
 void TitleScene::Initialize() {
+	currentSelectButton = TO_STAGE_SELECT;
+
 	transform.position = { 0.0f,100.0f };
 	width = 732.0f;
 	height = 192.0f;
@@ -10,13 +12,13 @@ void TitleScene::Initialize() {
 
 	buttonToStageSelect.Initialize(Novice::LoadTexture("./Resources/images/start.png"), 196.0f, 48.0f);
 	//buttonToConfig.Initialize(Novice::LoadTexture("./Resources/images/config.png"), 248.0f, 48.0f);
-	buttonToCredit.Initialize(Novice::LoadTexture("./Resources/images/credit.png"), 248.0f, 48.0f);
-	buttonToEnd.Initialize(Novice::LoadTexture("./Resources/images/quit.png"), 240.0f, 48.0f);
+	//buttonToCredit.Initialize(Novice::LoadTexture("./Resources/images/credit.png"), 248.0f, 48.0f);
+	buttonToEnd.Initialize(Novice::LoadTexture("./Resources/images/quit.png"), 284.0f, 48.0f);
 
 	buttonToStageSelect.transform.position = { 0.0f, -100.0f };
 	//buttonToConfig.transform.position = { 0.0f, -170.0f };
-	buttonToCredit.transform.position = { 0.0f, -240.0f };
-	buttonToEnd.transform.position = { 550.0f, -330.0f };
+	//buttonToCredit.transform.position = { 0.0f, -170.0f };
+	buttonToEnd.transform.position = { 0.0f, -240.0f };
 
 	backGround.Initialize();
 	player.Initialize();
@@ -76,7 +78,7 @@ void TitleScene::Update() {
 
 	buttonToStageSelect.Update();
 	//buttonToConfig.Update();
-	buttonToCredit.Update();
+	//buttonToCredit.Update();
 	buttonToEnd.Update();
 
 }
@@ -140,7 +142,7 @@ void TitleScene::MiniGame() {
 	MiniGameCheckHitAll();
 
 	Vector2 reactionPosition = { player.transform.position.x, player.transform.position.y + 100.0f };
-	if (player.click.GetClickTrigger(0)) {
+	if (player.controler.IsPary()) {
 		if (currentDimension == DimensionState::ONE) {
 			if (player.parry.parryState == ParryState::NONE) {
 				if (player.transform.position.x < -640.0f + player.just.width / 2.0f - 128.0f) {
@@ -256,7 +258,7 @@ void TitleScene::Draw() const {
 		renderer.DrawSprite(transform, width, height, 0.0f, grHandle, 0xFFFFFFFF);
 		buttonToStageSelect.Draw();
 		//buttonToConfig.Draw();
-		buttonToCredit.Draw();
+		//buttonToCredit.Draw();
 		buttonToEnd.Draw();
 	} else {
 		player.Draw();
@@ -279,9 +281,9 @@ void TitleScene::Draw() const {
 	}
 
 
-	Novice::ScreenPrintf(100, 360, "%d", isStartMinigame);
-	Novice::ScreenPrintf(116, 360, "%d", isEndMinigame);
-	Novice::ScreenPrintf(132, 360, "%d", miniGameEndTime);
+	//Novice::ScreenPrintf(100, 360, "%d", isStartMinigame);
+	//Novice::ScreenPrintf(116, 360, "%d", isEndMinigame);
+	//Novice::ScreenPrintf(132, 360, "%d", miniGameEndTime);
 }
 
 void TitleScene::SetCamera() {

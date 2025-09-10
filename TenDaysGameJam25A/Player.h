@@ -79,13 +79,12 @@ public:
 	// システム
 	// ----------------------------------------------
 	Renderer renderer;  // 描画ライブラリをこれで使えるようにしてください。
-	Input input;        // 入力ライブラリをこれで使えるようにしてください。
 	DrawEffects effect; // エフェクト描画ライブラリをこれで使えるようにしてください。
 	Reaction miss;
 	Reaction nice;
 	Reaction just;
 	BackGround backGround;
-	Click click;
+	ControlSystem controler;
 
 	// プレイヤープロパティ
 	// ----------------------------------------------

@@ -101,8 +101,8 @@ void SampleSceneMidzuki::Initialize() {
 	chochinStageColorTextHeight = 60.0f;
 	chochinStageTextColorChongeTimer = 180;
 
-	chochinTextAmplitudeY = 30.0f;
-	chochinTextWavingThetaY = 0.0f;
+	textAmplitudeY = 30.0f;
+	textWavingThetaY = 0.0f;
 	chochinStageColorTextColor = 0xFFFFFFFF;
 }
 
@@ -261,9 +261,9 @@ void SampleSceneMidzuki::Update() {
 		chochinThetaSpeed *= -1.0f;
 	}
 
-	chochinStageWhiteText.position.y = sinf(chochinTextWavingThetaY) * chochinTextAmplitudeY + kChochinStageWhiteTextOffset.y;
+	chochinStageWhiteText.position.y = sinf(textWavingThetaY) * textAmplitudeY + kChochinStageWhiteTextOffset.y;
 
-	chochinTextWavingThetaY += float(M_PI) / 60.0f;
+	textWavingThetaY += float(M_PI) / 60.0f;
 
 	chochinStageColorText.position.y = chochinStageWhiteText.position.y;
 

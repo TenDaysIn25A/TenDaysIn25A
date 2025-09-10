@@ -41,9 +41,9 @@ void SceneManager::Update() {
 		//	ExchangeScene(Scene::CONFIG);
 		//}
 		
-		if (titleScene.buttonToCredit.IsClicked()) {
-			ExchangeScene(Scene::CREDIT);
-		}
+		//if (titleScene.buttonToCredit.IsClicked()) {
+		//	ExchangeScene(Scene::CREDIT);
+		//}
 
 		//Novice::ScreenPrintf(100, 0, "TITLE");
 
@@ -53,6 +53,7 @@ void SceneManager::Update() {
 
 		stageSelectScene.Update();
 		stageSelectScene.Draw();
+		stageSelectScene.isTutorialCleared = gameScene.tutorialScene.isClear;
 
 		if (stageSelectScene.buttonToStage.IsClicked()) {
 			gameScene.ExchangeStage(stageSelectScene.currentStage);
@@ -138,7 +139,9 @@ void SceneManager::Update() {
 			!gameScene.stage2Scene.stage2Boss.isAlive ||
 			!gameScene.stage3Scene.stage3Boss.isAlive ||
 			!gameScene.stage4Scene.enemy.isAlive ||
-			!gameScene.stage5Scene.enemy.isAlive) {
+			!gameScene.stage5Scene.enemy.isAlive||
+			!gameScene.tutorialScene.zako.isAlive) {
+			gameScene.tutorialScene.isClear = true;
 			ExchangeScene(Scene::GAMECLEAR);
 		}
 

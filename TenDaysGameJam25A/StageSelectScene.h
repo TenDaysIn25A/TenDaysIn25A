@@ -41,9 +41,12 @@ public:
 
 	int grHandle;
 
+	Vector2 tutorialDefault;
+
 	Vector2 chochinStageDefault;
 	float animationFirtSpeed;
 	float kAnimationAcceleration  = 8.0f;
+
 
 	Transform2D chochinLight;
 	float chochinLightWidth;
@@ -69,12 +72,24 @@ public:
 	int grHandleChochinStageWhiteText;
 	float chochinStageWhiteTextWidth;
 	float chochinStageWhiteTextHeight;
-	const Vector2 kChochinStageWhiteTextOffset = { 60.0f,-200.0f };
+	const Vector2 kChochinStageWhiteTextOffset = { 60.0f,0.0f };
 
-	float chochinTextAmplitudeY;
-	float chochinTextWavingThetaY;
+	Transform2D tutorialFishBone;
+	float tutorialFishBoneWidth;
+	float tutorialFishBoneHeight;
+	int grHandleTutorialFishBone;
+
+	Transform2D tutorialStageText;
+	int grhandleTutorialStageText;
+	float tutorialStageTextWidth;
+	float tutorialStageTextHeight;
+	const Vector2 kTutorialStageTextOffset = { 0.0f,110.0f };
+
+	float textAmplitudeY;
+	float textWavingThetaY;
 
 	bool isAnimationLeftMove;
 	bool isAnimationRightMove;
+	bool isTutorialCleared;
 };
 

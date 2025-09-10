@@ -1,6 +1,9 @@
 ﻿#include "Bullet.h"
 
-Bullet::Bullet() { Initialize(); }
+Bullet::Bullet() { 
+	auHandleShot = -1;
+	Initialize(); 
+}
 
 void Bullet::Initialize() {
 	speed = 10.0f;
@@ -68,6 +71,10 @@ void Bullet::Draw() const {
 }
 
 void Bullet::ShotPos(const Vector2& startPos, const Vector2& endPos, float spreadRotationDegree) {
+	if (auHandleShot != -1) {
+		Novice::PlayAudio(auHandleShot, false, 0.2f);
+	}
+
 	isActive = true;
 	transform.position = startPos;
 
@@ -91,6 +98,9 @@ void Bullet::ShotPos(const Vector2& startPos, const Vector2& endPos, float sprea
 }
 
 void Bullet::ShotDir(const Vector2& startPos, const Vector2& dir, float spreadRotationDegree) {
+	if (auHandleShot != -1) {
+		Novice::PlayAudio(auHandleShot, false, 0.2f);
+	}
 
 	isActive = true;
 	transform.position = startPos;

@@ -11,15 +11,11 @@ void Parry::Initialize() {
 
 void Parry::Update() {
 
-	input.Update();
-
-	click.Update();
-
 	isParry = false;
 	parryState = ParryState::NONE;
 
 	if (currentDimension == DimensionState::ONE) {
-		if (click.GetClickTrigger(0)) {
+		if (controler.IsPary()) {
 			isParry = true;
 		}
 	}

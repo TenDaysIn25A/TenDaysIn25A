@@ -16,7 +16,6 @@ void GameScene::Initialize() {
 
 void GameScene::Update() {
 
-
 	input.Update();
 	click.Update();
 
@@ -48,7 +47,6 @@ void GameScene::Update() {
 		}
 	}
 
-
 	if (backGround.isChanging) {
 		return;
 	}
@@ -69,7 +67,7 @@ void GameScene::Update() {
 
 	case Stage::TUTORIAL:
 		tutorialScene.Update();
-		player.ClampInWindow2D();
+
 
 		if (currentDimension == DimensionState::TWO) {
 
@@ -80,42 +78,50 @@ void GameScene::Update() {
 			player.transform.rotation = 0.0f;
 		}
 
-		if (tutorialScene.currentTutorialLevel == 1) {
+		if (tutorialScene.currentTutorialLevel == 0) {
+
+		} else if (tutorialScene.currentTutorialLevel == 1) {
+
+			player.Move();
 
 			if (tutorialScene.zako.bullets[0].transform.position.x == 0.0f) {
 
 				if (tutorialScene.intervalTimer >= tutorialScene.kTutorialInterval) {
+
 					if (player.transform.position.y < 80.0f && player.transform.position.y > -80.0f) {
-						player.Move();
+
 					} else {
 						tutorialScene.currentTutorialLevel = 2;
 						tutorialScene.intervalTimer = 0;
+						tutorialScene.isSafe = true;
 					}
 				}
 			}
 		} else if (tutorialScene.currentTutorialLevel == 2) {
+			player.Move();
+			player.controler.Update();
+			if (!tutorialScene.isShot) {
 
-			if (tutorialScene.intervalTimer >= tutorialScene.kTutorialInterval) {
-
-				player.click.Update();
-
-				if (player.bullets[0].isActive) {
-
-					player.bullets[0].Update();
-
-					if (player.bullets[0].transform.position.x >= 400.0f) {
-
-						tutorialScene.currentTutorialLevel = 3;
-						tutorialScene.intervalTimer = 0;
-					}
-
-				} else {
+				if (player.controler.IsShot()) {
 					player.MachinGunBullet();
+					tutorialScene.isShot = true;
+				}
+			}
+
+			if (player.bullets[0].isActive) {
+				player.bullets[0].Update();
+
+				if (player.bullets[0].transform.position.x >= 400.0f) {
+
+
+					tutorialScene.currentTutorialLevel = 3;
+					tutorialScene.intervalTimer = 0;
+
 				}
 			}
 
 		} else if (tutorialScene.currentTutorialLevel == 3) {
-
+			player.Move();
 			if (player.bullets[0].isActive) {
 				player.bullets[0].Deactive();
 				tutorialScene.zako.TakeDamage(player.bullets[0].damage);
@@ -123,9 +129,10 @@ void GameScene::Update() {
 			}
 			player.bullets[0].effect.Update();
 
-			if (tutorialScene.intervalTimer >= tutorialScene.kTutorialInterval) {
+			if (tutorialScene.zako.bullets[0].transform.position.x <= -700.0f) {
 				currentWalker = DimesionWalker::PLAYER;
 			}
+
 			if (currentDimension == DimensionState::ONE) {
 				tutorialScene.currentTutorialLevel = 4;
 				tutorialScene.intervalTimer = 0;
@@ -134,23 +141,25 @@ void GameScene::Update() {
 			}
 
 		} else if (tutorialScene.currentTutorialLevel == 4) {
+			player.Update();
 
-			if (tutorialScene.intervalTimer >= tutorialScene.kTutorialInterval) {
-				player.Update();
-			}
 			tutorialScene.zako.parryArea.position = player.parry.transform.position;
 		} else if (tutorialScene.currentTutorialLevel == 5) {
 			player.Update();
 			if (tutorialScene.intervalTimer == tutorialScene.kTutorialInterval) {
-				
+
 				backGround.Activate();
 			}
 		} else {
+
+			currentWalker = DimesionWalker::PLAYER;
+			player.Update();
 			if (tutorialScene.intervalTimer == tutorialScene.kTutorialInterval) {
-				currentWalker = DimesionWalker::PLAYER;
-				player.Update();
+				tutorialScene.isSafe = false;
 			}
+
 		}
+		player.ClampInWindow2D();
 
 		break;
 
@@ -187,11 +196,8 @@ void GameScene::Update() {
 
 	if (currentStage == Stage::TUTORIAL) {
 
-
-
 	} else {
 		player.Update();
-
 	}
 
 	stage2Scene.stage2Boss.playerPos = player.transform.position;
@@ -199,19 +205,26 @@ void GameScene::Update() {
 	CheckHitAll();
 
 	Vector2 reactionPosition = { player.transform.position.x, player.transform.position.y + 100.0f };
-	if (player.click.GetClickTrigger(0)) {
+
+	if (player.controler.IsPary()) {
+
 		if (currentDimension == DimensionState::ONE) {
+
 			if (player.parry.parryState == ParryState::NONE) {
+
 				if (player.transform.position.x < -640.0f + player.just.width / 2.0f - 128.0f) {
 					reactionPosition.x = -640.0f + player.just.width / 2.0f - 128.0f;
 				}
 				player.miss.Activate({ reactionPosition.x, reactionPosition.y }, 0.0f);
+
 			} else if (player.parry.parryState == ParryState::NORMAL) {
+
 				if (player.transform.position.x < -640.0f + player.just.width / 2.0f - 72.0f) {
 					reactionPosition.x = -640.0f + player.just.width / 2.0f - 72.0f;
 				}
 				player.nice.Activate({ reactionPosition.x, reactionPosition.y }, 0.0f);
 			} else {
+
 				if (player.transform.position.x < -640.0f + player.just.width / 2.0f) {
 					reactionPosition.x = -640.0f + player.just.width / 2.0f;
 				}
@@ -219,6 +232,8 @@ void GameScene::Update() {
 			}
 		}
 	}
+	Novice::ScreenPrintf(0, 0, "%d", player.parry.isParry);
+
 }
 
 void GameScene::CheckHitAll() {
@@ -253,27 +268,37 @@ void GameScene::CheckHitAll() {
 
 		break;
 	}
-
-
-
 }
 
 void GameScene::TutorialCheckHit() {
 
 	if (tutorialScene.currentTutorialLevel == 1 || tutorialScene.currentTutorialLevel == 4) {
 
-		if (tutorialScene.intervalTimer >= tutorialScene.kTutorialInterval) {
+		if (tutorialScene.zako.bullets[0].isActive) {
 
-			if (tutorialScene.zako.bullets[0].isActive) {
-
-				if (player.transform.position.x > tutorialScene.zako.bullets[0].transform.position.x - 80.0f) {
-
-					player.transform.position.x = tutorialScene.zako.bullets[0].transform.position.x - 80.0f;
-				}
+			if (player.transform.position.x > tutorialScene.zako.bullets[0].transform.position.x - 80.0f) {
+				player.transform.position.x = tutorialScene.zako.bullets[0].transform.position.x - 80.0f;
 			}
 		}
 	}
 
+	if (tutorialScene.isSafe) {
+		if (tutorialScene.currentTutorialLevel == 1 || tutorialScene.currentTutorialLevel == 2) {
+
+			if (player.transform.position.y < 80.0f && player.transform.position.y > -80.0f) {
+
+				if (player.transform.position.x < tutorialScene.zako.bullets[0].transform.position.x + 80.0f) {
+
+					if (player.transform.position.y > 0.0f) {
+						player.transform.position.y = 80.0f;
+					} else {
+						player.transform.position.y = -80.0f;
+					}
+
+				}
+			}
+		}
+	}
 	//パリィの当たり判定
 	if (player.parry.isParry) {
 		if (Collision::BoxToBox(
@@ -286,16 +311,20 @@ void GameScene::TutorialCheckHit() {
 				player.parry.color = 0xFF0000FF;
 				player.isUpDamage = true;
 				player.damageUpTime = 150;
-				tutorialScene.currentTutorialLevel = 5;
-				tutorialScene.intervalTimer = 0;
+
 			} else {
 				player.parry.parryState = ParryState::NORMAL;
 				player.parry.color = 0xFFFF00FF;
 				player.magazine++;
 			}
 
-			tutorialScene.zako.bullets[0].Deactive();
 
+			if (tutorialScene.currentTutorialLevel == 4) {
+				tutorialScene.currentTutorialLevel = 5;
+				tutorialScene.intervalTimer = 0;
+			}
+
+			tutorialScene.zako.bullets[0].Deactive();
 		} else {
 
 		}
@@ -400,6 +429,7 @@ void GameScene::TutorialCheckHit() {
 		}
 
 		// プレイヤーの弾とエネミー
+
 		for (int i = 0; i < player.kBulletMax; i++) {
 			if (player.bullets[i].isActive) {
 				if (Collision::BoxToBox(tutorialScene.zako.transform.position, 300.0f, 480.0f, player.bullets[i].transform.position, player.bullets[i].width, player.bullets[i].height)) {
@@ -409,6 +439,7 @@ void GameScene::TutorialCheckHit() {
 				}
 			}
 		}
+
 	}
 }
 
@@ -951,6 +982,23 @@ void GameScene::Draw()const {
 
 	backGround.Draw();
 
+	if (tutorialScene.currentTutorialLevel == 1) {
+		renderer.DrawSprite(tutorialScene.tutorialFukidashi, tutorialScene.fukidashiWidth, tutorialScene.fukidashiHeight, 0.0f, tutorialScene.grHandleFukidashi, 0xFFFFFFFF);
+		renderer.DrawSprite(tutorialScene.tutorialText, tutorialScene.howToMoveWidth, tutorialScene.howToMoveHeight, 0.0f, tutorialScene.grHandleHowToMove, 0xFFFFFFFF);
+	} else if (tutorialScene.currentTutorialLevel == 2) {
+		renderer.DrawSprite(tutorialScene.tutorialFukidashi, tutorialScene.fukidashiWidth, tutorialScene.fukidashiHeight, 0.0f, tutorialScene.grHandleFukidashi, 0xFFFFFFFF);
+		renderer.DrawSprite(tutorialScene.tutorialText, tutorialScene.howToShotWidth, tutorialScene.howToShotHeight, 0.0f, tutorialScene.grHandleHowToShot, 0xFFFFFFFF);
+	} else if (tutorialScene.currentTutorialLevel == 3) {
+		renderer.DrawSprite(tutorialScene.tutorialFukidashi, tutorialScene.fukidashiWidth, tutorialScene.fukidashiHeight, 0.0f, tutorialScene.grHandleFukidashi, 0xFFFFFFFF);
+		renderer.DrawSprite(tutorialScene.tutorialText, tutorialScene.howToParittiWidth, tutorialScene.howToParittiHeight, 0.0f, tutorialScene.grHandleHowToParitti, 0xFFFFFFFF);
+	} else if (tutorialScene.currentTutorialLevel == 4) {
+		renderer.DrawSprite(tutorialScene.tutorialFukidashi, tutorialScene.fukidashiWidth, tutorialScene.fukidashiHeight, 0.0f, tutorialScene.grHandleFukidashi, 0xFFFFFFFF);
+		renderer.DrawSprite(tutorialScene.tutorialText, tutorialScene.howToParryWidth, tutorialScene.howToParryHeight, 0.0f, tutorialScene.grHandleHowToParry, 0xFFFFFFFF);
+	} else if (tutorialScene.currentTutorialLevel == 6) {
+		renderer.DrawSprite(tutorialScene.tutorialFukidashi, tutorialScene.fukidashiWidth, tutorialScene.fukidashiHeight, 0.0f, tutorialScene.grHandleFukidashi, 0xFFFFFFFF);
+		renderer.DrawSprite(tutorialScene.tutorialText, tutorialScene.howToShotWidth, tutorialScene.howToShotHeight, 0.0f, tutorialScene.grHandleHowToShot, 0xFFFFFFFF);
+	}
+
 	player.miss.Draw();
 	player.nice.Draw();
 	player.just.Draw();
@@ -979,7 +1027,11 @@ void GameScene::Draw()const {
 	for (int i = 0;i < player.currentLife;i++) {
 		renderer.DrawSprite(player.life[i], player.lifeWidth, player.lifeHeight, 0.0f, player.grhandleLife, 0xFFFFFFFF);
 	}
-
+	if (currentDimension == DimensionState::TWO) {
+		renderer.DrawSprite(tutorialScene.info, tutorialScene.infoShotWidth, tutorialScene.infoShotHeight, 0.0f, tutorialScene.grHandleInfoShot, 0xFFFFFFFF);
+	} else {
+		renderer.DrawSprite(tutorialScene.info, tutorialScene.infoParryWidth, tutorialScene.infoParryHeight, 0.0f, tutorialScene.grHandleInfoParry, 0xFFFFFFFF);
+	}
 	//Novice::ScreenPrintf(640, 360, "%f", player.currentStamina);
 }
 

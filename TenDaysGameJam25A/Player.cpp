@@ -68,8 +68,7 @@ void Player::Initialize() {
 }
 
 void Player::Update() {
-	input.Update();
-	click.Update();
+	controler.Update();
 
 	miss.Update();
 	nice.Update();
@@ -164,7 +163,7 @@ void Player::MachinGunBullet() {
 			bullets[bi].transform.Rotate(20.0f);
 		}
 
-		if (click.GetClick(0)) {
+		if (controler.IsShot()) {
 
 			if (shotTimer >= shotCoolTime) {
 
@@ -254,7 +253,7 @@ void Player::ShotGunBullet() {
 			bullets[bi].transform.Rotate(20.0f);
 		}
 
-		if (click.GetClick(0)) {
+		if (controler.IsShot()) {
 
 			if (magazine > 0) {
 				if (shotTimer >= shotCoolTime) {
@@ -355,26 +354,25 @@ void Player::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); 
 
 void Player::Move() {
 
-	input.Update();
 	velocity = { 0.0f, 0.0f };
 	direction = { 0.0f, 0.0f };
 
 	if (currentDimension == DimensionState::TWO) {
 
-		if (input.GetKey(DIK_W)) {
+		if (controler.IsMoveUp()) {
 			direction.y = 1.0f;
 		}
 
-		if (input.GetKey(DIK_S)) {
+		if (controler.IsMoveDown()) {
 			direction.y = -1.0f;
 		}
 	}
 
-	if (input.GetKey(DIK_A)) {
+	if (controler.IsMoveLeft()) {
 		direction.x = -1.0f;
 	}
 
-	if (input.GetKey(DIK_D)) {
+	if (controler.IsMoveRight()) {
 		direction.x = 1.0f;
 	}
 

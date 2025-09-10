@@ -70,4 +70,7 @@ public:
 	unsigned int color;
 	int grHandle;
 	int grHandleBox;
+
+	// 音楽
+	int auHandleShot;
 };

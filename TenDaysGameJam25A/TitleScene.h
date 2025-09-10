@@ -3,9 +3,15 @@
 #include"BackGround.h"
 #include"Player.h"
 
+
 class TitleScene{
 
 public:
+	enum ControlerSelectButton {
+		TO_STAGE_SELECT,
+		TO_END
+	};
+
 
 	//==============================
 	// メンバ関数
@@ -19,6 +25,7 @@ public:
 	void MiniGameInitialize();
 	void MiniGame();
 	void MiniGameCheckHitAll();
+	
 
 	//===============================
 	// メンバ変数
@@ -28,6 +35,7 @@ public:
 	//----------------------------------
 	Input input;
 	Click click;
+	ControlSystem controler;
 	Renderer renderer;
 	DrawEffects drawEffects;
 	Transform2D transform;
@@ -35,8 +43,6 @@ public:
 	Player player;
 	Transform2D Chiriri;
 	BitMapFont font;
-
-
 
 	//プロパティ
 	//------------------------------
@@ -71,13 +77,12 @@ public:
 	Bullet bullets[kBulletMax];
 	int shotCoolTime;
 
-
-
 	// ボタン
 	Button buttonToStageSelect;
 	//Button buttonToConfig;
-	Button buttonToCredit;
+	//Button buttonToCredit;
 	Button buttonToEnd;
+	ControlerSelectButton currentSelectButton;
 
 };
 

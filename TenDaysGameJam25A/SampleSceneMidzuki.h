@@ -124,8 +124,8 @@ public:
 	float chochinStageWhiteTextHeight;
 	const Vector2 kChochinStageWhiteTextOffset = { 60.0f,-200.0f };
 
-	float chochinTextAmplitudeY;
-	float chochinTextWavingThetaY;
+	float textAmplitudeY;
+	float textWavingThetaY;
 
 
 	float chochinAmplitudeX;

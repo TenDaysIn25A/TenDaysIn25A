@@ -28,9 +28,8 @@ public:
 	// システム
 	//-------------------------------
 	Renderer renderer;
-	Input input;
 	DrawEffects effect;
-	Click click;
+	ControlSystem controler;
 
 	// プロパティ
 	//------------------------------

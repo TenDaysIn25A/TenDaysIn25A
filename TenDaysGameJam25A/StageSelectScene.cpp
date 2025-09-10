@@ -2,7 +2,9 @@
 
 StageSelectScene::StageSelectScene() {
 	Initialize();
+	tutorialDefault = { 0.0f,0.0f };
 	chochinStageDefault = { 550.0f,0.0f };
+	isTutorialCleared = false;
 };
 
 void StageSelectScene::Initialize() {
@@ -52,8 +54,20 @@ void StageSelectScene::Initialize() {
 	chochinStageColorTextHeight = 60.0f;
 	chochinStageTextColorChongeTimer = 180;
 
-	chochinTextAmplitudeY = 30.0f;
-	chochinTextWavingThetaY = 0.0f;
+	tutorialFishBone.position = { tutorialDefault.x + kTutorialStageTextOffset.x, tutorialDefault.y + kTutorialStageTextOffset.y };
+	tutorialFishBoneHeight = 220.0f;
+	tutorialFishBoneWidth = 80.0f;
+	tutorialFishBone.rotation = 0.0f;
+	tutorialFishBone.Rotate(90.0f);
+	grHandleTutorialFishBone = Novice::LoadTexture("./Resources/images/fishBoneBickBottom.png");
+
+	tutorialStageText.position = kTutorialStageTextOffset;
+	grhandleTutorialStageText = Novice::LoadTexture("./Resources/images/tutorial.png");
+	tutorialStageTextWidth = 497.0f;
+	tutorialStageTextHeight = 67.0f;
+
+	textAmplitudeY = 30.0f;
+	textWavingThetaY = 0.0f;
 	chochinStageColorTextColor = 0xFFFFFFFF;
 
 	backGround.position = { 0.0f,0.0f };
@@ -71,7 +85,6 @@ void StageSelectScene::Update() {
 	buttonToLeftSide.Update();
 	buttonToTitle.Update();
 
-	chochinLight.position = { chochinStageDefault.x + kChochinLightOffsetX,chochinStageDefault.y + kChochinLightOffsetY };
 
 
 	if (chochinAnimationCount > 3) {
@@ -80,65 +93,62 @@ void StageSelectScene::Update() {
 		chochinAnimationCount++;
 	}
 
-	if (isAnimationLeftMove || isAnimationRightMove) {
+	if (isTutorialCleared) {
 
-		if (isAnimationLeftMove) {
+		if (isAnimationLeftMove || isAnimationRightMove) {
 
-			chochinStageDefault.x -= animationFirtSpeed;
+			if (isAnimationLeftMove) {
 
-			animationFirtSpeed -= kAnimationAcceleration;
+				chochinStageDefault.x -= animationFirtSpeed;
+				tutorialDefault.x -= animationFirtSpeed;
+				animationFirtSpeed -= kAnimationAcceleration;
 
-			if (animationFirtSpeed < 2.0f) {
-				animationFirtSpeed = 0.0f;
-				isAnimationLeftMove = false;
+				if (animationFirtSpeed < 2.0f) {
+					animationFirtSpeed = 0.0f;
+					isAnimationLeftMove = false;
+				}
+
+			} else {
+				chochinStageDefault.x += animationFirtSpeed;
+				tutorialDefault.x += animationFirtSpeed;
+				animationFirtSpeed -= kAnimationAcceleration;
+
+				if (animationFirtSpeed < 2.0f) {
+					animationFirtSpeed = 0.0f;
+					isAnimationRightMove = false;
+				}
 			}
+
+
 
 		} else {
-			chochinStageDefault.x += animationFirtSpeed;
+			if (buttonToRightSide.IsClicked()) {
 
-			animationFirtSpeed -= kAnimationAcceleration;
-
-			if (animationFirtSpeed < 2.0f) {
-				animationFirtSpeed = 0.0f;
-				isAnimationRightMove = false;
+				if (currentStage == Stage::TUTORIAL) {
+					currentStage = Stage::STAGE1;
+					isAnimationLeftMove = true;
+					animationFirtSpeed = 88.0f;
+				}
 			}
-		}
 
+			if (buttonToLeftSide.IsClicked()) {
 
-
-	} else {
-		if (buttonToRightSide.IsClicked()) {
-
-			if (currentStage == Stage::TUTORIAL) {
-				currentStage = Stage::STAGE1;
-				isAnimationLeftMove = true;
-				animationFirtSpeed = 88.0f;
-			} else if (currentStage == Stage::STAGE1) {
-				currentStage = Stage::STAGE2;
-				isAnimationLeftMove = true;
-				animationFirtSpeed = 88.0f;
-			}
-		}
-
-		if (buttonToLeftSide.IsClicked()) {
-
-			if (currentStage == Stage::STAGE2) {
-				currentStage = Stage::STAGE1;
-				animationFirtSpeed = 88.0f;
-				isAnimationRightMove = true;
-			} else if (currentStage == Stage::STAGE1) {
-				currentStage = Stage::TUTORIAL;
-				animationFirtSpeed = 88.0f;
-				isAnimationRightMove = true;
+				if (currentStage == Stage::STAGE1) {
+					currentStage = Stage::TUTORIAL;
+					animationFirtSpeed = 88.0f;
+					isAnimationRightMove = true;
+				}
 			}
 		}
 	}
 
+	chochinLight.position = { chochinStageDefault.x + kChochinLightOffsetX,chochinStageDefault.y + kChochinLightOffsetY };
+	tutorialFishBone.position = { tutorialDefault.x + kTutorialStageTextOffset.x, tutorialDefault.y + kTutorialStageTextOffset.y };
 
+	chochinStageWhiteText.position.y = sinf(textWavingThetaY) * textAmplitudeY + kChochinStageWhiteTextOffset.y;
+	tutorialStageText.position.y = sinf(textWavingThetaY) * textAmplitudeY + kChochinStageWhiteTextOffset.y;
 
-	chochinStageWhiteText.position.y = sinf(chochinTextWavingThetaY) * chochinTextAmplitudeY + kChochinStageWhiteTextOffset.y;
-
-	chochinTextWavingThetaY += float(M_PI) / 60.0f;
+	textWavingThetaY += float(M_PI) / 60.0f;
 
 	chochinStageColorText.position.y = chochinStageWhiteText.position.y;
 
@@ -200,16 +210,19 @@ void StageSelectScene::Draw() const {
 		renderer.DrawSprite(chochinLight, chochinLightWidth, chochinLightHeight, chochinLightTheta, grHandleStageSelectChochinLight3, chochinStageColorTextColor);
 
 	}
+	
+	renderer.DrawSprite(tutorialFishBone, tutorialFishBoneWidth, tutorialFishBoneHeight, 0.0f, grHandleTutorialFishBone, 0xFFFFFFFF);
 
 	buttonToStage.Draw();
 	buttonToRightSide.Draw();
 	buttonToLeftSide.Draw();
 	buttonToTitle.Draw();
 
-	if(currentStage == Stage::TUTORIAL){
+	if (currentStage == Stage::TUTORIAL) {
 
 
-	}else if (currentStage == Stage::STAGE1) {
+		renderer.DrawSprite(tutorialStageText, tutorialStageTextWidth, tutorialStageTextHeight, 0.0f, grhandleTutorialStageText, 0xFFFFFFFF);
+	} else if (currentStage == Stage::STAGE1) {
 		renderer.DrawSprite(chochinStageWhiteText, chochinStageWhiteTextWidth, chochinStageWhiteTextHeight, 0.0f, grHandleChochinStageWhiteText, 0xFFFFFFFF);
 		renderer.DrawSprite(chochinStageColorText, chochinStageColorTextWidth, chochinStageColorTextHeight, 0.0f, grHandleChochinStageColorText, chochinStageColorTextColor);
 	} else {

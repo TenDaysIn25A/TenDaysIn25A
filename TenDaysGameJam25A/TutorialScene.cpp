@@ -1,14 +1,58 @@
 ﻿#include "TutorialScene.h"
 
-TutorialScene::TutorialScene() { Initialize(); };
+TutorialScene::TutorialScene() {
+	Initialize(); 
+	isClear = true;
+ };
 
 void TutorialScene::Initialize() {
 	zako.Initialize();
 	currentTutorialLevel = 0;
+	intervalTimer = 0;
 	startTimer = 0;
+	isSafe = false;
+	isShot = false;
+
+
+	grHandleHowToMove = Novice::LoadTexture("./Resources/images/howToMove.png");
+	grHandleHowToShot = Novice::LoadTexture("./Resources/images/howToShot.png");
+	grHandleHowToParitti = Novice::LoadTexture("./Resources/images/howToParicchi.png");
+	grHandleHowToParry = Novice::LoadTexture("./Resources/images/howToParry.png");
+
+	grHandleInfoA = Novice::LoadTexture("./Resources/images/infoA.png");
+	grHandleInfoB = Novice::LoadTexture("./Resources/images/infoB.png");
+	grHandleInfoParry = Novice::LoadTexture("./Resources/images/infoParryA.png");
+	grHandleInfoShot = Novice::LoadTexture("./Resources/images/infoShot.png");
+
+	grHandleFukidashi = Novice::LoadTexture("./Resources/images/fukidashi.png");
+
+	howToMoveWidth = 720.0f;
+	howToMoveHeight = 72.0f;
+	howToShotWidth = 709.0f;
+	howToShotHeight = 67.0f;
+	howToParittiWidth = 637.0f; 
+	howToParittiHeight = 67.0f;
+	howToParryWidth = 565.0f;
+	howToParryHeight = 67.0f;
+	fukidashiWidth = 885.0f;
+	fukidashiHeight = 237.0f;
+
+	tutorialFukidashi.position = { -40.0f,117.0f };
+	tutorialText.position = { tutorialFukidashi.position.x,tutorialFukidashi.position.y + kTextOffsetY };
+
+	info.position = { -480.0f,312.0f };
+	infoButton.position = { info.position.x + kInfoOffset.x,info.position.y + kInfoOffset.y };
+	infoParryHeight = 96.0f;
+	infoParryWidth = 260.0f;
+	infoShotHeight = 96.0f;
+	infoShotWidth = 320.0f;
+	infoButtonWidth = 59.0f;
+	infoButtonHeight = 59.0f;
 }
 
 void TutorialScene::Update() {
+	input.Update();
+	click.Update();
 	zako.tutorialLevel = currentTutorialLevel;
 	zako.tutorialInterval = intervalTimer;
 	zako.Update();
@@ -69,4 +113,7 @@ void TutorialScene::Update() {
 }
 void TutorialScene::Draw()const {
 	zako.Draw();
+	
+
+
 }

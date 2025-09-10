@@ -1,5 +1,14 @@
 ﻿#include "ControlSystem.h"
 
+ControlSystem::ControlSystem() {
+	checkL2 = 0;
+	checkR2 = 0;
+	prevL2 = 0;
+	prevR2 = 0;
+	stickLeftX = 0;
+	stickLeftY = 0;
+}
+
 void ControlSystem::Update() {
 	input.Update();
 	click.Update();
@@ -66,7 +75,7 @@ int ControlSystem::IsPary() {
 		return true;
 	}
 
-	if (checkL2) {
+	if (checkR2) {
 		return true;
 	}
 
@@ -74,8 +83,12 @@ int ControlSystem::IsPary() {
 }
 
 int ControlSystem::IsDimensionChange() { 
-	if (click.GetClick(1)) {
+	if (click.GetClickTrigger(1)) {
 		return true;
+	}
+
+	if (checkL2 && !prevL2) {
+		return true;  
 	}
 
 	return false;
@@ -96,5 +109,53 @@ int ControlSystem::IsBack() {
 	}
 
 	return false; 
+}
+
+int ControlSystem::IsUp() {
+	if (stickLeftY < 0) {
+		return true;
+	}
+
+	if (input.GetKeyTrigger(DIK_UP)) {
+		return true;
+	}
+
+	return false; 
+}
+
+int ControlSystem::IsDown() {
+	if (stickLeftY > 0) {
+		return true;
+	}
+
+	if (input.GetKeyTrigger(DIK_DOWN)) {
+		return true;
+	}
+
+	return false;
+}
+
+int ControlSystem::IsLeft() {
+	if (stickLeftX < 0) {
+		return true;
+	}
+
+	if (input.GetKeyTrigger(DIK_LEFT)) {
+		return true;
+	}
+
+	return false;
+}
+
+int ControlSystem::IsRight() {
+	if (stickLeftX > 0) {
+		return true;
+	}
+
+	if (input.GetKeyTrigger(DIK_RIGHT)) {
+		return true;
+	}
+
+	return false;
 }
 
