@@ -24,14 +24,7 @@ void BackGround::Update() {
 	click.Update();
 
 	if (currentWalker == DimesionWalker::PLAYER) {
-		if (click.GetClickNotAnswer(1)) {
-			if (currentDimension == DimensionState::ONE) {
 
-				if (!isChanging) {
-					Activate();
-				}
-			}
-		}
 	}
 
 	if (isChanging) {
@@ -50,11 +43,9 @@ void BackGround::Update() {
 				t = 0.0f;
 				startUnder = underBGPos;
 				startTop = topBGPos;
-				isChanging = false;
 				currentDimension = (currentDimension == DimensionState::TWO) ? DimensionState::ONE : DimensionState::TWO;
 			}
 		}
-	}
 
 	if (tweenStep == 1) {
 
@@ -68,7 +59,9 @@ void BackGround::Update() {
 		if (t >= 1.0f) {
 			underBGPos = endUnder;
 			topBGPos = endTop;
+			isChanging = false;
 		}
+	}
 	}
 }
 
@@ -95,13 +88,13 @@ void BackGround::Activate() {
 
 void BackGround::Draw() const {
 
-	if (currentWalker == DimesionWalker::PLAYER) {
-		Novice::DrawSprite(static_cast<int>(underBGPos.x), static_cast<int>(underBGPos.y), grHandleHalfBg, 1.0f, 1.0f, 0.0f, color);
-
-		Novice::DrawSprite(static_cast<int>(topBGPos.x), static_cast<int>(topBGPos.y), grHandleHalfBg, 1.0f, 1.0f, static_cast<float>(M_PI), color);
-	} else {
+	if (currentWalker == DimesionWalker::BOSS) {
 		Novice::DrawSprite(static_cast<int>(underBGPos.x), static_cast<int>(underBGPos.y), grHandleHalfBg, 1.0f, 1.0f, 0.0f, kBossColor);
 
 		Novice::DrawSprite(static_cast<int>(topBGPos.x), static_cast<int>(topBGPos.y), grHandleHalfBg, 1.0f, 1.0f, static_cast<float>(M_PI), kBossColor);
+	} else {
+		Novice::DrawSprite(static_cast<int>(underBGPos.x), static_cast<int>(underBGPos.y), grHandleHalfBg, 1.0f, 1.0f, 0.0f, color);
+
+		Novice::DrawSprite(static_cast<int>(topBGPos.x), static_cast<int>(topBGPos.y), grHandleHalfBg, 1.0f, 1.0f, static_cast<float>(M_PI), color);
 	}
 }

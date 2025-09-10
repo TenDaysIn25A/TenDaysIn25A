@@ -53,7 +53,7 @@ public:
 	float width;
 	float height;
 	float beforeHeight;
-	bool isVisible;
+	bool isActive;
 	int timer;
 	int timerMax;
 	PredictionType type;

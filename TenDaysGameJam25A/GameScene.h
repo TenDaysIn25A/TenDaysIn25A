@@ -8,6 +8,7 @@
 #include"Stage3Scene.h"
 #include"Stage4Scene.h"
 #include"Stage5Scene.h"
+#include"TutorialScene.h"
 
 class GameScene{
 
@@ -50,6 +51,8 @@ public:
 	/// </summary>
 	void CheckHitAll();
 
+	void TutorialCheckHit();
+
 	/// <summary>
 	/// ステージ1の当たり判定
 	/// </summary>
@@ -85,6 +88,7 @@ public:
 	Stage3Scene stage3Scene;
 	Stage4Scene stage4Scene;
 	Stage5Scene stage5Scene;
+	TutorialScene tutorialScene;
 
 	bool isChanging;
 };

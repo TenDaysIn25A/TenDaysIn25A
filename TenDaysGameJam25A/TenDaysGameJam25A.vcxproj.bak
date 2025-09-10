@@ -109,21 +109,28 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="BitMapFont.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="ConfigScene.cpp" />
+    <ClCompile Include="ControlSystem.cpp" />
     <ClCompile Include="CreditScene.cpp" />
     <ClCompile Include="Dimension.cpp" />
     <ClCompile Include="DrawEffects.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Enemy1D.cpp" />
     <ClCompile Include="Enemy2D.cpp" />
+    <ClCompile Include="EnemyHpGauge.cpp" />
     <ClCompile Include="GameClearScene.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="Click.cpp" />
+    <ClCompile Include="Laser.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Prediction.cpp" />
     <ClCompile Include="Stage1Scene.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
@@ -138,7 +145,8 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="SampleSceneMidzuki.cpp" />
     <ClCompile Include="SampleSceneYuto.cpp" />
     <ClCompile Include="DeltaTime.cpp" />
-    <ClCompile Include="ScaneManager.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Stage2BossY.cpp" />
     <ClCompile Include="Stage2Scene.cpp" />
     <ClCompile Include="Stage3Scene.cpp" />
     <ClCompile Include="Stage4Scene.cpp" />
@@ -149,6 +157,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="Stage4Boss.cpp" />
     <ClCompile Include="Stage5Boss.cpp" />
     <ClCompile Include="StageSelectScene.cpp" />
+    <ClCompile Include="StopWatch.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Transform2D.cpp" />
     <ClCompile Include="Tweening.cpp" />
@@ -158,6 +167,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
   <ItemGroup>
     <ClInclude Include="..\DirectXGame\3d\Camera.h" />
     <ClInclude Include="BackGround.h" />
+    <ClInclude Include="BitMapFont.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\base\StringUtility.h" />
@@ -189,6 +199,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Collision.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="ConfigScene.h" />
+    <ClInclude Include="ControlSystem.h" />
     <ClInclude Include="CreditScene.h" />
     <ClInclude Include="Dimension.h" />
     <ClInclude Include="Dlib.h" />
@@ -196,9 +207,14 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Enemy1D.h" />
     <ClInclude Include="Enemy2D.h" />
+    <ClInclude Include="EnemyHpGauge.h" />
     <ClInclude Include="GameClearScene.h" />
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="Click.h" />
+    <ClInclude Include="Laser.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="Prediction.h" />
     <ClInclude Include="Stage1Scene.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Matrix3x3.h" />
@@ -213,6 +229,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="SampleSceneYuto.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="DeltaTime.h" />
+    <ClInclude Include="Stage2BossY.h" />
     <ClInclude Include="Stage2Scene.h" />
     <ClInclude Include="Stage3Scene.h" />
     <ClInclude Include="Stage4Scene.h" />
@@ -223,6 +240,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="Stage4Boss.h" />
     <ClInclude Include="Stage5Boss.h" />
     <ClInclude Include="StageSelectScene.h" />
+    <ClInclude Include="StopWatch.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Transform2D.h" />
     <ClInclude Include="Tweening.h" />

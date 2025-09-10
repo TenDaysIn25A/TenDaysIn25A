@@ -75,7 +75,7 @@ public:
 
 	// ボタン
 	Button buttonToStageSelect;
-	Button buttonToConfig;
+	//Button buttonToConfig;
 	Button buttonToCredit;
 	Button buttonToEnd;
 

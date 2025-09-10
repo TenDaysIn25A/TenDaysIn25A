@@ -5,7 +5,7 @@ Prediction::Prediction() { Initialize(); }
 void Prediction::Initialize(){
 	width = 320.0f;
 	height = 480.0f;
-	isVisible = true;
+	isActive = true;
 
 	color = kColor;
 
@@ -21,7 +21,7 @@ void Prediction::Initialize(){
 }
 
 void Prediction::UpDate(){
-	if (!isVisible) {
+	if (!isActive) {
 		return;
 	}
 
@@ -52,14 +52,14 @@ void Prediction::UpDate(){
 
 
 	if (timer >= timerMax) {
-		isVisible = false;
+		isActive = false;
 	}
 
 	timer++;
 }
 
 void Prediction::Draw()const{
-	if (!isVisible) {
+	if (!isActive) {
 		return;
 	}
 
@@ -89,5 +89,5 @@ void Prediction::LineCharge(const Vector2& position, float setWidth, float setHe
 	timerMax = setTimerMax;
 	
 	timer = 0;
-	isVisible = true;
+	isActive = true;
 }

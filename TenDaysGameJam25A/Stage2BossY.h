@@ -107,21 +107,19 @@ public:
 	void CommonAttackSelect();
 
 	/// <summary>
-	/// アタックノーマルの攻撃パターン
+	/// アタックメテオシャワーの攻撃パターン
 	/// </summary>
 	void AttackMeteorShower();
 
 	/// <summary>
-	/// アタックノーマルの攻撃パターン
+	/// アタックストップの攻撃パターン
 	/// </summary>
 	void AttackStop();
 
 	/// <summary>
-	/// アタックノーマルの攻撃パターン
+	/// アタックレーザーの攻撃パターン
 	/// </summary>
-	void AttackMeteor();
-
-	void LaserCreate();
+	void AttackLaser();
 
 private:
 	/// <summary>

@@ -5,7 +5,6 @@ Stage2Scene::Stage2Scene() { Initialize(); }
 void Stage2Scene::Initialize() {
 
 	stage2Boss.Initialize();
-
 	currentDimension = DimensionState::TWO;
 }
 

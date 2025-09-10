@@ -160,6 +160,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClCompile Include="StopWatch.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="Transform2D.cpp" />
+    <ClCompile Include="TutorialScene.cpp" />
     <ClCompile Include="Tweening.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Zako.cpp" />
@@ -243,6 +244,7 @@ xcopy C:\KamataEngine\DirectXGame\Resources "$(OutDirFullPath)NoviceResources" /
     <ClInclude Include="StopWatch.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="Transform2D.h" />
+    <ClInclude Include="TutorialScene.h" />
     <ClInclude Include="Tweening.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Zako.h" />

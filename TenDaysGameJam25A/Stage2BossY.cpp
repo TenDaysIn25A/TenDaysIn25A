@@ -195,7 +195,7 @@ void Stage2BossY::Shot() {
 		break;
 	case Stage2BossAttackY::STOP:
 		//AttackStop();
-		AttackMeteor();
+		AttackLaser();
 		break;
 	}
 
@@ -385,7 +385,7 @@ void Stage2BossY::AttackStop() {
 }
 
 //ノーマル1、切り替え1、3連
-void Stage2BossY::AttackMeteor(){
+void Stage2BossY::AttackLaser(){
 	if (shotTimer >= 161) {
 	}else if (shotTimer >= 160) {
 		for (int i = 0; i < kLaserMax; i++) {
@@ -397,7 +397,7 @@ void Stage2BossY::AttackMeteor(){
 	}else if (shotTimer >= 60) {
 	}else if(shotTimer >= 59){
 		for (int i = 0; i < kPredictionMax; i++) {
-			if (!prediction[i].isVisible) {
+			if (!prediction[i].isActive) {
 				prediction[i].LineCharge({0.0f,100.0f},1280.0f,240.0f,100);
 				break;
 			}

@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "Dlib.h"
-#include "Player.h"
 #include "Stage1Boss.h"
 #include"BackGround.h"
 
@@ -50,7 +49,6 @@ public:
 	Transform2D camera;
 	DimensionState dimensionState;
 	Renderer renderer;
-	
-	ParryState parryState;
+
 	Stage1Boss stage1Boss;
 };

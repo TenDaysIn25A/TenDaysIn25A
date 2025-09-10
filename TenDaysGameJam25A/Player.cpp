@@ -54,11 +54,6 @@ void Player::Initialize() {
 
 	shotTimer = shotCoolTime;
 
-	currentStamina = kMaxStamina;
-	grhandleStamina = Novice::LoadTexture("./Resources/images/box.png");
-	stamina.position = { 100.0f, -300.0f };
-	staminaRecoverCoolTime = kStaminaRecoverCoolTime;
-
 	miss.Initialize(Novice::LoadTexture("./Resources/images/miss.png"), 256.0f, 128.0f);
 	nice.Initialize(Novice::LoadTexture("./Resources/images/nice.png"), 512.0f, 128.0f);
 	just.Initialize(Novice::LoadTexture("./Resources/images/just.png"), 512.0f, 128.0f);
@@ -97,28 +92,15 @@ void Player::Update() {
 		parry.transform.position.x = transform.position.x + width + 1;
 
 		if (currentWalker == DimesionWalker::PLAYER) {
-			currentStamina -= kConsumedStamina;
+			
 		}
 
-		staminaRecoverCoolTime = kStaminaRecoverCoolTime;
+
 
 		transform.rotation = 0.0f;
 	} else {
 
 
-
-		if (currentStamina < kMaxStamina) {
-
-			if (staminaRecoverCoolTime > 0) {
-				staminaRecoverCoolTime--;
-			} else {
-				currentStamina += kRecoverStaminaAmount;
-			}
-
-		} else {
-			currentStamina = kMaxStamina;
-			staminaRecoverCoolTime = kStaminaRecoverCoolTime;
-		}
 
 		transform.Rotate(10.0f);
 	}
@@ -129,6 +111,7 @@ void Player::Update() {
 		ShotGunBullet();
 	}
 
+	
 	Move();
 
 	if (isBlackHole) {
@@ -151,6 +134,8 @@ void Player::Update() {
 }
 
 void Player::MachinGunBullet() {
+
+
 
 	if (isUpDamage) {
 
@@ -369,6 +354,8 @@ void Player::Draw() const {
 void Player::SetCamera(const Transform2D& camera) { renderer.SetCamera(camera); }
 
 void Player::Move() {
+
+	input.Update();
 	velocity = { 0.0f, 0.0f };
 	direction = { 0.0f, 0.0f };
 

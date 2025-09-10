@@ -2,7 +2,7 @@
 
 StageSelectScene::StageSelectScene() {
 	Initialize();
-	chochinStageDefault = { 0.0f,0.0f };
+	chochinStageDefault = { 550.0f,0.0f };
 };
 
 void StageSelectScene::Initialize() {
@@ -26,7 +26,7 @@ void StageSelectScene::Initialize() {
 	buttonToTitle.width = 40.0f;
 	buttonToTitle.height = 40.0f;
 
-	currentStage = Stage::STAGE1;
+	currentStage = Stage::TUTORIAL;
 
 
 	chochinAnimationCount = 0;
@@ -109,12 +109,12 @@ void StageSelectScene::Update() {
 	} else {
 		if (buttonToRightSide.IsClicked()) {
 
-			if (currentStage == Stage::STAGE1) {
-				currentStage = Stage::STAGE2;
+			if (currentStage == Stage::TUTORIAL) {
+				currentStage = Stage::STAGE1;
 				isAnimationLeftMove = true;
 				animationFirtSpeed = 88.0f;
-			} else if (currentStage == Stage::STAGE2) {
-				currentStage = Stage::STAGE3;
+			} else if (currentStage == Stage::STAGE1) {
+				currentStage = Stage::STAGE2;
 				isAnimationLeftMove = true;
 				animationFirtSpeed = 88.0f;
 			}
@@ -122,12 +122,12 @@ void StageSelectScene::Update() {
 
 		if (buttonToLeftSide.IsClicked()) {
 
-			if (currentStage == Stage::STAGE3) {
-				currentStage = Stage::STAGE2;
+			if (currentStage == Stage::STAGE2) {
+				currentStage = Stage::STAGE1;
 				animationFirtSpeed = 88.0f;
 				isAnimationRightMove = true;
-			} else if (currentStage == Stage::STAGE2) {
-				currentStage = Stage::STAGE1;
+			} else if (currentStage == Stage::STAGE1) {
+				currentStage = Stage::TUTORIAL;
 				animationFirtSpeed = 88.0f;
 				isAnimationRightMove = true;
 			}
@@ -205,9 +205,15 @@ void StageSelectScene::Draw() const {
 	buttonToRightSide.Draw();
 	buttonToLeftSide.Draw();
 	buttonToTitle.Draw();
-	if (currentStage == Stage::STAGE1) {
+
+	if(currentStage == Stage::TUTORIAL){
+
+
+	}else if (currentStage == Stage::STAGE1) {
 		renderer.DrawSprite(chochinStageWhiteText, chochinStageWhiteTextWidth, chochinStageWhiteTextHeight, 0.0f, grHandleChochinStageWhiteText, 0xFFFFFFFF);
 		renderer.DrawSprite(chochinStageColorText, chochinStageColorTextWidth, chochinStageColorTextHeight, 0.0f, grHandleChochinStageColorText, chochinStageColorTextColor);
+	} else {
+
 	}
 }
 

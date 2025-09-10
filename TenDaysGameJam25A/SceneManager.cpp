@@ -37,9 +37,9 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::STAGE_SELECT);
 		}
 		
-		if (titleScene.buttonToConfig.IsClicked()) {
-			ExchangeScene(Scene::CONFIG);
-		}
+		//if (titleScene.buttonToConfig.IsClicked()) {
+		//	ExchangeScene(Scene::CONFIG);
+		//}
 		
 		if (titleScene.buttonToCredit.IsClicked()) {
 			ExchangeScene(Scene::CREDIT);

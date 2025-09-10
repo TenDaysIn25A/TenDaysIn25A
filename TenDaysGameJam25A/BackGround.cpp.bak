@@ -12,32 +12,24 @@ void BackGround::Initialize() {
 	tweenStep = 0;
 	t = 0.0f;
 	duration = 0.15f;
+	dimansionState = DimensionState::TWO;
+	currentDimension = DimensionState::TWO;
+	currentWalker = DimesionWalker::PLAYER;
+	color = 0xFFFFFFFF;
 }
 
 void BackGround::Update() {
 
 	input.Update();
+	click.Update();
 
-	if (input.GetKeyTrigger(DIK_F)) {
+	if (currentWalker == DimesionWalker::PLAYER) {
+		if (click.GetClickNotAnswer(1)) {
+			if (currentDimension == DimensionState::ONE) {
 
-		if (!isChanging) {
-			isChanging = true;
-			tweenStep = 0;
-			t = 0.0f;
-
-			startUnder = underBGPos;
-			startTop = topBGPos;
-
-			midUnder = midDimBGPosBottom;
-
-			midTop = midDimBGPosTop;
-
-			if (currentDimension == DimensionState::TWO) {
-				endUnder = oneDimBGPosBottom;
-				endTop = oneDimBGPosTop;
-			} else {
-				endUnder = twoDimBGPosBottom;
-				endTop = twoDimBGPosTop;
+				if (!isChanging) {
+					Activate();
+				}
 			}
 		}
 	}
@@ -58,11 +50,9 @@ void BackGround::Update() {
 				t = 0.0f;
 				startUnder = underBGPos;
 				startTop = topBGPos;
-				isChanging = false;
 				currentDimension = (currentDimension == DimensionState::TWO) ? DimensionState::ONE : DimensionState::TWO;
 			}
 		}
-	}
 
 	if (tweenStep == 1) {
 
@@ -76,13 +66,42 @@ void BackGround::Update() {
 		if (t >= 1.0f) {
 			underBGPos = endUnder;
 			topBGPos = endTop;
+			isChanging = false;
 		}
+	}
 	}
 }
 
-void BackGround::Draw() {
+void BackGround::Activate() {
+	isChanging = true;
+	tweenStep = 0;
+	t = 0.0f;
 
-	Novice::DrawSprite(static_cast<int>(underBGPos.x), static_cast<int>(underBGPos.y), grHandleHalfBg, 1.0f, 1.0f, 0.0f, 0xFFFFFFFF);
+	startUnder = underBGPos;
+	startTop = topBGPos;
 
-	Novice::DrawSprite(static_cast<int>(topBGPos.x), static_cast<int>(topBGPos.y), grHandleHalfBg, 1.0f, 1.0f, static_cast<float>(M_PI), 0xFFFFFFFF);
+	midUnder = midDimBGPosBottom;
+
+	midTop = midDimBGPosTop;
+
+	if (currentDimension == DimensionState::TWO) {
+		endUnder = oneDimBGPosBottom;
+		endTop = oneDimBGPosTop;
+	} else {
+		endUnder = twoDimBGPosBottom;
+		endTop = twoDimBGPosTop;
+	}
+}
+
+void BackGround::Draw() const {
+
+	if (currentWalker == DimesionWalker::PLAYER) {
+		Novice::DrawSprite(static_cast<int>(underBGPos.x), static_cast<int>(underBGPos.y), grHandleHalfBg, 1.0f, 1.0f, 0.0f, color);
+
+		Novice::DrawSprite(static_cast<int>(topBGPos.x), static_cast<int>(topBGPos.y), grHandleHalfBg, 1.0f, 1.0f, static_cast<float>(M_PI), color);
+	} else {
+		Novice::DrawSprite(static_cast<int>(underBGPos.x), static_cast<int>(underBGPos.y), grHandleHalfBg, 1.0f, 1.0f, 0.0f, kBossColor);
+
+		Novice::DrawSprite(static_cast<int>(topBGPos.x), static_cast<int>(topBGPos.y), grHandleHalfBg, 1.0f, 1.0f, static_cast<float>(M_PI), kBossColor);
+	}
 }

@@ -17,4 +17,4 @@
 #include "Click.h"
 #include "BitMapFont.h"
 
-enum class Stage { STAGE1, STAGE2, STAGE3, STAGE4, STAGE5 };
+enum class Stage {TUTORIAL, STAGE1, STAGE2, STAGE3, STAGE4, STAGE5 };

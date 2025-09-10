@@ -7,7 +7,7 @@ void SampleSceneDaichi::Initialize() {
 	samplePlayer.Initialize();
 	deltaTime.Initialize();
 	button.Initialize(Novice::LoadTexture("./Resources/images/box.png"),128.0f,32.0f);
-	currentDimension = DimensionState::ONE;
+	currentDimension = DimensionState::TWO;
 }
 
 void SampleSceneDaichi::Update() {
@@ -17,18 +17,17 @@ void SampleSceneDaichi::Update() {
 	deltaTime.Update();
 	button.Update();
 	samplePlayer.Update();
-
-	if (input.GetKeyTrigger(DIK_F)) {
-		if (currentDimension == DimensionState::ONE) {
-			currentDimension = DimensionState::TWO;
-		} else {
-			currentDimension = DimensionState::ONE;
-		}
-	}
+	
+	//if (samplePlayer.controler.IsPary()) {
+	//	currentDimension = DimensionState::ONE;
+	//} else {
+	//	currentDimension = DimensionState::TWO;
+	//}
 }
 
 void SampleSceneDaichi::Draw() const {
 	// ここで各描画を行う。
+	
 	// 背景描画
 	// ----------------------------------------------------
 	Novice::DrawBox(

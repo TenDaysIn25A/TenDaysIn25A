@@ -124,10 +124,7 @@ public:
 	const int kDefaultDamage = 2;
 	int damageUpTime;
 
-	Transform2D stamina;
-	const float kStaminaHeight = 60.0f;
-	const float kMissConsumedStamina = 30.0f;
-	int grhandleStamina;
+
 
 	static constexpr int kMaxLife = 5;
 	Transform2D life[kMaxLife];
@@ -141,14 +138,8 @@ public:
 	// ステータス
 	// ----------------------------------------------
 	int currentLife;
-	float currentStamina;
 	int invincibleTimer;
-	int staminaRecoverCoolTime;
 	const int kInvincibleTimer = 60;
-	const int kStaminaRecoverCoolTime = 150;
-	const float kMaxStamina = 600.0f;
-	const float kConsumedStamina = 2.0f;
-	const float kFirstConsumedStamina = 60.0f;
 	const float kRecoverStaminaAmount = 5.0f;
 
 	bool isInvinciblity;

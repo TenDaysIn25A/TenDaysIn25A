@@ -107,6 +107,18 @@
     <Filter Include="Sources\Scenes\GameScene\StageScene">
       <UniqueIdentifier>{603b8f71-89e6-442d-90c7-8a3d36ea459a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\System\Click">
+      <UniqueIdentifier>{f6d69c70-f1da-453a-9f08-8200d4a5731b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Objects\EnemyHpGauge">
+      <UniqueIdentifier>{b101b955-8809-4877-bbd0-207f29af0e6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Objects\Enemy\Light">
+      <UniqueIdentifier>{638a539d-250e-4286-ae43-e3975ff1f591}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\System\Control">
+      <UniqueIdentifier>{868d49f1-6a07-4028-82d0-6f7712017a3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
@@ -211,9 +223,6 @@
     <ClCompile Include="GameOverScene.cpp">
       <Filter>Sources\Scenes\GameOverScene</Filter>
     </ClCompile>
-    <ClCompile Include="ScaneManager.cpp">
-      <Filter>Sources\Scenes\SceneManager</Filter>
-    </ClCompile>
     <ClCompile Include="Stage2Scene.cpp">
       <Filter>Sources\Scenes\GameScene\StageScene</Filter>
     </ClCompile>
@@ -231,6 +240,51 @@
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>Sources\Scenes\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1Boss.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2Boss.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage3Boss.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage4Boss.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage5Boss.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Click.cpp">
+      <Filter>Sources\System\Click</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyHpGauge.cpp">
+      <Filter>Sources\Objects\EnemyHpGauge</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>Sources\Objects\Enemy\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Sources\Scenes\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="BitMapFont.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Laser.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Prediction.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2BossY.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="StopWatch.cpp">
+      <Filter>KamataEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlSystem.cpp">
+      <Filter>Sources\System\Control</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -430,6 +484,28 @@
     </ClInclude>
     <ClInclude Include="Stage5Scene.h">
       <Filter>Sources\Scenes\GameScene\StageScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1Boss.h" />
+    <ClInclude Include="Stage2Boss.h" />
+    <ClInclude Include="Stage3Boss.h" />
+    <ClInclude Include="Stage4Boss.h" />
+    <ClInclude Include="Stage5Boss.h" />
+    <ClInclude Include="Click.h">
+      <Filter>Sources\System\Click</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyHpGauge.h">
+      <Filter>Sources\Objects\EnemyHpGauge</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Sources\Objects\Enemy\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="BitMapFont.h" />
+    <ClInclude Include="Laser.h" />
+    <ClInclude Include="Prediction.h" />
+    <ClInclude Include="Stage2BossY.h" />
+    <ClInclude Include="StopWatch.h" />
+    <ClInclude Include="ControlSystem.h">
+      <Filter>Sources\System\Control</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

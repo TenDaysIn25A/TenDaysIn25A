@@ -9,12 +9,12 @@ void TitleScene::Initialize() {
 	grHandle = Novice::LoadTexture("./Resources/images/only_title.png");
 
 	buttonToStageSelect.Initialize(Novice::LoadTexture("./Resources/images/start.png"), 196.0f, 48.0f);
-	buttonToConfig.Initialize(Novice::LoadTexture("./Resources/images/config.png"), 248.0f, 48.0f);
+	//buttonToConfig.Initialize(Novice::LoadTexture("./Resources/images/config.png"), 248.0f, 48.0f);
 	buttonToCredit.Initialize(Novice::LoadTexture("./Resources/images/credit.png"), 248.0f, 48.0f);
 	buttonToEnd.Initialize(Novice::LoadTexture("./Resources/images/quit.png"), 240.0f, 48.0f);
 
 	buttonToStageSelect.transform.position = { 0.0f, -100.0f };
-	buttonToConfig.transform.position = { 0.0f, -170.0f };
+	//buttonToConfig.transform.position = { 0.0f, -170.0f };
 	buttonToCredit.transform.position = { 0.0f, -240.0f };
 	buttonToEnd.transform.position = { 550.0f, -330.0f };
 
@@ -75,7 +75,7 @@ void TitleScene::Update() {
 	}
 
 	buttonToStageSelect.Update();
-	buttonToConfig.Update();
+	//buttonToConfig.Update();
 	buttonToCredit.Update();
 	buttonToEnd.Update();
 
@@ -255,7 +255,7 @@ void TitleScene::Draw() const {
 	if (currentDimension == DimensionState::TWO) {
 		renderer.DrawSprite(transform, width, height, 0.0f, grHandle, 0xFFFFFFFF);
 		buttonToStageSelect.Draw();
-		buttonToConfig.Draw();
+		//buttonToConfig.Draw();
 		buttonToCredit.Draw();
 		buttonToEnd.Draw();
 	} else {

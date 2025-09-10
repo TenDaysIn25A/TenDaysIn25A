@@ -76,6 +76,6 @@ public:
 	const unsigned int kColor = 0xFFFFFFFF;
 
 	unsigned int color;
-	bool isVisible;
+	bool isActive;
 	bool isBackGroundVisible;
 };

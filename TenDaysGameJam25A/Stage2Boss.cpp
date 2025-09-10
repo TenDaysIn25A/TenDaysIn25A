@@ -19,7 +19,7 @@ void Stage2Boss::Initialize() {
 	transform.scale = { 1.0f, 1.0f };
 
 	//開始時に実行する攻撃と開始時のフェーズ
-	attack = Stage2BossAttack::NORMAL;
+	attack = Stage2BossAttack::LASER;
 	attackPhase = AttackPhase::FIRST;
 
 	grHandleBox = Novice::LoadTexture("./Resources/images/box.png");
@@ -54,6 +54,15 @@ void Stage2Boss::Initialize() {
 	blackEyeWidth = 224.0f;
 	blackEyeHeight = 224.0f;
 	directionPlayerToEye = { 0.0f,0.0f };
+
+	for (int i = 0; i < kPredictionMax; i++) {
+		prediction[i].Initialize();
+	}
+
+	for (int i = 0; i < kLaserMax; i++) {
+		laser[i].Initialize();
+	}
+	laserCount = 0;
 
 	AnimInitialize();
 }
@@ -110,6 +119,14 @@ void Stage2Boss::Update() {
 
 	AnimUpdate();
 
+	for (int i = 0; i < kPredictionMax; i++) {
+		prediction[i].UpDate();
+	}
+
+	for (int i = 0; i < kLaserMax; i++) {
+		laser[i].Update();
+	}
+
 	color = kColor;
 }
 
@@ -124,6 +141,13 @@ void Stage2Boss::Draw() const {
 	}
 
 	Novice::ScreenPrintf(0, 1000, "%d/%d", hp, maxHp);
+	for (int i = 0; i < kLaserMax; i++) {
+		laser[i].Draw();
+	}
+
+	for (int i = 0; i < kPredictionMax; i++) {
+		prediction[i].Draw();
+	}
 
 	//一次元と二次元で見た目を変える
 	if (currentDimension == DimensionState::TWO) {
@@ -136,17 +160,18 @@ void Stage2Boss::Draw() const {
 		bullets[i].Draw();
 	}
 
+
 	if (isFusion) {
 
 		if (blackHoleAnimatioCount == 0) {
 			renderer.DrawSprite(blackHole, blackHoleWidth, blackHoleHeight, 0.0f, grHandleBlackHole0, 0xFFFFFFFF);
-		}else if (blackHoleAnimatioCount == 1) {
+		} else if (blackHoleAnimatioCount == 1) {
 			renderer.DrawSprite(blackHole, blackHoleWidth, blackHoleHeight, 0.0f, grHandleBlackHole1, 0xFFFFFFFF);
 		} else if (blackHoleAnimatioCount == 2) {
 			renderer.DrawSprite(blackHole, blackHoleWidth, blackHoleHeight, 0.0f, grHandleBlackHole2, 0xFFFFFFFF);
 		} else if (blackHoleAnimatioCount == 3) {
 			renderer.DrawSprite(blackHole, blackHoleWidth, blackHoleHeight, 0.0f, grHandleBlackHole3, 0xFFFFFFFF);
-		} 
+		}
 	}
 
 	if (bullets[60].isActive) {
@@ -203,6 +228,17 @@ void Stage2Boss::Shot() {
 	case Stage2BossAttack::BLACK_HOLE:
 		AttackBlackHole();
 		break;
+	case Stage2BossAttack::METEOR_SHOWER:
+		AttackMeteorShower();
+		break;
+
+	case Stage2BossAttack::STOP:
+		AttackStop();
+		break;
+
+	case Stage2BossAttack::LASER:
+		AttackLaser();
+		break;
 	}
 
 	shotTimer++;
@@ -232,18 +268,18 @@ void Stage2Boss::SpecialAttackSelect() {
 		if (randomAttack == 1) {
 			attack = Stage2BossAttack::NORMAL;
 		} else if (randomAttack == 2) {
-			attack = Stage2BossAttack::BLACK_HOLE;
+			attack = Stage2BossAttack::ALL_WALL;
 		} else {
 		}
 		break;
 	case AttackPhase::SECOND:
 
-		randomAttack = Random::RandomInt(2, 2);
+		randomAttack = Random::RandomInt(1, 2);
 
 		if (randomAttack == 1) {
-			attack = Stage2BossAttack::NORMAL;
+			attack = Stage2BossAttack::METEOR_SHOWER;
 		} else if (randomAttack == 2) {
-			attack = Stage2BossAttack::ALL_WALL;
+			attack = Stage2BossAttack::BLACK_HOLE;
 		} else {
 		}
 
@@ -253,9 +289,9 @@ void Stage2Boss::SpecialAttackSelect() {
 		randomAttack = Random::RandomInt(2, 2);
 
 		if (randomAttack == 1) {
-			attack = Stage2BossAttack::NORMAL;
+			attack = Stage2BossAttack::STOP;
 		} else if (randomAttack == 2) {
-			attack = Stage2BossAttack::ALL_WALL;
+			attack = Stage2BossAttack::LASER;
 		} else {
 		}
 
@@ -459,4 +495,232 @@ void Stage2Boss::AttackBlackHole() {
 		blackHoleAnimatioCount = 0;
 		blackHolePhase = 1;
 	}
+}
+
+/// <summary>
+/// アタックメテオシャワーの攻撃パターン
+/// </summary>
+void Stage2Boss::AttackMeteorShower() {
+
+
+
+	if (shotCounter >= 7) {
+		for (int bi = 0;bi < kBulletMax;bi++) {
+			if (bullets[bi].isActive) {
+				break;
+			}
+
+			if (bi == kBulletMax - 1) {
+				CommonAttackSelect();
+
+				barrageTimer = 0;
+				shotCounter = 0;
+				isFusion = false;
+				blackHolePhase = 0;
+			}
+		}
+	} else {
+
+		if (shotTimer >= 40) {
+			shotTimer = 0;
+			int randomPosition = Random::RandomInt(-1, 6);
+			int tmpPositionNumber[2];
+			tmpPositionNumber[0] = randomPosition;
+
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .height = 80.0f });
+					meteorShowerCenterPos[i] = 200.0f - (80.0f * static_cast<float>(randomPosition));
+					bullets[i].ShotDir({ 640.0f + (bullets[i].width),200.0f - (80.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
+
+					break;
+				}
+			}
+
+			do {
+				randomPosition = Random::RandomInt(-1, 6);
+
+				for (int i = 0; i < kBulletMax; i++) {
+					if (!bullets[i].isActive) {
+						if (tmpPositionNumber[0] != randomPosition) {
+							InitializeBullets(i, { .height = 80.0f });
+							meteorShowerCenterPos[i] = 200.0f - (80.0f * static_cast<float>(randomPosition));
+							bullets[i].ShotDir({ 640.0f + (bullets[i].width),200.0f - (80.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
+							tmpPositionNumber[1] = randomPosition;
+							break;
+						}
+					}
+				}
+
+			} while (tmpPositionNumber[0] == randomPosition);
+
+			do {
+				randomPosition = Random::RandomInt(-1, 6);
+
+				for (int i = 0; i < kBulletMax; i++) {
+					if (!bullets[i].isActive) {
+						if (tmpPositionNumber[0] != randomPosition) {
+							if (tmpPositionNumber[1] != randomPosition) {
+								InitializeBullets(i, { .height = 80.0f });
+								meteorShowerCenterPos[i] = 200.0f - (80.0f * static_cast<float>(randomPosition));
+								bullets[i].ShotDir({ 640.0f + (bullets[i].width),200.0f - (80.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
+								break;
+							}
+						}
+					}
+				}
+
+			} while (tmpPositionNumber[0] == randomPosition || tmpPositionNumber[1] == randomPosition);
+			shotCounter++;
+		}
+	}
+
+	for (int i = 0; i < kBulletMax; i++) {
+		if (bullets[i].isActive) {
+			bullets[i].transform.position.y = meteorShowerCenterPos[i] + (sinf(meteorTheta * (static_cast<float>(M_PI) / 180.0f)) * 100.0f);
+		}
+	}
+
+	meteorTheta += 2.0f;
+
+}
+
+/// <summary>
+/// アタックストップの攻撃パターン
+/// </summary>
+void Stage2Boss::AttackStop() {
+
+	if (shotTimer >= 224) {
+	} else if (shotTimer > 194) {
+	} else if (shotTimer > 193) {
+		for (int i = 0; i < kBulletMax; i++) {
+			if (bullets[i].isActive) {
+				bullets[i].Deactive();
+			}
+		}
+
+		currentWalker = DimesionWalker::PLAYER;
+		isBackGroundActive = true;
+		SpecialAttackSelect();
+	} else if (shotTimer > 192) {
+	} else if (shotTimer > 162) {
+	} else if (shotTimer > 161) {
+		if (currentDimension == DimensionState::TWO) {
+			isBackGroundActive = true;
+		}
+
+	} else if (shotTimer > 151) {
+
+	} else if (shotTimer > 141) {
+		if (shotTimer % 2 == 0) {
+			if (currentWalker == DimesionWalker::PLAYER) {
+				currentWalker = DimesionWalker::BOSS;
+			} else {
+				currentWalker = DimesionWalker::PLAYER;
+			}
+		}
+	} else if (shotTimer > 140) {
+		for (int i = 0; i < kBulletMax; i++) {
+			if (bullets[i].isActive) {
+				bullets[i].velocity.x = 0.0f;
+			}
+		}
+
+	} else if (shotTimer > 1) {
+		if (shotTimer % 16 == 0) {
+			if (shotCounter != holePosition && shotCounter != holePosition + 1) {
+				for (int i = 0; i < kBulletMax; i++) {
+					if (!bullets[i].isActive) {
+						if (!bullets[i].effect.GetIsActive()) {
+							InitializeBullets(i, { .height = 80.0f });
+							bullets[i].ShotDir({ 640.0f + (bullets[i].width),200.0f }, { -1.0f, 0.0f }, 0.0f);
+							break;
+						}
+					}
+				}
+			}
+
+			shotCounter++;
+		} else if (shotTimer % 16 == 8) {
+			if (shotCounter != holePosition && shotCounter != holePosition + 1) {
+				for (int i = 0; i < kBulletMax; i++) {
+					if (!bullets[i].isActive) {
+						if (!bullets[i].effect.GetIsActive()) {
+							InitializeBullets(i, { .height = 80.0f });
+							bullets[i].ShotDir({ 640.0f + (bullets[i].width),-200.0f }, { -1.0f, 0.0f }, 0.0f);
+							break;
+						}
+					}
+				}
+			}
+
+			shotCounter++;
+		}
+
+	} else {
+		holePosition = Random::RandomInt(1, 9);
+	}
+
+}
+
+/// <summary>
+/// アタックレーザーの攻撃パターン
+/// </summary>
+void Stage2Boss::AttackLaser() {
+
+	AttackLaserStraight();
+
+}
+
+/// <summary>
+/// アタックレーザー(ストレート)の攻撃パターン
+/// </summary>
+void Stage2Boss::AttackLaserStraight() {
+	if (shotTimer >= 161) {
+	} else if (shotTimer >= 160) {
+		for (int i = 0; i < kLaserMax; i++) {
+			if (!laser[i].isActive) {
+				laser[i].LaserCreate({ 0.0f,0.0f }, 1280.0f, 240.0f, 300);
+				break;
+			}
+		}
+	} else if (shotTimer >= 60) {
+	} else if (shotTimer >= 59) {
+		for (int i = 0; i < kPredictionMax; i++) {
+			if (!prediction[i].isActive) {
+				prediction[i].LineCharge({ 0.0f,0.0f }, 1280.0f, 240.0f, 100);
+				break;
+			}
+		}
+	}
+}
+
+/// <summary>
+/// アタックレーザー(強制パリッチ)の攻撃パターン
+/// </summary>
+void Stage2Boss::AttackLaserCloseEye() {
+	if (shotTimer >= 161) {
+	} else if (shotTimer >= 160) {
+		for (int i = 0; i < kLaserMax; i++) {
+			if (!laser[i].isActive) {
+				laser[i].LaserCreate({ 0.0f,0.0f }, 1280.0f, 240.0f, 300);
+				break;
+			}
+		}
+	} else if (shotTimer >= 60) {
+	} else if (shotTimer >= 59) {
+		for (int i = 0; i < kPredictionMax; i++) {
+			if (!prediction[i].isActive) {
+				prediction[i].LineCharge({ 0.0f,0.0f }, 1280.0f, 240.0f, 100);
+				break;
+			}
+		}
+	}
+}
+
+/// <summary>
+/// アタックレーザー(幻二つ)の攻撃パターン
+/// </summary>
+void Stage2Boss::AttackLaserIllusion() {
+
 }

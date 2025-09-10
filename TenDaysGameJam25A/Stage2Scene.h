@@ -1,6 +1,5 @@
 ﻿#pragma once
 #include "Dlib.h"
-#include "Player.h"
 #include "Stage2Boss.h"
 #include"BackGround.h"
 
@@ -51,8 +50,6 @@ public:
 	DimensionState dimensionState;
 	Renderer renderer;
 
-
-	ParryState parryState;
 	Stage2Boss stage2Boss;
 };
 

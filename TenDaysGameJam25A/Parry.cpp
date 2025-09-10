@@ -6,7 +6,7 @@ Parry::Parry() { Initialize(); }
 void Parry::Initialize() {
 	color = 0xFFFF00FF;
 	parryState = ParryState::NONE;
-	
+	fillMode = kFillModeWireFrame;
 }
 
 void Parry::Update() {
@@ -15,13 +15,15 @@ void Parry::Update() {
 
 	click.Update();
 
+	isParry = false;
 	parryState = ParryState::NONE;
 
-	if (click.GetClickTrigger(0)) {
-		isParry = true;
-	} else {
-		isParry = false;
+	if (currentDimension == DimensionState::ONE) {
+		if (click.GetClickTrigger(0)) {
+			isParry = true;
+		}
 	}
+
 
 	if (isParry) {
 		fillMode = kFillModeSolid;

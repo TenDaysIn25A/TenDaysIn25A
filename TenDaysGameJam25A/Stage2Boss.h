@@ -7,7 +7,7 @@
 #include "Laser.h"
 
 enum class Stage2BossAttack {
-	NORMAL,ALL_WALL,BLACK_HOLE,
+	NORMAL, ALL_WALL, BLACK_HOLE,METEOR_SHOWER,STOP,LASER
 };
 
 class Stage2Boss {
@@ -48,7 +48,7 @@ public:
 	/// <summary>
 	/// 弾の初期化
 	/// </summary>
-	void InitializeBullets(int index ,const BulletConfig& bulletConfig);
+	void InitializeBullets(int index, const BulletConfig& bulletConfig);
 
 	/// <summary>
 	/// 更新処理をここに
@@ -136,7 +136,40 @@ private:
 	/// </summary>
 	void AnimDraw() const;
 
-	public:
+	/// <summary>
+	/// アタックメテオシャワーの攻撃パターン
+	/// </summary>
+	void AttackMeteorShower();
+
+	/// <summary>
+	/// アタックストップの攻撃パターン
+	/// </summary>
+	void AttackStop();
+
+	/// <summary>
+	/// アタックレーザー全部の攻撃パターンを管理
+	/// </summary>
+	void AttackLaser();
+
+	/// <summary>
+	/// アタックレーザー(ストレート)の攻撃パターン
+	/// </summary>
+	void AttackLaserStraight();
+
+	/// <summary>
+	/// アタックレーザー(強制パリッチ)の攻撃パターン
+	/// </summary>
+	void AttackLaserCloseEye();
+
+	/// <summary>
+	/// アタックレーザー(幻二つ)の攻撃パターン
+	/// </summary>
+	void AttackLaserIllusion();
+
+
+
+
+public:
 	// ----------------------------------------------
 	// メンバ変数
 	// ----------------------------------------------
@@ -216,18 +249,21 @@ private:
 
 	static constexpr int kExchengePhaseThirdHp = 300;
 	static constexpr int kExchengePhaseSecondHp = 600;
-	
+
+	//メテオシャワー
 	float meteorShowerCenterPos[kBulletMax];
 	float meteorTheta;
+	
+	//ストpp
 	int holePosition;
 	int isBackGroundActive;
 
+	//レーザー
 	static constexpr int kPredictionMax = 5;
 	Prediction prediction[kPredictionMax];
-
 	static constexpr int kLaserMax = 5;
-	Laser laser[kLaserMax]; 
-
+	Laser laser[kLaserMax];
+	int laserCount;
 
 	// 描画
 	// 

@@ -11,7 +11,7 @@ void EnemyHpGauge::Initialize(){
 	positionXMisalignment = 0.0f;
 	transform.position = {0.0,300.0f};
 	color = kColor;
-	isVisible = false;
+	isActive = false;
 	isBackGroundVisible = false;
 }
 
@@ -24,11 +24,11 @@ void EnemyHpGauge::CreateHpGauge(const Vector2& position, int startHp, int setMa
 
 	isBackGroundVisible = setBackGroundVisible;
 	color = setColor;
-	isVisible = true;
+	isActive = true;
 }
 
 void EnemyHpGauge::Destory(){
-	isVisible = false;
+	isActive = false;
 }
 
 void EnemyHpGauge::Update(){
