@@ -58,6 +58,8 @@ void Player::Initialize() {
 	nice.Initialize(Novice::LoadTexture("./Resources/images/nice.png"), 512.0f, 128.0f);
 	just.Initialize(Novice::LoadTexture("./Resources/images/just.png"), 512.0f, 128.0f);
 
+	auHandleShot = Novice::LoadAudio("./Resources/sounds/snd_player_bullet_shot.mp3");
+
 	leftTop.position = { transform.position.x - width / 2.0f,transform.position.y + height / 2.0f };
 	rightTop.position = { transform.position.x + width / 2.0f,transform.position.y + height / 2.0f };
 	leftBottom.position = { transform.position.x - width / 2.0f,transform.position.y - height / 2.0f };
@@ -124,6 +126,10 @@ void Player::Update() {
 		transform.Translate(blackHoleGravityVelocity);
 	}
 
+	if (currentDimension == DimensionState::ONE) {
+		transform.position.y = 0.0f;
+	}
+
 	ClampInWindow2D();
 
 	leftTop.position = { transform.position.x - width / 2.0f,transform.position.y + height / 2.0f };
@@ -176,6 +182,8 @@ void Player::MachinGunBullet() {
 					if (!bullets[bi].isActive) {
 						if (!bullets[bi].effect.GetIsActive()) {
 
+							bullets[bi].auHandleShot = auHandleShot;
+							bullets[bi].bulletShotVolume = auVolumeShot;
 							if (isBlackHole) {
 								bullets[bi].ShotPos(transform.position, blackHolePos, 0.0f);
 							} else {
@@ -376,6 +384,7 @@ void Player::Move() {
 		direction.x = 1.0f;
 	}
 
+	direction += controler.GetStickDirection();
 	velocity = Vector2::Normalize(direction) * speed;
 	transform.Translate(velocity);
 }

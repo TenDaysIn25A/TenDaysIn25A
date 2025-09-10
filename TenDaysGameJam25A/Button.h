@@ -61,4 +61,5 @@ public:
 	unsigned int color;
 
 	ButtonState nextState;
+	ButtonState prevState;
 };

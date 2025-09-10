@@ -72,5 +72,9 @@ public:
 	int grHandleBox;
 
 	// 音楽
+	float bulletShotVolume;
 	int auHandleShot;
+
+	float bulletDestroyVolume;
+	int auHandleDestroy;
 };

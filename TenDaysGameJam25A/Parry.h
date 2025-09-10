@@ -52,4 +52,9 @@ public:
 	int canJustTimer;
 	unsigned int color;
 	FillMode fillMode;
+
+	//オーディオハンドル
+	int auHandleNice;
+	int auHandleJust;
+
 };

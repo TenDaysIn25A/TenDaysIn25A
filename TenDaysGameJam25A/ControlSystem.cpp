@@ -75,7 +75,7 @@ int ControlSystem::IsPary() {
 		return true;
 	}
 
-	if (checkR2) {
+	if (checkR2 && !prevR2) {
 		return true;
 	}
 
@@ -101,7 +101,17 @@ int ControlSystem::IsInPause() {
 
 	return false; }
 
-int ControlSystem::IsAccept() { return false; }
+int ControlSystem::IsAccept() { 
+	if (checkL2) {
+		return true;
+	}
+
+	if (checkR2) {
+		return true;
+	}
+	
+	return false; 
+}
 
 int ControlSystem::IsBack() { 
 	if (input.GetKeyTrigger(DIK_ESCAPE)) {

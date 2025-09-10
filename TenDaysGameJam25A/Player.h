@@ -161,6 +161,7 @@ public:
 	// 音楽
 	// ----------------------------------------------
 	int auHandleShot;
+	const float auVolumeShot = 0.05f;
 	int auHandleParry;
 	int auHandleJustParry;
 };

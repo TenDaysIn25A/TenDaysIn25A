@@ -16,10 +16,11 @@ void BackGround::Initialize() {
 	currentDimension = DimensionState::TWO;
 	currentWalker = DimesionWalker::PLAYER;
 	color = 0xFFFFFFFF;
+	auHandleParicchi = Novice::LoadAudio("./Resources/sounds/paricchi.mp3");
 }
 
 void BackGround::Update() {
-
+	controler.Update();
 	input.Update();
 	click.Update();
 

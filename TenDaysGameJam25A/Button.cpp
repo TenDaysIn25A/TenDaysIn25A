@@ -20,6 +20,7 @@ void Button::Initialize() {
 
 	transform.scale = scaleNone;
 	state = ButtonState::NONE;
+	prevState = state;
 }
 
 void Button::Initialize(int textureHandle, float w, float h) {
@@ -30,11 +31,16 @@ void Button::Initialize(int textureHandle, float w, float h) {
 }
 
 void Button::Update() {
-	ButtonState prevState = state;
+	//ButtonState prevState = state;
+	/*if (nextState != ButtonState::NONE) {
+		state = nextState;
+		nextState = ButtonState::NONE;
+		t = 0.0f; 
+	}*/
 
-	state = ButtonState::NONE;
-	GetMousePos();
-	CheckHitCursor();
+	//state = ButtonState::NONE;
+	//GetMousePos();
+	//CheckHitCursor();
 
 	if (state != prevState) {
 		t = 0.0f;

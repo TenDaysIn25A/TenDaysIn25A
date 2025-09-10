@@ -45,5 +45,12 @@ public:
 	Button buttonToTitleFromPause;
 	Button buttonToSelectFromPause;
 	Button buttonToContinueFromPause;
-
+	
+	float currentBgmVolume;
+	const float kBgmVolume = 0.1f;
+	int bgmPlayHandle;
+	int auHandleTitle;
+	int auHandleStageTutorial;
+	int auHandleStage1;
+	int auHandleResult;
 };

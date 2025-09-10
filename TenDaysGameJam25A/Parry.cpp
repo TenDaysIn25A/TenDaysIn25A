@@ -10,7 +10,7 @@ void Parry::Initialize() {
 }
 
 void Parry::Update() {
-
+	controler.Update();
 	isParry = false;
 	parryState = ParryState::NONE;
 

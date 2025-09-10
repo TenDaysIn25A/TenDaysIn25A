@@ -1,8 +1,8 @@
 ﻿#include"SceneManager.h"
 
 // 生成時に初期化
-SceneManager::SceneManager() { 
-	Initialize(); 
+SceneManager::SceneManager() {
+	Initialize();
 	currentScene = Scene::TITLE;
 };
 
@@ -14,7 +14,7 @@ void SceneManager::Initialize() {
 	buttonToSelectFromPause.Initialize();
 	buttonToTitleFromPause.Initialize();
 	buttonToContinueFromPause.Initialize();
-	
+
 	buttonToSelectFromPause.transform.position = { 0.0f,-150.0f };
 	buttonToTitleFromPause.transform.position = { 0.0f,-200.0f };
 	buttonToContinueFromPause.transform.position = { -590.0f,310.0f };
@@ -22,6 +22,12 @@ void SceneManager::Initialize() {
 	buttonToContinueFromPause.width = 40.0f;
 	buttonToContinueFromPause.height = 40.0f;
 
+	auHandleTitle = Novice::LoadAudio("./Resources/sounds/mus_menu.mp3");
+	auHandleStageTutorial = Novice::LoadAudio("./Resources/sounds/mus_stage_tutorial.mp3");
+	auHandleStage1 = Novice::LoadAudio("./Resources/sounds/mus_stage_1_fight.m4a");
+	auHandleResult = Novice::LoadAudio("./Resources/sounds/mus_result.mp3");
+
+	currentBgmVolume = kBgmVolume;
 }
 
 void SceneManager::Update() {
@@ -29,18 +35,21 @@ void SceneManager::Update() {
 	switch (currentScene) {
 
 	case Scene::TITLE:
+		if (!Novice::IsPlayingAudio(bgmPlayHandle)) {
+			bgmPlayHandle = Novice::PlayAudio(auHandleTitle, true, 0.3f);
+		}
 
 		titleScene.Update();
 		titleScene.Draw();
-		
+
 		if (titleScene.buttonToStageSelect.IsClicked()) {
 			ExchangeScene(Scene::STAGE_SELECT);
 		}
-		
+
 		//if (titleScene.buttonToConfig.IsClicked()) {
 		//	ExchangeScene(Scene::CONFIG);
 		//}
-		
+
 		//if (titleScene.buttonToCredit.IsClicked()) {
 		//	ExchangeScene(Scene::CREDIT);
 		//}
@@ -50,12 +59,17 @@ void SceneManager::Update() {
 		break;
 
 	case Scene::STAGE_SELECT:
+		if (!Novice::IsPlayingAudio(bgmPlayHandle)) {
+			bgmPlayHandle = Novice::PlayAudio(auHandleTitle, true, currentBgmVolume);
+		}
 
 		stageSelectScene.Update();
 		stageSelectScene.Draw();
 		stageSelectScene.isTutorialCleared = gameScene.tutorialScene.isClear;
 
 		if (stageSelectScene.buttonToStage.IsClicked()) {
+			Novice::StopAudio(bgmPlayHandle);
+
 			gameScene.ExchangeStage(stageSelectScene.currentStage);
 			ExchangeScene(Scene::INGAME);
 		}
@@ -97,6 +111,31 @@ void SceneManager::Update() {
 		break;
 
 	case Scene::INGAME:
+		switch (stageSelectScene.currentStage) {
+		case Stage::TUTORIAL:
+			if (!Novice::IsPlayingAudio(bgmPlayHandle)) {
+				bgmPlayHandle = Novice::PlayAudio(auHandleStageTutorial, true, currentBgmVolume);
+			}
+			break;
+		case Stage::STAGE1:
+			if (!gameScene.stage1Scene.stage1Boss.isAlive) {
+				if (currentBgmVolume <= 0.0f) {
+					currentBgmVolume = 0.0f;
+				} else {
+					currentBgmVolume -= 0.01f;
+					Novice::SetAudioVolume(bgmPlayHandle, currentBgmVolume);
+				}
+			}
+
+			if (gameScene.stage1Scene.stage1Boss.isPlayedAudioRoar) {
+				if (!Novice::IsPlayingAudio(bgmPlayHandle)) {
+					bgmPlayHandle = Novice::PlayAudio(auHandleStage1, true, currentBgmVolume);
+				}
+			}
+			break;
+		case Stage::STAGE2:
+			break;
+		}
 
 		input.Update();
 		if (!isPause) {
@@ -112,10 +151,14 @@ void SceneManager::Update() {
 
 			if (buttonToSelectFromPause.IsClicked()) {
 				ExchangeScene(Scene::STAGE_SELECT);
+				currentBgmVolume = 0.3f;
+				Novice::StopAudio(bgmPlayHandle);
 			}
 
 			if (buttonToTitleFromPause.IsClicked()) {
 				ExchangeScene(Scene::TITLE);
+				currentBgmVolume = 0.3f;
+				Novice::StopAudio(bgmPlayHandle);
 			}
 
 			if (buttonToContinueFromPause.IsClicked()) {
@@ -133,19 +176,31 @@ void SceneManager::Update() {
 
 		if (input.GetKeyTrigger(DIK_ESCAPE)) {
 			isPause = !isPause;
+
+			if (gameScene.stage1Scene.stage1Boss.isAlive) {
+				if (isPause) {
+					Novice::SetAudioVolume(bgmPlayHandle, kBgmVolume / 2.0f);
+				} else {
+					Novice::SetAudioVolume(bgmPlayHandle, kBgmVolume);
+				}
+			}
 		}
 
 		if (gameScene.stage1Scene.stage1Boss.isEnd ||
 			!gameScene.stage2Scene.stage2Boss.isAlive ||
 			!gameScene.stage3Scene.stage3Boss.isAlive ||
 			!gameScene.stage4Scene.enemy.isAlive ||
-			!gameScene.stage5Scene.enemy.isAlive||
+			!gameScene.stage5Scene.enemy.isAlive ||
 			!gameScene.tutorialScene.zako.isAlive) {
 			gameScene.tutorialScene.isClear = true;
+			currentBgmVolume = 0.3f;
+			Novice::StopAudio(bgmPlayHandle);
 			ExchangeScene(Scene::GAMECLEAR);
 		}
 
-		if (!gameScene.player.isAlive ) {
+		if (!gameScene.player.isAlive) {
+			currentBgmVolume = 0.3f;
+			Novice::StopAudio(bgmPlayHandle);
 			ExchangeScene(Scene::GAMEOVER);
 		}
 
@@ -154,15 +209,20 @@ void SceneManager::Update() {
 		break;
 
 	case Scene::GAMECLEAR:
+		if (!Novice::IsPlayingAudio(bgmPlayHandle)) {
+			bgmPlayHandle = Novice::PlayAudio(auHandleResult, true, currentBgmVolume);
+		}
 
 		gameClearScene.Update();
 		gameClearScene.Draw();
 
 		if (gameClearScene.buttonToRetry.IsClicked()) {
+			Novice::StopAudio(bgmPlayHandle);
 			ExchangeScene(Scene::INGAME);
 		}
 
 		if (gameClearScene.buttonToStageSelect.IsClicked()) {
+			Novice::StopAudio(bgmPlayHandle);
 			ExchangeScene(Scene::STAGE_SELECT);
 		}
 

@@ -2,6 +2,7 @@
 
 Bullet::Bullet() { 
 	auHandleShot = -1;
+	auHandleDestroy = -1;
 	Initialize(); 
 }
 
@@ -26,6 +27,8 @@ void Bullet::Initialize() {
 	effect.Initialize();
 	color = 0xFFFFFFFF;
 	type = BulletType::SHOT;
+	bulletShotVolume = 0.05f;
+	bulletDestroyVolume = 0.1f;
 }
 
 void Bullet::Update() {
@@ -72,7 +75,7 @@ void Bullet::Draw() const {
 
 void Bullet::ShotPos(const Vector2& startPos, const Vector2& endPos, float spreadRotationDegree) {
 	if (auHandleShot != -1) {
-		Novice::PlayAudio(auHandleShot, false, 0.2f);
+		Novice::PlayAudio(auHandleShot, false, bulletShotVolume);
 	}
 
 	isActive = true;
@@ -99,7 +102,7 @@ void Bullet::ShotPos(const Vector2& startPos, const Vector2& endPos, float sprea
 
 void Bullet::ShotDir(const Vector2& startPos, const Vector2& dir, float spreadRotationDegree) {
 	if (auHandleShot != -1) {
-		Novice::PlayAudio(auHandleShot, false, 0.2f);
+		Novice::PlayAudio(auHandleShot, false, bulletShotVolume);
 	}
 
 	isActive = true;
@@ -187,6 +190,7 @@ void Bullet::TurnDir(const Vector2& startPos, const Vector2& dir, float amplitud
 }
 
 void Bullet::Deactive() {
+
 	isActive = false;
 	effect.StartExplosion(transform.position, 500.0f, 0.7f, renderer.GetCamera(), EASE_OUT_QUAD);
 	transform.position = { -1000.0f,-1000.0f };

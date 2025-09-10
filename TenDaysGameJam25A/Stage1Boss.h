@@ -327,4 +327,15 @@ public:
 	int auHandleRoar; // 咆哮
 	bool isPlayedAudioRoar; // 咆哮が再生されたか
 	const float auVolumeRoar = 0.3f; // 咆哮の音量
+
+	int auHandleFlash; // 閃光
+	const float auVolumeFlash = 0.3f; // 閃光の音量
+
+	int auHandleFlashAttack; // 閃光の攻撃
+	const float auVolumeFlashAttack = 0.3f; // 閃光の攻撃の音量
+
+	int auHandleTakeDamage; // ダメージ
+	const float auVolumeTakeDamage = 0.05f; // ダメージの音量
+
+	int auHandleBulletDestroy; // 弾の削除
 };

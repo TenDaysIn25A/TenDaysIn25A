@@ -4,6 +4,7 @@
 #include "Vector2.h"
 #include "Collision.h"
 #include "Input.h"
+#include "Dlib.h"
 
 enum class ParryState { NONE, NORMAL, JUST };
 
@@ -27,8 +28,8 @@ public:
 	// システム
 	//-------------------------------
 	Renderer renderer;
-	Input input;
 	DrawEffects effect;
+	ControlSystem controler;
 
 	// プロパティ
 	//------------------------------
@@ -46,7 +47,7 @@ public:
 	// 定数
 	//------------------------------
 	static constexpr int kNomalParryAbleGrace = 8;
-	static constexpr int kJustParryAbleGrace = 3;
+	static constexpr int kJustParryAbleGrace = 1;
 
 	int canJustTimer;
 	unsigned int color;

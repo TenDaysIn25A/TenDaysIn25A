@@ -26,6 +26,7 @@ public:
 	DimensionState dimansionState;
 	Input input;
 	Click click;
+	ControlSystem controler;
 
 	//プロパティ
 	//---------------------------------
@@ -61,5 +62,8 @@ public:
 	Vector2 midTop;
 	Vector2 endUnder;
 	Vector2 endTop;
+
+	//オーディオハンドル
+	int auHandleParicchi;
 };
 

@@ -56,6 +56,13 @@ void Stage1Boss::Initialize() {
 	}
 
 	auHandleRoar = Novice::LoadAudio("./Resources/sounds/kirasRoar.m4a");
+	auHandleFlash = Novice::LoadAudio("./Resources/sounds/snd_flash.mp3");
+	auHandleFlashAttack = Novice::LoadAudio("./Resources/sounds/snd_flash_attack.mp3");
+	auHandleTakeDamage = Novice::LoadAudio("./Resources/sounds/snd_bullet_hit.mp3");
+	auHandleBulletDestroy = Novice::LoadAudio("./Resources/sounds/snd_bullet_hit.mp3");
+
+
+
 	isPlayedAudioRoar = false;
 }
 
@@ -122,9 +129,13 @@ void Stage1Boss::InitializeBullets(int index, const BulletConfig& bulletConfig) 
 	bullets[index].color = bulletConfig.color;
 	bullets[index].type = bulletConfig.type;
 	bullets[index].grHandle = bulletConfig.grHandle;
+	bullets[index].auHandleDestroy = auHandleBulletDestroy;
 }
 
 void Stage1Boss::Update() {
+	hpGauge.ReferenceHp(hp, maxHp);
+	hpGauge.Update();
+
 	input.Update();
 
 	//死んだら、ここで返る
@@ -167,8 +178,6 @@ void Stage1Boss::Update() {
 		}
 	}
 
-	hpGauge.ReferenceHp(hp, maxHp);
-	hpGauge.Update();
 
 	AnimUpdate();
 
@@ -258,7 +267,7 @@ void Stage1Boss::AnimUpdate() {
 			if (hp >= maxHp) {
 				hp = maxHp;
 			} else {
-				hp += 10;
+				hp += 4;
 			}
 
 			chochinThetaSpeed = 0.0f;
@@ -563,6 +572,9 @@ void Stage1Boss::TakeDamage(int damage) {
 	hp -= damage;
 
 	color = kDamageColor;
+
+
+	Novice::PlayAudio(auHandleTakeDamage, false, auVolumeTakeDamage);
 
 	if (hp <= 0) {
 		Destory();
@@ -1240,6 +1252,8 @@ void Stage1Boss::AttackLight() {
 			light[i].lightNotice = true;
 		}
 
+	} else if (shotTimer >= 287) {
+			Novice::PlayAudio(auHandleFlashAttack, false, auVolumeFlashAttack);
 	} else if (shotTimer >= 228) {
 		if (bullets[61].isActive) {
 			light[1].lightNotice = false;
@@ -1253,12 +1267,15 @@ void Stage1Boss::AttackLight() {
 		}
 
 		light[0].lightNotice = true;
+	} else if (shotTimer >= 225) {
+		Novice::PlayAudio(auHandleFlash, false, auVolumeFlash);
 	} else if (shotTimer >= 186) {
 
 		if (bullets[61].isActive) {
 			light[1].lightNotice = false;
 		}
 
+		
 		light[0].lightNotice = false;
 
 	} else if (shotTimer >= 184) {
@@ -1270,6 +1287,8 @@ void Stage1Boss::AttackLight() {
 
 		chochinLightIsActive = true;
 
+	} else if (shotTimer >= 183) {
+		Novice::PlayAudio(auHandleFlash, false, auVolumeFlash);
 	} else if (shotTimer >= 180) {
 
 	} else if (shotTimer > 61) {

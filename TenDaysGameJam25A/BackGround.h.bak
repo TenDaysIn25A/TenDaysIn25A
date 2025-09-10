@@ -13,7 +13,8 @@ public:
 
 	void Initialize();
 	void Update();
-	void Draw();
+	void Draw() const;
+	void Activate();
 
 	//=================================
 	// メンバ変数
@@ -24,6 +25,8 @@ public:
 
 	DimensionState dimansionState;
 	Input input;
+	Click click;
+	ControlSystem controler;
 
 	//プロパティ
 	//---------------------------------
@@ -48,6 +51,10 @@ public:
 	int tweenStep;  
 	float t;        
 	float duration; 
+
+	unsigned int color;
+
+	const unsigned int kBossColor = 0xAA00CCFF;
 
 	Vector2 startUnder;
 	Vector2 startTop;
