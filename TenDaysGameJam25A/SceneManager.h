@@ -39,7 +39,7 @@ public:
 	GameScene gameScene;
 	GameClearScene gameClearScene;
 	GameOverScene gameOverScene;
-	Input input;
+	//Input input;
 
 	bool isPause;
 	Button buttonToTitleFromPause;
@@ -53,4 +53,6 @@ public:
 	int auHandleStageTutorial;
 	int auHandleStage1;
 	int auHandleResult;
+
+	ControlSystem controler;
 };

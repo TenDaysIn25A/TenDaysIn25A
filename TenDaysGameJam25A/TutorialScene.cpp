@@ -23,7 +23,7 @@ void TutorialScene::Initialize() {
 	grHandleInfoB = Novice::LoadTexture("./Resources/images/infoB.png");
 	grHandleInfoParry = Novice::LoadTexture("./Resources/images/infoParryA.png");
 	grHandleInfoShot = Novice::LoadTexture("./Resources/images/infoShot.png");
-
+	grHandleInfoParicchi = Novice::LoadTexture("./Resources/images/infoParicchi.png");
 	grHandleFukidashi = Novice::LoadTexture("./Resources/images/fukidashi.png");
 
 	howToMoveWidth = 720.0f;
@@ -41,13 +41,13 @@ void TutorialScene::Initialize() {
 	tutorialText.position = { tutorialFukidashi.position.x,tutorialFukidashi.position.y + kTextOffsetY };
 
 	info.position = { -480.0f,312.0f };
-	infoButton.position = { info.position.x + kInfoOffset.x,info.position.y + kInfoOffset.y };
 	infoParryHeight = 96.0f;
 	infoParryWidth = 260.0f;
 	infoShotHeight = 96.0f;
 	infoShotWidth = 320.0f;
-	infoButtonWidth = 59.0f;
-	infoButtonHeight = 59.0f;
+	infoParicchiWidth = 330.0f;
+	infoParicchiHeight = 96.0f;
+	infoParicchi.position = { -150.0f,312.0f };
 }
 
 void TutorialScene::Update() {

@@ -62,4 +62,9 @@ public:
 
 	ButtonState nextState;
 	ButtonState prevState;
+
+	int auHandleHover;
+	const float auVolumeHover = 0.1f;
+	int auHandleClicked;
+	const float auVolumeClicked = 0.1f;
 };

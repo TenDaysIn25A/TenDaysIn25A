@@ -5,7 +5,7 @@
 #include "Reaction.h"
 #include"backGround.h"
 
-enum class ShotType{MACHINEGUN,SHOTGUN};
+enum class ShotType { MACHINEGUN, SHOTGUN };
 
 class Player {
 public:
@@ -164,4 +164,6 @@ public:
 	const float auVolumeShot = 0.05f;
 	int auHandleParry;
 	int auHandleJustParry;
+	int auHandleTakeDamage;
+	const float auVolumeTakeDamage = 0.1f;
 };

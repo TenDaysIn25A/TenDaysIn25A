@@ -40,19 +40,22 @@ public:
 	int hp;
 	const int kMaxHp = 20;
 
-	static constexpr int kBulletMax = 1;
+	static constexpr int kBulletMax = 2;
 	Bullet bullets[kBulletMax];
 
-	Transform2D parryArea;
+	Transform2D player;
 	int tutorialLevel;
 
 	int grHandleZako;
 
 	int tutorialInterval;
 	int isAlive;
-	bool isStop;
+	bool isStop1;
+	bool isStop0;
 
 	unsigned int color;
 	const unsigned int kDamagedColor = 0xAA5555FF;
+
+	int auHandleTakeDamage;
 };
 

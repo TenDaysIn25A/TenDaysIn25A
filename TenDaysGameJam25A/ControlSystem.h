@@ -113,4 +113,14 @@ private:
 	int prevR2;
 	int checkL2;
 	int prevL2;
+
+	int prevStickUp;
+	int prevStickDown;
+	int prevStickLeft;
+	int prevStickRight;
+
+	int checkStickUp;
+	int checkStickDown;
+	int checkStickLeft;
+	int checkStickRight;
 };

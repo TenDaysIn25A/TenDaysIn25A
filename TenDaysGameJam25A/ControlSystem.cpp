@@ -7,6 +7,15 @@ ControlSystem::ControlSystem() {
 	prevR2 = 0;
 	stickLeftX = 0;
 	stickLeftY = 0;
+	prevStickUp = false;
+	prevStickDown = false;
+	prevStickLeft = false;
+	prevStickRight = false;
+
+	checkStickUp = false;
+	checkStickDown = false;
+	checkStickLeft = false;
+	checkStickRight = false;
 }
 
 void ControlSystem::Update() {
@@ -17,6 +26,16 @@ void ControlSystem::Update() {
 	prevR2 = checkR2;
 	checkL2 = Novice::IsPressButton(0, kPadButton10);
 	checkR2 = Novice::IsPressButton(0, kPadButton11);
+
+	prevStickUp = checkStickUp;
+	prevStickDown = checkStickDown;
+	prevStickLeft = checkStickLeft;
+	prevStickRight = checkStickRight;
+
+	checkStickUp = (stickLeftY < 0);
+	checkStickDown = (stickLeftY > 0);
+	checkStickLeft = (stickLeftX < 0);
+	checkStickRight = (stickLeftX > 0);
 	//Novice::GetAnalogInputRight(0, &stickRightX, &stickRightY);
 }
 
@@ -99,14 +118,19 @@ int ControlSystem::IsInPause() {
 		return true;
 	}
 
-	return false; }
-
-int ControlSystem::IsAccept() { 
-	if (checkL2) {
+	if (Novice::IsTriggerButton(0,kPadButton4)) {
 		return true;
 	}
 
-	if (checkR2) {
+	if (Novice::IsTriggerButton(0,kPadButton5)) {
+		return true;
+	}
+
+	return false; }
+
+int ControlSystem::IsAccept() { 
+
+	if (checkR2 && !prevR2) {
 		return true;
 	}
 	
@@ -122,7 +146,7 @@ int ControlSystem::IsBack() {
 }
 
 int ControlSystem::IsUp() {
-	if (stickLeftY < 0) {
+	if (checkStickUp && !prevStickUp) {
 		return true;
 	}
 
@@ -130,11 +154,15 @@ int ControlSystem::IsUp() {
 		return true;
 	}
 
+	if (Novice::IsTriggerButton(0, kPadButton0)) {
+		return true;
+	}
+
 	return false; 
 }
 
 int ControlSystem::IsDown() {
-	if (stickLeftY > 0) {
+	if (checkStickDown && !prevStickDown) {
 		return true;
 	}
 
@@ -142,11 +170,15 @@ int ControlSystem::IsDown() {
 		return true;
 	}
 
+	if (Novice::IsTriggerButton(0, kPadButton1)) {
+		return true;
+	}
+
 	return false;
 }
 
 int ControlSystem::IsLeft() {
-	if (stickLeftX < 0) {
+	if (checkStickLeft && !prevStickLeft) {
 		return true;
 	}
 
@@ -154,15 +186,23 @@ int ControlSystem::IsLeft() {
 		return true;
 	}
 
+	if (Novice::IsTriggerButton(0, kPadButton2)) {
+		return true;
+	}
+
 	return false;
 }
 
 int ControlSystem::IsRight() {
-	if (stickLeftX > 0) {
+	if (checkStickRight && !prevStickRight) {
 		return true;
 	}
 
 	if (input.GetKeyTrigger(DIK_RIGHT)) {
+		return true;
+	}
+
+	if (Novice::IsTriggerButton(0, kPadButton3)) {
 		return true;
 	}
 

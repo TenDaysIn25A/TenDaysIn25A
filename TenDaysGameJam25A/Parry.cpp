@@ -7,6 +7,8 @@ void Parry::Initialize() {
 	color = 0xFFFF00FF;
 	parryState = ParryState::NONE;
 	fillMode = kFillModeWireFrame;
+	auHandleNice = Novice::LoadAudio("./Resources/sounds/nice.m4a");
+	auHandleJust = Novice::LoadAudio("./Resources/sounds/just.m4a");
 }
 
 void Parry::Update() {

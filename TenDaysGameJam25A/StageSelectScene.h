@@ -2,8 +2,9 @@
 #include"Dlib.h"
 
 class StageSelectScene {
-
 public:
+
+	enum ControlerSelectButton { TO_NONE, TO_RIGHTSIDE, TO_LEFTSIDE, TO_STAGE, TO_TITLE };
 
 	//==============================
 	// メンバ関数
@@ -28,10 +29,17 @@ public:
 	Transform2D transform;
 	Stage currentStage;
 	Stage memCurrentStage;
+	ControlSystem controler;
+
+	// ボタン
+	//----------------------------------
 	Button buttonToRightSide;
 	Button buttonToLeftSide;
 	Button buttonToStage;
 	Button buttonToTitle;
+	ControlerSelectButton currentSelectButton;
+
+	// バックグラウンド
 	Transform2D backGround;
 
 	//プロパティ

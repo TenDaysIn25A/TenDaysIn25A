@@ -59,6 +59,7 @@ void Player::Initialize() {
 	just.Initialize(Novice::LoadTexture("./Resources/images/just.png"), 512.0f, 128.0f);
 
 	auHandleShot = Novice::LoadAudio("./Resources/sounds/snd_player_bullet_shot.mp3");
+	auHandleTakeDamage = Novice::LoadAudio("./Resources/sounds/snd_player_take_damage.mp3");
 
 	leftTop.position = { transform.position.x - width / 2.0f,transform.position.y + height / 2.0f };
 	rightTop.position = { transform.position.x + width / 2.0f,transform.position.y + height / 2.0f };
@@ -331,6 +332,8 @@ void Player::TakeDamage(int damage) {
 	if (isInvinciblity) {
 		return;
 	}
+
+	Novice::PlayAudio(auHandleTakeDamage,false,auVolumeTakeDamage);
 
 	currentLife -= damage;
 	invincibleTimer = kInvincibleTimer;

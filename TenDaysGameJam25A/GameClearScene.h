@@ -36,6 +36,7 @@ public:
 	float height;
 
 	int grHandle;
-
+	int grHandleGoBackTitle;
+	int grHandleRestart;
 };
 

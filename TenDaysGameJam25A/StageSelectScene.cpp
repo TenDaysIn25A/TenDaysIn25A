@@ -1,4 +1,4 @@
-#include "StageSelectScene.h"
+﻿#include "StageSelectScene.h"
 
 StageSelectScene::StageSelectScene() {
 	Initialize();
@@ -16,17 +16,22 @@ void StageSelectScene::Initialize() {
 
 	buttonToLeftSide.transform.position = { -550.0f,0.0f };
 	buttonToRightSide.transform.position = { 550.0f,0.0f };
-	buttonToStage.transform.position = { 0.0f,-300.0f };
-	buttonToTitle.transform.position = { -590.0f,310.0f };
+	buttonToStage.transform.position = { 0.0f,-200.0f };
+	buttonToTitle.transform.position = { -550.0f,320.0f };
 
-	buttonToLeftSide.width = 128.0f;
-	buttonToLeftSide.height = 128.0f;
-	buttonToRightSide.width = 128.0f;
-	buttonToRightSide.height = 128.0f;
-	buttonToStage.width = 200.0f;
-	buttonToStage.height = 100.0f;
-	buttonToTitle.width = 40.0f;
-	buttonToTitle.height = 40.0f;
+	//buttonToLeftSide.width = 128.0f;
+	//buttonToLeftSide.height = 128.0f;
+	//buttonToRightSide.width = 128.0f;
+	//buttonToRightSide.height = 128.0f;
+	//buttonToStage.width = 200.0f;
+	//buttonToStage.height = 100.0f;
+	//buttonToTitle.width = 40.0f;
+	//buttonToTitle.height = 40.0f;
+
+	buttonToStage.Initialize(Novice::LoadTexture("./Resources/images/battleStart.png"), 287.0f, 67.0f);
+	buttonToRightSide.Initialize(Novice::LoadTexture("./Resources/images/right.png"), 69.0f, 80.0f);
+	buttonToLeftSide.Initialize(Novice::LoadTexture("./Resources/images/left.png"), 69.0f, 80.0f);
+	buttonToTitle.Initialize(Novice::LoadTexture("./Resources/images/back.png"), 137.0f, 44.0f);
 
 	currentStage = Stage::TUTORIAL;
 
@@ -74,17 +79,144 @@ void StageSelectScene::Initialize() {
 
 	isAnimationLeftMove = false;
 
-
+	currentSelectButton = TO_NONE;
 }
 
 void StageSelectScene::Update() {
 
 	input.Update();
+	
+	controler.Update();
+
+	buttonToStage.prevState = buttonToStage.state;
+	buttonToStage.state = ButtonState::NONE;
+	buttonToStage.GetMousePos();
+	buttonToStage.CheckHitCursor();
+
+	buttonToRightSide.prevState = buttonToRightSide.state;
+	buttonToRightSide.state = ButtonState::NONE;
+	buttonToRightSide.GetMousePos();
+	buttonToRightSide.CheckHitCursor();
+
+	buttonToLeftSide.prevState = buttonToLeftSide.state;
+	buttonToLeftSide.state = ButtonState::NONE;
+	buttonToLeftSide.GetMousePos();
+	buttonToLeftSide.CheckHitCursor();
+
+	buttonToTitle.prevState = buttonToTitle.state;
+	buttonToTitle.state = ButtonState::NONE;
+	buttonToTitle.GetMousePos();
+	buttonToTitle.CheckHitCursor();
+
+	if (currentSelectButton == TO_STAGE) {
+		if (controler.IsUp()) {
+			currentSelectButton = TO_RIGHTSIDE;
+		}
+		
+		if (controler.IsRight()) {
+			currentSelectButton = TO_RIGHTSIDE;
+		}
+		
+		if (controler.IsLeft()) {
+			currentSelectButton = TO_LEFTSIDE;
+		}
+
+		if (controler.IsDown()) {
+		}
+		
+		if (controler.IsAccept()) {
+			buttonToStage.nextState = ButtonState::CLICKED;
+		}
+		
+		buttonToStage.state = ButtonState::HOVER;
+
+	} else if (currentSelectButton == TO_RIGHTSIDE) {
+		if (controler.IsUp()) {
+			currentSelectButton = TO_TITLE;
+		}
+
+		if (controler.IsRight()) {
+			buttonToRightSide.nextState = ButtonState::CLICKED;
+		}
+
+		if (controler.IsLeft()) {
+			currentSelectButton = TO_LEFTSIDE;
+		}
+
+		if (controler.IsDown()) {
+			currentSelectButton = TO_STAGE;
+		}
+
+		if (controler.IsAccept()) {
+			buttonToRightSide.nextState = ButtonState::CLICKED;
+		}
+
+		buttonToRightSide.state = ButtonState::HOVER;
+	} else if (currentSelectButton == TO_LEFTSIDE) {
+		if (controler.IsUp()) {
+			currentSelectButton = TO_TITLE;
+		}
+
+		if (controler.IsRight()) {
+			currentSelectButton = TO_RIGHTSIDE;
+		}
+
+		if (controler.IsLeft()) {
+			buttonToLeftSide.nextState = ButtonState::CLICKED;
+		}
+
+		if (controler.IsDown()) {
+			currentSelectButton = TO_STAGE;
+		}
+
+		if (controler.IsAccept()) {
+			buttonToRightSide.nextState = ButtonState::CLICKED;
+		}
+		buttonToLeftSide.state = ButtonState::HOVER;
+	} else if (currentSelectButton == TO_TITLE) {
+
+		if (controler.IsRight()) {
+			currentSelectButton = TO_RIGHTSIDE;
+		}
+
+		if (controler.IsLeft()) {
+			currentSelectButton = TO_LEFTSIDE;
+		}
+
+		if (controler.IsDown()) {
+			currentSelectButton = TO_LEFTSIDE;
+		}
+
+		if (controler.IsAccept()) {
+			buttonToTitle.nextState = ButtonState::CLICKED;
+		}
+		buttonToTitle.state = ButtonState::HOVER;
+	} else {
+		if (controler.IsUp()) {
+			currentSelectButton = TO_STAGE;
+		}
+
+		if (controler.IsRight()) {
+			currentSelectButton = TO_STAGE;
+		}
+
+		if (controler.IsLeft()) {
+			currentSelectButton = TO_STAGE;
+		}
+
+		if (controler.IsDown()) {
+			currentSelectButton = TO_STAGE;
+		}
+
+		if (controler.IsAccept()) {
+			currentSelectButton = TO_STAGE;
+		}
+	}
+
 	buttonToStage.Update();
 	buttonToRightSide.Update();
 	buttonToLeftSide.Update();
 	buttonToTitle.Update();
-
 
 
 	if (chochinAnimationCount > 3) {
@@ -118,8 +250,6 @@ void StageSelectScene::Update() {
 					isAnimationRightMove = false;
 				}
 			}
-
-
 
 		} else {
 			if (buttonToRightSide.IsClicked()) {

@@ -192,7 +192,12 @@ void Bullet::TurnDir(const Vector2& startPos, const Vector2& dir, float amplitud
 void Bullet::Deactive() {
 
 	isActive = false;
-	effect.StartExplosion(transform.position, 500.0f, 0.7f, renderer.GetCamera(), EASE_OUT_QUAD);
+
+	if (currentDimension == DimensionState::ONE) {
+		effect.StartExplosion({transform.position.x,0.0f}, 500.0f, 0.7f, renderer.GetCamera(), EASE_OUT_QUAD);
+	} else {
+		effect.StartExplosion(transform.position, 500.0f, 0.7f, renderer.GetCamera(), EASE_OUT_QUAD);
+	}
 	transform.position = { -1000.0f,-1000.0f };
 }
 

@@ -50,13 +50,13 @@ public:
 	//UI位置
 	Transform2D info;
 	Transform2D infoButton;
+	Transform2D infoParicchi;
 	float infoParryHeight;
 	float infoParryWidth;
 	float infoShotHeight;
 	float infoShotWidth;
-	float infoButtonWidth;
-	float infoButtonHeight;
-	const Vector2 kInfoOffset = { 140.0f,-40.0f };
+	float infoParicchiWidth;
+	float infoParicchiHeight;
 
 	//グラフハンドル
 	int grHandleHowToMove;
@@ -68,9 +68,10 @@ public:
 	int grHandleInfoB;
 	int grHandleInfoParry;
 	int grHandleInfoShot;
-
+	int grHandleInfoParicchi;
 	int grHandleFukidashi;
 
 	bool isClear;
+	
 };
 

@@ -20,7 +20,7 @@ void GameScene::Update() {
 	click.Update();
 
 	backGround.Update();
-	
+
 
 	if (currentWalker == DimesionWalker::PLAYER) {
 
@@ -70,7 +70,7 @@ void GameScene::Update() {
 	case Stage::TUTORIAL:
 		tutorialScene.Update();
 
-
+		tutorialScene.zako.player.position = player.transform.position;
 		if (currentDimension == DimensionState::TWO) {
 
 			if (tutorialScene.currentTutorialLevel != 6) {
@@ -93,9 +93,11 @@ void GameScene::Update() {
 					if (player.transform.position.y < 80.0f && player.transform.position.y > -80.0f) {
 
 					} else {
+
 						tutorialScene.currentTutorialLevel = 2;
 						tutorialScene.intervalTimer = 0;
 						tutorialScene.isSafe = true;
+
 					}
 				}
 			}
@@ -104,9 +106,11 @@ void GameScene::Update() {
 			player.controler.Update();
 			if (!tutorialScene.isShot) {
 
-				if (player.controler.IsShot()) {
-					player.MachinGunBullet();
-					tutorialScene.isShot = true;
+				if (tutorialScene.zako.bullets[0].transform.position.x <= -700.0f) {
+					if (player.controler.IsShot()) {
+						player.MachinGunBullet();
+						tutorialScene.isShot = true;
+					}
 				}
 			}
 
@@ -132,7 +136,7 @@ void GameScene::Update() {
 			}
 			player.bullets[0].effect.Update();
 
-			if (tutorialScene.zako.bullets[0].transform.position.x <= -700.0f) {
+			if (tutorialScene.intervalTimer >= tutorialScene.kTutorialInterval) {
 				currentWalker = DimesionWalker::PLAYER;
 			}
 
@@ -146,7 +150,11 @@ void GameScene::Update() {
 		} else if (tutorialScene.currentTutorialLevel == 4) {
 			player.Update();
 
-			tutorialScene.zako.parryArea.position = player.parry.transform.position;
+			if (!tutorialScene.zako.bullets[0].isActive&& !tutorialScene.zako.bullets[1].isActive) {
+				tutorialScene.currentTutorialLevel = 5;
+				tutorialScene.intervalTimer = 150;
+			}
+
 		} else if (tutorialScene.currentTutorialLevel == 5) {
 			player.Update();
 			if (tutorialScene.intervalTimer == tutorialScene.kTutorialInterval) {
@@ -275,12 +283,44 @@ void GameScene::CheckHitAll() {
 
 void GameScene::TutorialCheckHit() {
 
-	if (tutorialScene.currentTutorialLevel == 1 || tutorialScene.currentTutorialLevel == 4) {
 
-		if (tutorialScene.zako.bullets[0].isActive) {
+	//パリィの当たり判定
+	for (int bi = 0;bi < tutorialScene.zako.kBulletMax;bi++) {
+		if (player.parry.isParry) {
+			if (Collision::BoxToBox(
+				player.parry.transform.position, player.parry.width, player.parry.height, { tutorialScene.zako.bullets[bi].transform.position.x, 0.0f }, tutorialScene.zako.bullets[bi].width, tutorialScene.zako.bullets[bi].height)) {
 
-			if (player.transform.position.x > tutorialScene.zako.bullets[0].transform.position.x - 80.0f) {
-				player.transform.position.x = tutorialScene.zako.bullets[0].transform.position.x - 80.0f;
+				float justArea = player.parry.transform.position.x + player.parry.kJustParryAbleGrace * tutorialScene.zako.bullets[bi].speed;
+
+				if (tutorialScene.zako.bullets[bi].transform.position.x <= justArea) {
+					player.parry.parryState = ParryState::JUST;
+					player.parry.color = 0xFF0000FF;
+					player.isUpDamage = true;
+					player.damageUpTime = 150;
+
+				} else {
+					player.parry.parryState = ParryState::NORMAL;
+					player.parry.color = 0xFFFF00FF;
+					player.magazine++;
+				}
+
+				tutorialScene.zako.bullets[bi].Deactive();
+			} else {
+
+			}
+		}
+	}
+
+	if (tutorialScene.currentTutorialLevel == 1 || tutorialScene.currentTutorialLevel == 3 || tutorialScene.currentTutorialLevel == 4) {
+
+		for (int bi = 0; bi < tutorialScene.zako.kBulletMax;bi++) {
+
+			if (tutorialScene.zako.bullets[bi].isActive) {
+
+				if (player.transform.position.x > tutorialScene.zako.bullets[bi].transform.position.x - 80.0f) {
+					player.transform.position.x = tutorialScene.zako.bullets[bi].transform.position.x - 80.0f;
+					player.parry.transform.position.x = player.transform.position.x + 80.0f;
+				}
 			}
 		}
 	}
@@ -300,36 +340,6 @@ void GameScene::TutorialCheckHit() {
 
 				}
 			}
-		}
-	}
-	//パリィの当たり判定
-	if (player.parry.isParry) {
-		if (Collision::BoxToBox(
-			player.parry.transform.position, player.parry.width, player.parry.height, { tutorialScene.zako.bullets[0].transform.position.x, 0.0f }, tutorialScene.zako.bullets[0].width, tutorialScene.zako.bullets[0].height)) {
-
-			float justArea = player.parry.transform.position.x + player.parry.kJustParryAbleGrace * tutorialScene.zako.bullets[0].speed;
-
-			if (tutorialScene.zako.bullets[0].transform.position.x <= justArea) {
-				player.parry.parryState = ParryState::JUST;
-				player.parry.color = 0xFF0000FF;
-				player.isUpDamage = true;
-				player.damageUpTime = 150;
-
-			} else {
-				player.parry.parryState = ParryState::NORMAL;
-				player.parry.color = 0xFFFF00FF;
-				player.magazine++;
-			}
-
-
-			if (tutorialScene.currentTutorialLevel == 4) {
-				tutorialScene.currentTutorialLevel = 5;
-				tutorialScene.intervalTimer = 0;
-			}
-
-			tutorialScene.zako.bullets[0].Deactive();
-		} else {
-
 		}
 	}
 
@@ -1206,6 +1216,8 @@ void GameScene::Draw()const {
 	} else {
 		renderer.DrawSprite(tutorialScene.info, tutorialScene.infoParryWidth, tutorialScene.infoParryHeight, 0.0f, tutorialScene.grHandleInfoParry, 0xFFFFFFFF);
 	}
+
+	renderer.DrawSprite(tutorialScene.infoParicchi, tutorialScene.infoParicchiWidth, tutorialScene.infoParicchiHeight, 0.0f, tutorialScene.grHandleInfoParicchi, 0xFFFFFFFF);
 	//Novice::ScreenPrintf(640, 360, "%f", player.currentStamina);
 }
 

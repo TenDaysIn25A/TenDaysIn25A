@@ -31,6 +31,7 @@ void SceneManager::Initialize() {
 }
 
 void SceneManager::Update() {
+	controler.Update();
 
 	switch (currentScene) {
 
@@ -137,7 +138,6 @@ void SceneManager::Update() {
 			break;
 		}
 
-		input.Update();
 		if (!isPause) {
 			gameScene.Update();
 		}
@@ -174,7 +174,7 @@ void SceneManager::Update() {
 			//Novice::ScreenPrintf(100, 100, "Pause");
 		}
 
-		if (input.GetKeyTrigger(DIK_ESCAPE)) {
+		if (controler.IsInPause()) {
 			isPause = !isPause;
 
 			if (gameScene.stage1Scene.stage1Boss.isAlive) {

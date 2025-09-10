@@ -6,7 +6,7 @@ void Button::Initialize() {
 	tweenStepHovered = 0;
 	t = 0;
 	grHandle = Novice::LoadTexture("./Resources/images/box.png");
-	camera.position = {0.0f, 0.0f};
+	camera.position = { 0.0f, 0.0f };
 	renderer.SetCamera(camera);
 	width = 128.0f;
 	height = 32.0f;
@@ -14,13 +14,16 @@ void Button::Initialize() {
 
 	duration = 0.2f;
 
-	scaleNone = {0.8f, 0.8f};
-	scaleHover = {1.0f, 1.0f};
-	scaleCliked = {1.0f,0.0f};
+	scaleNone = { 0.8f, 0.8f };
+	scaleHover = { 1.0f, 1.0f };
+	scaleCliked = { 1.0f,0.0f };
 
 	transform.scale = scaleNone;
 	state = ButtonState::NONE;
 	prevState = state;
+
+	auHandleHover = Novice::LoadAudio("./Resources/sounds/snd_select_hover.mp3");
+	auHandleClicked = Novice::LoadAudio("./Resources/sounds/snd_select_clicked.mp3");
 }
 
 void Button::Initialize(int textureHandle, float w, float h) {
@@ -35,7 +38,7 @@ void Button::Update() {
 	/*if (nextState != ButtonState::NONE) {
 		state = nextState;
 		nextState = ButtonState::NONE;
-		t = 0.0f; 
+		t = 0.0f;
 	}*/
 
 	//state = ButtonState::NONE;
@@ -58,7 +61,12 @@ void Button::Update() {
 		color = 0xAAAAAAFF;
 		break;
 	case ButtonState::HOVER:
+		if (prevState == ButtonState::NONE) {
+			Novice::PlayAudio(auHandleHover, false, auVolumeHover);
+		}
+
 		if (nextState == ButtonState::CLICKED) {
+			Novice::PlayAudio(auHandleClicked, false, auVolumeClicked);
 			nextScale = scaleCliked;
 		} else {
 			nextScale = scaleHover;
@@ -66,6 +74,7 @@ void Button::Update() {
 		color = 0xFFFFFFFF;
 		break;
 	case ButtonState::CLICKED:
+
 		nextScale = scaleCliked;
 		break;
 	}
@@ -99,7 +108,7 @@ void Button::GetMousePos() {
 	int mouseX;
 	int mouseY;
 	Novice::GetMousePosition(&mouseX, &mouseY);
-	mousePos = {static_cast<float>(mouseX) - 640.0f, static_cast<float>(-mouseY) + 360.0f};
+	mousePos = { static_cast<float>(mouseX) - 640.0f, static_cast<float>(-mouseY) + 360.0f };
 }
 
 void Button::CheckHitCursor() {

@@ -55,25 +55,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// デバッグ用
 		// ----------------------------------------------------------
 
-		if (input.GetKeyTrigger(DIK_1)) {
-			currentSampleScene = SampleScene::GAME_SCENE;
-		}
-
-		if (input.GetKeyTrigger(DIK_2)) {
-			sampleSceneMidzuki.Initialize();
-			currentSampleScene = SampleScene::MIDZUKI;
-		}
-		
-		if (input.GetKeyTrigger(DIK_3)) {
-			sampleSceneYuto.Initialize();
-			currentSampleScene = SampleScene::YUTO;
-		}
-		
-		if (input.GetKeyTrigger(DIK_4)) {
-			sampleSceneDaichi.Initialize();
-			currentSampleScene = SampleScene::DAICHI;
-		}
-
 		if (input.GetKeyTrigger(DIK_F1)) {
 			sceneManager.ExchangeScene(Scene::TITLE);
 		}
