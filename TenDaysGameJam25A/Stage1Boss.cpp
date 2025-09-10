@@ -60,10 +60,12 @@ void Stage1Boss::Initialize() {
 	auHandleFlashAttack = Novice::LoadAudio("./Resources/sounds/snd_flash_attack.mp3");
 	auHandleTakeDamage = Novice::LoadAudio("./Resources/sounds/snd_bullet_hit.mp3");
 	auHandleBulletDestroy = Novice::LoadAudio("./Resources/sounds/snd_bullet_hit.mp3");
+	auHandleDead = Novice::LoadAudio("./Resources/sounds/snd_stage_1_boss_dead.mp3");
 
 
 
 	isPlayedAudioRoar = false;
+	isPlayedAudioDead = false;
 }
 
 void Stage1Boss::AnimInitialize() {
@@ -586,6 +588,12 @@ void Stage1Boss::Destory() {
 		light[i].isActive = false;
 		light[i].lightNotice = false;
 	}
+
+	if (!isPlayedAudioDead) {
+		Novice::PlayAudio(auHandleDead, false, auVolumeDead);
+		isPlayedAudioDead = true;
+	}
+
 	chochinLightIsActive = false;
 	isAlive = false;
 
@@ -704,6 +712,7 @@ void Stage1Boss::AttackMadnessTemptation() {
 
 		if (shotCounter == 3) {
 			isTemptation = true;
+			Novice::PlayAudio(auHandleFlashAttack, false, auVolumeFlashAttack);
 
 			for (int i = 0; i < kBulletMax; i++) {
 				if (bullets[i].isActive) {

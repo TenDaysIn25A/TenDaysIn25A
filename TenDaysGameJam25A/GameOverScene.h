@@ -4,6 +4,12 @@ class GameOverScene{
 
 public:
 
+	enum ControlerSelectButton{
+		NONE,
+		TO_RETRY,
+		TO_STAGESELECT
+	};
+
 	//==============================
 	// メンバ関数
 	//==============================
@@ -26,7 +32,8 @@ public:
 	Transform2D transform;
 	Button buttonToRetry;
 	Button buttonToStageSelect;
-
+	ControlSystem controler;
+	ControlerSelectButton currentSelectButton;
 
 	//プロパティ
 	//------------------------------

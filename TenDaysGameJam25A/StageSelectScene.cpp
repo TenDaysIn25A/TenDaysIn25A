@@ -170,7 +170,7 @@ void StageSelectScene::Update() {
 		}
 
 		if (controler.IsAccept()) {
-			buttonToRightSide.nextState = ButtonState::CLICKED;
+			buttonToLeftSide.nextState = ButtonState::CLICKED;
 		}
 		buttonToLeftSide.state = ButtonState::HOVER;
 	} else if (currentSelectButton == TO_TITLE) {

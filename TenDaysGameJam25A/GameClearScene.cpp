@@ -1,4 +1,4 @@
-#include "GameClearScene.h"
+﻿#include "GameClearScene.h"
 GameClearScene::GameClearScene() { Initialize(); };
 
 void GameClearScene::Initialize() {
@@ -8,8 +8,8 @@ void GameClearScene::Initialize() {
 	buttonToRetry.Initialize(Novice::LoadTexture("./Resources/images/restart.png"),233.0f,44.0f);
 	buttonToStageSelect.Initialize(Novice::LoadTexture("./Resources/images/go_back_to_Select.png"),377.0f,44.0f);
 
-	buttonToRetry.transform.position = { 0.0f,-150.0f };
-	buttonToStageSelect.transform.position = { 0.0f,-250.0f };
+	buttonToRetry.transform.position = { 0.0f,-220.0f };
+	buttonToStageSelect.transform.position = { 0.0f,-150.0f };
 
 
 
@@ -17,6 +17,52 @@ void GameClearScene::Initialize() {
 }
 
 void GameClearScene::Update() {
+	controler.Update();
+
+	buttonToRetry.prevState = buttonToRetry.state;
+	buttonToRetry.state = ButtonState::NONE;
+	buttonToRetry.GetMousePos();
+	buttonToRetry.CheckHitCursor();
+
+	buttonToStageSelect.prevState = buttonToStageSelect.state;
+	buttonToStageSelect.state = ButtonState::NONE;
+	buttonToStageSelect.GetMousePos();
+	buttonToStageSelect.CheckHitCursor();
+
+	if (currentSelectButton == TO_RETRY) {
+		if (controler.IsDown()) {
+			currentSelectButton = TO_STAGESELECT;
+		}
+
+		if (controler.IsAccept()) {
+			buttonToRetry.nextState = ButtonState::CLICKED;
+		}
+
+		buttonToRetry.state = ButtonState::HOVER;
+	} else if (currentSelectButton == TO_STAGESELECT) {
+		if (controler.IsUp()) {
+			currentSelectButton = TO_RETRY;
+		}
+
+		if (controler.IsAccept()) {
+			buttonToStageSelect.nextState = ButtonState::CLICKED;
+		}
+
+		buttonToStageSelect.state = ButtonState::HOVER;
+	} else {
+
+		if (controler.IsDown()) {
+			currentSelectButton = TO_STAGESELECT;
+		}
+
+		if (controler.IsUp()) {
+			currentSelectButton = TO_STAGESELECT;
+		}
+
+		if (controler.IsAccept()) {
+			currentSelectButton = TO_STAGESELECT;
+		}
+	}
 
 	buttonToRetry.Update();
 	buttonToStageSelect.Update();

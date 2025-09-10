@@ -1,4 +1,4 @@
-﻿#include"SceneManager.h"
+﻿#include "SceneManager.h"
 
 // 生成時に初期化
 SceneManager::SceneManager() {
@@ -7,20 +7,21 @@ SceneManager::SceneManager() {
 };
 
 void SceneManager::Initialize() {
-
+	currentSelectButton = NONE;
 
 	gameScene.Initialize();
 	isPause = false;
-	buttonToSelectFromPause.Initialize();
-	buttonToTitleFromPause.Initialize();
-	buttonToContinueFromPause.Initialize();
+	buttonToSelect.Initialize();
+	buttonToTitle.Initialize();
+	buttonToContinue.Initialize();
 
-	buttonToSelectFromPause.transform.position = { 0.0f,-150.0f };
-	buttonToTitleFromPause.transform.position = { 0.0f,-200.0f };
-	buttonToContinueFromPause.transform.position = { -590.0f,310.0f };
+	buttonToSelect.transform.position = {0.0f, 0.0f};
+	buttonToTitle.transform.position = {0.0f, -70.0f};
+	buttonToContinue.transform.position = {0.0f, 70.0f};
 
-	buttonToContinueFromPause.width = 40.0f;
-	buttonToContinueFromPause.height = 40.0f;
+	buttonToContinue.Initialize(Novice::LoadTexture("./Resources/images/back.png"), 137.0f, 44.0f);
+	buttonToSelect.Initialize(Novice::LoadTexture("./Resources/images/backToSelect.png"), 377.0f, 44.0f);
+	buttonToTitle.Initialize(Novice::LoadTexture("./Resources/images/backToTitle.png"), 377.0f, 44.0f);
 
 	auHandleTitle = Novice::LoadAudio("./Resources/sounds/mus_menu.mp3");
 	auHandleStageTutorial = Novice::LoadAudio("./Resources/sounds/mus_stage_tutorial.mp3");
@@ -47,15 +48,15 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::STAGE_SELECT);
 		}
 
-		//if (titleScene.buttonToConfig.IsClicked()) {
+		// if (titleScene.buttonToConfig.IsClicked()) {
 		//	ExchangeScene(Scene::CONFIG);
-		//}
+		// }
 
-		//if (titleScene.buttonToCredit.IsClicked()) {
+		// if (titleScene.buttonToCredit.IsClicked()) {
 		//	ExchangeScene(Scene::CREDIT);
-		//}
+		// }
 
-		//Novice::ScreenPrintf(100, 0, "TITLE");
+		// Novice::ScreenPrintf(100, 0, "TITLE");
 
 		break;
 
@@ -79,9 +80,9 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::TITLE);
 		}
 
-		//Novice::ScreenPrintf(100, 0, "STAGE_SELECT");
+		// Novice::ScreenPrintf(100, 0, "STAGE_SELECT");
 
-		//Novice::ScreenPrintf(100, 32, "SelectNow : %d", stageSelectScene.currentStage);
+		// Novice::ScreenPrintf(100, 32, "SelectNow : %d", stageSelectScene.currentStage);
 
 		break;
 
@@ -94,7 +95,7 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::TITLE);
 		}
 
-		//Novice::ScreenPrintf(100, 0, "CONFIG");
+		// Novice::ScreenPrintf(100, 0, "CONFIG");
 
 		break;
 
@@ -107,7 +108,7 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::TITLE);
 		}
 
-		//Novice::ScreenPrintf(100, 0, "CREDIT");
+		// Novice::ScreenPrintf(100, 0, "CREDIT");
 
 		break;
 
@@ -145,33 +146,97 @@ void SceneManager::Update() {
 		gameScene.Draw();
 
 		if (isPause) {
-			buttonToSelectFromPause.Update();
-			buttonToTitleFromPause.Update();
-			buttonToContinueFromPause.Update();
+			buttonToContinue.prevState = buttonToContinue.state;
+			buttonToContinue.state = ButtonState::NONE;
+			buttonToContinue.GetMousePos();
+			buttonToContinue.CheckHitCursor();
+			
+			buttonToSelect.prevState = buttonToSelect.state;
+			buttonToSelect.state = ButtonState::NONE;
+			buttonToSelect.GetMousePos();
+			buttonToSelect.CheckHitCursor();
 
-			if (buttonToSelectFromPause.IsClicked()) {
+			buttonToTitle.prevState = buttonToTitle.state;
+			buttonToTitle.state = ButtonState::NONE;
+			buttonToTitle.GetMousePos();
+			buttonToTitle.CheckHitCursor();
+
+			if (currentSelectButton == TO_CONTINUE) {
+				if (controler.IsDown()) {
+					currentSelectButton = TO_SELECT;
+				}
+				
+				if (controler.IsAccept()) {
+					buttonToContinue.nextState = ButtonState::CLICKED;
+				}
+
+				buttonToContinue.state = ButtonState::HOVER;
+			} else if (currentSelectButton == TO_SELECT) {
+				if (controler.IsDown()) {
+					currentSelectButton = TO_TITLE;
+				}
+
+				if (controler.IsUp()) {
+					currentSelectButton = TO_CONTINUE;
+				}
+
+				if (controler.IsAccept()) {
+					buttonToSelect.nextState = ButtonState::CLICKED;
+				}
+
+				buttonToSelect.state = ButtonState::HOVER;
+			} else if (currentSelectButton == TO_TITLE) {
+
+				if (controler.IsUp()) {
+					currentSelectButton = TO_SELECT;
+				}
+
+				if (controler.IsAccept()) {
+					buttonToTitle.nextState = ButtonState::CLICKED;
+				}
+
+				buttonToTitle.state = ButtonState::HOVER;
+			} else {
+				if (controler.IsDown()) {
+					currentSelectButton = TO_CONTINUE;
+				}
+
+				if (controler.IsUp()) {
+					currentSelectButton = TO_CONTINUE;
+				}
+
+				if (controler.IsAccept()) {
+					currentSelectButton = TO_CONTINUE;
+				}
+			}
+
+			buttonToSelect.Update();
+			buttonToTitle.Update();
+			buttonToContinue.Update();
+
+			if (buttonToSelect.IsClicked()) {
 				ExchangeScene(Scene::STAGE_SELECT);
 				currentBgmVolume = 0.3f;
 				Novice::StopAudio(bgmPlayHandle);
 			}
 
-			if (buttonToTitleFromPause.IsClicked()) {
+			if (buttonToTitle.IsClicked()) {
 				ExchangeScene(Scene::TITLE);
 				currentBgmVolume = 0.3f;
 				Novice::StopAudio(bgmPlayHandle);
 			}
 
-			if (buttonToContinueFromPause.IsClicked()) {
+			if (buttonToContinue.IsClicked()) {
 				isPause = false;
 			}
 
 			Novice::DrawBox(0, 0, 1280, 720, 0.0f, 0x000000BB, kFillModeSolid);
 
-			buttonToSelectFromPause.Draw();
-			buttonToTitleFromPause.Draw();
-			buttonToContinueFromPause.Draw();
+			buttonToSelect.Draw();
+			buttonToTitle.Draw();
+			buttonToContinue.Draw();
 
-			//Novice::ScreenPrintf(100, 100, "Pause");
+			// Novice::ScreenPrintf(100, 100, "Pause");
 		}
 
 		if (controler.IsInPause()) {
@@ -186,12 +251,8 @@ void SceneManager::Update() {
 			}
 		}
 
-		if (gameScene.stage1Scene.stage1Boss.isEnd ||
-			!gameScene.stage2Scene.stage2Boss.isAlive ||
-			!gameScene.stage3Scene.stage3Boss.isAlive ||
-			!gameScene.stage4Scene.enemy.isAlive ||
-			!gameScene.stage5Scene.enemy.isAlive ||
-			!gameScene.tutorialScene.zako.isAlive) {
+		if (gameScene.stage1Scene.stage1Boss.isEnd || !gameScene.stage2Scene.stage2Boss.isAlive || !gameScene.stage3Scene.stage3Boss.isAlive || !gameScene.stage4Scene.enemy.isAlive ||
+		    !gameScene.stage5Scene.enemy.isAlive || !gameScene.tutorialScene.zako.isAlive) {
 			gameScene.tutorialScene.isClear = true;
 			currentBgmVolume = 0.3f;
 			Novice::StopAudio(bgmPlayHandle);
@@ -204,7 +265,7 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::GAMEOVER);
 		}
 
-		//Novice::ScreenPrintf(100, 0, "INGAME");
+		// Novice::ScreenPrintf(100, 0, "INGAME");
 
 		break;
 
@@ -226,7 +287,7 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::STAGE_SELECT);
 		}
 
-		//Novice::ScreenPrintf(100, 0, "GAMECLEAR");
+		// Novice::ScreenPrintf(100, 0, "GAMECLEAR");
 
 		break;
 
@@ -234,7 +295,6 @@ void SceneManager::Update() {
 
 		gameOverScene.Update();
 		gameOverScene.Draw();
-
 
 		if (gameOverScene.buttonToRetry.IsClicked()) {
 			ExchangeScene(Scene::INGAME);
@@ -244,7 +304,7 @@ void SceneManager::Update() {
 			ExchangeScene(Scene::STAGE_SELECT);
 		}
 
-		//Novice::ScreenPrintf(100, 0, "GAMEOVER");
+		// Novice::ScreenPrintf(100, 0, "GAMEOVER");
 
 		break;
 

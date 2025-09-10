@@ -71,7 +71,7 @@ void Button::Update() {
 		} else {
 			nextScale = scaleHover;
 		}
-		color = 0xFFFFFFFF;
+		color = 0x57D9D9FF;
 		break;
 	case ButtonState::CLICKED:
 

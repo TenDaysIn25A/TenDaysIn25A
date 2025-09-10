@@ -249,8 +249,6 @@ void GameScene::Update() {
 
 void GameScene::CheckHitAll() {
 
-	//Novice::ScreenPrintf(148, 116, "%d", player.isInvinciblity);
-
 	switch (currentStage) {
 
 	case Stage::TUTORIAL:
@@ -473,19 +471,6 @@ void GameScene::Stage1CheckHit() {
 					if (Collision::BoxToBox(
 						player.parry.transform.position, player.parry.width, player.parry.height, { stage1Scene.stage1Boss.bullets[bi].transform.position.x, 0.0f }, stage1Scene.stage1Boss.bullets[bi].width, stage1Scene.stage1Boss.bullets[bi].height)) {
 
-						float justArea = player.parry.transform.position.x + player.parry.kJustParryAbleGrace * stage1Scene.stage1Boss.bullets[bi].speed;
-
-						if (stage1Scene.stage1Boss.bullets[bi].transform.position.x <= justArea) {
-							player.parry.parryState = ParryState::JUST;
-							player.parry.color = 0xFF0000FF;
-							player.isUpDamage = true;
-							player.damageUpTime = 150;
-						} else {
-							player.parry.parryState = ParryState::NORMAL;
-							player.parry.color = 0xFFFF00FF;
-							player.magazine++;
-						}
-
 					} else {
 
 					}
@@ -636,10 +621,12 @@ void GameScene::Stage1CheckHit() {
 							player.parry.color = 0xFF0000FF;
 							player.isUpDamage = true;
 							player.damageUpTime = 150;
+							stage1Scene.stage1Boss.bullets[bi].transform.position.x = -1000.0f;
 						} else {
 							player.parry.parryState = ParryState::NORMAL;
 							player.parry.color = 0xFFFF00FF;
 							player.magazine++;
+							stage1Scene.stage1Boss.bullets[bi].transform.position.x = -1000.0f;
 						}
 
 						stage1Scene.stage1Boss.bullets[bi].Deactive();

@@ -13,18 +13,10 @@ void TutorialScene::Initialize() {
 	isSafe = false;
 	isShot = false;
 
-
 	grHandleHowToMove = Novice::LoadTexture("./Resources/images/howToMove.png");
 	grHandleHowToShot = Novice::LoadTexture("./Resources/images/howToShot.png");
 	grHandleHowToParitti = Novice::LoadTexture("./Resources/images/howToParicchi.png");
 	grHandleHowToParry = Novice::LoadTexture("./Resources/images/howToParry.png");
-
-	grHandleInfoA = Novice::LoadTexture("./Resources/images/infoA.png");
-	grHandleInfoB = Novice::LoadTexture("./Resources/images/infoB.png");
-	grHandleInfoParry = Novice::LoadTexture("./Resources/images/infoParryA.png");
-	grHandleInfoShot = Novice::LoadTexture("./Resources/images/infoShot.png");
-	grHandleInfoParicchi = Novice::LoadTexture("./Resources/images/infoParicchi.png");
-	grHandleFukidashi = Novice::LoadTexture("./Resources/images/fukidashi.png");
 
 	howToMoveWidth = 720.0f;
 	howToMoveHeight = 72.0f;
@@ -40,14 +32,21 @@ void TutorialScene::Initialize() {
 	tutorialFukidashi.position = { -40.0f,117.0f };
 	tutorialText.position = { tutorialFukidashi.position.x,tutorialFukidashi.position.y + kTextOffsetY };
 
-	info.position = { -480.0f,312.0f };
+	grHandleInfoA = Novice::LoadTexture("./Resources/images/infoA.png");
+	grHandleInfoB = Novice::LoadTexture("./Resources/images/infoB.png");
+	grHandleInfoParry = Novice::LoadTexture("./Resources/images/infoParryA.png");
+	grHandleInfoShot = Novice::LoadTexture("./Resources/images/infoShot.png");
+	grHandleInfoParicchi = Novice::LoadTexture("./Resources/images/infoParicchi.png");
+	grHandleFukidashi = Novice::LoadTexture("./Resources/images/fukidashi.png");
+
+	info.position = { 430.0f,-300.0f };
 	infoParryHeight = 96.0f;
-	infoParryWidth = 260.0f;
+	infoParryWidth = 330.0f;
 	infoShotHeight = 96.0f;
-	infoShotWidth = 320.0f;
-	infoParicchiWidth = 330.0f;
+	infoShotWidth = 380.0f;
+	infoParicchiWidth = 390.0f;
 	infoParicchiHeight = 96.0f;
-	infoParicchi.position = { -150.0f,312.0f };
+	infoParicchi.position = { 30.0f,-300.0f };
 }
 
 void TutorialScene::Update() {

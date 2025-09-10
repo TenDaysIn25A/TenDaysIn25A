@@ -97,8 +97,6 @@ void Player::Update() {
 			
 		}
 
-
-
 		transform.rotation = 0.0f;
 	} else {
 

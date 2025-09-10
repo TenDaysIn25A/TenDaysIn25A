@@ -338,4 +338,8 @@ public:
 	const float auVolumeTakeDamage = 0.05f; // ダメージの音量
 
 	int auHandleBulletDestroy; // 弾の削除
+
+	int auHandleDead; // ボスの沈む音
+	int isPlayedAudioDead; // ボスの沈む音が再生されたか
+	const float auVolumeDead = 0.5f; // ボスの沈む音の音量
 };
