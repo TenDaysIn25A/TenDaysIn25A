@@ -57,10 +57,6 @@ void GameScene::Update() {
 		stage2Scene.stage2Boss.isBackGroundActive = false;
 	}
 
-	if (input.GetKeyTrigger(DIK_I)) {
-		Initialize();
-	}
-
 	if (currentDimension == DimensionState::ONE) {
 		player.transform.position.y = 0.0f;
 	}

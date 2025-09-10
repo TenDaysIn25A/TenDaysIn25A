@@ -20,6 +20,10 @@ void Stage1Boss::Initialize() {
 	exchengePhaseSecondHp = 400;
 	exchengePhaseThirdHp = 200;
 
+	specialAttackCounter = 0;
+
+	meteorTheta = 0.0f;
+
 	shotTimer = 0;
 	shotCounter = 0;
 	transform.position = { 640.0f - (width / 2.0f), 0.0f };
@@ -189,9 +193,11 @@ void Stage1Boss::Update() {
 		if (attackPhase == AttackPhase::FIRST) {
 			if (hp <= exchengePhaseSecondHp) {
 				attackPhase = AttackPhase::SECOND;
+				specialAttackCounter = 0;
 			}
 		} else if (attackPhase == AttackPhase::SECOND) {
 			if (hp <= exchengePhaseThirdHp) {
+				specialAttackCounter = 0;
 				isPhase3Start = true;
 				attackPhase = AttackPhase::THIRD;
 			}
@@ -649,6 +655,9 @@ void Stage1Boss::Shot() {
 		case Stage1BossAttack::RANDOMFISH:
 			AttackRandomFish();
 			break;
+		case Stage1BossAttack::WAVEBLOCK:
+			AttackScoolOfFish();
+			break;
 		}
 	}
 
@@ -684,26 +693,42 @@ void Stage1Boss::SpecialAttackSelect() {
 		}
 		break;
 	case AttackPhase::SECOND:
-		randomAttack = Random::RandomInt(1, 2);
-
-		if (randomAttack == 1) {
-			attack = Stage1BossAttack::TURN;
-		} else if (randomAttack == 2) {
+		if (specialAttackCounter == 0) {
 			attack = Stage1BossAttack::FISHBONE;
+		} else if (specialAttackCounter == 1) {
+
+			attack = Stage1BossAttack::TURN;
 		} else {
+			randomAttack = Random::RandomInt(1, 2);
+
+			if (randomAttack == 1) {
+				attack = Stage1BossAttack::TURN;
+			} else if (randomAttack == 2) {
+				attack = Stage1BossAttack::FISHBONE;
+			}
 		}
 		break;
 	case AttackPhase::THIRD:
-		randomAttack = Random::RandomInt(1, 2);
 
-		if (randomAttack == 1) {
-			attack = Stage1BossAttack::LIGHT;
-		} else if (randomAttack == 2) {
+		if (specialAttackCounter == 0) {
 			attack = Stage1BossAttack::MADNESS_TEMPTATION;
+		} else if (specialAttackCounter == 1) {
+
+			attack = Stage1BossAttack::LIGHT;
 		} else {
+			randomAttack = Random::RandomInt(1, 2);
+
+			if (randomAttack == 1) {
+				attack = Stage1BossAttack::LIGHT;
+			} else if (randomAttack == 2) {
+				attack = Stage1BossAttack::MADNESS_TEMPTATION;
+			}
 		}
+
 		break;
 	}
+
+	specialAttackCounter++;
 }
 
 void Stage1Boss::AttackMadnessTemptation() {
@@ -1262,7 +1287,7 @@ void Stage1Boss::AttackLight() {
 		}
 
 	} else if (shotTimer >= 287) {
-			Novice::PlayAudio(auHandleFlashAttack, false, auVolumeFlashAttack);
+		Novice::PlayAudio(auHandleFlashAttack, false, auVolumeFlashAttack);
 	} else if (shotTimer >= 228) {
 		if (bullets[61].isActive) {
 			light[1].lightNotice = false;
@@ -1284,7 +1309,7 @@ void Stage1Boss::AttackLight() {
 			light[1].lightNotice = false;
 		}
 
-		
+
 		light[0].lightNotice = false;
 
 	} else if (shotTimer >= 184) {
@@ -1325,6 +1350,9 @@ void Stage1Boss::AttackLight() {
 
 		if (isPhase3Start) {
 			randomPattern = 0;
+		} else if (specialAttackCounter <= 2) {
+
+			randomPattern = 1;
 		} else {
 			randomPattern = Random::RandomInt(0, 1);
 		}
@@ -1355,4 +1383,77 @@ void Stage1Boss::AttackLight() {
 		}
 
 	}
+}
+
+void Stage1Boss::AttackScoolOfFish() {
+	if (shotTimer >= 40) {
+		shotTimer = 0;
+		int randomPosition = Random::RandomInt(-1, 6);
+		int tmpPositionNumber[2];
+		tmpPositionNumber[0] = randomPosition;
+
+		if (shotCounter < 16) {
+			for (int i = 0; i < kBulletMax; i++) {
+				if (!bullets[i].isActive) {
+					InitializeBullets(i, { .height = 80.0f,.speed = 10.0f ,.grHandle = grHandleBlock });
+					meteorShowerCenterPos[i] = 200.0f - (80.0f * static_cast<float>(randomPosition));
+					bullets[i].ShotDir({ 640.0f + (bullets[i].width),200.0f - (80.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
+
+					break;
+				}
+			}
+
+			while (tmpPositionNumber[0] == randomPosition) {
+				randomPosition = Random::RandomInt(-1, 6);
+
+				for (int i = 0; i < kBulletMax; i++) {
+					if (!bullets[i].isActive) {
+						if (tmpPositionNumber[0] != randomPosition) {
+							InitializeBullets(i, { .height = 80.0f,.speed = 10.0f ,.grHandle = grHandleBlock });
+							meteorShowerCenterPos[i] = 200.0f - (80.0f * static_cast<float>(randomPosition));
+							bullets[i].ShotDir({ 640.0f + (bullets[i].width),200.0f - (80.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
+							tmpPositionNumber[1] = randomPosition;
+							break;
+						}
+					}
+				}
+
+			}
+
+			while (tmpPositionNumber[0] == randomPosition || tmpPositionNumber[1] == randomPosition) {
+				randomPosition = Random::RandomInt(-1, 6);
+
+				for (int i = 0; i < kBulletMax; i++) {
+					if (!bullets[i].isActive) {
+						if (tmpPositionNumber[0] != randomPosition) {
+							if (tmpPositionNumber[1] != randomPosition) {
+								InitializeBullets(i, { .height = 80.0f,.speed = 10.0f ,.grHandle = grHandleBlock });
+								meteorShowerCenterPos[i] = 200.0f - (80.0f * static_cast<float>(randomPosition));
+								bullets[i].ShotDir({ 640.0f + (bullets[i].width),200.0f - (80.0f * static_cast<float>(randomPosition)) }, { -1.0f, 0.0f }, 0.0f);
+								break;
+							}
+						}
+					}
+				}
+
+			}
+		}
+
+		if (shotCounter >= 18) {
+			shotCounter = 0;
+
+			SpecialAttackSelect();
+		} else {
+			shotCounter++;
+		}
+	}
+
+	for (int i = 0; i < kBulletMax; i++) {
+		if (bullets[i].isActive) {
+			bullets[i].transform.position.y = meteorShowerCenterPos[i] + (sinf(meteorTheta * (static_cast<float>(M_PI) / 180.0f)) * 100.0f);
+		}
+	}
+
+	meteorTheta += 2.0f;
+
 }

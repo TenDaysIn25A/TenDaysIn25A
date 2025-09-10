@@ -8,6 +8,7 @@ class TitleScene{
 
 public:
 	enum ControlerSelectButton {
+		NONE,
 		TO_STAGE_SELECT,
 		TO_END
 	};

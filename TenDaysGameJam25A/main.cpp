@@ -55,33 +55,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// デバッグ用
 		// ----------------------------------------------------------
 
-		if (input.GetKeyTrigger(DIK_F1)) {
-			sceneManager.ExchangeScene(Scene::TITLE);
-		}
-
-		if (input.GetKeyTrigger(DIK_F2)) {
-			sceneManager.ExchangeScene(Scene::STAGE_SELECT);
-		}
-
-		if (input.GetKeyTrigger(DIK_F3)) {
-			sceneManager.ExchangeScene(Scene::CONFIG);
-		}
-
-		if (input.GetKeyTrigger(DIK_F4)) {
-			sceneManager.ExchangeScene(Scene::CREDIT);
-		}
-
-		if (input.GetKeyTrigger(DIK_F5)) {
-			sceneManager.ExchangeScene(Scene::INGAME);
-		}
-
-		if (input.GetKeyTrigger(DIK_F6)) {
-			sceneManager.ExchangeScene(Scene::GAMECLEAR);
-		}
-		
-		if (input.GetKeyTrigger(DIK_F7)) {
-			sceneManager.ExchangeScene(Scene::GAMEOVER);
-		}
 		
 		// ----------------------------------------------------------
 		// シーン

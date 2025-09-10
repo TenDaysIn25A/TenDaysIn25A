@@ -3,7 +3,7 @@
 TitleScene::TitleScene() { Initialize(); };
 
 void TitleScene::Initialize() {
-	currentSelectButton = TO_STAGE_SELECT;
+	currentSelectButton = NONE;
 
 	transform.position = {0.0f, 100.0f};
 	width = 732.0f;
@@ -52,21 +52,22 @@ void TitleScene::Update() {
 	click.Update();
 	controler.Update();
 
-	if (click.GetClickTrigger(1)) {
+	//if (click.GetClickTrigger(1)) {
 
-		if (!isStartMinigame) {
-			MiniGameInitialize();
-			isStartMinigame = true;
-			backGround.Initialize();
-			player.Initialize();
-			backGround.Activate();
-		}
-	}
+	//	isStartMinigame = !isStartMinigame;
 
-	if (isStartMinigame) {
-		MiniGame();
-		return;
-	}
+	//	if (!isStartMinigame) {
+	//		MiniGameInitialize();
+	//		backGround.Initialize();
+	//		player.Initialize();
+	//		backGround.Activate();
+	//	}
+	//}
+
+	//if (isStartMinigame) {
+	//	MiniGame();
+	//	return;
+	//}
 	buttonToStageSelect.prevState = buttonToStageSelect.state;
 	buttonToStageSelect.state = ButtonState::NONE;
 	buttonToStageSelect.GetMousePos();
@@ -85,7 +86,7 @@ void TitleScene::Update() {
 			buttonToStageSelect.nextState = ButtonState::CLICKED;
 		}
 		buttonToStageSelect.state = ButtonState::HOVER;
-	} else {
+	} else if(currentSelectButton == TO_END) {
 		if (controler.IsUp()) {
 			currentSelectButton = TO_STAGE_SELECT;
 		}
@@ -93,6 +94,17 @@ void TitleScene::Update() {
 			buttonToEnd.nextState = ButtonState::CLICKED;
 		}
 		buttonToEnd.state = ButtonState::HOVER;
+	}
+	else {
+		if (controler.IsUp()) {
+			currentSelectButton = TO_STAGE_SELECT;
+		}
+		if (controler.IsDown()) {
+			currentSelectButton = TO_STAGE_SELECT;
+		}
+		if (controler.IsAccept()) {
+			currentSelectButton = TO_STAGE_SELECT;
+		}
 	}
 
 	buttonToStageSelect.Update();

@@ -110,7 +110,7 @@ public:
 	int isShot[kBulletMax];
 	int shotCoolTime;
 	int bulletPattern;
-	const int kUpedShotCoolTime = 5;
+	const int kUpedShotCoolTime = 4;
 	const int kDefaultShotCoolTime = 10;
 
 	int magazine;
@@ -119,7 +119,7 @@ public:
 	const int kPelletMaxAmount = 8;
 
 	const int kParryTimer = 2;
-	const int kUpedDamage = 4;
+	const int kUpedDamage = 2;
 	const int kDefaultDamage = 2;
 	int damageUpTime;
 

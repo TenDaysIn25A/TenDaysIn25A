@@ -11,8 +11,6 @@ void GameClearScene::Initialize() {
 	buttonToRetry.transform.position = { 0.0f,-220.0f };
 	buttonToStageSelect.transform.position = { 0.0f,-150.0f };
 
-
-
 	grHandle = Novice::LoadTexture("./Resources/images/game_clear.png");
 }
 
@@ -30,7 +28,7 @@ void GameClearScene::Update() {
 	buttonToStageSelect.CheckHitCursor();
 
 	if (currentSelectButton == TO_RETRY) {
-		if (controler.IsDown()) {
+		if (controler.IsUp()) {
 			currentSelectButton = TO_STAGESELECT;
 		}
 
@@ -40,7 +38,7 @@ void GameClearScene::Update() {
 
 		buttonToRetry.state = ButtonState::HOVER;
 	} else if (currentSelectButton == TO_STAGESELECT) {
-		if (controler.IsUp()) {
+		if (controler.IsDown()) {
 			currentSelectButton = TO_RETRY;
 		}
 

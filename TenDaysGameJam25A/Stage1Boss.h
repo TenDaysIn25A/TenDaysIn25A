@@ -6,7 +6,7 @@
 #include"Light.h"
 
 enum class Stage1BossAttack {
-	MADNESS_TEMPTATION, SQUIDSWIM, FISHBONE, FISHSWIM, FOURWALL, PAPYRUS, LIGHT, TURN, RANDOMFISH,
+	MADNESS_TEMPTATION, SQUIDSWIM, FISHBONE, FISHSWIM, FOURWALL, PAPYRUS, LIGHT, TURN, RANDOMFISH,WAVEBLOCK
 };
 
 class Stage1Boss {
@@ -141,6 +141,11 @@ public:
 	void AttackBoneTussle();
 
 	/// <summary>
+	/// ウルトラかっこいい普通の攻撃パターン
+	/// </summary>
+	void AttackScoolOfFish();
+
+	/// <summary>
 	/// 特殊攻撃をフェーズごとに選択
 	/// </summary>
 	void SpecialAttackSelect();
@@ -240,6 +245,7 @@ public:
 
 	int color;
 
+	int specialAttackCounter;
 
 	int shotTimer;
 	int shotCounter;
@@ -255,6 +261,9 @@ public:
 	const int kLightAttackDefaultTimer = 60;
 	static constexpr int kLightMax = 2;
 	Light light[kLightMax];
+
+	float meteorShowerCenterPos[64];
+	float meteorTheta;
 
 	// 描画
 	// 
