@@ -2,7 +2,7 @@
 
 TutorialScene::TutorialScene() {
 	Initialize(); 
-	isClear = false;
+	isClear = true;
  };
 
 void TutorialScene::Initialize() {
