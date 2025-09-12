@@ -85,5 +85,13 @@ public:
 	Button buttonToEnd;
 	ControlerSelectButton currentSelectButton;
 
+	//操作両対応告げる
+	int grHandleIFirstScreen;
+	int firstScreenTimer;
+	const int kFirstScreenMaxTimer = 120;
+	Transform2D firstScreen;
+	float firstScreenWidth;
+	float firstScreenHeight;
+	unsigned int firstScreenColor;
 };
 

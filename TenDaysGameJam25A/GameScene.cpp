@@ -146,11 +146,6 @@ void GameScene::Update() {
 		} else if (tutorialScene.currentTutorialLevel == 4) {
 			player.Update();
 
-			if (!tutorialScene.zako.bullets[0].isActive&& !tutorialScene.zako.bullets[1].isActive) {
-				tutorialScene.currentTutorialLevel = 5;
-				tutorialScene.intervalTimer = 150;
-			}
-
 		} else if (tutorialScene.currentTutorialLevel == 5) {
 			player.Update();
 			if (tutorialScene.intervalTimer == tutorialScene.kTutorialInterval) {
@@ -291,12 +286,18 @@ void GameScene::TutorialCheckHit() {
 					player.parry.color = 0xFF0000FF;
 					player.isUpDamage = true;
 					player.damageUpTime = 150;
+					tutorialScene.currentTutorialLevel = 5;
+					tutorialScene.intervalTimer = 150;
 
 				} else {
 					player.parry.parryState = ParryState::NORMAL;
 					player.parry.color = 0xFFFF00FF;
 					player.magazine++;
+					tutorialScene.currentTutorialLevel = 5;
+					tutorialScene.intervalTimer = 150;
 				}
+
+
 
 				tutorialScene.zako.bullets[bi].Deactive();
 			} else {
@@ -305,7 +306,7 @@ void GameScene::TutorialCheckHit() {
 		}
 	}
 
-	if (tutorialScene.currentTutorialLevel == 1 || tutorialScene.currentTutorialLevel == 3 || tutorialScene.currentTutorialLevel == 4) {
+	if (tutorialScene.currentTutorialLevel == 1 ) {
 
 		for (int bi = 0; bi < tutorialScene.zako.kBulletMax;bi++) {
 
@@ -337,7 +338,7 @@ void GameScene::TutorialCheckHit() {
 		}
 	}
 
-	if (tutorialScene.currentTutorialLevel == 6) {
+	if (tutorialScene.currentTutorialLevel == 4) {
 		if (currentDimension == DimensionState::ONE) {
 			for (int bi = 0; bi < tutorialScene.zako.kBulletMax; bi++) {
 
@@ -379,8 +380,8 @@ void GameScene::TutorialCheckHit() {
 						tutorialScene.zako.bullets[bi].Deactive();
 
 						if (!player.isInvinciblity) {
-							player.TakeDamage(1);
-							tutorialScene.zako.bullets[bi].transform.position.x = 0.0f;
+							player.TakeDamage(0);
+							tutorialScene.zako.bullets[bi].transform.position.x = -1000.0f;
 							player.isInvinciblity = true;
 						}
 
@@ -397,8 +398,8 @@ void GameScene::TutorialCheckHit() {
 						tutorialScene.zako.bullets[bi].Deactive();
 
 						if (!player.isInvinciblity) {
-							player.TakeDamage(1);
-							tutorialScene.zako.bullets[bi].transform.position.x = 0.0f;
+							player.TakeDamage(0);
+							tutorialScene.zako.bullets[bi].transform.position.x = -1000.0f;
 							player.isInvinciblity = true;
 						}
 					}
@@ -435,8 +436,9 @@ void GameScene::TutorialCheckHit() {
 			}
 		}
 
-		// プレイヤーの弾とエネミー
 
+	} else if (tutorialScene.currentTutorialLevel == 6) {
+		// プレイヤーの弾とエネミー
 		for (int i = 0; i < player.kBulletMax; i++) {
 			if (player.bullets[i].isActive) {
 				if (Collision::BoxToBox(tutorialScene.zako.transform.position, 300.0f, 480.0f, player.bullets[i].transform.position, player.bullets[i].width, player.bullets[i].height)) {
@@ -446,7 +448,6 @@ void GameScene::TutorialCheckHit() {
 				}
 			}
 		}
-
 	}
 }
 
@@ -612,19 +613,19 @@ void GameScene::Stage1CheckHit() {
 
 						float justArea = player.parry.transform.position.x + player.parry.kJustParryAbleGrace * stage1Scene.stage1Boss.bullets[bi].speed;
 
+						
 						if (stage1Scene.stage1Boss.bullets[bi].transform.position.x <= justArea) {
 							player.parry.parryState = ParryState::JUST;
 							player.parry.color = 0xFF0000FF;
 							player.isUpDamage = true;
 							player.damageUpTime = 150;
-							stage1Scene.stage1Boss.bullets[bi].transform.position.x = -1000.0f;
+							
 						} else {
 							player.parry.parryState = ParryState::NORMAL;
 							player.parry.color = 0xFFFF00FF;
 							player.magazine++;
-							stage1Scene.stage1Boss.bullets[bi].transform.position.x = -1000.0f;
+							
 						}
-
 						stage1Scene.stage1Boss.bullets[bi].Deactive();
 
 					} else {
@@ -1194,13 +1195,29 @@ void GameScene::Draw()const {
 	for (int i = 0;i < player.currentLife;i++) {
 		renderer.DrawSprite(player.life[i], player.lifeWidth, player.lifeHeight, 0.0f, player.grhandleLife, 0xFFFFFFFF);
 	}
+	
 	if (currentDimension == DimensionState::TWO) {
-		renderer.DrawSprite(tutorialScene.info, tutorialScene.infoShotWidth, tutorialScene.infoShotHeight, 0.0f, tutorialScene.grHandleInfoShot, 0xFFFFFFFF);
+		if (currentOP == OperationMode::KEYBOARD) {
+			renderer.DrawSprite(tutorialScene.info, tutorialScene.infoShotWidth, tutorialScene.infoShotHeight, 0.0f, tutorialScene.kGrHandleInfoShotM, 0xFFFFFFFF);
+		} else {
+			renderer.DrawSprite(tutorialScene.info, tutorialScene.infoShotWidth, tutorialScene.infoShotHeight, 0.0f, tutorialScene.kGrHandleInfoShotC, 0xFFFFFFFF);
+		}
 	} else {
-		renderer.DrawSprite(tutorialScene.info, tutorialScene.infoParryWidth, tutorialScene.infoParryHeight, 0.0f, tutorialScene.grHandleInfoParry, 0xFFFFFFFF);
+		if (currentOP == OperationMode::KEYBOARD) {
+			renderer.DrawSprite(tutorialScene.info, tutorialScene.infoParryWidth, tutorialScene.infoParryHeight, 0.0f, tutorialScene.kGrHandleInfoParryM, 0xFFFFFFFF);
+		} else {
+			renderer.DrawSprite(tutorialScene.info, tutorialScene.infoParryWidth, tutorialScene.infoParryHeight, 0.0f, tutorialScene.kGrHandleInfoParryC, 0xFFFFFFFF);
+		}
 	}
 
-	renderer.DrawSprite(tutorialScene.infoParicchi, tutorialScene.infoParicchiWidth, tutorialScene.infoParicchiHeight, 0.0f, tutorialScene.grHandleInfoParicchi, 0xFFFFFFFF);
+	if (currentOP == OperationMode::KEYBOARD) {
+		renderer.DrawSprite(tutorialScene.infoParicchi, tutorialScene.infoParicchiWidth, tutorialScene.infoParicchiHeight, 0.0f, tutorialScene.kGrHandleInfoParicchiM, 0xFFFFFFFF);
+	} else {
+		renderer.DrawSprite(tutorialScene.infoParicchi, tutorialScene.infoParicchiWidth, tutorialScene.infoParicchiHeight, 0.0f, tutorialScene.kGrHandleInfoParicchiC, 0xFFFFFFFF);
+		
+	}
+
+
 	//Novice::ScreenPrintf(640, 360, "%f", player.currentStamina);
 }
 

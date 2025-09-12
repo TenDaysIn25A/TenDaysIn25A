@@ -71,6 +71,13 @@ public:
 	int grHandleInfoParicchi;
 	int grHandleFukidashi;
 
+	const int kGrHandleInfoParryM = Novice::LoadTexture("./Resources/images/infoParryM.png");
+	const int kGrHandleInfoParryC = Novice::LoadTexture("./Resources/images/infoParryA.png");
+	const int kGrHandleInfoParicchiM = Novice::LoadTexture("./Resources/images/infoParicchiM.png");
+	const int kGrHandleInfoParicchiC = Novice::LoadTexture("./Resources/images/infoParicchi.png");
+	const int kGrHandleInfoShotM = Novice::LoadTexture("./Resources/images/infoShotM.png");
+	const int kGrHandleInfoShotC = Novice::LoadTexture("./Resources/images/infoShot.png");
+
 	bool isClear;
 	
 };

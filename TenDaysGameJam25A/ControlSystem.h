@@ -4,6 +4,16 @@
 #include <Novice.h>
 #include "Vector2.h"
 
+enum class OperationMode{
+	KEYBOARD,
+	CONTROLLER,
+};
+
+/// <summary>
+/// 現在の操作方法
+/// </summary>
+inline OperationMode currentOP;
+
 class ControlSystem {
 public:
 	ControlSystem();
@@ -100,7 +110,27 @@ public:
 	/// <returns></returns>
 	int IsRight();
 
+	/// <summary>
+	/// キーボード操作状態かどうか
+	/// </summary>
+	/// <returns></returns>
+	int IsKeyboardOperation();
+
+	/// <summary>
+	/// コントローラー操作状態かどうか
+	/// </summary>
+	/// <returns></returns>
+	int IsControllerOperation();
+
+
+
+
 private:
+	/// <summary>
+	/// コントローラー操作かキーボード操作かによって操作モードを変更します。
+	/// </summary>
+	void ChangeOPMode();
+	
 	Input input;
 	Click click;
 

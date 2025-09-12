@@ -18,7 +18,7 @@ void Zako::Initialize() {
 
 	for (int bi = 0;bi < kBulletMax;bi++) {
 		bullets[bi].Initialize();
-		
+
 	}
 
 	bullets[0].grHandle = Novice::LoadTexture("./Resources/images/chochinFish1.png");
@@ -53,85 +53,34 @@ void Zako::Update() {
 			bullets[0].Update();
 		}
 
-	} else if (tutorialLevel == 3 ) {
+	} else if (tutorialLevel == 3) {
 
-
-
-		if (tutorialInterval == 160) {
+		if (tutorialInterval == 170) {
 			if (!bullets[1].isActive) {
 				bullets[1].transform.position = { 640.0f,0.0f };
 				bullets[1].height = 960.0f;
-				bullets[1].speed = 10.0f;
+				bullets[1].speed = 5.0f;
 				bullets[1].ShotDir(bullets[1].transform.position, { -1.0f,0.0f }, 0.0f);
 			}
-
-			if (!bullets[0].isActive) {
-				bullets[0].transform.position = { 400.0f,120.0f };
-				bullets[0].height = 80.0f;
-				bullets[0].ShotDir(bullets[0].transform.position, { -1.0f,0.0f }, 0.0f);
-			}
-
-		} else if(tutorialInterval == 180){
-
-			if (bullets[1].transform.position.x <= player.position.x + 80.0f) {
-				if (!isStop1) {
-					bullets[1].transform.position.x = player.position.x + 80.0f;
-					isStop1 = true;
-				}
-
-				bullets[1].speed = 0.0f;
-			} else {
-				if (!isStop1) {
-					bullets[1].Update();
-				}
-			}
-
-			if (bullets[0].transform.position.x <= player.position.x + 80.0f) {
-				if (!isStop0) {
-					bullets[0].transform.position.x = player.position.x + 80.0f;
-					isStop0 = true;
-				}
-
-				bullets[0].speed = 0.0f;
-			} else {
-				if (!isStop0) {
-					bullets[0].Update();
-				}
-			}
-
 		}
+
 	} else if (tutorialLevel == 4) {
 
-		if (bullets[1].transform.position.x <= player.position.x + 80.0f) {
-			if (!isStop1) {
-				bullets[1].transform.position.x = player.position.x + 80.0f;
-				isStop1 = true;
-			}
-
-			bullets[1].speed = 0.0f;
-		} else {
-			if (!isStop1) {
-				bullets[1].Update();
-			}
+		if (!bullets[1].isActive) {
+			bullets[1].transform.position = { 640.0f,0.0f };
+			bullets[1].height = 960.0f;
+			bullets[1].speed = 5.0f;
+			bullets[1].ShotDir(bullets[1].transform.position, { -1.0f,0.0f }, 0.0f);
 		}
 
-		if (bullets[0].transform.position.x <= player.position.x + 80.0f) {
-			if (!isStop0) {
-				bullets[0].transform.position.x = player.position.x + 80.0f;
-				isStop0 = true;
-			}
+		bullets[1].Update();
 
-			bullets[0].speed = 0.0f;
-		} else {
-			if (!isStop0) {
-				bullets[0].Update();
-			}
-		}
 
-	}else{
+
+	} else {
 		bullets[0].speed = 10.0f;
 		bullets[0].Update();
-	
+
 	}
 
 	hpGauge.ReferenceHp(hp, kMaxHp);
@@ -152,7 +101,7 @@ void Zako::Draw()const {
 		renderer.DrawBox(transform, height, width, 0.0f, 0xFFFFFFFF, kFillModeSolid);
 		for (int i = 0;i < kBulletMax;i++) {
 			Transform2D oneDim[kBulletMax];
-			oneDim[i].position = {bullets[i].transform.position.x,0.0f};
+			oneDim[i].position = { bullets[i].transform.position.x,0.0f };
 			if (bullets[i].isActive) {
 				renderer.DrawSprite(oneDim[i], bullets[i].width, bullets[i].height, 0.0f, bullets[i].grHandleBox, 0xFFFFFFFF);
 			}

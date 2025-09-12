@@ -382,7 +382,7 @@ void Stage1Boss::AnimUpdate() {
 			chochinMouthTopTheta -= chochinThetaSpeed / 2.0f;
 		}
 	} else {
-		if (input.GetKeyTrigger(DIK_SPACE)) {
+		/*if (input.GetKeyTrigger(DIK_SPACE)) {
 
 			isAnger = !isAnger;
 
@@ -397,7 +397,7 @@ void Stage1Boss::AnimUpdate() {
 
 			}
 
-		}
+		}*/
 
 		chochinMouthBottom.position.x = cosf(chochinWavingThetaX) * chochinAmplitudeX + kChochinMouthOffsetX;
 		chochinMouthBottom.position.y = sinf(chochinWavingThetaY) * chochinAmplitudeY + kChochinMouthOffsetY;

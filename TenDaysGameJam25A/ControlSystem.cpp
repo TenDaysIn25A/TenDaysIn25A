@@ -37,6 +37,7 @@ void ControlSystem::Update() {
 	checkStickLeft = (stickLeftX < 0);
 	checkStickRight = (stickLeftX > 0);
 	//Novice::GetAnalogInputRight(0, &stickRightX, &stickRightY);
+	ChangeOPMode();
 }
 
 int ControlSystem::IsMoveUp() {
@@ -129,6 +130,13 @@ int ControlSystem::IsInPause() {
 	return false; }
 
 int ControlSystem::IsAccept() { 
+	if (input.GetKeyTrigger(DIK_RETURN)) {
+		return true;
+	}
+
+	if (input.GetKeyTrigger(DIK_SPACE)) {
+		return true;
+	}
 
 	if (checkR2 && !prevR2) {
 		return true;
@@ -154,6 +162,10 @@ int ControlSystem::IsUp() {
 		return true;
 	}
 
+	if (input.GetKey(DIK_W)) {
+		return true;
+	}
+
 	if (Novice::IsTriggerButton(0, kPadButton0)) {
 		return true;
 	}
@@ -167,6 +179,10 @@ int ControlSystem::IsDown() {
 	}
 
 	if (input.GetKeyTrigger(DIK_DOWN)) {
+		return true;
+	}
+
+	if (input.GetKey(DIK_S)) {
 		return true;
 	}
 
@@ -186,6 +202,10 @@ int ControlSystem::IsLeft() {
 		return true;
 	}
 
+	if (input.GetKey(DIK_A)) {
+		return true;
+	}
+
 	if (Novice::IsTriggerButton(0, kPadButton2)) {
 		return true;
 	}
@@ -202,10 +222,109 @@ int ControlSystem::IsRight() {
 		return true;
 	}
 
+	if (input.GetKey(DIK_D)) {
+		return true;
+	}
+
 	if (Novice::IsTriggerButton(0, kPadButton3)) {
 		return true;
 	}
 
 	return false;
+}
+
+int ControlSystem::IsKeyboardOperation() { 
+	if (input.GetKey(DIK_W)) {
+		return true;
+	}
+
+	if (input.GetKey(DIK_S)) {
+		return true;
+	}
+
+	if (input.GetKey(DIK_A)) {
+		return true;
+	}
+
+	if (input.GetKey(DIK_D)) {
+		return true;
+	}
+
+	if (input.GetKeyTrigger(DIK_ESCAPE)) {
+		return true;
+	}
+	
+	if (input.GetKeyTrigger(DIK_UP)) {
+		return true;
+	}
+	
+	if (input.GetKeyTrigger(DIK_DOWN)) {
+		return true;
+	}
+	
+	if (input.GetKeyTrigger(DIK_LEFT)) {
+		return true;
+	}
+
+	if (input.GetKeyTrigger(DIK_RIGHT)) {
+		return true;
+	}
+
+	if (click.GetClickTrigger(0)) {
+		return true;
+	}
+	
+	if (click.GetClickTrigger(1)) {
+		return true;
+	}
+
+	return false; 
+}
+
+int ControlSystem::IsControllerOperation() {
+	if (checkStickRight && !prevStickRight) {
+		return true;
+	}
+	
+	if (checkStickLeft && !prevStickLeft) {
+		return true;
+	}
+
+	
+	if (Novice::IsTriggerButton(0, kPadButton0)) {
+		return true;
+	}
+
+	if (Novice::IsTriggerButton(0, kPadButton1)) {
+		return true;
+	}
+
+	if (Novice::IsTriggerButton(0, kPadButton2)) {
+		return true;
+	}
+
+	if (Novice::IsTriggerButton(0, kPadButton3)) {
+		return true;
+	}
+
+	if (Novice::IsTriggerButton(0, kPadButton4)) {
+		return true;
+	}
+
+	if (Novice::IsTriggerButton(0, kPadButton5)) {
+		return true;
+	}
+
+	return false; 
+}
+
+void ControlSystem::ChangeOPMode() {
+	if (IsKeyboardOperation()) {
+		currentOP = OperationMode::KEYBOARD;
+	}
+
+	if (IsControllerOperation()) {
+		currentOP = OperationMode::CONTROLLER;
+	}
 }
 
